@@ -705,8 +705,9 @@ final class QIL_Flash_Drop {
 		$clock   = array( 'd' => $days, 'h' => (int) floor( ( $remain % DAY_IN_SECONDS ) / HOUR_IN_SECONDS ), 'm' => (int) floor( ( $remain % HOUR_IN_SECONDS ) / MINUTE_IN_SECONDS ), 's' => $remain % MINUTE_IN_SECONDS );
 		$title   = $ar ? 'تخفيضات سريعة' : 'FLASH SALE';
 		$span    = $ar ? '— ' . $hours . ' ساعة' : '— ' . $hours . ' HOURS';
+		// Arabic counts: 3–10 take the plural, 11 and 12 the singular.
 		$lead    = $ar
-			? sprintf( '%d تخفيضات حقيقية مختارة لمدة %d ساعة: مخزون حقيقي، ونسبة خصم حقيقية، وسعر سابق حقيقي. ثم تتغيّر المجموعة.', $count, $hours )
+			? sprintf( $count <= 10 ? '%d تخفيضات حقيقية مختارة لمدة %d ساعة: مخزون حقيقي، ونسبة خصم حقيقية، وسعر سابق حقيقي. ثم تتغيّر المجموعة.' : '%d تخفيضاً حقيقياً مختاراً لمدة %d ساعة: مخزون حقيقي، ونسبة خصم حقيقية، وسعر سابق حقيقي. ثم تتغيّر المجموعة.', $count, $hours )
 			: sprintf( '%d real reductions, chosen for %d hours. Real stock, real discount, real previous price — then the drop changes.', $count, $hours );
 		$ends_at = self::oman_time( $window['end'], $ar );
 		$units   = $ar ? array( 'd' => 'يوم', 'h' => 'ساعة', 'm' => 'دقيقة', 's' => 'ثانية' ) : array( 'd' => 'days', 'h' => 'hrs', 'm' => 'min', 's' => 'sec' );
@@ -718,18 +719,18 @@ final class QIL_Flash_Drop {
 					<span class="qil-flash-aurora" aria-hidden="true"></span>
 					<header class="qil-flash-head">
 						<div class="qil-flash-titles">
-							<span class="qil-flash-kicker"><i class="qil-flash-pulse" aria-hidden="true"></i><?php echo esc_html( $ar ? sprintf( 'مجموعة مباشرة · %d منتجات', $count ) : sprintf( 'LIVE DROP · %d PRODUCTS', $count ) ); ?><?php if ( $gone ) : ?><b class="qil-flash-gone"><?php echo esc_html( $ar ? sprintf( '%d على وشك النفاد', $gone ) : sprintf( '%d ALMOST GONE', $gone ) ); ?></b><?php endif; ?></span>
+							<span class="qil-flash-kicker"><i class="qil-flash-pulse" aria-hidden="true"></i><?php echo esc_html( $ar ? sprintf( $count <= 10 ? 'مجموعة مباشرة · %d منتجات' : 'مجموعة مباشرة · %d منتجاً', $count ) : sprintf( 'LIVE DROP · %d PRODUCTS', $count ) ); ?><?php if ( $gone ) : ?><b class="qil-flash-gone"><?php echo esc_html( $ar ? sprintf( '%d على وشك النفاد', $gone ) : sprintf( '%d ALMOST GONE', $gone ) ); ?></b><?php endif; ?></span>
 							<h2 id="qil-flash-title"><span class="qil-flash-word"><?php echo esc_html( $title ); ?></span> <em><?php echo esc_html( $span ); ?></em></h2>
 							<p><?php echo esc_html( $lead ); ?></p>
 						</div>
 						<div class="qil-flash-clock" data-qil-flash-clock>
-							<small><?php echo esc_html( $ar ? 'المجموعة التالية بعد' : 'NEXT DROP IN' ); ?></small>
+							<small><?php echo esc_html( $ar ? 'تنتهي المجموعة خلال' : 'DROP ENDS IN' ); ?></small>
 							<div class="qil-flash-digits" role="timer" aria-live="off" dir="ltr">
 								<?php foreach ( $clock as $unit => $value ) : ?>
 									<span class="qil-flash-unit"><b data-qil-flash-unit="<?php echo esc_attr( $unit ); ?>"><?php echo esc_html( 'd' === $unit ? (string) $value : str_pad( (string) $value, 2, '0', STR_PAD_LEFT ) ); ?></b><small><?php echo esc_html( $units[ $unit ] ); ?></small></span>
 								<?php endforeach; ?>
 							</div>
-							<small class="qil-flash-ends" data-qil-flash-ends><?php echo esc_html( ( $ar ? 'تنتهي: ' : 'Ends ' ) . $ends_at ); ?></small>
+							<small class="qil-flash-ends" data-qil-flash-ends><?php echo esc_html( $ends_at ); ?></small>
 						</div>
 					</header>
 					<div class="qil-collection-grid qil-rail qil-boost-rail qil-flash-rail" data-qil-flash-grid data-qil-rail="flash-drop" aria-live="polite"><div class="qil-collection-skeleton" aria-hidden="true"><i></i><i></i><i></i><i></i></div></div>

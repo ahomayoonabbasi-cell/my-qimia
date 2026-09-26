@@ -1,0 +1,32 @@
+{
+ "version": "1.18.4",
+ "scope": "shopper-experience pass: checkout first on phones, one still discount badge and an honest clock label on the flash drop, one Arabic (Western digits, corrected copy and counts)",
+ "php_syntax": {
+  "passed": 26,
+  "failed": 0
+ },
+ "javascript_syntax": {
+  "passed": 16,
+  "failed": 0
+ },
+ "php_scenarios": {
+  "passed": 170,
+  "failed": 0,
+  "details": "php-harness.json"
+ },
+ "chromium": {
+  "passed": 211,
+  "failed": 0,
+  "details": "browser.json"
+ },
+ "checks": {
+  "phone_cart_checkout_before_suggestions": true,
+  "desktop_cart_band_under_table": true,
+  "cart_update_single_fresh_band": true,
+  "flash_one_still_discount_badge": true,
+  "flash_clock_ends_in_label": true,
+  "arabic_western_digits_flash_cart_minicart": true
+ },
+ "production_deployed": false,
+ "live_wordpress_woocommerce_woodmart_tested": false
+}

@@ -293,7 +293,7 @@ final class QIL_Stacks {
 						<div>
 							<small class="qil-stacks-kicker"><i aria-hidden="true"></i><?php echo esc_html( $ar ? 'مجموعات مصمّمة للكاش باك' : 'STACKS BUILT FOR CASHBACK' ); ?></small>
 							<h3 id="qil-stacks-title"><?php echo esc_html( $ar ? 'قيمة واضحة. بدون خصومات غريبة.' : 'Clear value. No strange discounts.' ); ?></h3>
-							<p><?php echo esc_html( $ar ? 'كل مجموعة تقع ضمن فئة كاش باك: ما بداخلها، وسعرها منفصلة اليوم، والكاش باك الذي تمنحك إياه.' : 'Every stack lands on a cashback tier: what is inside, what the same items cost separately today, and the cashback it earns.' ); ?></p>
+							<p><?php echo esc_html( $ar ? 'كل مجموعة تقع ضمن فئة كاش باك: ما بداخلها، وسعر محتوياتها منفصلة اليوم، والكاش باك الذي تمنحك إياه.' : 'Every stack lands on a cashback tier: what is inside, what the same items cost separately today, and the cashback it earns.' ); ?></p>
 						</div>
 						<div class="qil-collection-tools"><div class="qil-rail-nav" data-qil-rail-nav="stacks"><button type="button" data-qil-rail-prev aria-label="<?php echo esc_attr( $ar ? 'السابق' : 'Previous' ); ?>"><svg aria-hidden="true"><use href="#qil-i-arrow"/></svg></button><button type="button" data-qil-rail-next aria-label="<?php echo esc_attr( $ar ? 'التالي' : 'Next' ); ?>"><svg aria-hidden="true"><use href="#qil-i-arrow"/></svg></button></div></div>
 					</div>

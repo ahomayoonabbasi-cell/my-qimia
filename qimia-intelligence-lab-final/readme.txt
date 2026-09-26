@@ -2,11 +2,18 @@
 Contributors: qimia
 Requires at least: 6.2
 Requires PHP: 8.1
-Stable tag: 1.18.3
+Stable tag: 1.18.4
 License: GPL-2.0-or-later
 
 Bilingual Qimia storefront, separated from the My Qimia workspace.
 Full replacement of the supplied Lab plugin, not a second Lab installation.
+
+== Release 1.18.4 ==
+Shopper-experience pass. On phones the cart shows the cashback ladder, totals and
+checkout before "Complete your stack". Flash cards show one still discount badge;
+the clock reads "DROP ENDS IN"; the phone kicker no longer breaks mid-phrase. Arabic
+uses the prices' Western digits in every new surface, with corrected wording and
+counts. See RELEASE-1.18.4.md.
 
 == Release 1.18.3 ==
 Final review. The space under the flash drop now matches the homepage's own section

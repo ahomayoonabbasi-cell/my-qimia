@@ -212,15 +212,27 @@ final class QIL_Boost {
 		return wp_kses_post( wc_price( (float) $amount, $args ) );
 	}
 
-	/** Cashback amount exactly as the public cashback section prints it. */
+	/**
+	 * Western digits in both languages, as the theme and WooCommerce print
+	 * every price and count (the Arabic unit stays Arabic: "3 ر.ع").
+	 */
+	public static function latin_digits( $text ) {
+		return strtr( (string) $text, array(
+			'٠' => '0', '١' => '1', '٢' => '2', '٣' => '3', '٤' => '4', '٥' => '5', '٦' => '6', '٧' => '7', '٨' => '8', '٩' => '9',
+			'۰' => '0', '۱' => '1', '۲' => '2', '۳' => '3', '۴' => '4', '۵' => '5', '۶' => '6', '۷' => '7', '۸' => '8', '۹' => '9',
+			'٬' => ',', '٫' => '.',
+		) );
+	}
+
+	/** Cashback amount as the cashback section words it, in the digits of the prices beside it. */
 	public static function reward_text( $omr ) {
 		$market = self::market();
 		if ( ! class_exists( 'QIL_Cashback' ) ) {
 			return number_format( (float) $omr, 3 ) . ' OMR';
 		}
-		return $market['rate']
+		return self::latin_digits( $market['rate']
 			? QIL_Cashback::money( (float) $omr, $market['currency'], $market['rate'], self::is_ar() )
-			: QIL_Cashback::money( (float) $omr, 'OMR', 1.0, self::is_ar() );
+			: QIL_Cashback::money( (float) $omr, 'OMR', 1.0, self::is_ar() ) );
 	}
 
 	/* ------------------------------------------------------------------
@@ -929,7 +941,7 @@ final class QIL_Boost {
 		}
 		$out .= '<div class="qil-boost-ladder-head"><span class="qil-boost-badge" aria-hidden="true">' . self::icon( $state['top'] ? 'check' : 'coin' ) . '</span>';
 		if ( $state['top'] ) {
-			$out .= '<p class="qil-boost-ladder-msg"><strong>' . esc_html( sprintf( self::t( 'Top cashback unlocked: %s', 'فتحت أعلى كاش باك: %s' ), $reward ) ) . '</strong></p>';
+			$out .= '<p class="qil-boost-ladder-msg"><strong>' . esc_html( sprintf( self::t( 'Top cashback unlocked: %s', 'وصلت إلى أعلى كاش باك: %s' ), $reward ) ) . '</strong></p>';
 		} else {
 			$out .= '<p class="qil-boost-ladder-msg"><strong>' . sprintf(
 				/* translators: %s: amount to add. */
@@ -968,7 +980,7 @@ final class QIL_Boost {
 	private static function band_edge( $omr ) {
 		$market = self::market();
 		return class_exists( 'QIL_Cashback' ) && $market['rate']
-			? QIL_Cashback::money( (float) $omr, $market['currency'], $market['rate'], self::is_ar() )
+			? self::latin_digits( QIL_Cashback::money( (float) $omr, $market['currency'], $market['rate'], self::is_ar() ) )
 			: number_format( (float) $omr ) . ' OMR';
 	}
 
@@ -997,7 +1009,7 @@ final class QIL_Boost {
 		}
 		if ( $state && $state['next'] ) {
 			$picks = self::picks( $ctx, 'ladder', $state['next']['gap'], $limit );
-			return $memo[ $key ] = array( $picks, sprintf( self::t( 'Reach %s cashback with one of these', 'اوصل إلى كاش باك %s بمنتج واحد من هذه' ), self::reward_text( $state['next']['reward'] ) ) );
+			return $memo[ $key ] = array( $picks, sprintf( self::t( 'Reach %s cashback with one of these', 'احصل على كاش باك %s بإضافة منتج واحد من هذه' ), self::reward_text( $state['next']['reward'] ) ) );
 		}
 		$picks = self::picks( $ctx, 'stack', 0, $limit );
 		return $memo[ $key ] = array( $picks, self::t( 'Complete your stack', 'أكمل مجموعتك' ) );

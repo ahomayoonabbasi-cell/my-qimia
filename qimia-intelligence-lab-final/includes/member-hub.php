@@ -199,16 +199,14 @@ final class QIL_Member {
 
 	/**
 	 * A coupon amount. When the coupon is already in the shopper's currency it
-	 * is exact (same style as the cashback section); otherwise it is converted
-	 * with the site rate and marked approximate by QIL_Cashback::money().
+	 * is exact (the cashback section's wording, the prices' Western digits);
+	 * otherwise it is converted with the site rate and marked approximate by
+	 * QIL_Cashback::money().
 	 */
 	private static function exact_money( $amount, $currency ) {
 		$ar     = QIL_Boost::is_ar();
 		$number = rtrim( rtrim( number_format( (float) $amount, 3, '.', ',' ), '0' ), '.' );
-		if ( $ar ) {
-			$number = strtr( $number, array( '0' => '٠', '1' => '١', '2' => '٢', '3' => '٣', '4' => '٤', '5' => '٥', '6' => '٦', '7' => '٧', '8' => '٨', '9' => '٩', ',' => '٬' ) );
-		}
-		$units = array( 'OMR' => 'ر.ع', 'AED' => 'د.إ', 'SAR' => 'ر.س', 'QAR' => 'ر.ق', 'KWD' => 'د.ك', 'BHD' => 'د.ب' );
+		$units  = array( 'OMR' => 'ر.ع', 'AED' => 'د.إ', 'SAR' => 'ر.س', 'QAR' => 'ر.ق', 'KWD' => 'د.ك', 'BHD' => 'د.ب' );
 		return $number . ' ' . ( $ar && isset( $units[ $currency ] ) ? $units[ $currency ] : $currency );
 	}
 

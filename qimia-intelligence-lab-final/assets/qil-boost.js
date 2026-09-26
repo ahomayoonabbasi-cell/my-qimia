@@ -11,7 +11,11 @@
 	const lang = () => String(B.locale || C.locale || document.documentElement.lang || 'en').toLowerCase().startsWith('ar') ? 'ar' : 'en';
 	const t = (en, ar) => lang() === 'ar' ? ar : en;
 	const esc = value => String(value ?? '').replace(/[&<>"']/g, ch => ({'&': '&amp;', '<': '&lt;', '>': '&gt;', '"': '&quot;', "'": '&#39;'}[ch]));
-	const num = value => lang() === 'ar' ? String(value).replace(/\d/g, d => '٠١٢٣٤٥٦٧٨٩'[d]) : String(value);
+	// Western digits in both languages, as the theme and WooCommerce print every
+	// price and count; Arabic keeps its words and its ٪ sign.
+	const num = value => String(value);
+	// Arabic counted days after a preposition: يوم واحد، يومين، 3–10 أيام، 11+ يوماً.
+	const arDays = days => days === 1 ? 'يوم واحد' : days === 2 ? 'يومين' : days <= 10 ? `${num(days)} أيام` : `${num(days)} يوماً`;
 	const cards = () => window.QILCards || null;
 	// The theme's card renderer comes from qil.js. Wait for it without relying
 	// on script order or on the load event (optimizers may change both).
@@ -93,6 +97,21 @@
 		window.jQuery(document.body).on('added_to_cart', (event, fragments, hash, button) => markAdded(button?.jquery ? button.get(0) : button));
 	}
 
+	// Where the cart stacks (phones, narrow screens), the cashback ladder, the
+	// totals and "Proceed to checkout" come first and the suggestions follow
+	// them; side by side, the band stays under the cart table.
+	function placeBand(band) {
+		const shell = band.closest('.qil-boost-band-shell');
+		const form = band.closest('.woocommerce-cart-form');
+		const totals = $('.cart_totals');
+		if (!shell || !form || !totals || totals.getBoundingClientRect().top < form.getBoundingClientRect().bottom - 1) return;
+		let anchor = totals;
+		while (anchor.parentElement && !anchor.parentElement.contains(form)) anchor = anchor.parentElement;
+		if (!anchor.parentElement) return;
+		shell.dataset.qilBandMoved = '';
+		anchor.after(shell);
+	}
+
 	// "Complete your stack" on the cart page is the theme's own product card.
 	// WooCommerce replaces the cart form after an update; a fresh band renders again.
 	function renderBands() {
@@ -112,11 +131,18 @@
 				const badge = $('.qil-product-badge', card);
 				if (badge && label) { badge.textContent = label; badge.title = label; }
 			});
+			placeBand(band);
 			api.refresh?.();
 		});
 	}
 	if ($('[data-qil-boost-band]')) whenCards(renderBands);
-	if (window.jQuery) window.jQuery(document.body).on('updated_wc_div updated_cart_totals cart_page_refreshed', () => whenCards(renderBands));
+	if (window.jQuery) {
+		window.jQuery(document.body).on('updated_wc_div updated_cart_totals cart_page_refreshed', event => {
+			// A new cart form brings its own band (or none): the moved one is stale.
+			if (event.type !== 'updated_cart_totals') $$('[data-qil-band-moved]').forEach(node => node.remove());
+			whenCards(renderBands);
+		});
+	}
 
 	// Block-based cart: WooCommerce Blocks own the cart; refresh the ladder
 	// fragment when their store's totals change (debounced, no polling).
@@ -152,7 +178,8 @@
 	const pad = value => String(value).padStart(2, '0');
 	const shortClock = seconds => {
 		const p = clockParts(seconds);
-		return num(p.d > 0 ? `${p.d}${t('d', 'ي')} ${pad(p.h)}:${pad(p.m)}:${pad(p.s)}` : `${pad(p.h)}:${pad(p.m)}:${pad(p.s)}`);
+		const time = `${pad(p.h)}:${pad(p.m)}:${pad(p.s)}`;
+		return p.d > 0 ? t(`${p.d}d ${time}`, `${arDays(p.d)} ${time}`) : time;
 	};
 	// Window ends are absolute timestamps. The page may come from a page cache,
 	// so its own generation time is never used to correct the browser clock.
@@ -175,9 +202,14 @@
 		const ends = Number(meta?.endsAt || 0);
 		// A product's own sale end, only when it comes before the drop's end.
 		const endsLine = ends > now() && ends - now() < 7 * 86400 && !(dropEnd > 0 && ends >= dropEnd - 60)
-			? `<small>${esc(t('Sale ends in', 'ينتهي الخصم بعد'))} <b dir="ltr" data-qil-flash-card-end="${ends}">${esc(shortClock(ends - now()))}</b></small>` : '';
+			? `<small>${esc(t('Sale ends in', 'ينتهي الخصم بعد'))} <b dir="${lang() === 'ar' ? 'rtl' : 'ltr'}" data-qil-flash-card-end="${ends}">${esc(shortClock(ends - now()))}</b></small>` : '';
 		return `<div class="qil-flash-stock is-${tone}" data-qil-flash-stock><b title="${esc(text)}">${esc(text)}</b><span class="qil-flash-bar" aria-hidden="true">${level !== null ? `<i style="width:${level}%"></i>` : ''}</span>${endsLine}</div>`;
 	}
+	// The card's role label leaves; the discount stays in its slot, still.
+	const stillDiscount = card => {
+		$('.qil-label-stack .qil-product-badge', card)?.remove();
+		$('.qil-label-stack', card)?.classList.remove('has-multiple');
+	};
 	const flashUrgency = meta => (meta?.low || (typeof meta?.stock === 'number' && meta.stock <= 10)) ? 0 : (typeof meta?.stock === 'number' && meta.stock < 100 ? 1 : 2);
 
 	function renderFlash(section, flash) {
@@ -200,8 +232,9 @@
 		grid.innerHTML = order.map((product, index) => api.render(product, index, 'flash-drop')).join('');
 		$$('.qil-product-card', grid).forEach(card => {
 			const meta = flash.meta?.[String(card.dataset.productId || '')] || {};
-			const badge = $('.qil-product-badge', card);
-			if (badge) badge.textContent = t('Flash drop', 'مجموعة سريعة');
+			// One discount badge, always in view: the section already says FLASH
+			// SALE, so a role label would only take turns with the discount.
+			stillDiscount(card);
 			if (!$('[data-qil-sale-badge]', card) && Number(meta.pct) > 0) {
 				$('.qil-label-stack', card)?.insertAdjacentHTML('beforeend', `<span class="qil-sale-badge qil-flash-sale-badge" data-qil-sale-badge="flash">${esc((meta.upTo ? t('Up to ', 'حتى ') : '') + '−' + num(Math.round(meta.pct)) + (lang() === 'ar' ? '٪' : '%'))}</span>`);
 			}
@@ -282,8 +315,8 @@
 				if (typeof chat.setRecommendationContext === 'function') chat.setRecommendationContext(context);
 				if (chat.state) chat.state.currentProductIds = [...ids];
 				const prompt = t(
-					`Show me the current Qimia flash drop. Use only these live product IDs: ${ids.join(', ')}. For each one, verify the live price, the previous (regular) price, the real discount and stock before answering. ${endsText}. Then help me choose what fits my goal and budget.`,
-					`اعرض لي مجموعة كيميا السريعة الحالية. استخدم فقط أرقام المنتجات المباشرة هذه: ${ids.join('، ')}. تحقّق لكل منتج من السعر الحالي والسعر السابق ونسبة الخصم الحقيقية والمخزون قبل الإجابة. ${endsText}. ثم ساعدني في اختيار ما يناسب هدفي وميزانيتي.`
+					`Show me the current Qimia flash drop. Use only these live product IDs: ${ids.join(', ')}. For each one, verify the live price, the previous (regular) price, the real discount and stock before answering. The drop ends ${endsText}. Then help me choose what fits my goal and budget.`,
+					`اعرض لي مجموعة كيميا السريعة الحالية. استخدم فقط أرقام المنتجات المباشرة هذه: ${ids.join('، ')}. تحقّق لكل منتج من السعر الحالي والسعر السابق ونسبة الخصم الحقيقية والمخزون قبل الإجابة. تنتهي المجموعة ${endsText}. ثم ساعدني في اختيار ما يناسب هدفي وميزانيتي.`
 				);
 				await chat.send(prompt.slice(0, 1800), t('Today’s flash drop', 'المجموعة السريعة اليوم'), {languageOverride: lang(), source: 'qimia-flash-drop'});
 			} catch (_) {
@@ -326,7 +359,7 @@
 			const fact = data.facts?.[String(card.dataset.productId || '')] || {};
 			// The theme's discount keeps its corner (still, no roll); the cashback tier
 			// takes the opposite top corner, so the two never overlap.
-			$('.qil-label-stack .qil-product-badge', card)?.remove();
+			stillDiscount(card);
 			if (fact.reward) $('.qil-product-image', card)?.insertAdjacentHTML('beforeend', `<span class="qil-bundle-reward" title="${esc(t(`${fact.reward} cashback for your next order`, `كاش باك ${fact.reward} لطلبك القادم`))}"><small>${esc(t('CASHBACK', 'كاش باك'))}</small> <b><bdi>${esc(fact.reward)}</bdi></b></span>`);
 			if (fact.separately) $('.qil-card-price', card)?.insertAdjacentHTML('beforeend', `<span class="qil-per-serving qil-stack-separately">${esc(t('Separately', 'منفصلة'))} <del dir="ltr">${esc(fact.separately)}</del></span>`);
 			const slots = $$('.qil-fact', card);
@@ -352,8 +385,6 @@
 		} catch (_) { return []; }
 	}
 
-	// Arabic counted days after a preposition: يوم واحد، يومين، ٣–١٠ أيام، ١١+ يوماً.
-	const arDays = days => days === 1 ? 'يوم واحد' : days === 2 ? 'يومين' : days <= 10 ? `${num(days)} أيام` : `${num(days)} يوماً`;
 
 	function relativeDays(days) {
 		if (days === null || days === undefined) return '';
@@ -436,8 +467,8 @@
 
 	function runningEstimate(row) {
 		const days = Number(row.daysLeft);
-		const servings = num(row.servings);
-		const basis = t(`${servings} servings from your order`, `${servings} حصة من طلبك`);
+		const count = Number(row.servings);
+		const basis = t(`${num(count)} servings from your order`, `${num(count)} ${count >= 3 && count <= 10 ? 'حصص' : 'حصة'} من طلبك`);
 		if (days > 1) return `${t(`Runs out in about ${days} days`, `تنفد خلال ${arDays(days)} تقريباً`)} · ${basis}`;
 		if (days >= 0) return `${t('Runs out about now', 'تنفد تقريباً الآن')} · ${basis}`;
 		return `${t(`Likely ran out ${Math.abs(days)} ${Math.abs(days) === 1 ? 'day' : 'days'} ago`, `نفدت على الأرجح قبل ${arDays(Math.abs(days))}`)} · ${basis}`;

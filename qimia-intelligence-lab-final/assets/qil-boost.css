@@ -332,6 +332,9 @@ li.qil-boost-li::before, li.qil-boost-li::after { content: none !important; disp
 :is(#qimia-lab,.qil-shell)[dir="rtl"] .qil-flash-bar i { margin-inline-start: auto; }
 @media (max-width: 760px) {
 	:is(#qimia-lab,.qil-shell) .qil-flash-drop { padding-top: 40px; }
+	/* The kicker never breaks mid-phrase: the count chip moves down whole. */
+	:is(#qimia-lab,.qil-shell) .qil-flash-kicker { flex-wrap: wrap; gap: 6px 8px; max-width: 100%; border-radius: 18px; font-size: 9.5px; letter-spacing: .08em; white-space: nowrap; }
+	:is(#qimia-lab,.qil-shell) .qil-flash-gone { margin-inline-start: 0; }
 	:is(#qimia-lab,.qil-shell) .qil-flash-stock { min-height: 22px; margin-bottom: 6px; }
 	:is(#qimia-lab,.qil-shell) .qil-flash-stock > b { font-size: 9.5px; }
 }
@@ -472,9 +475,10 @@ li.qil-boost-li::before, li.qil-boost-li::after { content: none !important; disp
 :is(#qimia-lab,.qil-shell) .qil-stacks-rail .qil-bundle-reward small { color: #ffe39c; font-size: 8.5px; font-weight: 850; letter-spacing: .14em; }
 :is(#qimia-lab,.qil-shell)[dir="rtl"] .qil-stacks-rail .qil-bundle-reward small { letter-spacing: 0; }
 :is(#qimia-lab,.qil-shell) .qil-stacks-rail .qil-bundle-reward b { font-size: 15px; font-weight: 900; white-space: nowrap; }
-/* The discount keeps the theme's own look and corner, without the label roll. */
-:is(#qimia-lab,.qil-shell) .qil-stacks-rail .qil-label-stack > .qil-sale-badge { animation: none !important; opacity: 1 !important; transform: none !important; }
-:is(#qimia-lab,.qil-shell) .qil-stacks-rail .qil-label-stack:not(.has-multiple) > .qil-sale-badge { margin-inline-start: 0; }
+/* Flash and stack cards: one discount badge in the image's start corner, in
+   the theme's own look, still (no label roll). */
+:is(#qimia-lab,.qil-shell) :is(.qil-stacks-rail,.qil-flash-rail) .qil-label-stack > .qil-sale-badge { animation: none !important; opacity: 1 !important; transform: none !important; }
+:is(#qimia-lab,.qil-shell) :is(.qil-stacks-rail,.qil-flash-rail) .qil-label-stack:not(.has-multiple) > .qil-sale-badge { margin-inline-start: 0; }
 @media (max-width: 760px) {
 	:is(#qimia-lab,.qil-shell) .qil-stacks-rail .qil-bundle-reward { inset-block-start: 7px; inset-inline-end: 7px; padding: 5px 8px 6px; border-radius: 12px; }
 	:is(#qimia-lab,.qil-shell) .qil-stacks-rail .qil-bundle-reward small { font-size: 7px; }

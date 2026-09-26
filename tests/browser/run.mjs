@@ -70,13 +70,19 @@ try {
 		const flash = page.locator('[data-qil-flash-drop]');
 		await page.waitForSelector('.qil-flash-rail .qil-product-card', { timeout: 6000 });
 		check(`${label}: flash drop renders 10 real products with the shared card`, (await page.locator('.qil-flash-rail .qil-product-card').count()) === 10);
-		check(`${label}: cards are labelled as the flash drop`, /Flash drop|مجموعة سريعة/.test(await text(page, '.qil-flash-rail .qil-product-badge')));
+		const badges = await page.locator('.qil-flash-rail .qil-product-card').evaluateAll(cards => cards.map(card => {
+			const stack = card.querySelector('.qil-label-stack'), sale = stack?.querySelector('.qil-sale-badge');
+			return { role: !!stack?.querySelector('.qil-product-badge'), sales: stack ? stack.querySelectorAll('.qil-sale-badge').length : 0, rolling: !!stack?.classList.contains('has-multiple'), animation: sale ? getComputedStyle(sale).animationName : '', opacity: sale ? getComputedStyle(sale).opacity : '', text: sale?.textContent || '' };
+		}));
+		check(`${label}: each flash card shows one discount badge, still and in view (no role label taking turns with it)`, badges.length === 10 && badges.every(b => !b.role && b.sales === 1 && !b.rolling && b.animation === 'none' && b.opacity === '1' && /−\d+(%|٪)/.test(b.text)), JSON.stringify(badges.slice(0, 3)));
+		check(`${label}: the clock counts down to the end of these prices`, /DROP ENDS IN|تنتهي المجموعة خلال/.test(await text(page, '[data-qil-flash-clock] > small')));
+		if (path.startsWith('/ar')) check(`${label}: Arabic uses the Western digits of the prices throughout the drop`, !/[٠-٩]/.test(await page.locator('#qil-flash-drop').innerText()));
 		check(`${label}: the drop shows ${viewport === 'desktop' ? 4 : 2} theme cards per view, the rest on the carousel`, (await perView(page, '.qil-flash-rail')) === (viewport === 'desktop' ? 4 : 2), await perView(page, '.qil-flash-rail'));
 		const chips = await page.locator('.qil-flash-rail .qil-product-card').evaluateAll(cards => cards.map(card => ({ id: card.dataset.productId, chip: card.querySelector('.qil-product-info h3 + [data-qil-flash-stock] > b')?.textContent || '', onImage: !!card.querySelector('.qil-product-image [data-qil-flash-stock]'), height: Math.round(card.querySelector('[data-qil-flash-stock]')?.getBoundingClientRect().height || 0) })));
 		check(`${label}: every flash card has its stock line right under the product name (not on the image)`, chips.length === 10 && chips.every(row => row.chip && !row.onImage), JSON.stringify(chips.filter(row => !row.chip || row.onImage)));
 		check(`${label}: the stock lines share one height (cards keep one shape)`, new Set(chips.map(row => row.height)).size === 1, JSON.stringify(chips.map(row => row.height)));
 		const low = chips.find(row => row.id === '216');
-		check(`${label}: a flavour running low is named ("Only 3 left in Chocolate")`, low && (path === '/' ? low.chip === 'Only 3 left in Chocolate' : /٣/.test(low.chip) && /Chocolate/.test(low.chip)), JSON.stringify(low));
+		check(`${label}: a flavour running low is named ("Only 3 left in Chocolate")`, low && (path === '/' ? low.chip === 'Only 3 left in Chocolate' : /بقي 3 فقط/.test(low.chip) && /Chocolate/.test(low.chip)), JSON.stringify(low));
 		check(`${label}: counts lead: the almost-gone products come first`, chips.slice(0, 2).every(row => /Only|فقط/.test(row.chip)), JSON.stringify(chips.slice(0, 3)));
 		check(`${label}: the kicker counts what is almost gone`, /ALMOST GONE|على وشك النفاد/.test(await text(page, '.qil-flash-kicker')));
 		check(`${label}: flash cards use the theme's own Add to cart button`, (await page.locator('.qil-flash-rail .qil-product-card .qil-buy').count()) === 10);
@@ -281,6 +287,7 @@ try {
 			return { drawer: style(document.querySelector('.cart-widget-side .qil-boost-add')), theme: style(document.querySelector('.qil-flash-rail .qil-buy')) };
 		});
 		check(`${label}: drawer Add buttons are the homepage's Add to cart (gradient, pill, shadow, light sweep)`, !!buttons.drawer && !!buttons.theme && buttons.drawer.image === buttons.theme.image && buttons.drawer.color === buttons.theme.color && parseFloat(buttons.drawer.radius) >= 99 && buttons.drawer.shadow && buttons.drawer.sweep, JSON.stringify(buttons));
+		if (path !== '/') check(`${label}: Arabic ladder and picks use the Western digits of the prices beside them`, !/[٠-٩]/.test((await page.locator('.cart-widget-side .qil-boost').allInnerTexts()).join(' ')));
 		await page.locator('.cart-widget-side').screenshot({ path: join(shots, `minicart-${path === '/' ? 'en' : 'ar'}-${viewport}.png`) });
 		if (path === '/' && viewport === 'desktop') {
 			await page.click('.cart-widget-side .qil-boost-pick .ajax_add_to_cart >> nth=0');
@@ -342,6 +349,25 @@ try {
 		const shell = await page.evaluate(() => { const node = document.querySelector('.qil-personal-cart-shell'); const section = node?.querySelector('[data-qil-personal]'); return node ? { height: Math.round(node.getBoundingClientRect().height), empty: !section || section.hidden } : null; });
 		check(`${label}: an empty personal shelf reserves no screen-tall gap`, !shell || !shell.empty || shell.height < 40, JSON.stringify(shell));
 		check(`${label}: no horizontal overflow`, await noOverflow(page));
+		const placement = await page.evaluate(() => {
+			const band = document.querySelector('.qil-boost-band'), totals = document.querySelector('.cart_totals');
+			return { bandInForm: !!band?.closest('.woocommerce-cart-form'), bandAfterTotals: !!band && band.getBoundingClientRect().top >= totals.getBoundingClientRect().bottom - 1 };
+		});
+		check(viewport === 'desktop' ? `${label}: side by side, the band stays under the cart table` : `${label}: on a phone the ladder, totals and checkout come first, the suggestions after them`, viewport === 'desktop' ? placement.bandInForm && !placement.bandAfterTotals : placement.bandAfterTotals && !placement.bandInForm, JSON.stringify(placement));
+		if (path.startsWith('/ar')) check(`${label}: Arabic ladder, steps and cards use the Western digits of the prices`, !/[٠-٩]/.test((await page.locator('.qil-boost-cart-panel, .qil-boost-band').allInnerTexts()).join(' ')));
+		if (viewport === 'mobile') {
+			// WooCommerce's cart update: a new form (with its own band) replaces the old one.
+			const updated = await page.evaluate(async () => {
+				const html = await (await fetch(location.href, { credentials: 'same-origin' })).text();
+				const fresh = new DOMParser().parseFromString(html, 'text/html').querySelector('.woocommerce-cart-form');
+				document.querySelector('.woocommerce-cart-form').replaceWith(document.importNode(fresh, true));
+				window.jQuery(document.body).trigger('updated_wc_div');
+				await new Promise(resolve => setTimeout(resolve, 500));
+				const bands = [...document.querySelectorAll('.qil-boost-band')], totals = document.querySelector('.cart_totals').getBoundingClientRect();
+				return { bands: bands.length, cards: bands[0]?.querySelectorAll('.qil-product-card').length || 0, afterTotals: !!bands[0] && bands[0].getBoundingClientRect().top >= totals.bottom - 1 };
+			});
+			check(`${label}: after WooCommerce updates the cart, one fresh band, still after the totals`, updated.bands === 1 && updated.cards >= 2 && updated.afterTotals, JSON.stringify(updated));
+		}
 		await page.screenshot({ path: join(shots, `cart-${path.startsWith('/ar') ? 'ar' : 'en'}-${viewport}.png`), fullPage: true });
 		if (viewport === 'desktop' && !path.startsWith('/ar')) {
 			const button = page.locator('.qil-boost-band .qil-buy.ajax_add_to_cart').first();

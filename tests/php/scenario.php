@@ -151,7 +151,7 @@ case 'minicart_ar':
 	WC()->cart->add( 101, 1, 1011 );
 	$html = capture( 'woocommerce_mini_cart' );
 	ok( 'Arabic drawer block is RTL and not machine-translated', false !== strpos( $html, 'dir="rtl" lang="ar" translate="no"' ) );
-	ok( 'Arabic message and Arabic-Indic cashback amount', false !== strpos( $html, 'أضف' ) && false !== strpos( $html, 'كاش باك' ) && false !== strpos( $html, '٣ ر.ع' ), $html );
+	ok( 'Arabic message, cashback amount in the Western digits of the prices beside it', false !== strpos( $html, 'أضف' ) && false !== strpos( $html, 'كاش باك' ) && false !== strpos( $html, '3 ر.ع' ) && ! preg_match( '/[٠-٩]/u', $html ), $html );
 	break;
 
 case 'lang_ajax':
