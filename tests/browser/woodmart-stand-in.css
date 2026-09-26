@@ -1,0 +1,50 @@
+/* Stand-in for the WoodMart rules that shape the side cart. Loaded AFTER the
+   plugin CSS (WoodMart enqueues its styles late), so theme rules win every tie,
+   the way they can on the live store. Includes WoodMart's generic list, image,
+   paragraph and button rules that commonly fight markup injected by plugins. */
+body { font-family: Lato, Arial, Helvetica, sans-serif; font-size: 14px; line-height: 1.6; color: #777; }
+a { color: #333; text-decoration: none; transition: all .25s ease; }
+p { margin-bottom: 20px; }
+img { max-width: 100%; height: auto; }
+ul { margin-bottom: 20px; padding-left: 17px; list-style: disc; }
+h1, h2, h3, h4, h5, h6 { margin-bottom: 20px; color: #242424; font-weight: 600; }
+.button, button, [type="submit"] {
+	display: inline-flex; align-items: center; justify-content: center; min-height: 42px; padding: 12px 20px;
+	border: 0; border-radius: 0; background-color: #f3f3f3; color: #3e3e3e; box-shadow: none;
+	font-size: 13px; font-weight: 600; line-height: 18px; letter-spacing: .3px; text-transform: uppercase;
+}
+.button.checkout { background-color: #087983; color: #fff; }
+
+.wd-side-hidden {
+	position: fixed; top: 0; bottom: 0; z-index: 500; width: 340px; overflow: hidden; overflow-y: auto;
+	background-color: #fff; transition: transform .5s cubic-bezier(.19,1,.22,1);
+}
+.wd-side-hidden.wd-right { right: 0; left: auto; transform: translate3d(100%,0,0); }
+[dir="rtl"] .wd-side-hidden.wd-right { right: auto; left: 0; transform: translate3d(-100%,0,0); }
+.wd-side-hidden.wd-opened { transform: none !important; }
+@media (max-width: 1024px) { .wd-side-hidden { width: 300px; z-index: 99999; } }
+.wd-close-side { position: fixed; inset: 0; z-index: 400; background-color: rgba(0,0,0,.54); opacity: 0; pointer-events: none; transition: opacity .5s ease; }
+.wd-close-side.wd-close-side-opened { opacity: 1; pointer-events: unset; }
+
+.cart-widget-side { display: flex; flex-direction: column; }
+.wd-heading { display: flex; flex: 0 0 auto; align-items: center; justify-content: flex-end; gap: 10px; padding: 20px 15px; border-bottom: 1px solid rgba(0,0,0,.105); }
+.wd-heading .title { flex: 1 1 auto; margin-bottom: 0; color: #242424; font-size: 130%; font-weight: 600; }
+.cart-widget-side .widget_shopping_cart { position: relative; flex: 1 1 100%; }
+.cart-widget-side .widget_shopping_cart_content { position: absolute; inset: 0; display: flex; flex-direction: column; }
+.cart-widget-side .shopping-cart-widget-body { position: relative; flex: 1 1 auto; }
+.cart-widget-side .wd-scroll-content { position: absolute; inset: 0; max-height: none; overflow: auto; }
+.cart-widget-side .shopping-cart-widget-footer { flex: 0 0 auto; }
+
+.product_list_widget, .cart_list { margin: 0; padding: 0; list-style: none; }
+.product_list_widget > li { position: relative; display: flex; align-items: center; margin-bottom: 15px; padding-bottom: 15px; border-bottom: 1px solid rgba(0,0,0,.105); }
+.product_list_widget > li:last-child { margin-bottom: 0; padding-bottom: 0; border-bottom: none; }
+.product_list_widget > li > a { display: flex; align-items: center; }
+.product_list_widget > li img { min-width: 65px; max-width: 65px; margin-inline-end: 15px; }
+.cart-widget-side .cart_list > li { padding: 15px; }
+.cart-widget-side .cart_list > li:not(:last-child) { border-bottom: 1px solid rgba(0,0,0,.105); }
+.widget_shopping_cart .product_list_widget > li { padding-inline-end: 35px; }
+.widget_shopping_cart .cart_list .remove { position: absolute; top: 15px; inset-inline-end: 15px; }
+.widget_shopping_cart .quantity { display: block; margin-inline-start: auto; color: #242424; font-weight: 600; }
+.shopping-cart-widget-footer > .total { display: flex; align-items: center; justify-content: space-between; margin-bottom: 0; padding: 10px 15px; border-top: 1px solid rgba(0,0,0,.105); font-size: 110%; }
+.shopping-cart-widget-footer > .buttons { margin-bottom: 0; padding: 15px; }
+.shopping-cart-widget-footer > .buttons .button { display: flex; margin-bottom: 10px; }

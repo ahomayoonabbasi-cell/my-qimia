@@ -1,0 +1,15 @@
+{
+  "name": "qimia-intelligence-lab-dev",
+  "private": true,
+  "description": "Build and verification tooling for Qimia Intelligence Lab (not shipped with the plugin).",
+  "type": "module",
+  "devDependencies": {
+    "jquery": "3.7.1",
+    "esbuild": "0.25.10"
+  },
+  "scripts": {
+    "build": "node tools/build-assets.mjs",
+    "test:php": "php tests/php/run.php",
+    "test:browser": "node tests/browser/run.mjs"
+  }
+}

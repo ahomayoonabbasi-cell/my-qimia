@@ -1,0 +1,274 @@
+// Chromium checks for Qimia Intelligence Lab 1.18 sales surfaces.
+//   node tests/browser/run.mjs [results.json] [screenshot-dir]
+// Starts the PHP router (real plugin over WordPress/WooCommerce doubles) and
+// drives the real homepage template, mini cart and cart page in Chromium.
+import { spawn } from 'node:child_process';
+import { createRequire } from 'node:module';
+import { mkdirSync, writeFileSync } from 'node:fs';
+import { dirname, join } from 'node:path';
+import { fileURLToPath } from 'node:url';
+
+const require = createRequire(import.meta.url);
+// Playwright: PLAYWRIGHT_PATH, else a local install, else the global one in this build image.
+const { chromium } = (() => {
+	if (process.env.PLAYWRIGHT_PATH) return require(process.env.PLAYWRIGHT_PATH);
+	try { return require('playwright'); } catch (_) { return require('/opt/node22/lib/node_modules/playwright'); }
+})();
+const here = dirname(fileURLToPath(import.meta.url));
+const repo = join(here, '..', '..');
+const resultsFile = process.argv[2] || '';
+const shots = process.argv[3] || join(repo, 'tests', 'browser', 'screenshots');
+mkdirSync(shots, { recursive: true });
+const PORT = 8766, BASE = `http://127.0.0.1:${PORT}`;
+
+const results = { passed: 0, failed: 0, tests: [], requests: {} };
+const check = (name, ok, detail = '') => {
+	results[ok ? 'passed' : 'failed']++;
+	results.tests.push({ name, ok: !!ok, detail: ok ? '' : String(detail).slice(0, 600) });
+	console.log(`${ok ? '  ✓' : '  ✗'} ${name}${ok ? '' : `  → ${String(detail).slice(0, 300)}`}`);
+};
+
+const server = spawn('php', ['-S', `127.0.0.1:${PORT}`, join(here, 'server.php')], { cwd: repo, stdio: ['ignore', 'ignore', 'pipe'] });
+let serverLog = '';
+server.stderr.on('data', chunk => { serverLog += chunk; });
+await new Promise(resolve => setTimeout(resolve, 700));
+
+const browser = await chromium.launch({ executablePath: process.env.CHROMIUM_PATH || undefined });
+const viewports = { desktop: { width: 1440, height: 900 }, mobile: { width: 390, height: 844, isMobile: true, hasTouch: true, deviceScaleFactor: 2 } };
+
+async function open(path, { viewport = 'desktop', cookies = {}, reducedMotion = 'no-preference' } = {}) {
+	const context = await browser.newContext({ viewport: viewports[viewport], isMobile: !!viewports[viewport].isMobile, hasTouch: !!viewports[viewport].hasTouch, deviceScaleFactor: viewports[viewport].deviceScaleFactor || 1, reducedMotion });
+	await context.addCookies(Object.entries(cookies).map(([name, value]) => ({ name, value: String(value), url: BASE })));
+	const page = await context.newPage();
+	const errors = [], requests = [];
+	page.on('console', message => { if (message.type() === 'error' && !/Failed to load resource/.test(message.text())) errors.push(message.text()); });
+	page.on('pageerror', error => errors.push(String(error)));
+	page.on('request', request => { const url = request.url(); if (/wc-ajax=|wp-json/.test(url)) requests.push(url.replace(BASE, '')); });
+	await page.goto(BASE + path, { waitUntil: 'load' });
+	return { page, context, errors, requests };
+}
+// Element screenshots taller than the viewport draw fixed chrome mid-image; hide it for the capture only.
+const clean = { style: '.qil-skip,.qil-header,.qil-topbar,[data-qil-ai-launcher],.qil-compare-dock{visibility:hidden!important}' };
+// Mobile Chromium zooms out to fit wide content (innerWidth grows with it), so
+// compare with the device width and require an unzoomed visual viewport.
+const noOverflow = page => page.evaluate(width => document.documentElement.scrollWidth <= width + 1 && (window.visualViewport?.scale ?? 1) >= 0.999, page.viewportSize().width);
+const text = (page, selector) => page.locator(selector).first().innerText().catch(() => '');
+
+try {
+	/* ---------------- Guest homepage ---------------- */
+	for (const [viewport, path] of [['desktop', '/'], ['mobile', '/'], ['desktop', '/ar/'], ['mobile', '/ar/']]) {
+		const label = `guest ${path === '/' ? 'EN' : 'AR'} ${viewport}`;
+		console.log(`\n${label}`);
+		const { page, context, errors, requests } = await open(path, { viewport });
+		const flash = page.locator('[data-qil-flash-drop]');
+		await page.waitForSelector('.qil-flash-rail .qil-product-card', { timeout: 6000 });
+		check(`${label}: flash drop renders 10 real products with the shared card`, (await page.locator('.qil-flash-rail .qil-product-card').count()) === 10);
+		check(`${label}: cards are labelled as the flash drop`, /Flash drop|مجموعة سريعة/.test(await text(page, '.qil-flash-rail .qil-product-badge')));
+		check(`${label}: stock is real and bounded ("Only N left")`, (await page.locator('.qil-flash-stock b').count()) > 0 && /\d|[٠-٩]/.test(await text(page, '.qil-flash-stock b')));
+		const idle1 = await text(page, '[data-qil-flash-unit="s"]');
+		await page.waitForTimeout(1300);
+		const idle2 = await text(page, '[data-qil-flash-unit="s"]');
+		check(`${label}: clock stays idle while off screen (no CPU spent)`, (await flash.boundingBox()).y > viewports[viewport].height ? idle1 === idle2 : true, `${idle1} → ${idle2}`);
+		await flash.scrollIntoViewIfNeeded();
+		await page.waitForTimeout(250);
+		const s1 = await text(page, '[data-qil-flash-unit="s"]');
+		await page.waitForTimeout(2100);
+		const s2 = await text(page, '[data-qil-flash-unit="s"]');
+		check(`${label}: the clock counts down to the real end of the drop`, s1 !== s2 && s2 !== '', `${s1} → ${s2}`);
+		const shown = await page.locator('[data-qil-flash-clock]').evaluate(node => [...node.querySelectorAll('[data-qil-flash-unit]')].map(unit => unit.textContent).join(':'));
+		const end = Number(await flash.getAttribute('data-qil-flash-end'));
+		check(`${label}: clock matches the real end time`, Number.isFinite(end) && end * 1000 > Date.now(), `${shown} end=${end}`);
+		const cardEnds = await page.evaluate(() => {
+			const dropEnd = Number(document.querySelector('[data-qil-flash-drop]').dataset.qilFlashEnd);
+			const meta = window.QIL_BOOST?.flash?.meta || {};
+			return [...document.querySelectorAll('.qil-flash-rail .qil-product-card')].map(card => {
+				const ends = Number(meta[card.dataset.productId]?.endsAt || 0), left = ends - Date.now() / 1000;
+				return { id: card.dataset.productId, expected: left > 5 && left < 7 * 86400 && ends < dropEnd - 60, shown: !!card.querySelector('[data-qil-flash-card-end]') };
+			});
+		});
+		check(`${label}: a product's own sale end shows only when it ends before the drop`, cardEnds.every(row => row.expected === row.shown), JSON.stringify(cardEnds.filter(row => row.expected !== row.shown)));
+		check(`${label}: header says FLASH SALE — 72 HOURS`, /FLASH SALE|تخفيضات سريعة/.test(await text(page, '#qil-flash-title')) && /72/.test(await text(page, '#qil-flash-title')));
+		check(`${label}: three cashback stacks with their cashback tier`, (await page.locator('.qil-bundle-card').count()) === 3 && (await page.locator('.qil-bundle-reward').count()) === 3);
+		const valueOrder = await page.evaluate(rtl => [...document.querySelectorAll('.qil-bundle-value')].filter(row => row.querySelector('strong') && row.querySelector('.qil-bundle-separately')).map(row => {
+			const a = row.querySelector('strong').getBoundingClientRect(), b = row.querySelector('.qil-bundle-separately').getBoundingClientRect();
+			if (b.top >= a.bottom - 1) return true; // wrapped: the reference is on a later line
+			if (a.top >= b.bottom - 1) return false;
+			return rtl ? a.right > b.right : a.left < b.left;
+		}), path !== '/');
+		check(`${label}: stack price reads before its reference price`, valueOrder.length > 0 && valueOrder.every(Boolean), JSON.stringify(valueOrder));
+		check(`${label}: member hub stays hidden for guests`, await page.locator('[data-qil-member]').isHidden());
+		check(`${label}: no private request for guests (no qil_member)`, !requests.some(url => url.includes('qil_member')), requests.join(' '));
+		check(`${label}: no horizontal overflow`, await noOverflow(page));
+		check(`${label}: no JavaScript errors`, errors.length === 0, errors.join(' | '));
+		if (path === '/ar/') check(`${label}: RTL shell`, (await page.getAttribute('#qimia-lab', 'dir')) === 'rtl');
+		results.requests[label] = requests;
+		await flash.scrollIntoViewIfNeeded();
+		await flash.screenshot({ path: join(shots, `flash-${path === '/' ? 'en' : 'ar'}-${viewport}.png`), ...clean });
+		await page.locator('#qil-stacks').screenshot({ path: join(shots, `stacks-${path === '/' ? 'en' : 'ar'}-${viewport}.png`), ...clean });
+		if (viewport === 'desktop') {
+			await page.evaluate(() => window.scrollTo(0, document.body.scrollHeight));
+			await page.waitForTimeout(400);
+			check(`${label}: flash animation pauses off screen`, !(await flash.evaluate(node => node.classList.contains('is-live'))));
+		}
+		await context.close();
+	}
+
+	/* ---------------- Reduced motion ---------------- */
+	{
+		const { page, context } = await open('/', { reducedMotion: 'reduce', cookies: { qt_cart: '101:1011:1' } });
+		await page.waitForSelector('.qil-flash-rail .qil-product-card');
+		const running = await page.locator('.qil-flash-aurora').evaluate(node => getComputedStyle(node).animationName);
+		check('reduced motion: no aurora animation', running === 'none', running);
+		const sheen = await page.locator('.qil-boost-meter > span').first().evaluate(node => getComputedStyle(node, '::after').animationName);
+		check('reduced motion: no meter sheen either (pseudo-elements included)', sheen === 'none', sheen);
+		await context.close();
+	}
+
+	/* ---------------- Drop that ends while the page is open ---------------- */
+	{
+		const context = await browser.newContext({ viewport: viewports.desktop });
+		const page = await context.newPage();
+		await page.route(`${BASE}/`, async route => {
+			const response = await route.fetch();
+			const body = (await response.text()).replace(/data-qil-flash-end="\d+"/, `data-qil-flash-end="${Math.floor(Date.now() / 1000) + 3}"`);
+			await route.fulfill({ response, body });
+		});
+		await page.goto(`${BASE}/`);
+		await page.locator('[data-qil-flash-drop]').scrollIntoViewIfNeeded();
+		await page.waitForTimeout(4500);
+		check('a drop that ends on screen says so honestly (no reset, no fake timer)', /THIS DROP HAS ENDED/.test(await text(page, '[data-qil-flash-clock]')));
+		await context.close();
+	}
+
+	/* ---------------- Signed-in homepage: wallet + Running low ---------------- */
+	for (const viewport of ['desktop', 'mobile']) {
+		const label = `member ${viewport}`;
+		console.log(`\n${label}`);
+		const { page, context, errors, requests } = await open('/', { viewport, cookies: { qt_user: 7 } });
+		await page.waitForSelector('[data-qil-member]:not([hidden])', { timeout: 8000 });
+		check(`${label}: wallet says "You have 9 OMR cashback"`, /You have 9 OMR cashback/.test(await text(page, '[data-qil-wallet-title]')), await text(page, '[data-qil-wallet-title]'));
+		check(`${label}: best coupon and its real expiry`, /4 OMR is waiting for you/.test(await text(page, '[data-qil-wallet-sub]')) && /5 days/.test(await text(page, '[data-qil-wallet-sub]')), await text(page, '[data-qil-wallet-sub]'));
+		check(`${label}: no coupon code is shown`, !/CB-7/.test(await page.content()));
+		const credits = await page.locator('[data-qil-wallet-credits] li').evaluateAll(items => items.map(item => item.textContent.replace(/\s+/g, ' ').trim()));
+		check(`${label}: each credit listed with its days left (first to be used highlighted)`, credits.length === 3 && /^4 OMR 5 days left$/.test(credits[0]) && /^3 OMR 20 days left$/.test(credits[1]) && /^2 OMR Min\. order 10 OMR$/.test(credits[2]) && (await page.locator('[data-qil-wallet-credits] li.is-next').count()) === 1, JSON.stringify(credits));
+		check(`${label}: top bar turns into the cashback reminder`, /4 OMR cashback waiting for you/.test(await text(page, '[data-qil-delivery-line]')));
+		check(`${label}: Running low lists 2 exact previous items`, (await page.locator('.qil-running-row').count()) === 2);
+		check(`${label}: exact flavour shown`, /Fruit Punch/.test(await text(page, '[data-qil-running-list]')));
+		check(`${label}: best ways to use it (cards with reasons)`, (await page.locator('[data-qil-wallet-grid] .qil-product-card').count()) >= 2);
+		const reasons = await page.locator('[data-qil-wallet-grid] .qil-product-card').evaluateAll(cards => cards.map(card => {
+			const node = card.querySelector('.qil-wallet-reason');
+			return node ? { text: node.textContent, clipped: node.scrollWidth > node.clientWidth + 1 } : null;
+		}));
+		check(`${label}: every pick says why, in full (no clipped label)`, reasons.every(row => row && /You compared|You viewed|Pairs with your/.test(row.text) && !row.clipped), JSON.stringify(reasons));
+		check(`${label}: exactly one private request (qil_member)`, requests.filter(url => url.includes('qil_member')).length === 1, requests.join(' '));
+		await page.locator('[data-qil-member]').screenshot({ path: join(shots, `member-${viewport}.png`), ...clean });
+		if (viewport === 'desktop') {
+			await page.click('[data-qil-wallet-apply]');
+			await page.waitForFunction(() => document.querySelector('[data-qil-wallet-status]')?.textContent.length > 0, null, { timeout: 5000 });
+			check(`${label}: Shop with cashback (empty cart) → ready, applies automatically`, /applies automatically/.test(await text(page, '[data-qil-wallet-status]')), await text(page, '[data-qil-wallet-status]'));
+			await page.click('[data-qil-running-buy]');
+			await page.waitForSelector('.qil-running-row.is-added', { timeout: 5000 }).catch(() => {});
+			check(`${label}: Buy again adds the exact item in one tap`, (await page.locator('.qil-running-row.is-added').count()) === 1, await text(page, '.qil-running-note'));
+			const cookies = await context.cookies();
+			const cart = decodeURIComponent(cookies.find(c => c.name === 'qt_cart')?.value || '');
+			check(`${label}: cart holds the exact product (and the pending cashback applied)`, /^104:0:1/.test(cart) && /cb-7-a/i.test(decodeURIComponent(cookies.find(c => c.name === 'qt_coupons')?.value || '')), `${cart} ${JSON.stringify(cookies.map(c => c.name + '=' + c.value))}`);
+		}
+		check(`${label}: no horizontal overflow`, await noOverflow(page));
+		check(`${label}: no JavaScript errors`, errors.length === 0, errors.join(' | '));
+		await context.close();
+	}
+
+	/* ---------------- Mini cart drawer ---------------- */
+	for (const [viewport, path] of [['desktop', '/'], ['mobile', '/'], ['mobile', '/ar/']]) {
+		const label = `mini cart ${path === '/' ? 'EN' : 'AR'} ${viewport}`;
+		console.log(`\n${label}`);
+		const { page, context, errors } = await open(path, { viewport, cookies: { qt_cart: '101:1011:1' } });
+		await page.click('.qil-bag > a');
+		await page.waitForSelector('.cart-widget-side.wd-opened', { timeout: 4000 });
+		await page.waitForTimeout(450);
+		const ladder = await text(page, '.qil-boost-mini');
+		check(`${label}: "Add 0.101 more → get 3 OMR cashback"`, path === '/' ? /Add\s+0\.101.*more.*get\s+3 OMR cashback/s.test(ladder) : /أضف/.test(ladder) && /0\.101/.test(ladder), ladder);
+		check(`${label}: three related picks that reach the next band`, (await page.locator('.cart-widget-side .qil-boost-pick').count()) === 3);
+		const fit = await page.evaluate(() => {
+			const drawer = document.querySelector('.cart-widget-side'), box = drawer.getBoundingClientRect();
+			const rows = [...drawer.querySelectorAll('.qil-boost-ladder, .qil-boost-pick, .qil-boost-add')].map(node => node.getBoundingClientRect());
+			return { width: Math.round(box.width), overflow: drawer.scrollWidth > drawer.clientWidth + 1, outside: rows.filter(r => r.left < box.left - 1 || r.right > box.right + 1).length };
+		});
+		check(`${label}: ladder and picks fit the ${viewport === 'desktop' ? '340' : '300'}px WoodMart drawer`, !fit.overflow && fit.outside === 0 && fit.width === (viewport === 'desktop' ? 340 : 300), JSON.stringify(fit));
+		await page.locator('.cart-widget-side').screenshot({ path: join(shots, `minicart-${path === '/' ? 'en' : 'ar'}-${viewport}.png`) });
+		if (path === '/' && viewport === 'desktop') {
+			await page.click('.cart-widget-side .qil-boost-pick .ajax_add_to_cart >> nth=0');
+			await page.waitForFunction(() => /4\.121/.test(document.querySelector('.qil-boost-mini')?.textContent || ''), null, { timeout: 5000 }).catch(() => {});
+			const after = await text(page, '.qil-boost-mini');
+			check(`${label}: one tap adds creatine; ladder moves on (add 4.121 → 4 OMR)`, /4\.121/.test(after) && /4 OMR/.test(after), after);
+		}
+		check(`${label}: no JavaScript errors`, errors.length === 0, errors.join(' | '));
+		await context.close();
+	}
+
+	/* ---------------- Quick view from a variable pick ---------------- */
+	{
+		console.log('\nvariable pick → Quick View');
+		const { page, context, errors } = await open('/', { cookies: { qt_cart: '102:0:1' } });
+		await page.click('.qil-bag > a');
+		await page.waitForSelector('.cart-widget-side.wd-opened');
+		const options = page.locator('.cart-widget-side .qil-boost-add.is-options').first();
+		check('variable pick offers "Options" (no product page needed)', await options.count() === 1);
+		await options.click();
+		await page.waitForSelector('[data-qil-quick-view-modal]:not([hidden]) [data-qil-variation-attribute]', { timeout: 5000 }).catch(() => {});
+		check('Quick View opens in place with the option picker', (await page.locator('[data-qil-quick-view-modal]:not([hidden]) [data-qil-variation-attribute]').count()) > 0, await text(page, '[data-qil-quick-view-modal]'));
+		const select = page.locator('[data-qil-quick-view-modal] [data-qil-variation-attribute]').first();
+		if (await select.count()) {
+			await select.selectOption({ index: 1 });
+			await page.waitForSelector('[data-qil-qv-add][aria-disabled="false"]', { timeout: 5000 }).catch(() => {});
+			await page.click('[data-qil-qv-add][aria-disabled="false"]').catch(() => {});
+			await page.waitForTimeout(900);
+			const cart = decodeURIComponent((await context.cookies()).find(c => c.name === 'qt_cart')?.value || '');
+			check('chosen variation is added to the order', /101:101\d:1/.test(cart), cart);
+		}
+		check('no JavaScript errors (quick view flow)', errors.length === 0, errors.join(' | '));
+		await context.close();
+	}
+
+	/* ---------------- Cart page ---------------- */
+	for (const [viewport, path] of [['desktop', '/cart/'], ['mobile', '/cart/'], ['desktop', '/ar/cart/']]) {
+		const label = `cart page ${path.startsWith('/ar') ? 'AR' : 'EN'} ${viewport}`;
+		console.log(`\n${label}`);
+		const { page, context, errors } = await open(path, { viewport, cookies: { qt_cart: '102:0:1' } });
+		check(`${label}: ladder panel with six steps in the totals`, (await page.locator('.cart_totals .qil-boost-steps li').count()) === 6);
+		const ladderIds = await page.locator('.cart_totals [data-qil-boost-product]').evaluateAll(nodes => nodes.map(n => n.dataset.qilBoostProduct));
+		const bandIds = await page.locator('.qil-boost-stack [data-qil-boost-product]').evaluateAll(nodes => nodes.map(n => n.dataset.qilBoostProduct));
+		check(`${label}: 3 products that reach the next band`, ladderIds.length === 3, ladderIds);
+		check(`${label}: Complete your stack with 2–4 complements`, bandIds.length >= 2 && bandIds.length <= 4, bandIds);
+		check(`${label}: nothing shown twice`, !bandIds.some(id => ladderIds.includes(id)), `${ladderIds} / ${bandIds}`);
+		const order = await page.evaluate(rtl => [...document.querySelectorAll('.qil-boost-price')].filter(row => row.querySelector('small') && row.querySelector('strong')).map(row => {
+			const a = row.querySelector('small').getBoundingClientRect(), b = row.querySelector('strong').getBoundingClientRect();
+			if (b.top >= a.bottom - 1) return true; // wrapped: the price is on a later line
+			if (a.top >= b.bottom - 1) return false;
+			return rtl ? a.right > b.right : a.left < b.left;
+		}), path.startsWith('/ar'));
+		check(`${label}: "From" reads before the price in this language`, order.length > 0 && order.every(Boolean), JSON.stringify(order));
+		const shell = await page.evaluate(() => { const node = document.querySelector('.qil-personal-cart-shell'); const section = node?.querySelector('[data-qil-personal]'); return node ? { height: Math.round(node.getBoundingClientRect().height), empty: !section || section.hidden } : null; });
+		check(`${label}: an empty personal shelf reserves no screen-tall gap`, !shell || !shell.empty || shell.height < 40, JSON.stringify(shell));
+		check(`${label}: no horizontal overflow`, await noOverflow(page));
+		await page.screenshot({ path: join(shots, `cart-${path.startsWith('/ar') ? 'ar' : 'en'}-${viewport}.png`), fullPage: true });
+		if (viewport === 'desktop' && !path.startsWith('/ar')) {
+			await page.click('.qil-boost-stack .ajax_add_to_cart >> nth=0');
+			await page.waitForSelector('.qil-boost-stack .qil-boost-card.is-added', { timeout: 5000 }).catch(() => {});
+			check(`${label}: "Add to my order" adds without leaving the cart`, (await page.locator('.qil-boost-stack .qil-boost-card.is-added').count()) === 1 && (await page.locator('.qil-boost-stack a.added_to_cart').count()) === 0);
+		}
+		check(`${label}: no JavaScript errors`, errors.length === 0, errors.join(' | '));
+		await context.close();
+	}
+} catch (error) {
+	check('browser run completed', false, error?.stack || error);
+} finally {
+	await browser.close();
+	server.kill();
+}
+
+const phpErrors = serverLog.split('\n').filter(line => /PHP (Fatal|Warning|Notice|Deprecated)/.test(line));
+check('router: no PHP errors, warnings or notices during the run', phpErrors.length === 0, phpErrors.slice(0, 5).join('\n'));
+console.log(`\n${results.passed} passed, ${results.failed} failed. Screenshots: ${shots}`);
+if (resultsFile) writeFileSync(resultsFile, JSON.stringify(results, null, 2) + '\n');
+process.exit(results.failed ? 1 : 0);

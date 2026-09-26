@@ -243,11 +243,14 @@
 	}
 	function setupThemeAjaxLanguage() {
 		const jq = window.jQuery;
-		if (!jq || typeof jq.ajaxSend !== 'function') return;
+		// .ajaxSend() lives on jQuery.fn; the static jQuery.ajaxSend never exists.
+		if (!jq || !jq.fn || typeof jq.fn.ajaxSend !== 'function') return;
 		jq(document).ajaxSend((event, xhr, settings) => {
-			const url = String(settings?.url || '');
-			// Same-origin only: never leak the page language to a third party.
-			if (/^https?:\/\//i.test(url) && !url.startsWith(window.location.origin)) return;
+			let target;
+			try { target = new URL(String(settings?.url || ''), window.location.href); } catch (error) { return; }
+			// Same-origin only: never leak the page language to a third party
+			// (and never turn a cross-origin call into a preflighted one).
+			if (target.origin !== window.location.origin) return;
 			try { xhr.setRequestHeader('X-Qimia-Language', state.lang === 'ar' ? 'ar' : 'en'); } catch (error) { /* header already sent */ }
 		});
 	}
@@ -3194,10 +3197,16 @@
 
 
     // Bounded presentation bridge: one existing card renderer and exact-item
-    // registry. No public catalogue mutation or persistent customer storage.
-    if (config.personalizationEnabled) window.QILCards = Object.freeze({
-        version: 1,
+    // registry. No persistent customer storage. Also used by the 1.18 sales
+    // sections, so it no longer depends on the personalization switch;
+    // qil-personalization.js keeps its own personalizationEnabled guard.
+    window.QILCards = Object.freeze({
+        version: 2,
         render: productCard,
+        // Public catalogue records delivered with a section join the page index,
+        // so Quick View, Compare and Qimia AI resolve them like any other card.
+        upsert: records => upsertProducts(Array.isArray(records) ? records.slice(0, 48) : []),
+        product: id => actionProduct(String(id)) || null,
         // Reuse public catalogue records already delivered for this page.
         // Never read purchase history or fetch another catalogue for guests.
         publicSelections(excluded = []) {

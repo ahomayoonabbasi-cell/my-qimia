@@ -66,6 +66,8 @@
       excluded.push(...ids(C.collections?.related || []));
       document.querySelectorAll('.related.products [data-product_id],.related.products [data-product-id]').forEach(n => excluded.push(n.dataset.product_id || n.dataset.productId));
     }
+    // The cart's cashback ladder and "Complete your stack" already show these.
+    if (surface === 'cart') document.querySelectorAll('[data-qil-boost-product]').forEach(n => excluded.push(n.dataset.qilBoostProduct));
     return {surface, locale:lang(), current:Number(C.productId || 0),
       selected:Number(task.selected_product || task.product_id || 0),
       compare:ids([...cards.context().compare, ...(task.compare_ids || task.compare || [])], 3),

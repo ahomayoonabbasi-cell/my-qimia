@@ -1,0 +1,695 @@
+{
+    "version": "1.18.0",
+    "php": "8.4.19",
+    "passed": 136,
+    "failed": 0,
+    "tests": [
+        {
+            "name": "plugin version is 1.18.0",
+            "ok": true,
+            "detail": ""
+        },
+        {
+            "name": "class QIL_Boost loaded",
+            "ok": true,
+            "detail": ""
+        },
+        {
+            "name": "class QIL_Flash_Drop loaded",
+            "ok": true,
+            "detail": ""
+        },
+        {
+            "name": "class QIL_Member loaded",
+            "ok": true,
+            "detail": ""
+        },
+        {
+            "name": "class QIL_Stacks loaded",
+            "ok": true,
+            "detail": ""
+        },
+        {
+            "name": "class QIL_Cashback loaded",
+            "ok": true,
+            "detail": ""
+        },
+        {
+            "name": "class QIL_Personalization loaded",
+            "ok": true,
+            "detail": ""
+        },
+        {
+            "name": "mini-cart ladder hook registered",
+            "ok": true,
+            "detail": ""
+        },
+        {
+            "name": "cart totals panel hook registered",
+            "ok": true,
+            "detail": ""
+        },
+        {
+            "name": "flash drop REST route registered after rest_api_init",
+            "ok": true,
+            "detail": ""
+        },
+        {
+            "name": "[ladder] value 27.6 OMR → band #1, earns 3, next 4 after adding 2.401",
+            "ok": true,
+            "detail": ""
+        },
+        {
+            "name": "[ladder] value 20 OMR → band #0, earns 2, next 3 after adding 0.001",
+            "ok": true,
+            "detail": ""
+        },
+        {
+            "name": "[ladder] value 20.001 OMR → band #1, earns 3, next 4 after adding 10",
+            "ok": true,
+            "detail": ""
+        },
+        {
+            "name": "[ladder] value 30 OMR → band #1, earns 3, next 4 after adding 0.001",
+            "ok": true,
+            "detail": ""
+        },
+        {
+            "name": "[ladder] value 60 OMR → band #4, earns 6, next 8 after adding 0.001",
+            "ok": true,
+            "detail": ""
+        },
+        {
+            "name": "[ladder] value 0.5 OMR → band #0, earns 2, next 3 after adding 19.501",
+            "ok": true,
+            "detail": ""
+        },
+        {
+            "name": "[ladder] value 45.25 OMR → band #3, earns 5, next 6 after adding 4.751",
+            "ok": true,
+            "detail": ""
+        },
+        {
+            "name": "[ladder] 60.001 OMR is the top band: 8 OMR, no next step",
+            "ok": true,
+            "detail": ""
+        },
+        {
+            "name": "[ladder] empty / zero value gives no ladder",
+            "ok": true,
+            "detail": ""
+        },
+        {
+            "name": "[ladder] gap is formatted by WooCommerce with store decimals (2.401)",
+            "ok": true,
+            "detail": ""
+        },
+        {
+            "name": "[ladder_sar:SAR:2] 250 SAR (rate 9.75) is band #1 (3 OMR); next 4 OMR",
+            "ok": true,
+            "detail": ""
+        },
+        {
+            "name": "[ladder_sar:SAR:2] foreign gap is whole units rounded up (43 SAR)",
+            "ok": true,
+            "detail": ""
+        },
+        {
+            "name": "[ladder_sar:SAR:2] 250 + 43 SAR really exceeds 30 OMR",
+            "ok": true,
+            "detail": ""
+        },
+        {
+            "name": "[ladder_sar:SAR:2] foreign gap is marked approximate",
+            "ok": true,
+            "detail": ""
+        },
+        {
+            "name": "[ladder_sar:SAR:2] reward shown in SAR as approximate",
+            "ok": true,
+            "detail": ""
+        },
+        {
+            "name": "[ladder_property:OMR:3] adding the shown amount always reaches the promised band, and one unit less never does (5,000 random carts)",
+            "ok": true,
+            "detail": ""
+        },
+        {
+            "name": "[ladder_property:OMR:2] adding the shown amount always reaches the promised band, and one unit less never does (5,000 random carts)",
+            "ok": true,
+            "detail": ""
+        },
+        {
+            "name": "[ladder_property:SAR:2] adding the shown amount always reaches the promised band (5,000 random carts)",
+            "ok": true,
+            "detail": ""
+        },
+        {
+            "name": "[picks] whey 19.900 → earns 2 OMR, add 0.101 for 3 OMR",
+            "ok": true,
+            "detail": ""
+        },
+        {
+            "name": "[picks] cart role is protein",
+            "ok": true,
+            "detail": ""
+        },
+        {
+            "name": "[picks] ladder picks = creatine, multivitamin, shaker (related first, cheapest that reaches)",
+            "ok": true,
+            "detail": ""
+        },
+        {
+            "name": "[picks] every ladder pick alone reaches the next band",
+            "ok": true,
+            "detail": ""
+        },
+        {
+            "name": "[picks] cart product, hidden and sold-out products are never picked",
+            "ok": true,
+            "detail": ""
+        },
+        {
+            "name": "[picks] Whey → Creatine first, then Pre-workout, Multivitamin",
+            "ok": true,
+            "detail": ""
+        },
+        {
+            "name": "[picks] Fat burner → Multivitamin",
+            "ok": true,
+            "detail": ""
+        },
+        {
+            "name": "[picks] Magnesium → Ashwagandha",
+            "ok": true,
+            "detail": ""
+        },
+        {
+            "name": "[picks] Creatine → Whey / protein",
+            "ok": true,
+            "detail": ""
+        },
+        {
+            "name": "[picks] Magnesium stack includes daily-wellness complements after Ashwagandha",
+            "ok": true,
+            "detail": ""
+        },
+        {
+            "name": "[minicart] empty mini cart is untouched (no Qimia block)",
+            "ok": true,
+            "detail": ""
+        },
+        {
+            "name": "[minicart] ladder at the top of the drawer",
+            "ok": true,
+            "detail": ""
+        },
+        {
+            "name": "[minicart] message: Add 0.101 more → get 3 OMR cashback",
+            "ok": true,
+            "detail": ""
+        },
+        {
+            "name": "[minicart] ladder printed exactly once",
+            "ok": true,
+            "detail": ""
+        },
+        {
+            "name": "[minicart] three picks after the items, inside the list",
+            "ok": true,
+            "detail": ""
+        },
+        {
+            "name": "[minicart] simple pick uses WooCommerce AJAX add (product 102)",
+            "ok": true,
+            "detail": ""
+        },
+        {
+            "name": "[minicart] pick rows are not counted as cart items",
+            "ok": true,
+            "detail": ""
+        },
+        {
+            "name": "[minicart] progress bar is accessible",
+            "ok": true,
+            "detail": ""
+        },
+        {
+            "name": "[minicart] honest note: eligible paid orders",
+            "ok": true,
+            "detail": ""
+        },
+        {
+            "name": "[minicart] fallback: ladder rendered with the picks when the top hook is missing",
+            "ok": true,
+            "detail": ""
+        },
+        {
+            "name": "[minicart] variable pick carries a Quick View record (id, name, url, variable, price)",
+            "ok": true,
+            "detail": ""
+        },
+        {
+            "name": "[minicart_ar] Arabic drawer block is RTL and not machine-translated",
+            "ok": true,
+            "detail": ""
+        },
+        {
+            "name": "[minicart_ar] Arabic message and Arabic-Indic cashback amount",
+            "ok": true,
+            "detail": ""
+        },
+        {
+            "name": "[lang_ajax:/ar/] fragment language: https://qimia.om/ar/ header=none → ar",
+            "ok": true,
+            "detail": ""
+        },
+        {
+            "name": "[lang_ajax:/ar/cart/] fragment language: https://qimia.om/ar/cart/ header=none → ar",
+            "ok": true,
+            "detail": ""
+        },
+        {
+            "name": "[lang_ajax:/] fragment language: https://qimia.om/ header=none → en",
+            "ok": true,
+            "detail": ""
+        },
+        {
+            "name": "[lang_ajax:/arabic-oils/] fragment language: https://qimia.om/arabic-oils/ header=none → en",
+            "ok": true,
+            "detail": ""
+        },
+        {
+            "name": "[lang_ajax:/ar/:en] fragment language: https://qimia.om/ar/ header=en → en",
+            "ok": true,
+            "detail": ""
+        },
+        {
+            "name": "[lang_ajax:/:ar] fragment language: https://qimia.om/ header=ar → ar",
+            "ok": true,
+            "detail": ""
+        },
+        {
+            "name": "[cartpage] totals panel: full ladder with six steps, current step marked",
+            "ok": true,
+            "detail": ""
+        },
+        {
+            "name": "[cartpage] panel shows 3 products that reach the next band",
+            "ok": true,
+            "detail": ""
+        },
+        {
+            "name": "[cartpage] Complete your stack: 2–4 complements",
+            "ok": true,
+            "detail": ""
+        },
+        {
+            "name": "[cartpage] no product is shown twice on the cart page (hook-order safe)",
+            "ok": true,
+            "detail": ""
+        },
+        {
+            "name": "[cartpage] band title names the paired role (Creatine)",
+            "ok": true,
+            "detail": ""
+        },
+        {
+            "name": "[cartpage] band buttons say \"Add to my order\"",
+            "ok": true,
+            "detail": ""
+        },
+        {
+            "name": "[cartpage] panel is printed once per request",
+            "ok": true,
+            "detail": ""
+        },
+        {
+            "name": "[fragments] cart page refresh includes the ladder panel fragment",
+            "ok": true,
+            "detail": ""
+        },
+        {
+            "name": "[fragments] Arabic cart page too",
+            "ok": true,
+            "detail": ""
+        },
+        {
+            "name": "[fragments] other pages pay nothing (no panel fragment)",
+            "ok": true,
+            "detail": ""
+        },
+        {
+            "name": "[flash] candidates are real reductions only (13): no <5%, no image-less, no sold-out",
+            "ok": true,
+            "detail": ""
+        },
+        {
+            "name": "[flash] percent is computed from WooCommerce prices (201: 30.000 → 22.500 = 25%)",
+            "ok": true,
+            "detail": ""
+        },
+        {
+            "name": "[flash] mixed variations are \"up to\" (216: up to 25%)",
+            "ok": true,
+            "detail": ""
+        },
+        {
+            "name": "[flash] real stock from managed quantity (201: 10; 216: 4+3)",
+            "ok": true,
+            "detail": ""
+        },
+        {
+            "name": "[flash] real sale end only where one exists (201 in ~30h, 202 none)",
+            "ok": true,
+            "detail": ""
+        },
+        {
+            "name": "[flash] 72-hour window aligned to the Oman anchor",
+            "ok": true,
+            "detail": ""
+        },
+        {
+            "name": "[flash] drop has 10 distinct eligible products",
+            "ok": true,
+            "detail": ""
+        },
+        {
+            "name": "[flash] rotation is scheduled for the real end of the drop",
+            "ok": true,
+            "detail": ""
+        },
+        {
+            "name": "[flash] selection is stable within the window",
+            "ok": true,
+            "detail": ""
+        },
+        {
+            "name": "[flash] payload: 10 card records in drop order with facts",
+            "ok": true,
+            "detail": ""
+        },
+        {
+            "name": "[flash] section: FLASH SALE — 72 HOURS, live clock to the window end",
+            "ok": true,
+            "detail": ""
+        },
+        {
+            "name": "[flash] section: Ask Qimia AI boots the assistant",
+            "ok": true,
+            "detail": ""
+        },
+        {
+            "name": "[flash] homepage receives the drop with the page (no AJAX)",
+            "ok": true,
+            "detail": ""
+        },
+        {
+            "name": "[flash] REST feed: 10 products with Instagram UTM links",
+            "ok": true,
+            "detail": ""
+        },
+        {
+            "name": "[flash] REST feed carries real regular price and percent",
+            "ok": true,
+            "detail": ""
+        },
+        {
+            "name": "[flash] Instagram caption lists every product",
+            "ok": true,
+            "detail": ""
+        },
+        {
+            "name": "[flash] Qimia AI context lists the drop",
+            "ok": true,
+            "detail": ""
+        },
+        {
+            "name": "[flash] size is limited to 8–12",
+            "ok": true,
+            "detail": ""
+        },
+        {
+            "name": "[flash_rotation] a new window leads with products not in the previous drop",
+            "ok": true,
+            "detail": ""
+        },
+        {
+            "name": "[flash_rotation] still 10 products (previous ones only fill the rest)",
+            "ok": true,
+            "detail": ""
+        },
+        {
+            "name": "[flash_rotation] rotation purges exactly the two cached homepages",
+            "ok": true,
+            "detail": ""
+        },
+        {
+            "name": "[flash_rotation] saving an unrelated setting never reshuffles a live drop",
+            "ok": true,
+            "detail": ""
+        },
+        {
+            "name": "[flash_rotation] changing a flash setting re-chooses the drop",
+            "ok": true,
+            "detail": ""
+        },
+        {
+            "name": "[flash_soldout] a product that sells out leaves the drop and is replaced",
+            "ok": true,
+            "detail": ""
+        },
+        {
+            "name": "[member_wallet] wallet reads only this account's unused, unexpired cashback (soonest expiry first)",
+            "ok": true,
+            "detail": ""
+        },
+        {
+            "name": "[member_wallet] wallet: 3 coupons, total 9 OMR, use 4 OMR first (expires in 5 days)",
+            "ok": true,
+            "detail": ""
+        },
+        {
+            "name": "[member_wallet] coupon codes never leave the server",
+            "ok": true,
+            "detail": ""
+        },
+        {
+            "name": "[member_wallet] each credit is listed for its own order: amount + days left, soonest first",
+            "ok": true,
+            "detail": ""
+        },
+        {
+            "name": "[member_wallet] strict mode can be configured",
+            "ok": true,
+            "detail": ""
+        },
+        {
+            "name": "[member_wallet] an issuer list can never expose another customer's coupon",
+            "ok": true,
+            "detail": ""
+        },
+        {
+            "name": "[member_wallet] guests have no wallet",
+            "ok": true,
+            "detail": ""
+        },
+        {
+            "name": "[member_wallet_strict] strict mode: only coupons the cashback issuer marked (shape alone is not enough)",
+            "ok": true,
+            "detail": ""
+        },
+        {
+            "name": "[member_apply] a bad nonce is refused",
+            "ok": true,
+            "detail": ""
+        },
+        {
+            "name": "[member_apply] another customer's coupon is refused",
+            "ok": true,
+            "detail": ""
+        },
+        {
+            "name": "[member_apply] empty cart: cashback is saved as pending",
+            "ok": true,
+            "detail": ""
+        },
+        {
+            "name": "[member_apply] first product added: pending cashback is applied automatically",
+            "ok": true,
+            "detail": ""
+        },
+        {
+            "name": "[member_apply] cart total now 5.980 − 4 = 1.980",
+            "ok": true,
+            "detail": ""
+        },
+        {
+            "name": "[member_apply] below the coupon minimum: pending with the minimum stated",
+            "ok": true,
+            "detail": ""
+        },
+        {
+            "name": "[member_apply] minimum reached: applied automatically",
+            "ok": true,
+            "detail": ""
+        },
+        {
+            "name": "[member_apply] non-empty cart: applied at once, with fragments",
+            "ok": true,
+            "detail": ""
+        },
+        {
+            "name": "[member_apply] the shopper's earlier notices are kept",
+            "ok": true,
+            "detail": ""
+        },
+        {
+            "name": "[member_running] Running low lists the multivitamin (runs out now) then the pre-workout (in ~4 days)",
+            "ok": true,
+            "detail": ""
+        },
+        {
+            "name": "[member_running] estimate uses label servings × quantity ÷ per day (pre-workout 30 servings, 5/week)",
+            "ok": true,
+            "detail": ""
+        },
+        {
+            "name": "[member_running] exact previous selection (flavour) and variation id",
+            "ok": true,
+            "detail": ""
+        },
+        {
+            "name": "[member_running] products without a verified serving count are never estimated (whey)",
+            "ok": true,
+            "detail": ""
+        },
+        {
+            "name": "[member_running] products not due yet are not shown (creatine, magnesium)",
+            "ok": true,
+            "detail": ""
+        },
+        {
+            "name": "[member_running] a product already in the cart is not suggested again",
+            "ok": true,
+            "detail": ""
+        },
+        {
+            "name": "[member_ajax] guest: no private data",
+            "ok": true,
+            "detail": ""
+        },
+        {
+            "name": "[member_ajax] signed in: wallet, running low and nonces in one response",
+            "ok": true,
+            "detail": ""
+        },
+        {
+            "name": "[member_ajax] best ways to use it: compared + viewed products first, unknown ids dropped",
+            "ok": true,
+            "detail": ""
+        },
+        {
+            "name": "[member_ajax] reasons are labelled",
+            "ok": true,
+            "detail": ""
+        },
+        {
+            "name": "[member_ajax] requests without the storefront marker are refused",
+            "ok": true,
+            "detail": ""
+        },
+        {
+            "name": "[stacks] in-stock stacks from the stack category (sold-out one excluded)",
+            "ok": true,
+            "detail": ""
+        },
+        {
+            "name": "[stacks] Muscle Starter: Whey + Creatine read from the bundle plugin",
+            "ok": true,
+            "detail": ""
+        },
+        {
+            "name": "[stacks] Recovery Pack: contents from the Growth map, separately 12.660",
+            "ok": true,
+            "detail": ""
+        },
+        {
+            "name": "[stacks] Daily Essentials: no known contents → no \"separately\"; real sale shown as \"was\"",
+            "ok": true,
+            "detail": ""
+        },
+        {
+            "name": "[stacks] cashback tier from the issuer: 24.9 → 3, 11.9 → 2, 34.9 → 4 OMR",
+            "ok": true,
+            "detail": ""
+        },
+        {
+            "name": "[stacks] section shows separately, was, savings and cashback",
+            "ok": true,
+            "detail": ""
+        },
+        {
+            "name": "[stacks] simple stacks add in one tap",
+            "ok": true,
+            "detail": ""
+        },
+        {
+            "name": "[admin] Growth tab renders settings, flash preview, captions and stack assistant",
+            "ok": true,
+            "detail": ""
+        },
+        {
+            "name": "[admin] issuer bands are listed (≤20 → 2 … >60 → 8)",
+            "ok": true,
+            "detail": ""
+        },
+        {
+            "name": "[admin] price points 24.9–64.9 with their cashback",
+            "ok": true,
+            "detail": ""
+        },
+        {
+            "name": "[admin] non-admins see nothing",
+            "ok": true,
+            "detail": ""
+        },
+        {
+            "name": "[xss] no product name can inject markup into any new surface",
+            "ok": true,
+            "detail": ""
+        },
+        {
+            "name": "[xss] the product itself is still shown (tags stripped, text kept)",
+            "ok": true,
+            "detail": ""
+        },
+        {
+            "name": "[disabled] QIL_BOOST_DISABLE: mini cart is exactly WooCommerce's",
+            "ok": true,
+            "detail": ""
+        },
+        {
+            "name": "[disabled] QIL_BOOST_DISABLE: no flash section, no member hub, no stacks",
+            "ok": true,
+            "detail": ""
+        },
+        {
+            "name": "[perf] pool is bounded (≤ 280 rows)",
+            "ok": true,
+            "detail": ""
+        },
+        {
+            "name": "[perf] warm mini-cart render with ladder + picks stays well under 10 ms",
+            "ok": true,
+            "detail": ""
+        }
+    ],
+    "metrics": {
+        "perf": {
+            "pool_rows": 280,
+            "pool_cold_build_ms": 12.2,
+            "mini_cart_render_ms_avg": 0.06
+        }
+    }
+}

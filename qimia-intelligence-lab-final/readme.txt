@@ -2,11 +2,27 @@
 Contributors: qimia
 Requires at least: 6.2
 Requires PHP: 8.1
-Stable tag: 1.17.6
+Stable tag: 1.18.0
 License: GPL-2.0-or-later
 
 Bilingual Qimia storefront, separated from the My Qimia workspace.
 Full replacement of the supplied Lab plugin, not a second Lab installation.
+
+== Release 1.18.0 ==
+Sales release. Mini cart and cart page: an exact cashback ladder from the issuer's
+own bands ("Add 2.400 OMR more → get 4 OMR cashback") with up to three related
+products that reach the next band in one tap, and a rule-based "Complete your stack"
+band with "Add to my order" (Creatine → Whey / Pre-workout, Whey → Creatine, Fat
+burner → Multivitamin / Protein, Magnesium → Ashwagandha / Daily wellness). Homepage:
+a rotating "FLASH SALE — 72 HOURS" drop of 8–12 products with real prices, discounts,
+stock and end time (plus Instagram links and a JSON feed), a cashback wallet for
+signed-in shoppers ("You have 4 OMR cashback" → Shop with cashback, codes never
+shown), "Running low?" reorders of the exact product, flavour and size, and cashback
+stacks with their contents, real value and cashback tier. No extra request for
+guests; cart surfaces ride on WooCommerce fragments. Also fixes the page-language
+header on WooCommerce AJAX and an empty screen-tall gap under the cart. Settings →
+Qimia Intelligence Lab → Growth; define QIL_BOOST_DISABLE to switch everything off.
+See RELEASE-1.18.0.md and docs/VERIFICATION-1.18.0.md.
 
 == Release 1.17.6 ==
 CPU-only repeat-context optimization. Shop, category, search and brand browsing no

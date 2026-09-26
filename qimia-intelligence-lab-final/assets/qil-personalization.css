@@ -10,8 +10,10 @@
 .qil-unified-shopping-ready [data-qh-home][data-qmq-home-layout="compact-shelf-v1"] .qmq-home-shelf{display:none!important}
 @media(prefers-reduced-motion:reduce){.qil-personal-section *{scroll-behavior:auto!important}}
 
-/* Standalone adapters must not inherit the full-home viewport minimum. */
-.qil-shell.qil-personal-cart-shell,.qil-shell.qil-personal-pdp-shell{min-height:0;background:transparent}
+/* Standalone adapters must not inherit the full-home viewport minimum.
+   1.18.0: :is(#qimia-lab,.qil-shell) in qil.css carries ID specificity, so the
+   override needs it too (a plain .qil-shell.x selector never won). */
+:is(#qimia-lab,.qil-shell).qil-personal-cart-shell,:is(#qimia-lab,.qil-shell).qil-personal-pdp-shell{min-height:0;background:transparent}
 
 /* 1.13.1: only the personal Home/Product shelves, not other product rails.
    Keep the existing native scroll-snap rail and card skin. Five full cards

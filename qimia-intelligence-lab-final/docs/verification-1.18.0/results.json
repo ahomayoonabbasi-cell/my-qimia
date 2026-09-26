@@ -1,0 +1,65 @@
+{
+ "version": "1.18.0",
+ "scope": "cart cashback ladder, complete your stack, flash drop, cashback wallet, running low, cashback stacks; ajaxSend language header and personal-shelf height fixes",
+ "php_syntax": {
+  "passed": 26,
+  "failed": 0
+ },
+ "javascript_syntax": {
+  "passed": 16,
+  "failed": 0
+ },
+ "php_scenarios": {
+  "passed": 136,
+  "failed": 0,
+  "runtime": "PHP 8.4.19",
+  "details": "php-harness.json"
+ },
+ "chromium": {
+  "passed": 133,
+  "failed": 0,
+  "runtime": "Chromium via Playwright 1.56.1",
+  "details": "browser.json"
+ },
+ "checks": {
+  "ladder_exact_integer_units_property_15000_carts": true,
+  "ladder_uses_cashback_issuer_policy": true,
+  "ladder_shipping_excluded_safe_side": true,
+  "ladder_no_extra_request_rides_on_fragments": true,
+  "ladder_picks_reach_next_band_related_first": true,
+  "ladder_fits_woodmart_drawer_340_300": true,
+  "arabic_rtl_including_fragment_refresh": true,
+  "stack_rules_whey_creatine_fatburner_magnesium": true,
+  "stack_one_tap_add_no_duplicates_with_ladder": true,
+  "cart_page_no_horizontal_overflow_390": true,
+  "flash_real_prices_percent_stock_end_only": true,
+  "flash_8_to_12_products_72h_oman_window": true,
+  "flash_rotation_new_products_purges_two_homepages": true,
+  "flash_clock_absolute_end_idle_off_screen": true,
+  "flash_honest_ended_state": true,
+  "flash_instagram_utm_feed_and_captions": true,
+  "flash_qimia_ai_context": true,
+  "guest_homepage_zero_extra_requests": true,
+  "wallet_own_coupons_only_codes_never_sent": true,
+  "wallet_pending_until_cart_qualifies": true,
+  "wallet_credits_listed_with_days_and_minimum": true,
+  "member_single_idle_private_request": true,
+  "running_low_verified_servings_exact_variation": true,
+  "buy_again_uses_existing_verified_endpoint": true,
+  "stacks_separately_only_when_all_components_known": true,
+  "stacks_cashback_tier_from_issuer": true,
+  "xss_safe_new_surfaces": true,
+  "qil_boost_disable_restores_1_17_6_output": true,
+  "reduced_motion_respected_including_pseudo_elements": true,
+  "fix_ajaxsend_language_header_guard": true,
+  "fix_personal_shell_min_height_specificity": true
+ },
+ "metrics_harness_only": {
+  "pool_rows": 280,
+  "pool_cold_build_ms": 12.2,
+  "mini_cart_render_ms_avg": 0.06
+ },
+ "production_deployed": false,
+ "production_load_tested": false,
+ "live_wordpress_woocommerce_woodmart_tested": false
+}

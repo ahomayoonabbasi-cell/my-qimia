@@ -2,7 +2,7 @@
 /** Public cashback section. $view contains an allowlisted, presentation-only model. */
 defined( 'ABSPATH' ) || exit;
 ?>
-<section class="qil-cashback qaatm-no-translate notranslate" dir="<?php echo esc_attr($view['direction']); ?>" lang="<?php echo esc_attr($view['locale']); ?>" translate="no" data-qaatm-no-rewrite data-no-translation aria-labelledby="<?php echo esc_attr($title_id); ?>" data-qil-cashback-currency="<?php echo esc_attr($view['currency']); ?>">
+<section id="qil-cashback" class="qil-cashback qaatm-no-translate notranslate" dir="<?php echo esc_attr($view['direction']); ?>" lang="<?php echo esc_attr($view['locale']); ?>" translate="no" data-qaatm-no-rewrite data-no-translation aria-labelledby="<?php echo esc_attr($title_id); ?>" data-qil-cashback-currency="<?php echo esc_attr($view['currency']); ?>">
 	<div class="qil-cashback__wrap">
 		<div class="qil-cashback__panel">
 			<header class="qil-cashback__header">

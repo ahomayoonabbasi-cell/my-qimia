@@ -2,7 +2,7 @@
 /**
  * Plugin Name: Qimia Intelligence Lab
  * Description: The bilingual intelligent Qimia storefront, with isolated staging protections.
- * Version: 1.17.6
+ * Version: 1.18.0
  * Author: Qimia
  * Text Domain: qimia-intelligence-lab
  * Requires at least: 6.2
@@ -11,7 +11,7 @@
 
 defined( 'ABSPATH' ) || exit;
 
-define( 'QIL_VERSION', '1.17.6' );
+define( 'QIL_VERSION', '1.18.0' );
 define( 'QIL_SCHEMA_VERSION', 15 );
 define( 'QIL_FILE', __FILE__ );
 define( 'QIL_DIR', plugin_dir_path( __FILE__ ) );
@@ -35,6 +35,12 @@ require_once QIL_DIR . 'includes/customer-experience.php';
 require_once QIL_DIR . 'includes/commerce-continuity.php';
 require_once QIL_DIR . 'includes/personalization.php';
 require_once QIL_DIR . 'includes/customer-brain.php';
+// 1.18.0 sales features: cart cashback ladder + stack completion, flash drop,
+// member wallet / replenishment and cashback stacks. QIL_BOOST_DISABLE stops all four.
+require_once QIL_DIR . 'includes/commerce-boost.php';
+require_once QIL_DIR . 'includes/flash-drop.php';
+require_once QIL_DIR . 'includes/member-hub.php';
+require_once QIL_DIR . 'includes/cashback-stacks.php';
 
 /**
  * Normalize the request host for storefront eligibility and sandbox isolation.

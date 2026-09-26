@@ -49,13 +49,19 @@ $qil_context = qil_view_context();
 		<?php
 		echo qil_section_hero(); // phpcs:ignore WordPress.Security.EscapeOutput.OutputNotEscaped
 		echo qil_section_category_rail(); // phpcs:ignore WordPress.Security.EscapeOutput.OutputNotEscaped
+		// 72-hour flash drop: real reductions only; hidden when fewer than four qualify.
+		echo class_exists( 'QIL_Flash_Drop' ) ? QIL_Flash_Drop::section() : ''; // phpcs:ignore WordPress.Security.EscapeOutput.OutputNotEscaped
 		echo qil_section_goal_engine(); // phpcs:ignore WordPress.Security.EscapeOutput.OutputNotEscaped
+		// Cashback wallet + "Running low?": an empty, hidden, cache-safe shell
+		// until the signed-in shopper's private response arrives.
+		echo class_exists( 'QIL_Member' ) ? QIL_Member::section() : ''; // phpcs:ignore WordPress.Security.EscapeOutput.OutputNotEscaped
         // Keep the private shelf immediately before the public collections section.
         // It is an empty cache-safe shell until the account-bound response arrives.
         echo qil_section_buy_again(); // phpcs:ignore WordPress.Security.EscapeOutput.OutputNotEscaped
 		echo qil_section_collections(); // phpcs:ignore WordPress.Security.EscapeOutput.OutputNotEscaped
 		do_action('qil_home_personal_area'); // Optional My Qimia plugin; no direct class dependency.
 		echo QIL_Cashback::render(); // phpcs:ignore WordPress.Security.EscapeOutput.OutputNotEscaped -- Escaped public campaign view.
+		echo class_exists( 'QIL_Stacks' ) ? QIL_Stacks::section() : ''; // phpcs:ignore WordPress.Security.EscapeOutput.OutputNotEscaped
 		echo qil_section_myqimia_explainer(); // Public explanation; no private account data.
 		echo qil_section_brands(); // phpcs:ignore WordPress.Security.EscapeOutput.OutputNotEscaped
 		echo qil_section_ai(); // phpcs:ignore WordPress.Security.EscapeOutput.OutputNotEscaped
