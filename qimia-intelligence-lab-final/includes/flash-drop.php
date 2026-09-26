@@ -165,7 +165,12 @@ final class QIL_Flash_Drop {
 		if ( $budgeted ) {
 			self::$variation_budget -= count( $children );
 		}
-		update_meta_cache( 'post', $children );
+		// Every option's post and meta in two queries, not one read per option.
+		if ( function_exists( '_prime_post_caches' ) ) {
+			_prime_post_caches( $children, false, true );
+		} else {
+			update_meta_cache( 'post', $children );
+		}
 		$pcts     = array();
 		$stock    = 0;
 		$managed  = true;
@@ -443,26 +448,72 @@ final class QIL_Flash_Drop {
 		$size = (int) $settings['flash_size'];
 		$min  = (int) $settings['flash_min_pct'];
 		$rows = array();
-		foreach ( array_slice( array_map( 'absint', (array) ( $state['ids'] ?? array() ) ), 0, 12 ) as $id ) {
-			$facts = $id ? self::facts( wc_get_product( $id ), $min, false ) : null;
+		$ids  = array_values( array_filter( array_slice( array_map( 'absint', (array) ( $state['ids'] ?? array() ) ), 0, 12 ) ) );
+		if ( $ids && function_exists( 'update_object_term_cache' ) ) {
+			update_object_term_cache( $ids, 'product' );
+		}
+		foreach ( $ids as $id ) {
+			// A product the merchant took out of the flash sale leaves the drop too.
+			$facts = self::in_flash_category( $id ) ? self::facts( wc_get_product( $id ), $min, false ) : null;
 			if ( $facts ) {
 				$facts['id'] = $id;
 				$rows[ $id ] = $facts;
 			}
 		}
-		if ( count( $rows ) < $size && ! empty( $state['ids'] ) ) {
-			$candidates = self::candidates();
-			$previous   = array_map( 'absint', (array) ( $state['previous'] ?? array() ) );
-			foreach ( self::rank( $candidates, (int) ( $state['index'] ?? 0 ) ) as $id ) {
-				if ( count( $rows ) >= $size ) {
+		if ( count( $rows ) < $size && $ids ) {
+			// Replace products that sold out or left the sale, in this window's own
+			// order, from the last full scan. Each replacement is re-read fresh, so
+			// a page render never scans the whole flash category.
+			$skip  = array_flip( array_merge( $ids, array_map( 'absint', (array) ( $state['previous'] ?? array() ) ) ) );
+			$skip += array_flip( array_filter( array_map( 'absint', preg_split( '/[\s,]+/', (string) $settings['flash_exclude'] ) ) ) );
+			$reads = 0;
+			foreach ( self::rank( self::last_scan(), (int) ( $state['index'] ?? 0 ) ) as $id ) {
+				if ( count( $rows ) >= $size || $reads >= 2 * $size ) {
 					break;
 				}
-				if ( ! isset( $rows[ $id ] ) && ! in_array( $id, $previous, true ) && ! in_array( $id, array_map( 'absint', (array) $state['ids'] ), true ) ) {
-					$rows[ $id ] = $candidates[ $id ];
+				if ( isset( $rows[ $id ] ) || isset( $skip[ $id ] ) || ! self::in_flash_category( $id ) ) {
+					continue;
+				}
+				++$reads;
+				$facts = self::facts( wc_get_product( $id ), $min, false );
+				if ( $facts ) {
+					$facts['id'] = $id;
+					$rows[ $id ] = $facts;
 				}
 			}
 		}
 		return $memo[ $key ] = $rows;
+	}
+
+	/** Rows of the last complete category scan; a site without one scans once now. */
+	private static function last_scan() {
+		$last = get_option( self::LAST_SCAN, array() );
+		if ( is_array( $last ) && ! empty( $last['rows'] ) && is_array( $last['rows'] ) ) {
+			return $last['rows'];
+		}
+		return self::candidates();
+	}
+
+	/** In a flash-sale category or one of its sub-categories, as the scan's query reads them. */
+	private static function in_flash_category( $product_id ) {
+		static $family = null;
+		if ( null === $family ) {
+			$family = array();
+			foreach ( self::category_term_ids() as $term_id ) {
+				$family[ $term_id ] = true;
+				$children           = get_term_children( $term_id, 'product_cat' );
+				foreach ( is_array( $children ) ? $children : array() as $child ) {
+					$family[ (int) $child ] = true;
+				}
+			}
+		}
+		$terms = $family ? get_the_terms( (int) $product_id, 'product_cat' ) : false;
+		foreach ( is_array( $terms ) ? $terms : array() as $term ) {
+			if ( isset( $family[ (int) $term->term_id ] ) ) {
+				return true;
+			}
+		}
+		return false;
 	}
 
 	/** Drop IDs still genuinely available now, topped up from the same window's order. */
@@ -700,8 +751,10 @@ final class QIL_Flash_Drop {
 		return (string) ob_get_clean();
 	}
 
+	/** [qimia_flash_drop]: the homepage section, anywhere the Qimia card renderer runs. */
 	public static function shortcode() {
-		return self::section();
+		$section = QIL_Boost::shortcode_ready() ? self::section() : '';
+		return '' === $section ? '' : QIL_Boost::shell( $section );
 	}
 
 	/* ------------------------------------------------------------------

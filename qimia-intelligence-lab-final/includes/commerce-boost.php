@@ -173,6 +173,21 @@ final class QIL_Boost {
 		return sprintf( ' dir="%1$s" lang="%2$s" translate="no" data-qaatm-no-rewrite data-no-translation', $ar ? 'rtl' : 'ltr', $ar ? 'ar' : 'en' );
 	}
 
+	/** A Qimia shell around a section placed outside the homepage (cart page, shortcodes). */
+	public static function shell( $markup ) {
+		$ar = self::is_ar();
+		return '<div class="qil-shell qil-boost-band-shell notranslate" data-qil-shell dir="' . ( $ar ? 'rtl' : 'ltr' ) . '" lang="' . ( $ar ? 'ar' : 'en' ) . '" data-qil-locale="' . ( $ar ? 'ar' : 'en' ) . '" translate="no" data-qaatm-no-rewrite data-no-translation>' . $markup . '</div>';
+	}
+
+	/**
+	 * A section shortcode renders only where the Qimia card renderer runs
+	 * (qil-boost.js rides with it); anywhere else it prints nothing rather
+	 * than an unstyled section that never fills.
+	 */
+	public static function shortcode_ready() {
+		return function_exists( 'wp_script_is' ) && wp_script_is( 'qil-boost', 'enqueued' );
+	}
+
 	/** Selected currency, its units per OMR (issuer/site FX only) and decimals. */
 	public static function market() {
 		static $market = null;
@@ -458,44 +473,50 @@ final class QIL_Boost {
 	/**
 	 * One compact, public list of purchasable in-stock products for the
 	 * current market (currency, country, tax/role pricing) and language.
-	 * Keyed by WooCommerce's product version, so a price or stock edit is
-	 * picked up at once; otherwise rebuilt at most every 15 minutes. The cart
-	 * path never waits more than a moment for another worker's build.
+	 * Fresh for WooCommerce's current product version, so a price or stock
+	 * edit is picked up at once; otherwise rebuilt at most every 15 minutes.
+	 * One entry per market and language, overwritten in place (the version
+	 * travels inside it), so a busy day of orders leaves no trail of old
+	 * copies. While another worker rebuilds, the cart uses the last list
+	 * (up to an hour old) at once instead of waiting or showing none.
 	 */
 	public static function pool() {
 		static $memo = array();
 		$identity = function_exists( 'qil_perf_market_identity' ) ? qil_perf_market_identity() : array();
 		unset( $identity['user'], $identity['session'] );
-		$locale = self::is_ar() ? 'ar' : 'en';
-		$key    = 'qil_boost_pool_v1_' . md5( (string) wp_json_encode( array(
+		$locale  = self::is_ar() ? 'ar' : 'en';
+		$version = function_exists( 'qil_perf_product_version' ) ? (string) qil_perf_product_version() : '';
+		$key     = 'qil_boost_pool_v2_' . md5( (string) wp_json_encode( array(
 			QIL_VERSION,
-			function_exists( 'qil_perf_product_version' ) ? qil_perf_product_version() : '',
 			function_exists( 'wp_cache_get_last_changed' ) ? (string) wp_cache_get_last_changed( 'terms' ) : '',
 			$locale,
 			$identity,
 		) ) );
-		if ( isset( $memo[ $key ] ) ) {
-			return $memo[ $key ];
+		if ( isset( $memo[ $key . $version ] ) ) {
+			return $memo[ $key . $version ];
 		}
+		$ttl    = max( 60, (int) apply_filters( 'qil_boost_pool_ttl', self::POOL_TTL ) );
 		$valid  = static function ( $value ) {
-			return is_array( $value ) && isset( $value['rows'] ) && is_array( $value['rows'] );
+			return is_array( $value ) && isset( $value['rows'] ) && is_array( $value['rows'] ) && (int) ( $value['at'] ?? 0 ) > time() - HOUR_IN_SECONDS;
 		};
 		$cached = qil_perf_cache_get( $key );
-		if ( $valid( $cached ) ) {
-			return $memo[ $key ] = $cached['rows'];
+		if ( $valid( $cached ) && $version === (string) ( $cached['v'] ?? '' ) && (int) $cached['at'] > time() - $ttl ) {
+			return $memo[ $key . $version ] = $cached['rows'];
 		}
 		$lock = qil_perf_lock( 'boost-pool|' . $key, 45 );
 		if ( '' === $lock ) {
-			$cached = qil_perf_wait_for_cache( $key, 0.35, true, $valid );
-			return $memo[ $key ] = $valid( $cached ) ? $cached['rows'] : array();
+			if ( ! $valid( $cached ) ) {
+				$cached = qil_perf_wait_for_cache( $key, 0.35, true, $valid );
+			}
+			return $memo[ $key . $version ] = $valid( $cached ) ? $cached['rows'] : array();
 		}
 		try {
 			$rows = self::build_pool( $locale );
-			qil_perf_cache_set( $key, array( 'rows' => $rows, 'at' => time() ), (int) apply_filters( 'qil_boost_pool_ttl', self::POOL_TTL ) );
+			qil_perf_cache_set( $key, array( 'rows' => $rows, 'v' => $version, 'at' => time() ), HOUR_IN_SECONDS );
 		} finally {
 			qil_perf_unlock( $lock );
 		}
-		return $memo[ $key ] = $rows;
+		return $memo[ $key . $version ] = $rows;
 	}
 
 	private static function build_pool( $locale ) {
@@ -1100,18 +1121,16 @@ final class QIL_Boost {
 				? '+' . self::reward_text( $state['next']['reward'] ) . ' ' . self::t( 'cashback', 'كاش باك' )
 				: sprintf( self::t( 'Pairs with %s', 'يكمّل %s' ), self::role_label( $pick['reason'] ) );
 		}
-		$ar        = self::is_ar();
 		$lead_role = $picks[0]['reason'] ?: ( $ctx['primary'][0] ?? '' );
 		$title_id  = 'qil-boost-stack-title';
 		$data      = array( 'records' => $records, 'labels' => array_intersect_key( $labels, array_flip( $ids ) ) );
 		$nav       = '<div class="qil-rail-nav" data-qil-rail-nav="qil-boost-band"><button type="button" data-qil-rail-prev aria-label="' . esc_attr( self::t( 'Previous', 'السابق' ) ) . '"><svg aria-hidden="true"><use href="#qil-i-arrow"/></svg></button><button type="button" data-qil-rail-next aria-label="' . esc_attr( self::t( 'Next', 'التالي' ) ) . '"><svg aria-hidden="true"><use href="#qil-i-arrow"/></svg></button></div>';
-		$out  = '<div class="qil-shell qil-boost-band-shell notranslate" data-qil-shell dir="' . ( $ar ? 'rtl' : 'ltr' ) . '" lang="' . ( $ar ? 'ar' : 'en' ) . '" data-qil-locale="' . ( $ar ? 'ar' : 'en' ) . '" translate="no" data-qaatm-no-rewrite data-no-translation>';
-		$out .= '<section class="qil-section qil-commerce-collections qil-boost-band" data-qil-boost-band data-qil-boost-ids="' . esc_attr( implode( ',', $ids ) ) . '" aria-labelledby="' . esc_attr( $title_id ) . '"><div class="qil-container"><article class="qil-collection-block">';
+		$out  = '<section class="qil-section qil-commerce-collections qil-boost-band" data-qil-boost-band data-qil-boost-ids="' . esc_attr( implode( ',', $ids ) ) . '" aria-labelledby="' . esc_attr( $title_id ) . '"><div class="qil-container"><article class="qil-collection-block">';
 		$out .= '<div class="qil-collection-head"><div><small>' . esc_html( self::t( 'COMPLETE YOUR STACK', 'أكمل مجموعتك' ) ) . '</small><h3 id="' . esc_attr( $title_id ) . '">' . esc_html( sprintf( self::t( 'Made to pair with your %s', 'مختارة لتكمّل %s' ), self::role_label( $lead_role ) ) ) . '</h3>';
 		$out .= '<p>' . esc_html( self::t( 'One tap adds it to this order — no product page, same checkout.', 'بلمسة واحدة يُضاف إلى هذا الطلب — بدون صفحة المنتج وبنفس الدفع.' ) ) . '</p></div><div class="qil-collection-tools">' . $nav . '</div></div>';
 		$out .= '<div class="qil-collection-grid qil-rail qil-boost-rail" data-qil-boost-band-grid data-qil-rail="qil-boost-band"><div class="qil-collection-skeleton" aria-hidden="true"><i></i><i></i><i></i><i></i></div></div>';
 		$out .= '<script type="application/json" data-qil-boost-band-data>' . wp_json_encode( $data, JSON_HEX_TAG | JSON_HEX_AMP | JSON_HEX_APOS | JSON_HEX_QUOT | JSON_UNESCAPED_UNICODE | JSON_UNESCAPED_SLASHES ) . '</script>';
-		return $out . '</article></div></section></div>';
+		return self::shell( $out . '</article></div></section>' );
 	}
 
 	public static function stack_band() {
@@ -1210,8 +1229,8 @@ final class QIL_Boost {
 		echo '<h3>Runtime boundaries</h3><table class="widefat striped"><tbody>';
 		$rows = array(
 			'Mini cart & cart'  => 'Printed inside WooCommerce\'s mini-cart and cart-totals templates, refreshed by the existing fragments. No new request.',
-			'Product pool'      => 'Up to ' . self::POOL_LIMIT . ' in-stock products per market and language, public data only, rebuilt when WooCommerce\'s product version changes or after 15 minutes; one build at a time.',
-			'Flash drop'        => 'Sent inside its own homepage section (no request); the choice is stored once per window, only the drop\'s own products are re-read, and a momentary lock never produces a homepage without the drop.',
+			'Product pool'      => 'Up to ' . self::POOL_LIMIT . ' in-stock products per market and language, public data only, rebuilt when WooCommerce\'s product version changes or after 15 minutes; one build at a time, the last list meanwhile, one cache entry per market and language.',
+			'Flash drop'        => 'Sent inside its own homepage section (no request); the choice is stored once per window, only the drop\'s own products are re-read (a sold-out one is replaced from the last scan, re-read fresh), and a momentary lock never produces a homepage without the drop.',
 			'Cached homepages'  => 'Purged (WP-Cron, at most once every five minutes) when a new drop starts, when a drop product\'s stock, price or sale changes, and once after a plugin upgrade.',
 			'Wallet & reorder'  => 'One private, idle-time request for signed-in shoppers on the homepage or cart. Guests never trigger it; nothing is cached for them.',
 			'Stacks'            => 'The theme\'s product cards, from records sent with the homepage; ten-minute public cache per market and language.',

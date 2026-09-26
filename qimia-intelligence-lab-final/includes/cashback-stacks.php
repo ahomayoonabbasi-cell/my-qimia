@@ -14,7 +14,13 @@ final class QIL_Stacks {
 	const MIN_STACKS = 2;
 
 	public static function boot() {
-		add_shortcode( 'qimia_cashback_stacks', array( __CLASS__, 'section' ) );
+		add_shortcode( 'qimia_cashback_stacks', array( __CLASS__, 'shortcode' ) );
+	}
+
+	/** [qimia_cashback_stacks]: the homepage section, anywhere the Qimia card renderer runs. */
+	public static function shortcode() {
+		$section = QIL_Boost::shortcode_ready() ? self::section() : '';
+		return '' === $section ? '' : QIL_Boost::shell( $section );
 	}
 
 	/** Price points (OMR) that sit inside the issuer's bands; filterable. */

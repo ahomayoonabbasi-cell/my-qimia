@@ -329,6 +329,65 @@ case 'flash_soldout':
 	ok( 'a product that sells out leaves the drop and is replaced', ! in_array( $gone, $live, true ) && 10 === count( $live ), $live );
 	break;
 
+case 'flash_topup':
+	// A drop product sells out and another leaves the flash sale: both are
+	// replaced from the last scan, re-read fresh, without scanning the category.
+	qt_term( 'product_cat', 22, 'flash-weekend', 'Flash Weekend', 20 ); // A sub-category counts.
+	$state = QIL_Flash_Drop::state();
+	$ids   = $state['ids'];
+	$sold  = (int) $ids[0];
+	$left  = (int) $ids[1];
+	$moved = (int) $ids[2];
+	$GLOBALS['qt']['products'][ $sold ]->stock_status = 'outofstock';
+	$GLOBALS['qt']['rel'][ $left ]['product_cat']  = array( 17 ); // Out of the flash sale.
+	$GLOBALS['qt']['rel'][ $moved ]['product_cat'] = array( 22 ); // Into its sub-category.
+	$spare = array_values( array_diff( array_keys( QIL_Flash_Drop::candidates() ), $ids ) );
+	$GLOBALS['qt']['products'][ $spare[0] ]->stock_status = 'outofstock'; // Stale in the last scan.
+	$GLOBALS['qt']['version'] = '2';
+	$GLOBALS['qt']['queries'] = array();
+	$rows = QIL_Flash_Drop::drop();
+	$scans = array_filter( $GLOBALS['qt']['queries'], static function ( $args ) { return false !== strpos( (string) wp_json_encode( $args['tax_query'] ?? array() ), '"product_cat"' ); } );
+	ok( 'a render replaces sold-out drop products without scanning the flash category', ! $scans && 10 === count( $rows ), array( 'scans' => count( $scans ), 'rows' => array_keys( $rows ) ) );
+	ok( 'the sold-out product and the one taken out of the flash sale leave the drop', ! isset( $rows[ $sold ] ) && ! isset( $rows[ $left ] ), array_keys( $rows ) );
+	ok( 'a product in a flash sub-category stays', isset( $rows[ $moved ] ) );
+	ok( 'replacements are re-read live (one that sold out since the scan is skipped)', ! isset( $rows[ $spare[0] ] ) && isset( $rows[ $spare[1] ] ), array( 'rows' => array_keys( $rows ), 'spare' => $spare ) );
+	ok( 'replacements carry live facts', isset( $rows[ $spare[1] ]['pct'] ) && $rows[ $spare[1] ]['pct'] >= 5 );
+	break;
+
+case 'pool_rebuild':
+	$identity = qil_perf_market_identity(); unset( $identity['user'], $identity['session'] );
+	$key  = 'qil_boost_pool_v2_' . md5( (string) wp_json_encode( array( QIL_VERSION, (string) wp_cache_get_last_changed( 'terms' ), 'en', $identity ) ) );
+	$list = static function () { return array_values( array_filter( array_keys( $GLOBALS['qt']['transients'] ?? array() ), static function ( $k ) { return 0 === strpos( $k, 'qil_boost_pool_' ); } ) ); };
+	$first = QIL_Boost::pool();
+	ok( 'the pool is built once and stored under one entry per market and language', $first && array( $key ) === $list(), $list() );
+	// Orders move WooCommerce's product version; another worker is rebuilding.
+	$GLOBALS['qt']['version'] = '7';
+	$GLOBALS['qt']['products'][101]->stock_status = 'outofstock';
+	add_option( 'qil_lock_' . md5( 'boost-pool|' . $key ), time(), '', false );
+	$started = microtime( true );
+	$during  = QIL_Boost::pool();
+	ok( 'while another worker rebuilds, the cart gets the last list at once (no wait, never empty)', $during === $first && microtime( true ) - $started < 0.1, round( microtime( true ) - $started, 3 ) );
+	delete_option( 'qil_lock_' . md5( 'boost-pool|' . $key ) );
+	$GLOBALS['qt']['version'] = '8';
+	$after = QIL_Boost::pool();
+	$ids   = array_map( static function ( $r ) { return (int) $r['id']; }, $after );
+	ok( 'a new product version rebuilds the list (sold-out product gone)', ! in_array( 101, $ids, true ) && in_array( 101, array_map( static function ( $r ) { return (int) $r['id']; }, $first ), true ) );
+	ok( 'the rebuild overwrites the same entry: no trail of old copies', array( $key ) === $list() && '8' === (string) ( $GLOBALS['qt']['transients'][ $key ][0]['v'] ?? '' ), $list() );
+	break;
+
+case 'shortcodes':
+	// On a page without the Qimia card renderer the sections print nothing.
+	unset( $GLOBALS['qt']['enqueued']['script']['qil-boost'] );
+	$flash  = call_user_func( $GLOBALS['qt']['shortcodes']['qimia_flash_drop'], '', '', 'qimia_flash_drop' );
+	$stacks = call_user_func( $GLOBALS['qt']['shortcodes']['qimia_cashback_stacks'], '', '', 'qimia_cashback_stacks' );
+	ok( 'without the card renderer the shortcodes print nothing (no unstyled, never-filled section)', '' === $flash && '' === $stacks, array( strlen( $flash ), strlen( $stacks ) ) );
+	$GLOBALS['qt']['enqueued']['script']['qil-boost'] = 'qil-boost.min.js';
+	$flash  = call_user_func( $GLOBALS['qt']['shortcodes']['qimia_flash_drop'], '', '', 'qimia_flash_drop' );
+	$stacks = call_user_func( $GLOBALS['qt']['shortcodes']['qimia_cashback_stacks'], '', '', 'qimia_cashback_stacks' );
+	$shell  = static function ( $html ) { return 0 === strpos( $html, '<div class="qil-shell qil-boost-band-shell' ) && '</div>' === substr( $html, -6 ); };
+	ok( 'with it, each shortcode is the homepage section inside its own Qimia shell', $shell( $flash ) && false !== strpos( $flash, 'data-qil-flash-data' ) && $shell( $stacks ) && false !== strpos( $stacks, 'data-qil-stacks-data' ) );
+	break;
+
 case 'member_wallet':
 	$GLOBALS['qt']['user'] = 7;
 	$rows = QIL_Member::coupons( 7 );

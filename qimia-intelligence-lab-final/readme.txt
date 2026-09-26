@@ -2,11 +2,20 @@
 Contributors: qimia
 Requires at least: 6.2
 Requires PHP: 8.1
-Stable tag: 1.18.2
+Stable tag: 1.18.3
 License: GPL-2.0-or-later
 
 Bilingual Qimia storefront, separated from the My Qimia workspace.
 Full replacement of the supplied Lab plugin, not a second Lab installation.
+
+== Release 1.18.3 ==
+Final review. The space under the flash drop now matches the homepage's own section
+gap (it was twice the space above the stage). A page render never scans the flash
+category: sold-out drop products are replaced from the last scan, re-read live. The
+cart suggestion list is one cache entry per market and language, and a request never
+waits for another one's rebuild. The flash stage drops its blur filters (same look,
+far less graphics work on phones). Section shortcodes render only where the Qimia
+card renderer runs. See RELEASE-1.18.3.md.
 
 == Release 1.18.2 ==
 Design follow-up. Stack cards bring back the 1.18.0 cashback badge ("CASHBACK

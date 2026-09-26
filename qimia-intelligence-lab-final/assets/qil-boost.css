@@ -243,8 +243,10 @@ li.qil-boost-li::before, li.qil-boost-li::after { content: none !important; disp
    Homepage: Flash drop (cinematic stage)
    ====================================================================== */
 /* The section fades from the page colour above to the white of the section
-   below, and the stage casts no shadow, so there is no two-tone edge. */
-:is(#qimia-lab,.qil-shell) .qil-flash-drop { padding-block: clamp(34px,5vw,64px); background: linear-gradient(180deg, #f7fbfb 0%, #fff 100%); }
+   below, and the stage casts no shadow, so there is no two-tone edge. Space:
+   the homepage's own rhythm above the stage (the goal engine keeps the same
+   above its heading) and none below it, where the next section brings its own. */
+:is(#qimia-lab,.qil-shell) .qil-flash-drop { padding-block: clamp(46px,4.8vw,68px) 0; background: linear-gradient(180deg, #f7fbfb 0%, #fff 100%); }
 :is(#qimia-lab,.qil-shell) .qil-flash-stage {
 	position: relative; isolation: isolate; overflow: hidden;
 	padding: clamp(20px,3vw,34px);
@@ -256,14 +258,22 @@ li.qil-boost-li::before, li.qil-boost-li::after { content: none !important; disp
 	color: #fff;
 	box-shadow: inset 0 1px 0 rgba(255,255,255,.08);
 }
+/* Soft light behind the stage. Radial gradients are soft by themselves: no
+   blur filter and no layer kept alive. It drifts (a compositor-only rotation)
+   only on screens with a mouse, and only while the stage is on screen; on
+   phones it stays still and costs nothing after the first paint. */
 :is(#qimia-lab,.qil-shell) .qil-flash-aurora {
 	position: absolute; z-index: -1; inset: -40% -20% auto; height: 120%;
-	background: conic-gradient(from 200deg at 50% 50%, rgba(53,185,189,.0), rgba(53,185,189,.28), rgba(255,138,107,.22), rgba(246,198,103,.18), rgba(53,185,189,0));
-	filter: blur(70px); opacity: .55; transform: translate3d(0,0,0) rotate(0deg);
-	animation: qil-flash-drift 22s linear infinite; animation-play-state: paused; pointer-events: none;
+	background:
+		radial-gradient(30% 34% at 36% 48%, rgba(53,185,189,.3), rgba(53,185,189,0) 100%),
+		radial-gradient(26% 30% at 64% 42%, rgba(255,138,107,.24), rgba(255,138,107,0) 100%),
+		radial-gradient(24% 28% at 52% 64%, rgba(246,198,103,.18), rgba(246,198,103,0) 100%);
+	opacity: .55; pointer-events: none;
 }
-:is(#qimia-lab,.qil-shell) .qil-flash-drop.is-live .qil-flash-aurora { animation-play-state: running; }
-@keyframes qil-flash-drift { to { transform: translate3d(0,0,0) rotate(360deg); } }
+@media (hover: hover) and (pointer: fine) {
+	:is(#qimia-lab,.qil-shell) .qil-flash-drop.is-live .qil-flash-aurora { animation: qil-flash-drift 22s linear infinite; }
+}
+@keyframes qil-flash-drift { to { transform: rotate(360deg); } }
 :is(#qimia-lab,.qil-shell) .qil-flash-head { display: flex; align-items: flex-end; justify-content: space-between; gap: 22px; margin-bottom: 22px; }
 :is(#qimia-lab,.qil-shell) .qil-flash-titles { max-width: 660px; }
 :is(#qimia-lab,.qil-shell) .qil-flash-kicker {
@@ -284,8 +294,9 @@ li.qil-boost-li::before, li.qil-boost-li::after { content: none !important; disp
 :is(#qimia-lab,.qil-shell) .qil-flash-clock {
 	flex: 0 0 auto; display: grid; gap: 8px; padding: 14px 16px 12px;
 	border: 1px solid rgba(255,255,255,.14); border-radius: 22px;
-	background: linear-gradient(160deg, rgba(255,255,255,.1), rgba(255,255,255,.03));
-	-webkit-backdrop-filter: blur(12px); backdrop-filter: blur(12px);
+	/* Frosted look without backdrop-filter, which re-blurs the moving light
+	   behind it on every frame. */
+	background: linear-gradient(160deg, rgba(255,255,255,.12), rgba(255,255,255,.04));
 	text-align: center;
 }
 :is(#qimia-lab,.qil-shell) .qil-flash-clock > small { color: rgba(255,255,255,.62); font-size: 10px; font-weight: 800; letter-spacing: .16em; }
@@ -320,6 +331,7 @@ li.qil-boost-li::before, li.qil-boost-li::after { content: none !important; disp
 :is(#qimia-lab,.qil-shell) .qil-flash-stock.is-warm .qil-flash-bar i { background: linear-gradient(90deg, #f6c667, #e39a1c); }
 :is(#qimia-lab,.qil-shell)[dir="rtl"] .qil-flash-bar i { margin-inline-start: auto; }
 @media (max-width: 760px) {
+	:is(#qimia-lab,.qil-shell) .qil-flash-drop { padding-top: 40px; }
 	:is(#qimia-lab,.qil-shell) .qil-flash-stock { min-height: 22px; margin-bottom: 6px; }
 	:is(#qimia-lab,.qil-shell) .qil-flash-stock > b { font-size: 9.5px; }
 }
@@ -395,8 +407,7 @@ li.qil-boost-li::before, li.qil-boost-li::after { content: none !important; disp
 :is(#qimia-lab,.qil-shell) .qil-wallet-credits[hidden] { display: none; }
 :is(#qimia-lab,.qil-shell) .qil-wallet-credits li {
 	display: grid; gap: 1px; min-width: 104px; margin: 0; padding: 9px 13px;
-	border: 1px solid rgba(255,255,255,.14); border-radius: 16px; background: rgba(255,255,255,.07);
-	backdrop-filter: blur(6px);
+	border: 1px solid rgba(255,255,255,.14); border-radius: 16px; background: rgba(255,255,255,.08);
 }
 :is(#qimia-lab,.qil-shell) .qil-wallet-credits b { font-size: 16px; font-weight: 900; }
 :is(#qimia-lab,.qil-shell) .qil-wallet-credits span { color: rgba(255,255,255,.66); font-size: 11.5px; font-weight: 650; }

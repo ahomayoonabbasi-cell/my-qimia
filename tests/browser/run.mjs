@@ -109,6 +109,27 @@ try {
 			return { outerShadow: shadow.split(/,(?![^(]*\))/).some(part => part.trim() !== 'none' && !part.includes('inset')), image: getComputedStyle(flash).backgroundImage, next: next ? getComputedStyle(next).backgroundColor : '' };
 		});
 		check(`${label}: the flash stage casts no shadow and its section fades into the white section below (no two-tone edge)`, !edge.outerShadow && /rgb\(255, 255, 255\)\)?\s*100%|rgb\(255, 255, 255\)\)$/.test(edge.image.replace(/\s+/g, ' ')) && edge.next === 'rgb(255, 255, 255)', JSON.stringify(edge));
+		// Space: the stage sits in the homepage's own rhythm, the same gap above and
+		// below it as the page keeps between the categories and the goal engine.
+		const rhythm = await page.evaluate(() => {
+			const box = selector => document.querySelector(selector)?.getBoundingClientRect();
+			const tiles = box('.qil-category-tiles'), stage = box('.qil-flash-stage'), head = box('#qil-match .qil-section-heading > div:first-child');
+			const flash = document.querySelector('#qil-flash-drop'), holder = document.createElement('div');
+			const out = { above: Math.round(stage.top - tiles.bottom), below: Math.round(head.top - stage.bottom) };
+			// The same page without the drop: the gap the homepage had before it.
+			flash.replaceWith(holder);
+			out.home = Math.round(box('#qil-match .qil-section-heading > div:first-child').top - box('.qil-category-tiles').bottom);
+			holder.replaceWith(flash);
+			return out;
+		});
+		const light = await page.evaluate(() => {
+			const drift = [];
+			const walk = (rules, media) => { for (const rule of rules) { if (rule.cssRules && rule.media) walk(rule.cssRules, rule.media.mediaText); else if (/qil-flash-aurora/.test(rule.selectorText || '') && /qil-flash-drift/.test(rule.cssText)) drift.push(media); } };
+			for (const sheet of document.styleSheets) { try { walk(sheet.cssRules, ''); } catch (_) { /* cross-origin */ } }
+			return { filter: getComputedStyle(document.querySelector('.qil-flash-aurora')).filter, backdrop: getComputedStyle(document.querySelector('.qil-flash-clock')).backdropFilter, drift };
+		});
+		check(`${label}: the flash stage has no blur filters, and its light drifts only on screens with a mouse`, light.filter === 'none' && light.backdrop === 'none' && light.drift.length > 0 && light.drift.every(media => /hover:\s*hover/.test(media) && /pointer:\s*fine/.test(media)), JSON.stringify(light));
+		check(`${label}: the space under the flash stage equals the space above it and the homepage's own section gap (${rhythm.below}px)`, Math.abs(rhythm.below - rhythm.above) <= 1 && Math.abs(rhythm.below - rhythm.home) <= 1 && rhythm.below <= 70, JSON.stringify(rhythm));
 		check(`${label}: header says FLASH SALE — 72 HOURS`, /FLASH SALE|تخفيضات سريعة/.test(await text(page, '#qil-flash-title')) && /72/.test(await text(page, '#qil-flash-title')));
 		await page.waitForSelector('#qil-stacks .qil-product-card', { timeout: 6000 }).catch(() => {});
 		check(`${label}: stacks are theme product cards with the theme's Add to cart`, (await page.locator('#qil-stacks .qil-product-card').count()) === 3 && (await page.locator('#qil-stacks .qil-product-card .qil-buy').count()) === 3);

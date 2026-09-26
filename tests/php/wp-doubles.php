@@ -302,6 +302,7 @@ function get_term( $id, $tax = '' ) { foreach ( $GLOBALS['qt']['terms'] as $t =>
 function get_term_by( $field, $value, $tax ) { foreach ( $GLOBALS['qt']['terms'][ $tax ] ?? array() as $term ) { if ( ( 'slug' === $field && $term->slug === $value ) || ( 'name' === $field && $term->name === $value ) || ( 'id' === $field && (int) $term->term_id === (int) $value ) ) { return $term; } } return false; }
 function get_terms( $args = array() ) { $tax = is_array( $args ) ? ( $args['taxonomy'] ?? '' ) : $args; return array_values( $GLOBALS['qt']['terms'][ $tax ] ?? array() ); }
 function wp_count_terms( $args = array() ) { return count( get_terms( $args ) ); }
+function get_term_children( $id, $tax ) { $out = array(); foreach ( $GLOBALS['qt']['terms'][ $tax ] ?? array() as $term ) { if ( (int) $term->parent === (int) $id ) { $out[] = (int) $term->term_id; $out = array_merge( $out, get_term_children( $term->term_id, $tax ) ); } } return $out; }
 function get_ancestors( $id, $tax = '', $type = '' ) { $out = array(); $t = get_term( $id, $tax ); while ( $t && $t->parent ) { $out[] = $t->parent; $t = get_term( $t->parent, $tax ); } return $out; }
 function get_the_terms( $id, $tax ) { $ids = $GLOBALS['qt']['rel'][ $id ][ $tax ] ?? array(); if ( ! $ids ) { return false; } return array_values( array_filter( array_map( static function ( $t ) use ( $tax ) { return $GLOBALS['qt']['terms'][ $tax ][ $t ] ?? null; }, $ids ) ) ); }
 function wp_get_post_terms( $id, $tax, $args = array() ) { return get_the_terms( $id, $tax ) ?: array(); }
@@ -322,6 +323,7 @@ class WP_Query {
 	public $query_vars = array();
 	public function __construct( $args = array() ) {
 		$this->query_vars = $args;
+		$GLOBALS['qt']['queries'][] = $args; // Scenarios assert which scans a request ran.
 		$ids = array();
 		foreach ( $GLOBALS['qt']['products'] as $id => $p ) {
 			if ( 'variation' === $p->type || 'publish' !== $p->status ) { continue; }

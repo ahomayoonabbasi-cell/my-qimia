@@ -1,0 +1,36 @@
+{
+ "version": "1.18.3",
+ "scope": "final review: homepage rhythm under the flash drop, lighter flash stage, no category scan or cart wait in the request path, shortcodes safe anywhere",
+ "php_syntax": {
+  "passed": 26,
+  "failed": 0
+ },
+ "javascript_syntax": {
+  "passed": 16,
+  "failed": 0
+ },
+ "php_scenarios": {
+  "passed": 170,
+  "failed": 0,
+  "details": "php-harness.json"
+ },
+ "chromium": {
+  "passed": 199,
+  "failed": 0,
+  "details": "browser.json"
+ },
+ "checks": {
+  "flash_gap_below_equals_gap_above_and_homepage_rhythm": true,
+  "flash_stage_no_blur_filters": true,
+  "flash_light_drift_only_fine_pointer_while_visible": true,
+  "flash_render_never_scans_category": true,
+  "flash_product_leaving_category_leaves_drop": true,
+  "flash_replacements_reread_live": true,
+  "pool_single_cache_entry_per_market_language": true,
+  "pool_contention_serves_last_list_without_wait": true,
+  "shortcodes_empty_without_card_renderer": true,
+  "shortcodes_wrapped_in_shell": true
+ },
+ "production_deployed": false,
+ "live_wordpress_woocommerce_woodmart_tested": false
+}
