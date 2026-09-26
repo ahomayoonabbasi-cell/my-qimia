@@ -1,0 +1,10 @@
+{
+  "release": "1.13.4",
+  "php_syntax": {"passed": 20, "total": 20},
+  "javascript_syntax": {"passed": 11, "total": 11},
+  "php_behavior_harnesses": {"passed": 2, "total": 2, "assertions": 6},
+  "home_order_assertion": true,
+  "css_balanced": true,
+  "live_site_tested": false,
+  "production_load_tested": false
+}

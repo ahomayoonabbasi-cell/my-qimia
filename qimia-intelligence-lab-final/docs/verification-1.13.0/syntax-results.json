@@ -1,0 +1,157 @@
+[
+  {
+    "file": "includes/cashback.php",
+    "pass": true,
+    "error": ""
+  },
+  {
+    "file": "includes/class-qil-admin.php",
+    "pass": true,
+    "error": ""
+  },
+  {
+    "file": "includes/commerce-continuity.php",
+    "pass": true,
+    "error": ""
+  },
+  {
+    "file": "includes/customer-experience.php",
+    "pass": true,
+    "error": ""
+  },
+  {
+    "file": "includes/elementor.php",
+    "pass": true,
+    "error": ""
+  },
+  {
+    "file": "includes/goal-engine.php",
+    "pass": true,
+    "error": ""
+  },
+  {
+    "file": "includes/hero-studio.php",
+    "pass": true,
+    "error": ""
+  },
+  {
+    "file": "includes/navigation.php",
+    "pass": true,
+    "error": ""
+  },
+  {
+    "file": "includes/personalization.php",
+    "pass": true,
+    "error": ""
+  },
+  {
+    "file": "includes/product-integration.php",
+    "pass": true,
+    "error": ""
+  },
+  {
+    "file": "includes/product-knowledge.php",
+    "pass": true,
+    "error": ""
+  },
+  {
+    "file": "includes/product.php",
+    "pass": true,
+    "error": ""
+  },
+  {
+    "file": "includes/promotions.php",
+    "pass": true,
+    "error": ""
+  },
+  {
+    "file": "includes/sections.php",
+    "pass": true,
+    "error": ""
+  },
+  {
+    "file": "includes/site-chrome.php",
+    "pass": true,
+    "error": ""
+  },
+  {
+    "file": "includes/storefront.php",
+    "pass": true,
+    "error": ""
+  },
+  {
+    "file": "includes/verified-filters.php",
+    "pass": true,
+    "error": ""
+  },
+  {
+    "file": "qimia-intelligence-lab.php",
+    "pass": true,
+    "error": ""
+  },
+  {
+    "file": "templates/cashback.php",
+    "pass": true,
+    "error": ""
+  },
+  {
+    "file": "templates/home.php",
+    "pass": true,
+    "error": ""
+  },
+  {
+    "file": "assets/qh-chrome.js",
+    "pass": true,
+    "error": ""
+  },
+  {
+    "file": "assets/qil-hero-admin.js",
+    "pass": true,
+    "error": ""
+  },
+  {
+    "file": "assets/qil-navigation.js",
+    "pass": true,
+    "error": ""
+  },
+  {
+    "file": "assets/qil-navigation.min.js",
+    "pass": true,
+    "error": ""
+  },
+  {
+    "file": "assets/qil-personalization.js",
+    "pass": true,
+    "error": ""
+  },
+  {
+    "file": "assets/qil-storefront.js",
+    "pass": true,
+    "error": ""
+  },
+  {
+    "file": "assets/qil-storefront.min.js",
+    "pass": true,
+    "error": ""
+  },
+  {
+    "file": "assets/qil.js",
+    "pass": true,
+    "error": ""
+  },
+  {
+    "file": "assets/qil.min.js",
+    "pass": true,
+    "error": ""
+  },
+  {
+    "file": "assets/qimia-experience.js",
+    "pass": true,
+    "error": ""
+  },
+  {
+    "file": "assets/qimia-shopping-context.js",
+    "pass": true,
+    "error": ""
+  }
+]

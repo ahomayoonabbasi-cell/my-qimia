@@ -1,0 +1,18 @@
+{
+  "version": "1.17.2",
+  "date": "2026-09-25",
+  "php_syntax_files": 22,
+  "javascript_syntax_files": 14,
+  "syntax_pass": true,
+  "css_byte_identical_to_1_17_1": true,
+  "templates_byte_identical_to_1_17_1": true,
+  "crawler_duplicate_render_fallthrough_removed": true,
+  "crawler_follower_wait_seconds_default": 0.8,
+  "crawler_render_lock_seconds": 45,
+  "catalogue_public_cache_ttl_seconds_default": 90,
+  "catalogue_singleflight_wait_seconds_default": 15,
+  "personalization_singleflight_wait_seconds_default": 7.5,
+  "personalization_owned_initial_repeat_context_removed": true,
+  "repeat_context_preserved_without_personalization_anchor": true,
+  "production_load_tested": false
+}

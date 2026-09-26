@@ -1,0 +1,26 @@
+{
+ "version": "1.17.1",
+ "date": "2026-09-25",
+ "based_on": [
+  "1.17.0",
+  "1.16.7 (catalogue, per-serving, search-id, goal membership)"
+ ],
+ "responses_identical_to_1_16_6": true,
+ "goal_membership_identical_to_1_16_6": true,
+ "wp_debug_notices": 0,
+ "markets": {
+  "OM": "OMR 11.00",
+  "SA": "SAR 107.25",
+  "AE": "separate OMR copy",
+  "rate_change_SAR_10": "SAR 110.00 immediately",
+  "session_data_in_db": false
+ },
+ "meta_crawler_burst_30_parallel_same_data": {
+  "original_cpu_seconds": 20.5,
+  "new_cpu_seconds": 14.8,
+  "cached_copies": 28,
+  "renders": 2
+ },
+ "cart": "0 -> 1 -> 1",
+ "production_load_tested": false
+}

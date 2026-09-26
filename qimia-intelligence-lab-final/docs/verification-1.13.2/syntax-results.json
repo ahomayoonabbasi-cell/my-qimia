@@ -1,0 +1,196 @@
+{
+  "total": 31,
+  "passed": 31,
+  "counts": {
+    "php": 20,
+    "js": 11
+  },
+  "tests": [
+    {
+      "file": "includes/cashback.php",
+      "type": "php",
+      "passed": true,
+      "output": "No syntax errors detected in /mnt/data/qimia_1132/work/qimia-intelligence-lab-8-2-3-95/includes/cashback.php"
+    },
+    {
+      "file": "includes/class-qil-admin.php",
+      "type": "php",
+      "passed": true,
+      "output": "No syntax errors detected in /mnt/data/qimia_1132/work/qimia-intelligence-lab-8-2-3-95/includes/class-qil-admin.php"
+    },
+    {
+      "file": "includes/commerce-continuity.php",
+      "type": "php",
+      "passed": true,
+      "output": "No syntax errors detected in /mnt/data/qimia_1132/work/qimia-intelligence-lab-8-2-3-95/includes/commerce-continuity.php"
+    },
+    {
+      "file": "includes/customer-experience.php",
+      "type": "php",
+      "passed": true,
+      "output": "No syntax errors detected in /mnt/data/qimia_1132/work/qimia-intelligence-lab-8-2-3-95/includes/customer-experience.php"
+    },
+    {
+      "file": "includes/elementor.php",
+      "type": "php",
+      "passed": true,
+      "output": "No syntax errors detected in /mnt/data/qimia_1132/work/qimia-intelligence-lab-8-2-3-95/includes/elementor.php"
+    },
+    {
+      "file": "includes/goal-engine.php",
+      "type": "php",
+      "passed": true,
+      "output": "No syntax errors detected in /mnt/data/qimia_1132/work/qimia-intelligence-lab-8-2-3-95/includes/goal-engine.php"
+    },
+    {
+      "file": "includes/hero-studio.php",
+      "type": "php",
+      "passed": true,
+      "output": "No syntax errors detected in /mnt/data/qimia_1132/work/qimia-intelligence-lab-8-2-3-95/includes/hero-studio.php"
+    },
+    {
+      "file": "includes/navigation.php",
+      "type": "php",
+      "passed": true,
+      "output": "No syntax errors detected in /mnt/data/qimia_1132/work/qimia-intelligence-lab-8-2-3-95/includes/navigation.php"
+    },
+    {
+      "file": "includes/personalization.php",
+      "type": "php",
+      "passed": true,
+      "output": "No syntax errors detected in /mnt/data/qimia_1132/work/qimia-intelligence-lab-8-2-3-95/includes/personalization.php"
+    },
+    {
+      "file": "includes/product-integration.php",
+      "type": "php",
+      "passed": true,
+      "output": "No syntax errors detected in /mnt/data/qimia_1132/work/qimia-intelligence-lab-8-2-3-95/includes/product-integration.php"
+    },
+    {
+      "file": "includes/product-knowledge.php",
+      "type": "php",
+      "passed": true,
+      "output": "No syntax errors detected in /mnt/data/qimia_1132/work/qimia-intelligence-lab-8-2-3-95/includes/product-knowledge.php"
+    },
+    {
+      "file": "includes/product.php",
+      "type": "php",
+      "passed": true,
+      "output": "No syntax errors detected in /mnt/data/qimia_1132/work/qimia-intelligence-lab-8-2-3-95/includes/product.php"
+    },
+    {
+      "file": "includes/promotions.php",
+      "type": "php",
+      "passed": true,
+      "output": "No syntax errors detected in /mnt/data/qimia_1132/work/qimia-intelligence-lab-8-2-3-95/includes/promotions.php"
+    },
+    {
+      "file": "includes/sections.php",
+      "type": "php",
+      "passed": true,
+      "output": "No syntax errors detected in /mnt/data/qimia_1132/work/qimia-intelligence-lab-8-2-3-95/includes/sections.php"
+    },
+    {
+      "file": "includes/site-chrome.php",
+      "type": "php",
+      "passed": true,
+      "output": "No syntax errors detected in /mnt/data/qimia_1132/work/qimia-intelligence-lab-8-2-3-95/includes/site-chrome.php"
+    },
+    {
+      "file": "includes/storefront.php",
+      "type": "php",
+      "passed": true,
+      "output": "No syntax errors detected in /mnt/data/qimia_1132/work/qimia-intelligence-lab-8-2-3-95/includes/storefront.php"
+    },
+    {
+      "file": "includes/verified-filters.php",
+      "type": "php",
+      "passed": true,
+      "output": "No syntax errors detected in /mnt/data/qimia_1132/work/qimia-intelligence-lab-8-2-3-95/includes/verified-filters.php"
+    },
+    {
+      "file": "qimia-intelligence-lab.php",
+      "type": "php",
+      "passed": true,
+      "output": "No syntax errors detected in /mnt/data/qimia_1132/work/qimia-intelligence-lab-8-2-3-95/qimia-intelligence-lab.php"
+    },
+    {
+      "file": "templates/cashback.php",
+      "type": "php",
+      "passed": true,
+      "output": "No syntax errors detected in /mnt/data/qimia_1132/work/qimia-intelligence-lab-8-2-3-95/templates/cashback.php"
+    },
+    {
+      "file": "templates/home.php",
+      "type": "php",
+      "passed": true,
+      "output": "No syntax errors detected in /mnt/data/qimia_1132/work/qimia-intelligence-lab-8-2-3-95/templates/home.php"
+    },
+    {
+      "file": "assets/qh-chrome.js",
+      "type": "js",
+      "passed": true,
+      "output": ""
+    },
+    {
+      "file": "assets/qil-hero-admin.js",
+      "type": "js",
+      "passed": true,
+      "output": ""
+    },
+    {
+      "file": "assets/qil-navigation.js",
+      "type": "js",
+      "passed": true,
+      "output": ""
+    },
+    {
+      "file": "assets/qil-navigation.min.js",
+      "type": "js",
+      "passed": true,
+      "output": ""
+    },
+    {
+      "file": "assets/qil-personalization.js",
+      "type": "js",
+      "passed": true,
+      "output": ""
+    },
+    {
+      "file": "assets/qil-storefront.js",
+      "type": "js",
+      "passed": true,
+      "output": ""
+    },
+    {
+      "file": "assets/qil-storefront.min.js",
+      "type": "js",
+      "passed": true,
+      "output": ""
+    },
+    {
+      "file": "assets/qil.js",
+      "type": "js",
+      "passed": true,
+      "output": ""
+    },
+    {
+      "file": "assets/qil.min.js",
+      "type": "js",
+      "passed": true,
+      "output": ""
+    },
+    {
+      "file": "assets/qimia-experience.js",
+      "type": "js",
+      "passed": true,
+      "output": ""
+    },
+    {
+      "file": "assets/qimia-shopping-context.js",
+      "type": "js",
+      "passed": true,
+      "output": ""
+    }
+  ]
+}

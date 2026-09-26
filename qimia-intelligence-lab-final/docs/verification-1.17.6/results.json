@@ -1,0 +1,17 @@
+{
+  "version": "1.17.6",
+  "scope": "repeat-context CPU optimization only",
+  "php_syntax": {"passed": 22, "failed": 0},
+  "javascript_syntax": {"passed": 14, "failed": 0},
+  "checks": {
+    "shop_category_search_brand_no_repeat_context_without_surface": true,
+    "legacy_guest_repeat_context_suppressed": true,
+    "legacy_repeat_loads_in_idle_time": true,
+    "repeat_inflight_deduplicated": true,
+    "mutation_inventory_refresh_local_only": true,
+    "full_repeat_visible_inventory_recheck_removed": true,
+    "personalization_logic_unchanged": true,
+    "search_compare_cart_checkout_unchanged": true,
+    "css_templates_unchanged": true
+  }
+}

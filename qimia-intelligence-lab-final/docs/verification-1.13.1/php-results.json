@@ -1,0 +1,216 @@
+{
+    "environment": "Local PHP contract doubles; actual QIL_Personalization and exact-repeat/inventory implementation",
+    "total": 52,
+    "passed": 52,
+    "failed": [],
+    "tests": [
+        {
+            "name": "Context IDs and filters are bounded and normalized",
+            "passed": true
+        },
+        {
+            "name": "Malformed identifiers do not become products",
+            "passed": true
+        },
+        {
+            "name": "Guest cannot read prior purchases",
+            "passed": true
+        },
+        {
+            "name": "Own-order repeat does not require optional profiling",
+            "passed": true
+        },
+        {
+            "name": "Only the current account is queried",
+            "passed": true
+        },
+        {
+            "name": "Client cannot select a different user",
+            "passed": true
+        },
+        {
+            "name": "Pending and cancelled orders excluded",
+            "passed": true
+        },
+        {
+            "name": "Synthetic issuer orders excluded",
+            "passed": true
+        },
+        {
+            "name": "Full quantity refund excluded",
+            "passed": true
+        },
+        {
+            "name": "Full monetary refund excluded",
+            "passed": true
+        },
+        {
+            "name": "Partial refund preserves remaining purchase",
+            "passed": true
+        },
+        {
+            "name": "Warm history revalidates owner and status",
+            "passed": true
+        },
+        {
+            "name": "Warm reference never caches old prices",
+            "passed": true
+        },
+        {
+            "name": "Warm reference never bypasses live stock",
+            "passed": true
+        },
+        {
+            "name": "Exact old variation keeps its own current price",
+            "passed": true
+        },
+        {
+            "name": "Unavailable old option is never replaced by sibling",
+            "passed": true
+        },
+        {
+            "name": "Changed old variation attributes cannot silently substitute",
+            "passed": true
+        },
+        {
+            "name": "Missing saved choice is not inferred",
+            "passed": true
+        },
+        {
+            "name": "Disabled old option cannot be bought again",
+            "passed": true
+        },
+        {
+            "name": "Insufficient quantity or backorder is not advertised as available",
+            "passed": true
+        },
+        {
+            "name": "Hidden, draft, passworded, missing image, zero-priced items excluded",
+            "passed": true
+        },
+        {
+            "name": "Eligibility veto is honored",
+            "passed": true
+        },
+        {
+            "name": "Current product, related products, cart, and removed items excluded",
+            "passed": true
+        },
+        {
+            "name": "A parent occurs once across all tabs",
+            "passed": true
+        },
+        {
+            "name": "Impressions do not fabricate Recently Viewed",
+            "passed": true
+        },
+        {
+            "name": "Recent actual views require current permission",
+            "passed": true
+        },
+        {
+            "name": "Newer actual views precede older ones",
+            "passed": true
+        },
+        {
+            "name": "Future and over-30-day activity ignored",
+            "passed": true
+        },
+        {
+            "name": "New variation view retains its parent timestamp after older purchase",
+            "passed": true
+        },
+        {
+            "name": "Purchase after a view does not remain unfinished browsing",
+            "passed": true
+        },
+        {
+            "name": "Optional owner outage does not break own-order service",
+            "passed": true
+        },
+        {
+            "name": "Guest contextual selection uses current category without history",
+            "passed": true
+        },
+        {
+            "name": "Cart keeps four relevant cross-sells and no competitors",
+            "passed": true
+        },
+        {
+            "name": "Related rollout zero preserves Buy Again",
+            "passed": true
+        },
+        {
+            "name": "Combined dietary filters are AND, unknown excluded",
+            "passed": true
+        },
+        {
+            "name": "An explicit conflicting old option overrides parent dietary claim",
+            "passed": true
+        },
+        {
+            "name": "Value per serving uses the exact old variant price and count",
+            "passed": true
+        },
+        {
+            "name": "Value ranking considers cheap seventh hydrated choice before tab cutoff",
+            "passed": true
+        },
+        {
+            "name": "Value Buy Again ranks cheap seventh verified item before tab cutoff",
+            "passed": true
+        },
+        {
+            "name": "Value excludes missing servings",
+            "passed": true
+        },
+        {
+            "name": "History cache is invalidated by native order updates",
+            "passed": true
+        },
+        {
+            "name": "Per-account reference contention skips waiting",
+            "passed": true
+        },
+        {
+            "name": "Public pool cache contains IDs only and skips repeat query",
+            "passed": true
+        },
+        {
+            "name": "Read bounds remain 48 candidates, 20 full records, six per tab",
+            "passed": true
+        },
+        {
+            "name": "Cross-account history argument rejected before query",
+            "passed": true
+        },
+        {
+            "name": "Signed presentation is bound to account and session",
+            "passed": true
+        },
+        {
+            "name": "Revocation invalidates signed presentation",
+            "passed": true
+        },
+        {
+            "name": "Tampered presentation is rejected",
+            "passed": true
+        },
+        {
+            "name": "Cross-origin read is rejected",
+            "passed": true
+        },
+        {
+            "name": "New Arrival still includes 20-day first publication",
+            "passed": true
+        },
+        {
+            "name": "Expired new arrival and unobserved restock stay false",
+            "passed": true
+        },
+        {
+            "name": "Back-in-stock timestamp remains exact to a variation",
+            "passed": true
+        }
+    ]
+}

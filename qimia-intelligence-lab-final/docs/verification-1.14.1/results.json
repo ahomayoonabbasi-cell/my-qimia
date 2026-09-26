@@ -1,0 +1,34 @@
+{
+  "release": "1.14.1",
+  "base": "1.14.0",
+  "scope": "rtl_arabic_product_rail_equal_height_only",
+  "php_syntax": {"files": 20, "passed": 20},
+  "javascript_syntax": {"files": 12, "passed": 12},
+  "browser_layout_harness": {
+    "engine": "Chromium",
+    "stylesheets": ["assets/qil.css", "assets/qil.min.css"],
+    "viewports": ["1950x1000", "390x844"],
+    "cards_per_rail": 6,
+    "assertions": 4,
+    "passed": true,
+    "source_css_heights": {
+      "desktop": [468.45, 468.45, 468.45, 468.45, 468.45, 468.45],
+      "mobile": [462.5, 462.5, 462.5, 462.5, 462.5, 462.5]
+    },
+    "production_css_heights": {
+      "desktop": [468.45, 468.45, 468.45, 468.45, 468.45, 468.45],
+      "mobile": [462.5, 462.5, 462.5, 462.5, 462.5, 462.5]
+    }
+  },
+  "changed_existing_runtime_files": [
+    "assets/qil.css",
+    "assets/qil.min.css",
+    "qimia-intelligence-lab.php",
+    "readme.txt"
+  ],
+  "javascript_runtime_changed": false,
+  "php_runtime_logic_changed": false,
+  "english_card_css_changed": false,
+  "production_deployed": false,
+  "live_qimia_visual_tested": false
+}

@@ -1,0 +1,38 @@
+{
+  "crawler_atomic_budget_fallback": true,
+  "crawler_early_single_flight": true,
+  "crawler_global_cold_render_cap": 2,
+  "crawler_noncacheable_cooldown": true,
+  "crawler_session_removed_from_cache_identity": true,
+  "crawler_tracking_query_normalization": true,
+  "css_byte_identical_to_user_1_17_3": true,
+  "css_files": {
+    "qh-chrome.css": true,
+    "qil-cashback.css": true,
+    "qil-hero-admin.css": true,
+    "qil-personalization.css": true,
+    "qil-personalization.min.css": true,
+    "qil-storefront.css": true,
+    "qil-storefront.min.css": true,
+    "qil.css": true,
+    "qil.min.css": true,
+    "qimia-experience.css": true
+  },
+  "index_bot_private_ajax_short_circuit": true,
+  "index_bot_shopper_js_suppressed_server_side": true,
+  "javascript_byte_identical_to_user_1_17_3": true,
+  "javascript_syntax_files": 14,
+  "notes": "Static/runtime verification only. Real Hostinger CPU must be validated under live traffic after deployment.",
+  "php_syntax_files": 22,
+  "production_deployed": false,
+  "production_load_tested": false,
+  "shopper_ui_runtime_changed": false,
+  "syntax_pass": true,
+  "template_files": {
+    "templates/cashback.php": true,
+    "templates/home.php": true
+  },
+  "templates_byte_identical_to_user_1_17_3": true,
+  "version": "1.17.4",
+  "wp_cron_init_shutdown_wp_loaded_spawn_paths_suppressed_when_server_heartbeat_is_live": true
+}

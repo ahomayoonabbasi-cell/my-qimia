@@ -1,0 +1,161 @@
+{
+  "total": 31,
+  "passed": 31,
+  "tests": [
+    {
+      "path": "assets/qh-chrome.js",
+      "passed": true,
+      "message": ""
+    },
+    {
+      "path": "assets/qil-hero-admin.js",
+      "passed": true,
+      "message": ""
+    },
+    {
+      "path": "assets/qil-navigation.js",
+      "passed": true,
+      "message": ""
+    },
+    {
+      "path": "assets/qil-navigation.min.js",
+      "passed": true,
+      "message": ""
+    },
+    {
+      "path": "assets/qil-personalization.js",
+      "passed": true,
+      "message": ""
+    },
+    {
+      "path": "assets/qil-storefront.js",
+      "passed": true,
+      "message": ""
+    },
+    {
+      "path": "assets/qil-storefront.min.js",
+      "passed": true,
+      "message": ""
+    },
+    {
+      "path": "assets/qil.js",
+      "passed": true,
+      "message": ""
+    },
+    {
+      "path": "assets/qil.min.js",
+      "passed": true,
+      "message": ""
+    },
+    {
+      "path": "assets/qimia-experience.js",
+      "passed": true,
+      "message": ""
+    },
+    {
+      "path": "assets/qimia-shopping-context.js",
+      "passed": true,
+      "message": ""
+    },
+    {
+      "path": "includes/cashback.php",
+      "passed": true,
+      "message": "No syntax errors detected in /mnt/data/qimia_1_13_1/work/qimia-intelligence-lab-8-2-3-95/includes/cashback.php"
+    },
+    {
+      "path": "includes/class-qil-admin.php",
+      "passed": true,
+      "message": "No syntax errors detected in /mnt/data/qimia_1_13_1/work/qimia-intelligence-lab-8-2-3-95/includes/class-qil-admin.php"
+    },
+    {
+      "path": "includes/commerce-continuity.php",
+      "passed": true,
+      "message": "No syntax errors detected in /mnt/data/qimia_1_13_1/work/qimia-intelligence-lab-8-2-3-95/includes/commerce-continuity.php"
+    },
+    {
+      "path": "includes/customer-experience.php",
+      "passed": true,
+      "message": "No syntax errors detected in /mnt/data/qimia_1_13_1/work/qimia-intelligence-lab-8-2-3-95/includes/customer-experience.php"
+    },
+    {
+      "path": "includes/elementor.php",
+      "passed": true,
+      "message": "No syntax errors detected in /mnt/data/qimia_1_13_1/work/qimia-intelligence-lab-8-2-3-95/includes/elementor.php"
+    },
+    {
+      "path": "includes/goal-engine.php",
+      "passed": true,
+      "message": "No syntax errors detected in /mnt/data/qimia_1_13_1/work/qimia-intelligence-lab-8-2-3-95/includes/goal-engine.php"
+    },
+    {
+      "path": "includes/hero-studio.php",
+      "passed": true,
+      "message": "No syntax errors detected in /mnt/data/qimia_1_13_1/work/qimia-intelligence-lab-8-2-3-95/includes/hero-studio.php"
+    },
+    {
+      "path": "includes/navigation.php",
+      "passed": true,
+      "message": "No syntax errors detected in /mnt/data/qimia_1_13_1/work/qimia-intelligence-lab-8-2-3-95/includes/navigation.php"
+    },
+    {
+      "path": "includes/personalization.php",
+      "passed": true,
+      "message": "No syntax errors detected in /mnt/data/qimia_1_13_1/work/qimia-intelligence-lab-8-2-3-95/includes/personalization.php"
+    },
+    {
+      "path": "includes/product-integration.php",
+      "passed": true,
+      "message": "No syntax errors detected in /mnt/data/qimia_1_13_1/work/qimia-intelligence-lab-8-2-3-95/includes/product-integration.php"
+    },
+    {
+      "path": "includes/product-knowledge.php",
+      "passed": true,
+      "message": "No syntax errors detected in /mnt/data/qimia_1_13_1/work/qimia-intelligence-lab-8-2-3-95/includes/product-knowledge.php"
+    },
+    {
+      "path": "includes/product.php",
+      "passed": true,
+      "message": "No syntax errors detected in /mnt/data/qimia_1_13_1/work/qimia-intelligence-lab-8-2-3-95/includes/product.php"
+    },
+    {
+      "path": "includes/promotions.php",
+      "passed": true,
+      "message": "No syntax errors detected in /mnt/data/qimia_1_13_1/work/qimia-intelligence-lab-8-2-3-95/includes/promotions.php"
+    },
+    {
+      "path": "includes/sections.php",
+      "passed": true,
+      "message": "No syntax errors detected in /mnt/data/qimia_1_13_1/work/qimia-intelligence-lab-8-2-3-95/includes/sections.php"
+    },
+    {
+      "path": "includes/site-chrome.php",
+      "passed": true,
+      "message": "No syntax errors detected in /mnt/data/qimia_1_13_1/work/qimia-intelligence-lab-8-2-3-95/includes/site-chrome.php"
+    },
+    {
+      "path": "includes/storefront.php",
+      "passed": true,
+      "message": "No syntax errors detected in /mnt/data/qimia_1_13_1/work/qimia-intelligence-lab-8-2-3-95/includes/storefront.php"
+    },
+    {
+      "path": "includes/verified-filters.php",
+      "passed": true,
+      "message": "No syntax errors detected in /mnt/data/qimia_1_13_1/work/qimia-intelligence-lab-8-2-3-95/includes/verified-filters.php"
+    },
+    {
+      "path": "qimia-intelligence-lab.php",
+      "passed": true,
+      "message": "No syntax errors detected in /mnt/data/qimia_1_13_1/work/qimia-intelligence-lab-8-2-3-95/qimia-intelligence-lab.php"
+    },
+    {
+      "path": "templates/cashback.php",
+      "passed": true,
+      "message": "No syntax errors detected in /mnt/data/qimia_1_13_1/work/qimia-intelligence-lab-8-2-3-95/templates/cashback.php"
+    },
+    {
+      "path": "templates/home.php",
+      "passed": true,
+      "message": "No syntax errors detected in /mnt/data/qimia_1_13_1/work/qimia-intelligence-lab-8-2-3-95/templates/home.php"
+    }
+  ]
+}

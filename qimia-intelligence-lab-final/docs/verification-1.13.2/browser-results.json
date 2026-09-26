@@ -1,0 +1,112 @@
+{
+  "environment": "Local Chromium about:blank fixture using actual packaged CSS, full production minified card script and personal tab script; in-memory fetch double, synthetic page/data. No HTTP navigation, live store, real fonts, or real payment.",
+  "total": 26,
+  "passed": 26,
+  "failed": [],
+  "tests": [
+    {
+      "name": "en mobile menu text uniform at 320px including category button and nested My Qimia text",
+      "passed": true
+    },
+    {
+      "name": "en mobile menu text uniform at 390px including category button and nested My Qimia text",
+      "passed": true
+    },
+    {
+      "name": "en mobile menu text uniform at 768px including category button and nested My Qimia text",
+      "passed": true
+    },
+    {
+      "name": "en mobile menu text uniform at 1100px including category button and nested My Qimia text",
+      "passed": true
+    },
+    {
+      "name": "en owned purchase tab is default in same block at 390px with exact option and price",
+      "passed": true
+    },
+    {
+      "name": "en owned purchase tab is default in same block at 1440px with exact option and price",
+      "passed": true
+    },
+    {
+      "name": "ar mobile menu text uniform at 320px including category button and nested My Qimia text",
+      "passed": true
+    },
+    {
+      "name": "ar mobile menu text uniform at 390px including category button and nested My Qimia text",
+      "passed": true
+    },
+    {
+      "name": "ar mobile menu text uniform at 768px including category button and nested My Qimia text",
+      "passed": true
+    },
+    {
+      "name": "ar mobile menu text uniform at 1100px including category button and nested My Qimia text",
+      "passed": true
+    },
+    {
+      "name": "ar owned purchase tab is default in same block at 390px with exact option and price",
+      "passed": true
+    },
+    {
+      "name": "ar owned purchase tab is default in same block at 1440px with exact option and price",
+      "passed": true
+    },
+    {
+      "name": "Manual selection is not hijacked by background refresh",
+      "passed": true
+    },
+    {
+      "name": "Late arrival of real purchase group replaces automatic related default",
+      "passed": true
+    },
+    {
+      "name": "No purchase history does not fabricate a Buy Again tab",
+      "passed": true
+    },
+    {
+      "name": "Account binding resets tab choice and guest response clears exact-purchase cards",
+      "passed": true
+    },
+    {
+      "name": "Disappearing manually selected tab falls back to eligible Buy Again",
+      "passed": true
+    },
+    {
+      "name": "Arabic keyboard tabs and explicit selection survive refresh",
+      "passed": true
+    },
+    {
+      "name": "en desktop still has five full cards and working sixth-card carousel",
+      "passed": true
+    },
+    {
+      "name": "ar desktop still has five full cards and working sixth-card carousel",
+      "passed": true
+    },
+    {
+      "name": "product existing placement and count remain unchanged",
+      "passed": true
+    },
+    {
+      "name": "cart existing placement and count remain unchanged",
+      "passed": true
+    },
+    {
+      "name": "Tab change adds no polling and 30 refresh signals coalesce into one request",
+      "passed": true
+    },
+    {
+      "name": "Buy Again sends exact private order/item action; native purchase form untouched",
+      "passed": true
+    },
+    {
+      "name": "Unrelated header controls, desktop links and purchase buttons unchanged at 390px",
+      "passed": true
+    },
+    {
+      "name": "Unrelated header controls, desktop links and purchase buttons unchanged at 1440px",
+      "passed": true
+    }
+  ]
+}

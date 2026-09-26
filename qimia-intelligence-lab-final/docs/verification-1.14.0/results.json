@@ -1,0 +1,15 @@
+{
+  "release": "1.14.0",
+  "base": "1.13.4",
+  "php_syntax": {"files": 20, "passed": 20},
+  "javascript_syntax": {"files": 12, "passed": 12},
+  "javascript_context_harness": {"scenarios": 2, "assertions": 8, "passed": true},
+  "php_enqueue_harness": {"scenarios": 2, "passed": true},
+  "php_recent_contract_harness": {"scenarios": 1, "passed": true},
+  "static_integration_checks": {"assertions": 5, "passed": true},
+  "canonical_context_sha256": "891e5ec699115c66ae4babaf1b3e1b62633d403ebe5ccbf5fa885564b70b4ba5",
+  "production_deployed": false,
+  "live_woocommerce_tested": false,
+  "cloudflare_load_tested": false,
+  "end_to_end_qimia_ai_tested": false
+}

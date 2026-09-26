@@ -1,0 +1,119 @@
+{
+  "total": 28,
+  "passed": 28,
+  "failed": 0,
+  "results": [
+    {
+      "test": "home en 390: card, layout, controls and placement",
+      "pass": true
+    },
+    {
+      "test": "product en 390: card, layout, controls and placement",
+      "pass": true
+    },
+    {
+      "test": "cart en 390: card, layout, controls and placement",
+      "pass": true
+    },
+    {
+      "test": "home en 768: card, layout, controls and placement",
+      "pass": true
+    },
+    {
+      "test": "product en 768: card, layout, controls and placement",
+      "pass": true
+    },
+    {
+      "test": "cart en 768: card, layout, controls and placement",
+      "pass": true
+    },
+    {
+      "test": "home en 1440: card, layout, controls and placement",
+      "pass": true
+    },
+    {
+      "test": "product en 1440: card, layout, controls and placement",
+      "pass": true
+    },
+    {
+      "test": "cart en 1440: card, layout, controls and placement",
+      "pass": true
+    },
+    {
+      "test": "home ar 390: card, layout, controls and placement",
+      "pass": true
+    },
+    {
+      "test": "product ar 390: card, layout, controls and placement",
+      "pass": true
+    },
+    {
+      "test": "cart ar 390: card, layout, controls and placement",
+      "pass": true
+    },
+    {
+      "test": "home ar 768: card, layout, controls and placement",
+      "pass": true
+    },
+    {
+      "test": "product ar 768: card, layout, controls and placement",
+      "pass": true
+    },
+    {
+      "test": "cart ar 768: card, layout, controls and placement",
+      "pass": true
+    },
+    {
+      "test": "home ar 1440: card, layout, controls and placement",
+      "pass": true
+    },
+    {
+      "test": "product ar 1440: card, layout, controls and placement",
+      "pass": true
+    },
+    {
+      "test": "cart ar 1440: card, layout, controls and placement",
+      "pass": true
+    },
+    {
+      "test": "Lazy request starts near shelf, not initial page load",
+      "pass": true
+    },
+    {
+      "test": "30 context changes coalesce; stale response discarded; one in flight",
+      "pass": true
+    },
+    {
+      "test": "Account change during delayed read drops former account result",
+      "pass": true
+    },
+    {
+      "test": "Failed endpoint hides only shelf; exactly one automatic retry",
+      "pass": true
+    },
+    {
+      "test": "Permission revocation immediately clears old rows and stops activity",
+      "pass": true
+    },
+    {
+      "test": "No optional permission: buy again works with zero telemetry",
+      "pass": true
+    },
+    {
+      "test": "Existing verified filter buttons update all new suggestions",
+      "pass": true
+    },
+    {
+      "test": "Exact repurchase uses existing idempotent handler with one mutation",
+      "pass": true
+    },
+    {
+      "test": "Only visible cards create opt-in view events; no raw profile/search text",
+      "pass": true
+    },
+    {
+      "test": "Simulated back-forward cache clears account rows before revalidation",
+      "pass": true
+    }
+  ]
+}

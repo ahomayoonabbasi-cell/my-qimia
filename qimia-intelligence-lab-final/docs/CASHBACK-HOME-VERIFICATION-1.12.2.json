@@ -1,0 +1,67 @@
+{
+  "plugin_version": "1.12.2",
+  "build": "home-cashback-verified",
+  "base_zip": "qimia-intelligence-lab-1.12.2-labels-filters-final.zip",
+  "base_sha256": "4e9a780526050e846ccb3d0af5d6a994d4daccda5feaf6e0dd541707ac129d0e",
+  "cashback_source_zip": "qimia-intelligence-lab-8-2-3-94(1).zip",
+  "cashback_source_sha256": "606f9cb6a8d0c15e233f4b55302d71ede858e6f3f1db383e8bf77c2d66700699",
+  "result": "Donor cashback source, template and stylesheet were already byte-identical to the 1.12.2 base. They were copied exactly; the existing single homepage call was preserved. No runtime changes were required or made.",
+  "cashback_files": {
+    "includes/cashback.php": "d68925ae6ca84bb083457e77a269fc13dd98651ab60a07179fb9763b0447ea68",
+    "templates/cashback.php": "3b91e30a037c65d633642d0f5688710a07628d2a33c7d3152cddf4a369462abd",
+    "assets/qil-cashback.css": "54571f845a94778911b218823b94f9454cd36491f2aa31d090bf36fd6e3e543e"
+  },
+  "original_files_byte_identical": 67,
+  "runtime_files_changed": [],
+  "php_runtime": "8.4.23",
+  "php_syntax_files": 19,
+  "local_assertions_including_integrity": 208,
+  "browser_assertions": 56,
+  "browser_cases": [
+    {
+      "language": "en",
+      "width": 320,
+      "errors": []
+    },
+    {
+      "language": "en",
+      "width": 390,
+      "errors": []
+    },
+    {
+      "language": "en",
+      "width": 768,
+      "errors": []
+    },
+    {
+      "language": "en",
+      "width": 1440,
+      "errors": []
+    },
+    {
+      "language": "ar",
+      "width": 320,
+      "errors": []
+    },
+    {
+      "language": "ar",
+      "width": 390,
+      "errors": []
+    },
+    {
+      "language": "ar",
+      "width": 768,
+      "errors": []
+    },
+    {
+      "language": "ar",
+      "width": 1440,
+      "errors": []
+    }
+  ],
+  "test_environment": "Isolated PHP presentation stubs and local Chromium HTML/CSS fixtures; not a live WordPress installation. Reward amounts and exchange rates in test fixtures are synthetic and are not part of this plugin package.",
+  "live_site_tested": false,
+  "production_load_tested": false,
+  "visibility_dependency": "The source intentionally hides the section when the active cashback issuer is unavailable or its public policy cannot be validated. This exact transfer does not bypass that behavior.",
+  "deployment": "Back up first. Replace the existing 1.12.2 Lab plugin using this ZIP; do not activate a second copy. Purge cached homepage HTML and assets. Plugin version and directory are unchanged."
+}

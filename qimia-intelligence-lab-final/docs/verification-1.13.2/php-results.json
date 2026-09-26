@@ -1,0 +1,136 @@
+{
+    "environment": "Local WordPress\/WooCommerce contract doubles; actual unmodified QIL order\/eligibility engine",
+    "total": 32,
+    "passed": 32,
+    "failed": [],
+    "tests": [
+        {
+            "name": "Owned completed purchase appears in the SAME home group without optional history service",
+            "passed": true
+        },
+        {
+            "name": "Owned processing purchase qualifies",
+            "passed": true
+        },
+        {
+            "name": "Guest sees no Buy Again and does not query account orders",
+            "passed": true
+        },
+        {
+            "name": "New account has no fabricated purchase tab",
+            "passed": true
+        },
+        {
+            "name": "Pending order is not shown as a purchase",
+            "passed": true
+        },
+        {
+            "name": "Cancelled order is not shown as a purchase",
+            "passed": true
+        },
+        {
+            "name": "Failed order is not shown as a purchase",
+            "passed": true
+        },
+        {
+            "name": "Refunded order is not shown as a purchase",
+            "passed": true
+        },
+        {
+            "name": "On-hold order is not shown as a purchase",
+            "passed": true
+        },
+        {
+            "name": "Synthetic issuer order is excluded",
+            "passed": true
+        },
+        {
+            "name": "Full quantity refund excluded",
+            "passed": true
+        },
+        {
+            "name": "Full monetary refund excluded",
+            "passed": true
+        },
+        {
+            "name": "Partial refund leaves a real remaining purchase",
+            "passed": true
+        },
+        {
+            "name": "Exact old flavour and current variation price are retained",
+            "passed": true
+        },
+        {
+            "name": "Unavailable old flavour is not substituted with another flavour",
+            "passed": true
+        },
+        {
+            "name": "Missing historical choice is never guessed",
+            "passed": true
+        },
+        {
+            "name": "Modified variation attributes cannot silently replace the old option",
+            "passed": true
+        },
+        {
+            "name": "Warm reference cache still uses current price",
+            "passed": true
+        },
+        {
+            "name": "Warm reference cache still checks live availability",
+            "passed": true
+        },
+        {
+            "name": "Cached order changed to another owner is not visible",
+            "passed": true
+        },
+        {
+            "name": "Account change cannot inherit another customer purchases",
+            "passed": true
+        },
+        {
+            "name": "Caller-selected user ID cannot read purchases",
+            "passed": true
+        },
+        {
+            "name": "Order update invalidates the reference snapshot",
+            "passed": true
+        },
+        {
+            "name": "Cart and removed products stay excluded",
+            "passed": true
+        },
+        {
+            "name": "Existing exact dietary filters remain authoritative",
+            "passed": true
+        },
+        {
+            "name": "Same parent is not duplicated for repeated orders",
+            "passed": true
+        },
+        {
+            "name": "Six-card limit and original order query bounds are preserved",
+            "passed": true
+        },
+        {
+            "name": "Hidden or draft products are never reintroduced",
+            "passed": true
+        },
+        {
+            "name": "Arabic group retains Buy Again and exact account identity",
+            "passed": true
+        },
+        {
+            "name": "Product surface uses the same Buy Again contract",
+            "passed": true
+        },
+        {
+            "name": "Current product remains excluded on product page",
+            "passed": true
+        },
+        {
+            "name": "Cart retains its original four-item contract",
+            "passed": true
+        }
+    ]
+}

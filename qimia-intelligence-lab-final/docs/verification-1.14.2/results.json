@@ -1,0 +1,22 @@
+{
+  "version": "1.14.2",
+  "php_syntax": {
+    "files": 20,
+    "passed": 20,
+    "failed": []
+  },
+  "javascript_syntax": {
+    "files": 12,
+    "passed": 12,
+    "failed": []
+  },
+  "behavioral_static_checks": {
+    "related_is_primary_preference": true,
+    "buy_again_is_fallback": true,
+    "manual_choice_guard_preserved": true,
+    "tab_order_loop_unchanged_shape": true
+  },
+  "production_deployed": false,
+  "live_woocommerce_tested": false,
+  "production_load_tested": false
+}

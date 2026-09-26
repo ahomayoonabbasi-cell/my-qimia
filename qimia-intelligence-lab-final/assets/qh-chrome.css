@@ -1,0 +1,169 @@
+/* Site navigation only. Retains the store's fonts, colours and catalog menu. */
+.qil-pages{display:none;position:relative;flex:0 0 auto}
+.qil-pages>summary{list-style:none;display:grid;place-items:center;width:42px;height:42px;border:1px solid #d1e8e9;border-radius:14px;background:#fff;color:#087983;cursor:pointer}
+.qil-pages>summary::-webkit-details-marker{display:none}.qil-pages>summary svg{width:21px;height:21px;fill:none;stroke:currentColor;stroke-width:1.7}
+.qil-pages nav{position:absolute;inset-inline-start:0;top:calc(100% + 12px);width:min(296px,calc(100vw - 30px));max-height:70dvh;overflow:auto;padding:12px;background:#fff;border:1px solid #d8e9e8;box-shadow:0 18px 50px #08384224;border-radius:20px;z-index:100005;display:grid;gap:4px}
+.qil-pages nav>a,.qil-pages nav>button{display:block;text-align:start;min-height:44px;padding:12px 14px;line-height:1.35;border:0;border-radius:12px;background:transparent;color:#163b46;text-decoration:none;font:inherit;font-weight:600}
+.qil-pages nav>[aria-current],.qil-pages nav>a:hover,.qil-pages nav>button:hover{color:#087983;background:#e9f7f5}
+@media(max-width:1100px){.qil-pages{display:block}:is(#qimia-lab,.qil-shell) .qil-nav>.qil-menu-button{display:none!important}.qil-nav>.qil-links{display:none!important}.qil-nav{gap:10px!important}.qil-actions{margin-inline-start:auto}.qil-pages nav{font-size:14px}}
+@media(max-width:600px){.qil-header .qil-nav{padding-block:10px!important;padding-inline:12px!important;min-height:68px!important}.qil-header .qil-brand{max-width:78px!important;min-width:0!important}.qil-header .qil-actions{gap:6px!important}:is(#qimia-lab,.qil-shell) .qil-header .qil-ask{display:none!important}.qil-header .qil-locale-control>summary{min-height:40px!important;padding:5px 8px!important;gap:5px!important}.qil-header .qil-locale-language{font-size:10px!important}.qil-header .qil-locale-currency{font-size:13px!important}.qil-header .qil-icon-button{width:36px!important;height:36px!important}.qil-header .qil-bag .wd-tools-icon{width:32px!important}.qil-header .qil-locale-menu{inset-inline-end:0!important;inset-inline-start:auto!important;width:min(296px,calc(100vw - 24px))!important}}
+.qh-workspace-page .page-title{display:none!important}.qh-workspace-page .main-page-wrapper{padding-top:0!important}.qh-workspace-page .website-wrapper{overflow:clip}
+/* Compact 320px header: do not let fixed-width account controls squeeze beyond the viewport. */
+@media(max-width:600px){
+ :is(#qimia-lab,.qil-shell) .qil-header .qil-nav{width:100%!important;max-width:100%!important}
+ :is(#qimia-lab,.qil-shell) .qil-header .qil-actions{flex-shrink:0;min-width:0}
+}
+@media(max-width:380px){
+ :is(#qimia-lab,.qil-shell) .qil-header .qil-nav{gap:6px!important}
+ :is(#qimia-lab,.qil-shell) .qil-header .qil-locale-control>summary{min-width:0!important;padding-inline:8px!important}
+}
+/* Name-only Your Qimia link. Inherits the existing desktop/mobile nav spacing. */
+.qil-header .qh-header-name{font:inherit;font-weight:inherit;color:inherit;white-space:nowrap;letter-spacing:inherit}
+@media(min-width:1101px) and (max-width:1250px){.qil-header .qil-links{gap:17px!important}}
+
+/* Match native sibling navigation typography, without restyling the header. */
+.qil-header .qil-links>a.qh-header-link{font-family:inherit;font-size:inherit;letter-spacing:inherit}
+
+.qh-mobile-access,.qh-mobile-link{display:none!important}
+
+/* One direct link reuses the existing filtered My Qimia destination. */
+@media(max-width:1100px){
+ :is(#qimia-lab,.qil-shell) .qil-header .qil-nav.qh-has-mobile-access{height:auto!important;min-height:78px;flex-wrap:wrap!important;padding-block:8px}
+ :is(#qimia-lab,.qil-shell) .qil-header .qh-mobile-access{display:flex!important;flex:0 0 auto;justify-content:flex-end;min-width:0}
+ :is(#qimia-lab,.qil-shell) .qil-header .qh-mobile-access>.qh-mobile-link{display:inline-flex!important;align-items:center;justify-content:center;gap:8px;box-sizing:border-box;min-height:44px;max-width:100%;padding:9px 14px;border:1px solid #c9e5e2;border-radius:999px;background:#eef8f7;color:#087983;font-family:inherit;font-size:14px;font-weight:650;line-height:1.35;text-decoration:none;white-space:nowrap}
+ :is(#qimia-lab,.qil-shell) .qil-header .qh-mobile-link svg{width:18px;height:18px;flex:none;fill:none;stroke:currentColor;stroke-width:1.7}
+ :is(#qimia-lab,.qil-shell) .qil-header .qh-mobile-link:hover,:is(#qimia-lab,.qil-shell) .qil-header .qh-mobile-link[aria-current]{background:#dff2ef;color:#075e67}
+ :is(#qimia-lab,.qil-shell) .qil-header .qh-mobile-link:focus-visible{outline:2px solid #087983;outline-offset:3px}
+}
+@media(max-width:600px){
+ :is(#qimia-lab,.qil-shell) .qil-header .qil-nav.qh-has-mobile-access{row-gap:6px!important;align-content:center}
+ :is(#qimia-lab,.qil-shell) .qil-header .qil-nav>.qh-mobile-access{flex-basis:100%;border-top:1px solid #e1eeec;padding-top:6px}
+}
+@media(max-width:380px){
+ :is(#qimia-lab,.qil-shell) .qil-header .qil-nav.qh-has-mobile-access .qil-brand{max-width:58px!important}
+ :is(#qimia-lab,.qil-shell) .qil-header .qil-nav.qh-has-mobile-access .qil-brand img{max-width:58px!important}
+}
+
+/* One size in every viewport: flex-basis must match both circle dimensions. */
+:is(#qimia-lab,.qil-shell) .qil-header .qil-locale-control>summary .qil-locale-currency{display:grid!important;place-items:center;box-sizing:border-box;width:34px!important;height:34px!important;min-width:34px!important;max-width:34px!important;min-height:34px!important;max-height:34px!important;flex:0 0 34px!important;aspect-ratio:1;border-radius:50%!important;padding:0!important;line-height:1}
+
+/* 1.11.1 — replace the desktop Ask AI CTA with the existing My Qimia route.
+   Shared .qil-button-primary supplies the same sheen as Add to cart. */
+:is(#qimia-lab,.qil-shell) .qil-header .qil-myqimia-header-button {
+ display:inline-flex; flex:0 0 auto; min-height:44px; min-width:0;
+ gap:8px; padding:10px 14px; font-size:12px; line-height:1.3; white-space:nowrap;
+}
+:is(#qimia-lab,.qil-shell) .qil-header .qil-myqimia-header-button > svg {
+ width:18px!important; min-width:18px; height:18px!important; flex:none;
+}
+/* 1.11.3 — one optional header entry at every size. No extra mobile row.
+   The existing primary-button pseudo-element supplies the sheen unchanged. */
+@media(max-width:980px) {
+ :is(#qimia-lab,.qil-shell) .qil-header .qil-myqimia-header-button {
+  display:inline-flex; min-height:44px; gap:6px; padding:8px 11px; font-size:11px;
+ }
+}
+@media(max-width:480px) {
+ :is(#qimia-lab,.qil-shell) .qil-header a.qil-myqimia-header-button {
+  box-sizing:border-box; width:44px!important; height:44px!important;
+  min-width:44px; min-height:44px; flex:0 0 44px; gap:0; padding:0!important;
+  border-radius:50%;
+ }
+ /* Visually compact; retain its full accessible name rather than an empty icon. */
+ :is(#qimia-lab,.qil-shell) .qil-header a.qil-myqimia-header-button > span {
+  position:absolute; width:1px; height:1px; padding:0; margin:-1px;
+  overflow:hidden; clip:rect(0,0,0,0); clip-path:inset(50%); white-space:nowrap; border:0;
+ }
+ :is(#qimia-lab,.qil-shell) .qil-header a.qil-myqimia-header-button > svg {
+  width:20px!important; min-width:20px; height:20px!important;
+ }
+}
+/* Tight phones only: reclaim whitespace when the optional entry actually exists.
+   Keep navigation, search, language, currency and cart visible in the same row. */
+@media(max-width:480px) {
+ :is(#qimia-lab,.qil-shell) .qil-header .qil-nav:has(a.qil-myqimia-header-button) {gap:4px!important;padding-inline:8px!important;flex-wrap:nowrap!important}
+ :is(#qimia-lab,.qil-shell) .qil-header .qil-actions:has(> a.qil-myqimia-header-button) {gap:3px!important}
+}
+@media(max-width:374px) {
+ :is(#qimia-lab,.qil-shell) .qil-header .qil-nav:has(a.qil-myqimia-header-button) .qil-pages > summary {width:32px!important;min-width:32px!important}
+ :is(#qimia-lab,.qil-shell) .qil-header .qil-actions:has(> a.qil-myqimia-header-button) > :is(.qil-icon-button,.qil-bag) {width:32px!important;min-width:32px!important;flex:0 0 32px!important}
+ :is(#qimia-lab,.qil-shell) .qil-header .qil-actions:has(> a.qil-myqimia-header-button) .qil-bag > a,
+ :is(#qimia-lab,.qil-shell) .qil-header .qil-actions:has(> a.qil-myqimia-header-button) .qil-bag .wd-tools-icon {width:100%!important}
+}
+@media(max-width:350px) {
+ :is(#qimia-lab,.qil-shell) .qil-header .qil-nav:has(a.qil-myqimia-header-button) {gap:3px!important;padding-inline:7px!important}
+ :is(#qimia-lab,.qil-shell) .qil-header .qil-nav:has(a.qil-myqimia-header-button) .qil-wp-logo img {max-width:48px!important; height:auto}
+ :is(#qimia-lab,.qil-shell) .qil-header .qil-actions:has(> a.qil-myqimia-header-button) {gap:2px!important}
+ :is(#qimia-lab,.qil-shell) .qil-header .qil-actions:has(> a.qil-myqimia-header-button) .qil-locale-control > summary {min-width:0!important;padding-inline:3px!important;gap:3px!important}
+}
+/* The standalone product/shop header lacks the homepage's narrow-phone rules.
+   Its empty-entry state must fit too, without reserving the removed CTA's width. */
+@media(max-width:350px) {
+ :is(#qimia-lab,.qil-shell).qil-chrome-shell .qil-header .qil-nav:not(:has(.qil-myqimia-header-button)) {gap:4px!important;padding-inline:7px!important}
+ :is(#qimia-lab,.qil-shell).qil-chrome-shell .qil-header .qil-nav:not(:has(.qil-myqimia-header-button)) .qil-pages > summary {width:32px!important;min-width:32px!important}
+ :is(#qimia-lab,.qil-shell).qil-chrome-shell .qil-header .qil-nav:not(:has(.qil-myqimia-header-button)) .qil-wp-logo img {max-width:58px!important;height:auto}
+ :is(#qimia-lab,.qil-shell).qil-chrome-shell .qil-header .qil-actions:not(:has(> .qil-myqimia-header-button)) {gap:4px!important}
+}
+/* Defensive only: unavailable entries are omitted by PHP, never exposed by CSS. */
+:is(#qimia-lab,.qil-shell) .qil-header .qil-myqimia-header-button:is([hidden],[disabled],[aria-disabled="true"]) {display:none!important}
+
+/* 1.11.2 — the disabled story entry retains its size; never expose an empty href.
+   Also enable the shared sheen on keyboard focus and touch press, with no lift. */
+:is(#qimia-lab,.qil-shell) :is(.qil-myqimia-title-link,.qil-myqimia-header-button,.qil-myqimia-story-cta) {
+ transform:none!important;
+}
+:is(#qimia-lab,.qil-shell) a:is(.qil-myqimia-title-link,.qil-myqimia-header-button,.qil-myqimia-story-cta):is(:focus-visible,:active,.qil-myqimia-pressed)::after {
+ transform:translateX(340%) skewX(-18deg);
+}
+:is(#qimia-lab,.qil-shell) .qil-myqimia-unavailable:disabled {
+ opacity:.5; cursor:not-allowed; transform:none!important;
+ background:var(--qil-grad-primary)!important;
+ box-shadow:var(--qil-shadow-tiffany),inset 0 1px rgba(255,255,255,.28)!important;
+}
+:is(#qimia-lab,.qil-shell) .qil-myqimia-unavailable:disabled::after {display:none!important}
+
+/* 1.13.2 — only the mobile/tablet page-menu text. Theme button typography
+   must not turn the last menu entry into a differently weighted uppercase CTA.
+   Keep the existing shell font (Inter / the existing Arabic stack), colours,
+   padding, links, header controls and the separate catalogue drawer unchanged. */
+@media (max-width:1100px) {
+ :is(#qimia-lab,.qil-shell) .qil-header .qil-pages > nav > :is(a,button) {
+  font-family:inherit!important;
+  font-size:14px!important;
+  font-weight:600!important;
+  font-style:normal!important;
+  line-height:1.5!important;
+  letter-spacing:normal!important;
+  text-transform:none!important;
+ }
+ :is(#qimia-lab,.qil-shell) .qil-header .qil-pages > nav > :is(a,button) :is(span,strong,b,em):not([class*="icon"]):not([class*="currency"]) {
+  font:inherit!important;
+  letter-spacing:inherit!important;
+  text-transform:inherit!important;
+ }
+}
+
+/* 1.16.6: shared header controls retain the homepage appearance when the
+   surrounding WooCommerce/theme button resets are present. No routing changes. */
+:is(#qimia-lab,.qil-shell) .qil-header .qil-currency-option {
+ border-radius:12px!important;
+ font-family:Inter,sans-serif!important;
+ text-transform:none!important;
+ letter-spacing:normal!important;
+}
+:is(#qimia-lab,.qil-shell) .qil-header .qil-menu-button,
+:is(#qimia-lab,.qil-shell) .qil-header .qil-menu-button>span {
+ text-transform:uppercase!important;
+}
+
+:is(#qimia-lab,.qil-shell) .qil-header .qil-menu-button {
+ box-shadow:0 0 0 1px rgba(8,121,131,.16)!important;
+}
+:is(#qimia-lab,.qil-shell) .qil-header .qil-locale-control>summary {
+ min-height:44px;height:44px;gap:6px;padding:3px 10px 3px 4px;
+ border-radius:99px;min-width:112px;
+}
+:is(#qimia-lab,.qil-shell)[dir=rtl] .qil-header .qil-locale-control>summary {padding:3px 4px 3px 10px}
+@media(max-width:600px){
+ :is(#qimia-lab,.qil-shell) .qil-header .qil-locale-control>summary {height:44px!important;min-width:112px!important;padding-inline:4px 8px!important;gap:5px!important}
+}

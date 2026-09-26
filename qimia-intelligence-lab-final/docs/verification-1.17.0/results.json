@@ -1,0 +1,151 @@
+{
+ "version": "1.17.0",
+ "date": "2026-09-25",
+ "environment": {
+  "wordpress": "6.8.2",
+  "woocommerce": "9.9.5",
+  "php": "8.4 (built-in server, 8 workers)",
+  "database": "SQLite integration",
+  "theme": "Twenty Twenty-Five",
+  "note": "Local test site; not the production host, theme or cache stack."
+ },
+ "php_lint": "all PHP files pass php -l",
+ "js_check": "qil.js, qil.min.js, qil-personalization.js, qil-personalization.min.js pass node --check",
+ "min_build": {
+  "qil.min.js": "esbuild --minify --target=es2020 (byte-identical to the shipped 1.16.6 build when applied to 1.16.6 source)",
+  "qil-personalization.min.js": "terser -c -m --ecma 2020 (byte-identical for 1.16.6 source)"
+ },
+ "wp_debug_notices": 0,
+ "browser_requests_original_1_16_6": {
+  "1 product (new guest)": {
+   "fragments": 1,
+   "repeat_context": 1,
+   "personalize": 1,
+   "rest_search": 0
+  },
+  "2 other product": {
+   "fragments": 0,
+   "repeat_context": 1,
+   "personalize": 1,
+   "rest_search": 0
+  },
+  "3 back to first product": {
+   "fragments": 0,
+   "repeat_context": 1,
+   "personalize": 1,
+   "rest_search": 0
+  },
+  "4 home": {
+   "fragments": 0,
+   "repeat_context": 1,
+   "personalize": 0,
+   "rest_search": 0
+  },
+  "5a search \"wh\"": {
+   "rest_search": 1
+  },
+  "5b search \"whey\" (typed fast)": {
+   "rest_search": 2
+  },
+  "5c retype \"whey\"": {
+   "rest_search": 4
+  },
+  "7 product with cart": {
+   "fragments": 0,
+   "repeat_context": 1,
+   "personalize": 1,
+   "rest_search": 0
+  },
+  "cartCount": "1"
+ },
+ "browser_requests_1_17_0": {
+  "1 product (new guest)": {
+   "fragments": 0,
+   "repeat_context": 1,
+   "personalize": 1,
+   "rest_search": 0
+  },
+  "2 other product": {
+   "fragments": 0,
+   "repeat_context": 1,
+   "personalize": 1,
+   "rest_search": 0
+  },
+  "3 back to first product": {
+   "fragments": 0,
+   "repeat_context": 0,
+   "personalize": 0,
+   "rest_search": 0
+  },
+  "4 home": {
+   "fragments": 0,
+   "repeat_context": 0,
+   "personalize": 0,
+   "rest_search": 0
+  },
+  "5a search \"wh\"": {
+   "rest_search": 0
+  },
+  "5b search \"whey\" (typed fast)": {
+   "rest_search": 1
+  },
+  "5c retype \"whey\"": {
+   "rest_search": 2
+  },
+  "7 product with cart": {
+   "fragments": 0,
+   "repeat_context": 0,
+   "personalize": 1,
+   "rest_search": 0
+  },
+  "cartCount": "1"
+ },
+ "meta_crawler_burst_30_parallel": {
+  "original_cpu_seconds": 26.6,
+  "original_wall_seconds": 7.1,
+  "new_cpu_seconds": 5.9,
+  "new_wall_seconds": 2.0,
+  "new_full_renders": 1,
+  "new_cached_copies": 29,
+  "new_429": 0
+ },
+ "crawler_render_budget": {
+  "limit": 3,
+  "distinct_uncached_urls": 6,
+  "served": 3,
+  "status_429_retry_after_60": 3,
+  "cached_url_during_budget": "HIT",
+  "normal_visitor_during_budget": 200
+ },
+ "responses_identical_to_original": {
+  "qil_personalize_guest": true,
+  "qil_personalize_signed_in": true,
+  "qil_repeat_context_inventory_only": true,
+  "qil_repeat_context_signed_in_buy_again": true,
+  "rest_search": true,
+  "ignored_fields": [
+   "serverTime",
+   "checkedAt",
+   "nonce",
+   "binding",
+   "diagnostics"
+  ]
+ },
+ "cron": {
+  "normal_page": "armed",
+  "crawler": "off",
+  "lab_ajax": "off",
+  "woocommerce_ajax": "armed",
+  "server_mode_recent_heartbeat": "off",
+  "server_mode_stale_heartbeat_failsafe": "armed",
+  "overlap_lock_second_run": "exited before init",
+  "stale_lock": "cleared and ran"
+ },
+ "cart": {
+  "guest_add_to_cart_count": "0 -> 1",
+  "next_page_count": "1",
+  "fragments_gate_disabled_setting_removes_script": true
+ },
+ "production_deployed": false,
+ "production_load_tested": false
+}

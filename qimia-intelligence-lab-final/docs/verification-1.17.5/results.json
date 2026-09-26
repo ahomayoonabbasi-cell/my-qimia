@@ -1,0 +1,41 @@
+{
+  "version": "1.17.5",
+  "base_zip_sha256": "cdbfeca7ce23ba150ccb8f73669bb92c4581d6133aace7056062c606f7d443cc",
+  "php_syntax_files": 22,
+  "javascript_syntax_files": 14,
+  "syntax_pass": true,
+  "changed_existing_files": [
+    "includes/hero-studio.php",
+    "includes/sections.php",
+    "qimia-intelligence-lab.php",
+    "readme.txt"
+  ],
+  "added_files": [
+    "RELEASE-1.17.5.md",
+    "docs/VERIFICATION-1.17.5.md",
+    "docs/verification-1.17.5/results.json"
+  ],
+  "assets_css_unchanged": true,
+  "assets_js_unchanged": true,
+  "templates_unchanged": true,
+  "seo_scope": {
+    "routes": [
+      "/",
+      "/ar/"
+    ],
+    "image": "assets/qimia-couple-ai-v14-1448.webp or configured Hero Studio desktop image",
+    "rank_math_og_facebook": true,
+    "rank_math_og_twitter": true,
+    "rank_math_jsonld_primaryImageOfPage": true,
+    "max_image_preview_large": true,
+    "decorative_background_alt_empty": true,
+    "couple_alt_localized": true,
+    "canonical_changed": false,
+    "hreflang_changed": false,
+    "title_changed": false,
+    "description_changed": false,
+    "sitemap_changed": false,
+    "index_follow_changed": false
+  },
+  "google_thumbnail_selection_guaranteed": false
+}

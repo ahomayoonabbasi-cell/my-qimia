@@ -1,0 +1,279 @@
+{
+    "total": 68,
+    "passed": 68,
+    "failed": 0,
+    "results": [
+        {
+            "test": "Context rejects nested IDs and malformed IDs",
+            "pass": true
+        },
+        {
+            "test": "Nested filter input does not warn and canonical AND filters",
+            "pass": true
+        },
+        {
+            "test": "No arbitrary customer identifier accepted",
+            "pass": true
+        },
+        {
+            "test": "Same origin POST with custom header accepted",
+            "pass": true
+        },
+        {
+            "test": "GET is forbidden",
+            "pass": true
+        },
+        {
+            "test": "Cross-origin blocked",
+            "pass": true
+        },
+        {
+            "test": "Same host wrong scheme blocked",
+            "pass": true
+        },
+        {
+            "test": "Missing custom header blocked",
+            "pass": true
+        },
+        {
+            "test": "Origin null is rejected",
+            "pass": true
+        },
+        {
+            "test": "Same site but other subdomain rejected",
+            "pass": true
+        },
+        {
+            "test": "Out of stock excluded",
+            "pass": true
+        },
+        {
+            "test": "Draft hidden password image quantity and zero-price products excluded",
+            "pass": true
+        },
+        {
+            "test": "Destination eligibility veto respected",
+            "pass": true
+        },
+        {
+            "test": "Buy again exists only for real owned orders",
+            "pass": true
+        },
+        {
+            "test": "Original variation and current price maintained",
+            "pass": true
+        },
+        {
+            "test": "Unavailable previous flavour is never silently replaced",
+            "pass": true
+        },
+        {
+            "test": "Missing exact variation metadata does not guess",
+            "pass": true
+        },
+        {
+            "test": "Mismatching old flavour fails validation",
+            "pass": true
+        },
+        {
+            "test": "Parent reassignment invalidates exact variation",
+            "pass": true
+        },
+        {
+            "test": "Quantity-refunded item excluded",
+            "pass": true
+        },
+        {
+            "test": "Fully money-refunded item excluded",
+            "pass": true
+        },
+        {
+            "test": "Partially refunded remaining item remains repeatable",
+            "pass": true
+        },
+        {
+            "test": "Cancelled order excluded",
+            "pass": true
+        },
+        {
+            "test": "Guest sees no order data \/ retained history",
+            "pass": true
+        },
+        {
+            "test": "Consent off still permits account buy again, not profiling",
+            "pass": true
+        },
+        {
+            "test": "Recently viewed only contains product-page views",
+            "pass": true
+        },
+        {
+            "test": "Card impressions do not become recently viewed or positive interests",
+            "pass": true
+        },
+        {
+            "test": "Old\/future activity discarded",
+            "pass": true
+        },
+        {
+            "test": "Repeated same-day views are capped",
+            "pass": true
+        },
+        {
+            "test": "Preference decay favors new activity",
+            "pass": true
+        },
+        {
+            "test": "Current product, related cards and cart removed excluded",
+            "pass": true
+        },
+        {
+            "test": "All tabs deduplicate parent products",
+            "pass": true
+        },
+        {
+            "test": "Cart only merchant cross-sells or non-rival repeat selections",
+            "pass": true
+        },
+        {
+            "test": "Merchant cross sell in cart not duplicated",
+            "pass": true
+        },
+        {
+            "test": "Empty guest home does not fabricate personal history",
+            "pass": true
+        },
+        {
+            "test": "Cold order snapshot bounded and warm snapshot reuses refs",
+            "pass": true
+        },
+        {
+            "test": "Warm reference cache never freezes live price",
+            "pass": true
+        },
+        {
+            "test": "Warm references revalidate live ownership",
+            "pass": true
+        },
+        {
+            "test": "Order changes invalidate old references",
+            "pass": true
+        },
+        {
+            "test": "Account-specific cache isolation",
+            "pass": true
+        },
+        {
+            "test": "Busy snapshot lock does not wait or scan",
+            "pass": true
+        },
+        {
+            "test": "Obsolete snapshot lock recovers",
+            "pass": true
+        },
+        {
+            "test": "AND filters exclude conflicting product evidence",
+            "pass": true
+        },
+        {
+            "test": "Caffeine-free alone is not stimulant-free",
+            "pass": true
+        },
+        {
+            "test": "Original variation dietary contradiction excluded",
+            "pass": true
+        },
+        {
+            "test": "Value filter computes original selected option, not cheapest other flavour",
+            "pass": true
+        },
+        {
+            "test": "Value order uses exact repeat unit cost",
+            "pass": true
+        },
+        {
+            "test": "Unknown serving count excluded",
+            "pass": true
+        },
+        {
+            "test": "Pool hydration bounds hold with large catalogue and history",
+            "pass": true
+        },
+        {
+            "test": "Large purchase history does not starve current-intent related group",
+            "pass": true
+        },
+        {
+            "test": "Signed presentation validates and tampering fails",
+            "pass": true
+        },
+        {
+            "test": "Presentation binding rejects other account",
+            "pass": true
+        },
+        {
+            "test": "Consent revocation invalidates signed references",
+            "pass": true
+        },
+        {
+            "test": "Expired presentation rejected",
+            "pass": true
+        },
+        {
+            "test": "Existing ledger receives real signed visibility events",
+            "pass": true
+        },
+        {
+            "test": "Event cannot forge payment or other product association",
+            "pass": true
+        },
+        {
+            "test": "Events forbidden without permission",
+            "pass": true
+        },
+        {
+            "test": "Oversize read refused",
+            "pass": true
+        },
+        {
+            "test": "Malformed read refused",
+            "pass": true
+        },
+        {
+            "test": "Read endpoint returns correct schema",
+            "pass": true
+        },
+        {
+            "test": "Disabled adapter returns forbidden without data",
+            "pass": true
+        },
+        {
+            "test": "Attribution does not fabricate a decision before persisted event",
+            "pass": true
+        },
+        {
+            "test": "Attribution appends only existing owner decision",
+            "pass": true
+        },
+        {
+            "test": "Currency uses live Woo context",
+            "pass": true
+        },
+        {
+            "test": "Anonymous HTML has no customer IDs\/order references\/prices",
+            "pass": true
+        },
+        {
+            "test": "Arabic shell direction and title",
+            "pass": true
+        },
+        {
+            "test": "Cart block fallback is emitted only once",
+            "pass": true
+        },
+        {
+            "test": "Rollout zero removes new related suggestions, not service tabs",
+            "pass": true
+        }
+    ]
+}

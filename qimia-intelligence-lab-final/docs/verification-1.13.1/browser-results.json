@@ -1,0 +1,293 @@
+{
+  "environment": "Chromium 144; actual packaged minified core card/rail code + CSS + personalization JS, offline DOM + mocked fetch transport and PHP-generated synthetic payloads, no live WooCommerce",
+  "total": 46,
+  "passed": 46,
+  "failed": [],
+  "tests": [
+    {
+      "name": "home en desktop 1025: five full cards and sixth reachable both ways",
+      "passed": true,
+      "detail": "Completed browser assertion sequence; retained from batch log."
+    },
+    {
+      "name": "home en desktop 1100: five full cards and sixth reachable both ways",
+      "passed": true,
+      "detail": "Completed browser assertion sequence; retained from batch log."
+    },
+    {
+      "name": "home en desktop 1280: five full cards and sixth reachable both ways",
+      "passed": true,
+      "detail": "Completed browser assertion sequence; retained from batch log."
+    },
+    {
+      "name": "home en desktop 1440: five full cards and sixth reachable both ways",
+      "passed": true,
+      "detail": "Completed browser assertion sequence; retained from batch log."
+    },
+    {
+      "name": "home en desktop 1920: five full cards and sixth reachable both ways",
+      "passed": true,
+      "detail": "Completed browser assertion sequence; retained from batch log."
+    },
+    {
+      "name": "product en desktop 1025: five full cards and sixth reachable both ways",
+      "passed": true,
+      "detail": "Completed browser assertion sequence; retained from batch log."
+    },
+    {
+      "name": "product en desktop 1100: five full cards and sixth reachable both ways",
+      "passed": true,
+      "detail": "Completed browser assertion sequence; retained from batch log."
+    },
+    {
+      "name": "product en desktop 1280: five full cards and sixth reachable both ways",
+      "passed": true,
+      "detail": "Completed browser assertion sequence; retained from batch log."
+    },
+    {
+      "name": "product en desktop 1440: five full cards and sixth reachable both ways",
+      "passed": true,
+      "detail": "Completed browser assertion sequence; retained from batch log."
+    },
+    {
+      "name": "product en desktop 1920: five full cards and sixth reachable both ways",
+      "passed": true,
+      "detail": "Completed browser assertion sequence; retained from batch log."
+    },
+    {
+      "name": "home ar desktop 1025: five full cards and sixth reachable both ways",
+      "passed": true,
+      "detail": "Completed browser assertion sequence; retained from batch log."
+    },
+    {
+      "name": "home ar desktop 1100: five full cards and sixth reachable both ways",
+      "passed": true,
+      "detail": "Completed browser assertion sequence; retained from batch log."
+    },
+    {
+      "name": "home ar desktop 1280: five full cards and sixth reachable both ways",
+      "passed": true,
+      "detail": "Completed browser assertion sequence; retained from batch log."
+    },
+    {
+      "name": "home ar desktop 1440: five full cards and sixth reachable both ways",
+      "passed": true,
+      "detail": "Completed browser assertion sequence; retained from batch log."
+    },
+    {
+      "name": "home ar desktop 1920: five full cards and sixth reachable both ways",
+      "passed": true,
+      "detail": "Completed browser assertion sequence; retained from batch log."
+    },
+    {
+      "name": "product ar desktop 1025: five full cards and sixth reachable both ways",
+      "passed": true,
+      "detail": "Completed browser assertion sequence; retained from batch log."
+    },
+    {
+      "name": "product ar desktop 1100: five full cards and sixth reachable both ways",
+      "passed": true,
+      "detail": "Completed browser assertion sequence; retained from batch log."
+    },
+    {
+      "name": "product ar desktop 1280: five full cards and sixth reachable both ways",
+      "passed": true,
+      "detail": "Completed browser assertion sequence; retained from batch log."
+    },
+    {
+      "name": "product ar desktop 1440: five full cards and sixth reachable both ways",
+      "passed": true,
+      "detail": "Completed browser assertion sequence; retained from batch log."
+    },
+    {
+      "name": "product ar desktop 1920: five full cards and sixth reachable both ways",
+      "passed": true,
+      "detail": "Completed browser assertion sequence; retained from batch log."
+    },
+    {
+      "name": "en narrow 320: original 2-card responsive rule retained",
+      "passed": true,
+      "detail": {
+        "fullyVisible": 2,
+        "unchangedBreakpoint": 2
+      }
+    },
+    {
+      "name": "en narrow 390: original 2-card responsive rule retained",
+      "passed": true,
+      "detail": {
+        "fullyVisible": 2,
+        "unchangedBreakpoint": 2
+      }
+    },
+    {
+      "name": "en narrow 600: original 2-card responsive rule retained",
+      "passed": true,
+      "detail": {
+        "fullyVisible": 2,
+        "unchangedBreakpoint": 2
+      }
+    },
+    {
+      "name": "en narrow 768: original 3-card responsive rule retained",
+      "passed": true,
+      "detail": {
+        "fullyVisible": 3,
+        "unchangedBreakpoint": 3
+      }
+    },
+    {
+      "name": "en narrow 980: original 3-card responsive rule retained",
+      "passed": true,
+      "detail": {
+        "fullyVisible": 3,
+        "unchangedBreakpoint": 3
+      }
+    },
+    {
+      "name": "en narrow 1024: original 4-card responsive rule retained",
+      "passed": true,
+      "detail": {
+        "fullyVisible": 4,
+        "unchangedBreakpoint": 4
+      }
+    },
+    {
+      "name": "ar narrow 320: original 2-card responsive rule retained",
+      "passed": true,
+      "detail": {
+        "fullyVisible": 2,
+        "unchangedBreakpoint": 2
+      }
+    },
+    {
+      "name": "ar narrow 390: original 2-card responsive rule retained",
+      "passed": true,
+      "detail": {
+        "fullyVisible": 2,
+        "unchangedBreakpoint": 2
+      }
+    },
+    {
+      "name": "ar narrow 600: original 2-card responsive rule retained",
+      "passed": true,
+      "detail": {
+        "fullyVisible": 2,
+        "unchangedBreakpoint": 2
+      }
+    },
+    {
+      "name": "ar narrow 768: original 3-card responsive rule retained",
+      "passed": true,
+      "detail": {
+        "fullyVisible": 3,
+        "unchangedBreakpoint": 3
+      }
+    },
+    {
+      "name": "ar narrow 980: original 3-card responsive rule retained",
+      "passed": true,
+      "detail": {
+        "fullyVisible": 3,
+        "unchangedBreakpoint": 3
+      }
+    },
+    {
+      "name": "ar narrow 1024: original 4-card responsive rule retained",
+      "passed": true,
+      "detail": {
+        "fullyVisible": 4,
+        "unchangedBreakpoint": 4
+      }
+    },
+    {
+      "name": "1 cards: no filler or duplicate; arrows only on overflow",
+      "passed": true,
+      "detail": {
+        "count": 1,
+        "arrowsHidden": true
+      }
+    },
+    {
+      "name": "4 cards: no filler or duplicate; arrows only on overflow",
+      "passed": true,
+      "detail": {
+        "count": 4,
+        "arrowsHidden": true
+      }
+    },
+    {
+      "name": "5 cards: no filler or duplicate; arrows only on overflow",
+      "passed": true,
+      "detail": {
+        "count": 5,
+        "arrowsHidden": true
+      }
+    },
+    {
+      "name": "6 cards: no filler or duplicate; arrows only on overflow",
+      "passed": true,
+      "detail": {
+        "count": 6,
+        "arrowsHidden": false
+      }
+    },
+    {
+      "name": "Scope: no change to other product rails or original commerce controls",
+      "passed": true,
+      "detail": "Unrelated rail stays six-up; original buttons/choice/quantity/checkout untouched"
+    },
+    {
+      "name": "PDP: exactly one section remains below related products",
+      "passed": true,
+      "detail": "One personal section, after native related products"
+    },
+    {
+      "name": "Cart: no expansion of original four-item cap",
+      "passed": true,
+      "detail": "Four-item cart cap retained"
+    },
+    {
+      "name": "Tabs: reset scroll, correct purchase roles, Arabic keyboard navigation",
+      "passed": true,
+      "detail": "Tabs reset rail, use original exact-buy controls only on purchased items, Arabic keyboard direction retained"
+    },
+    {
+      "name": "Thirty rapid intent changes coalesce into one read; no concurrent read",
+      "passed": true,
+      "detail": {
+        "burstEvents": 30,
+        "requestsForBurst": 1,
+        "maxInFlight": 1
+      }
+    },
+    {
+      "name": "No qualifying products: no empty box or fake cards",
+      "passed": true,
+      "detail": "Empty shelf hidden, native purchase retained"
+    },
+    {
+      "name": "Read failure: one retry then hidden shelf, checkout independent",
+      "passed": true,
+      "detail": {
+        "boundedAttempts": 2,
+        "nativePurchaseVisible": true
+      }
+    },
+    {
+      "name": "A short hidden-tab interval cannot lose the pending refresh",
+      "passed": true,
+      "detail": "Deferred latest context loaded on visibility return without polling"
+    },
+    {
+      "name": "Actual shared Buy Again button preserves exact-item and double-click protection",
+      "passed": true,
+      "detail": "Double click sends one exact order/item mutation; no automatic option substitution"
+    },
+    {
+      "name": "Account transition clears old private shelf immediately",
+      "passed": true,
+      "detail": "Account transition clears old shelf before refetch"
+    }
+  ]
+}
