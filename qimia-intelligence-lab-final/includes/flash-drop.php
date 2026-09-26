@@ -16,17 +16,32 @@ defined( 'ABSPATH' ) || exit;
 
 final class QIL_Flash_Drop {
 	const STATE        = 'qil_flash_drop_state';
+	const LAST_SCAN    = 'qil_flash_drop_last_scan';
 	const CRON         = 'qil_flash_drop_rotate';
+	const PURGE        = 'qil_flash_drop_purge';
+	const PURGED       = 'qil_flash_drop_purged';
+	const SEEN_VERSION = 'qil_boost_seen_version';
 	const TIMEZONE     = '+04:00';
 	const MIN_PRODUCTS = 4;
 
+	/** True when this request could not get a drop for a transient reason. */
+	private static $degraded = false;
+
 	public static function boot() {
 		add_action( self::CRON, array( __CLASS__, 'rotate' ) );
+		add_action( self::PURGE, array( __CLASS__, 'purge_now' ) );
 		add_action( 'rest_api_init', array( __CLASS__, 'routes' ) );
 		add_action( 'init', array( __CLASS__, 'no_edge_cache' ), -9999 );
+		add_action( 'init', array( __CLASS__, 'version_changed' ), 20 );
 		add_action( 'woocommerce_product_query', array( __CLASS__, 'exclusive_archive' ), 25 );
 		add_action( 'update_option_' . QIL_Boost::OPTION, array( __CLASS__, 'settings_changed' ), 10, 2 );
-		add_filter( 'qil_boost_page_data', array( __CLASS__, 'page_data' ) );
+		// Stock counts on the cached homepage follow real stock (orders, edits, imports).
+		add_action( 'woocommerce_product_set_stock', array( __CLASS__, 'product_changed' ) );
+		add_action( 'woocommerce_variation_set_stock', array( __CLASS__, 'product_changed' ) );
+		add_action( 'woocommerce_product_set_stock_status', array( __CLASS__, 'status_changed' ), 10, 3 );
+		add_action( 'woocommerce_variation_set_stock_status', array( __CLASS__, 'status_changed' ), 10, 3 );
+		add_action( 'woocommerce_update_product', array( __CLASS__, 'product_changed' ) );
+		add_action( 'woocommerce_update_product_variation', array( __CLASS__, 'product_changed' ) );
 		add_filter( 'qimia_customer_source_projection_v2', array( __CLASS__, 'ai_context' ), 30 );
 		add_shortcode( 'qimia_flash_drop', array( __CLASS__, 'shortcode' ) );
 	}
@@ -96,11 +111,31 @@ final class QIL_Flash_Drop {
 	/** Variations inspected per candidate build; bounds the cold build's cost. */
 	private static $variation_budget = 900;
 
+	/** A variation's option in words ("Chocolate, 2 lb"), for "Only 2 left in Chocolate". */
+	private static function variation_label( $variation ) {
+		$label = function_exists( 'wc_get_formatted_variation' ) ? (string) wc_get_formatted_variation( $variation, true, false, false ) : '';
+		if ( '' === trim( wp_strip_all_tags( $label ) ) && method_exists( $variation, 'get_variation_attributes' ) ) {
+			$parts = array();
+			foreach ( (array) $variation->get_variation_attributes() as $name => $value ) {
+				$taxonomy = str_replace( 'attribute_', '', (string) $name );
+				$term     = taxonomy_exists( $taxonomy ) ? get_term_by( 'slug', (string) $value, $taxonomy ) : false;
+				$parts[]  = $term && ! is_wp_error( $term ) ? $term->name : (string) $value;
+			}
+			$label = implode( ', ', array_filter( $parts, 'strlen' ) );
+		}
+		$label = function_exists( 'qil_clean_text' ) ? qil_clean_text( wp_strip_all_tags( $label ) ) : trim( wp_strip_all_tags( $label ) );
+		return function_exists( 'mb_substr' ) ? mb_substr( $label, 0, 40 ) : substr( $label, 0, 40 );
+	}
+
+	/** A variation this low is named on the card ("Only 2 left in Chocolate"). */
+	const LOW_OPTION = 5;
+
 	/**
 	 * Facts for one product at today's WooCommerce prices, or null when it is
-	 * not a genuine, available reduction right now.
+	 * not a genuine, available reduction right now. The candidate scan spends
+	 * a shared variation budget; the drop's own few products never do.
 	 */
-	private static function facts( $product, $min_pct ) {
+	private static function facts( $product, $min_pct, $budgeted = true ) {
 		if ( ! $product || ! $product->is_type( array( 'simple', 'variable' ) ) || 'publish' !== $product->get_status()
 			|| ! $product->is_visible() || ! $product->is_purchasable() || ! $product->is_in_stock() || ! $product->get_image_id()
 			|| post_password_required( $product->get_id() ) ) {
@@ -119,27 +154,34 @@ final class QIL_Flash_Drop {
 			$pct   = (int) round( ( ( $regular - $current ) / $regular ) * 100 );
 			$stock = $product->managing_stock() ? max( 0, (int) $product->get_stock_quantity() ) : null;
 			$ends  = self::sale_end( $product );
-			return $pct >= $min_pct ? array( 'pct' => $pct, 'upTo' => false, 'stock' => $stock, 'endsAt' => $ends > $now ? $ends : 0 ) : null;
+			return $pct >= $min_pct ? array( 'pct' => $pct, 'upTo' => false, 'stock' => $stock, 'endsAt' => $ends > $now ? $ends : 0, 'low' => null ) : null;
 		}
 		// Variable: only in-stock, visible, reduced variations count; a mixed
 		// set is shown as "up to", never as the largest figure alone.
 		$children = array_slice( array_map( 'absint', (array) $product->get_visible_children() ), 0, 60 );
-		if ( ! $children || self::$variation_budget < count( $children ) ) {
+		if ( ! $children || ( $budgeted && self::$variation_budget < count( $children ) ) ) {
 			return null;
 		}
-		self::$variation_budget -= count( $children );
+		if ( $budgeted ) {
+			self::$variation_budget -= count( $children );
+		}
 		update_meta_cache( 'post', $children );
 		$pcts     = array();
 		$stock    = 0;
 		$managed  = true;
 		$ends     = 0;
+		$low      = null;
 		foreach ( $children as $child_id ) {
 			$variation = wc_get_product( $child_id );
 			if ( ! $variation || 'publish' !== $variation->get_status() || ! $variation->is_in_stock() || ! $variation->is_purchasable() || ! $variation->has_enough_stock( 1 ) ) {
 				continue;
 			}
 			if ( $variation->managing_stock() ) {
-				$stock += max( 0, (int) $variation->get_stock_quantity() );
+				$left   = max( 0, (int) $variation->get_stock_quantity() );
+				$stock += $left;
+				if ( $left > 0 && $left <= self::LOW_OPTION && ( null === $low || $left < $low['qty'] ) ) {
+					$low = array( 'qty' => $left, 'id' => (int) $child_id, 'variation' => $variation );
+				}
 			} else {
 				$managed = false;
 			}
@@ -166,11 +208,16 @@ final class QIL_Flash_Drop {
 		if ( $product_end > $now ) {
 			$ends = $ends ? min( $ends, $product_end ) : $product_end;
 		}
+		if ( $low ) {
+			$label = self::variation_label( $low['variation'] );
+			$low   = '' === $label ? null : array( 'qty' => $low['qty'], 'option' => $label, 'id' => $low['id'] );
+		}
 		return array(
 			'pct'    => max( $pcts ),
 			'upTo'   => count( array_unique( $pcts ) ) > 1,
 			'stock'  => $managed ? $stock : null,
 			'endsAt' => $ends,
+			'low'    => $low,
 		);
 	}
 
@@ -197,7 +244,17 @@ final class QIL_Flash_Drop {
 		$lock = qil_perf_lock( 'flash-candidates|' . $key, 45 );
 		if ( '' === $lock ) {
 			$cached = qil_perf_wait_for_cache( $key, 3.0, true, 'is_array' );
-			return $memo[ $key ] = is_array( $cached ) ? $cached : array();
+			if ( is_array( $cached ) ) {
+				return $memo[ $key ] = $cached;
+			}
+			// Another worker is still scanning. Never answer "no flash sale" for
+			// that: use the last complete scan, or say the drop is not ready.
+			$last = get_option( self::LAST_SCAN, array() );
+			if ( is_array( $last ) && ! empty( $last['rows'] ) && is_array( $last['rows'] ) ) {
+				return $memo[ $key ] = $last['rows'];
+			}
+			self::$degraded = true;
+			return array();
 		}
 		try {
 			$rows  = array();
@@ -235,6 +292,7 @@ final class QIL_Flash_Drop {
 				}
 			}
 			qil_perf_cache_set( $key, $rows, 10 * MINUTE_IN_SECONDS );
+			update_option( self::LAST_SCAN, array( 'at' => time(), 'rows' => $rows ), false );
 		} finally {
 			qil_perf_unlock( $lock );
 		}
@@ -304,6 +362,9 @@ final class QIL_Flash_Drop {
 			if ( $ids ) {
 				update_option( self::STATE, $state, false );
 				self::schedule( $window['end'] );
+				if ( ! wp_doing_cron() ) {
+					self::purge_soon(); // Cached copies still show the previous drop.
+				}
 			}
 		} finally {
 			qil_perf_unlock( $lock );
@@ -364,29 +425,100 @@ final class QIL_Flash_Drop {
 		}
 	}
 
-	/** Drop IDs still genuinely available now, topped up from the same window's order. */
-	public static function live_ids() {
-		$state      = self::state();
-		$candidates = self::candidates();
-		$size       = (int) QIL_Boost::settings()['flash_size'];
-		$ids        = array();
-		foreach ( (array) ( $state['ids'] ?? array() ) as $id ) {
-			if ( isset( $candidates[ (int) $id ] ) ) {
-				$ids[] = (int) $id;
+	/**
+	 * The drop's products with fresh facts: only these few products are read
+	 * (not the whole flash category), and the category scan runs only to
+	 * replace one that sold out or left the sale.
+	 *
+	 * @return array<int,array> Facts keyed by product ID, in drop order.
+	 */
+	public static function drop() {
+		static $memo = array();
+		$state    = self::state();
+		$settings = QIL_Boost::settings();
+		$key      = md5( (string) wp_json_encode( array( $state['index'] ?? null, $state['ids'] ?? array(), qil_perf_product_version() ) ) );
+		if ( isset( $memo[ $key ] ) ) {
+			return $memo[ $key ];
+		}
+		$size = (int) $settings['flash_size'];
+		$min  = (int) $settings['flash_min_pct'];
+		$rows = array();
+		foreach ( array_slice( array_map( 'absint', (array) ( $state['ids'] ?? array() ) ), 0, 12 ) as $id ) {
+			$facts = $id ? self::facts( wc_get_product( $id ), $min, false ) : null;
+			if ( $facts ) {
+				$facts['id'] = $id;
+				$rows[ $id ] = $facts;
 			}
 		}
-		if ( count( $ids ) < $size ) {
-			$previous = array_map( 'absint', (array) ( $state['previous'] ?? array() ) );
+		if ( count( $rows ) < $size && ! empty( $state['ids'] ) ) {
+			$candidates = self::candidates();
+			$previous   = array_map( 'absint', (array) ( $state['previous'] ?? array() ) );
 			foreach ( self::rank( $candidates, (int) ( $state['index'] ?? 0 ) ) as $id ) {
-				if ( count( $ids ) >= $size ) {
+				if ( count( $rows ) >= $size ) {
 					break;
 				}
-				if ( ! in_array( $id, $ids, true ) && ! in_array( $id, $previous, true ) ) {
-					$ids[] = $id;
+				if ( ! isset( $rows[ $id ] ) && ! in_array( $id, $previous, true ) && ! in_array( $id, array_map( 'absint', (array) $state['ids'] ), true ) ) {
+					$rows[ $id ] = $candidates[ $id ];
 				}
 			}
 		}
-		return $ids;
+		return $memo[ $key ] = $rows;
+	}
+
+	/** Drop IDs still genuinely available now, topped up from the same window's order. */
+	public static function live_ids() {
+		return array_keys( self::drop() );
+	}
+
+	/* ------------------------------------------------------------------
+	   Cached homepages follow the drop
+	   ------------------------------------------------------------------ */
+
+	/**
+	 * Queue one purge of the two cached homepages: at once, or five minutes
+	 * after the last one, so a busy day of orders costs at most one homepage
+	 * render per five minutes. Runs from WP-Cron, never inside a page render.
+	 */
+	public static function purge_soon() {
+		if ( ! function_exists( 'wp_schedule_single_event' ) || wp_next_scheduled( self::PURGE ) ) {
+			return;
+		}
+		$last = (int) get_transient( self::PURGED );
+		wp_schedule_single_event( max( time(), $last ? $last + 5 * MINUTE_IN_SECONDS : 0 ), self::PURGE );
+	}
+
+	public static function purge_now() {
+		set_transient( self::PURGED, time(), 5 * MINUTE_IN_SECONDS );
+		self::purge();
+	}
+
+	/** A drop product's stock, price or sale changed: its cached counts are old. */
+	public static function product_changed( $product_or_id ) {
+		$product = is_object( $product_or_id ) ? $product_or_id : ( function_exists( 'wc_get_product' ) ? wc_get_product( (int) $product_or_id ) : null );
+		if ( ! $product || ! method_exists( $product, 'get_id' ) ) {
+			return;
+		}
+		$state = get_option( self::STATE, array() );
+		$ids   = is_array( $state ) ? array_map( 'absint', (array) ( $state['ids'] ?? array() ) ) : array();
+		$self  = (int) $product->get_id();
+		$root  = method_exists( $product, 'get_parent_id' ) ? (int) $product->get_parent_id() : 0;
+		if ( ( $self && in_array( $self, $ids, true ) ) || ( $root && in_array( $root, $ids, true ) ) ) {
+			self::purge_soon();
+		}
+	}
+
+	/** Status hooks pass the product third. */
+	public static function status_changed( $product_id, $status = '', $product = null ) {
+		self::product_changed( $product ?: $product_id );
+	}
+
+	/** Homepages cached by an earlier version do not carry this version's sections. */
+	public static function version_changed() {
+		if ( get_option( self::SEEN_VERSION ) === QIL_VERSION ) {
+			return;
+		}
+		update_option( self::SEEN_VERSION, QIL_VERSION, true );
+		self::purge_soon();
 	}
 
 	/* ------------------------------------------------------------------
@@ -413,14 +545,14 @@ final class QIL_Flash_Drop {
 		$window   = self::window();
 		$identity = qil_perf_market_identity();
 		unset( $identity['user'], $identity['session'] );
-		$key    = 'qil_flash_payload_v1_' . md5( (string) wp_json_encode( array( QIL_VERSION, qil_perf_product_version(), $identity, $locale, $window, QIL_Boost::settings() ) ) );
+		$key    = 'qil_flash_payload_v2_' . md5( (string) wp_json_encode( array( QIL_VERSION, qil_perf_product_version(), $identity, $locale, $window, QIL_Boost::settings() ) ) );
 		$cached = qil_perf_cache_get( $key );
 		if ( is_array( $cached ) && isset( $cached['records'] ) ) {
 			return $cached['records'] ? $cached : null;
 		}
-		$ids     = self::live_ids();
+		$facts   = self::drop();
+		$ids     = array_keys( $facts );
 		$records = $ids ? qil_get_catalogue( array( 'include' => $ids, 'limit' => count( $ids ), 'orderby' => 'include', '_qil_locale' => $locale ) ) : array();
-		$facts   = self::candidates();
 		$meta    = array();
 		$by_id   = array();
 		foreach ( $records as $record ) {
@@ -428,15 +560,17 @@ final class QIL_Flash_Drop {
 		}
 		$ordered = array();
 		foreach ( $ids as $id ) {
-			if ( ! isset( $by_id[ $id ], $facts[ $id ] ) ) {
+			if ( ! isset( $by_id[ $id ] ) ) {
 				continue;
 			}
-			$ordered[]  = $by_id[ $id ];
+			$ordered[]   = $by_id[ $id ];
+			$low         = $facts[ $id ]['low'] ?? null;
 			$meta[ $id ] = array(
 				'pct'    => (int) $facts[ $id ]['pct'],
 				'upTo'   => (bool) $facts[ $id ]['upTo'],
 				'stock'  => null === $facts[ $id ]['stock'] ? null : (int) $facts[ $id ]['stock'],
 				'endsAt' => (int) $facts[ $id ]['endsAt'],
+				'low'    => is_array( $low ) ? array( 'qty' => (int) $low['qty'], 'option' => (string) $low['option'] ) : null,
 			);
 		}
 		$payload = array(
@@ -446,50 +580,13 @@ final class QIL_Flash_Drop {
 			'generatedAt' => time(),
 			'url'         => function_exists( 'qil_promotion_url' ) ? qil_promotion_url( 'flash', 'ar' === $locale ) : '',
 		);
-		qil_perf_cache_set( $key, $payload, 5 * MINUTE_IN_SECONDS );
+		// A drop that is only momentarily unavailable is never remembered as "no drop".
+		if ( $payload['records'] || ! self::$degraded ) {
+			qil_perf_cache_set( $key, $payload, 5 * MINUTE_IN_SECONDS );
+		}
 		return $payload['records'] ? $payload : null;
 	}
 
-	/** Whether the current singular page carries the [qimia_flash_drop] shortcode. */
-	private static function shortcode_on_page() {
-		global $post;
-		return is_singular() && is_a( $post, 'WP_Post' ) && has_shortcode( (string) $post->post_content, 'qimia_flash_drop' );
-	}
-
-	/**
-	 * Homepage (or shortcode) pages receive the drop with the page, not by
-	 * AJAX. Records the homepage already embeds for its own collections are
-	 * sent as IDs only, so the same card data is never shipped twice.
-	 */
-	public static function page_data( $data ) {
-		$home = function_exists( 'qil_render_mode' ) && 'full' === qil_render_mode();
-		if ( ! $home && ! self::shortcode_on_page() ) {
-			return $data;
-		}
-		$payload = self::payload();
-		if ( $payload ) {
-			$known = array();
-			if ( $home && function_exists( 'qil_initial_catalogue_payload' ) ) {
-				$initial = qil_initial_catalogue_payload();
-				foreach ( (array) ( $initial['products'] ?? array() ) as $record ) {
-					$known[ (int) ( $record['id'] ?? 0 ) ] = true;
-				}
-			}
-			$records = array();
-			foreach ( $payload['records'] as $record ) {
-				$records[] = isset( $known[ (int) $record['id'] ] ) ? array( 'id' => (int) $record['id'], 'ref' => true ) : $record;
-			}
-			$data['flash'] = array(
-				'records'     => $records,
-				'meta'        => $payload['meta'],
-				'start'       => (int) $payload['window']['start'],
-				'end'         => (int) $payload['window']['end'],
-				'hours'       => (int) $payload['window']['hours'],
-				'generatedAt' => (int) $payload['generatedAt'],
-			);
-		}
-		return $data;
-	}
 
 	/* ------------------------------------------------------------------
 	   Homepage section
@@ -513,15 +610,45 @@ final class QIL_Flash_Drop {
 		return $date->format( 'D j M, g:i A' ) . ' (Oman)';
 	}
 
+	/** Products whose count is worth a shopper's attention (a low option, or 10 or fewer left). */
+	private static function almost_gone( array $meta ) {
+		return ! empty( $meta['low'] ) || ( null !== ( $meta['stock'] ?? null ) && (int) $meta['stock'] <= 10 );
+	}
+
 	public static function section( array $args = array() ) {
 		$payload = self::payload();
 		if ( ! $payload ) {
+			if ( self::$degraded ) {
+				// The first scan is still running elsewhere: this copy must not be
+				// cached as a homepage without its drop.
+				do_action( 'litespeed_control_set_nocache', 'Qimia flash drop not ready' );
+			}
 			return '';
 		}
 		$ar      = QIL_Boost::is_ar();
 		$window  = $payload['window'];
 		$count   = count( $payload['records'] );
 		$hours   = (int) $window['hours'];
+		$gone    = count( array_filter( $payload['meta'], array( __CLASS__, 'almost_gone' ) ) );
+		// Records already in the page's catalogue travel as references.
+		$known = array();
+		if ( function_exists( 'qil_render_mode' ) && 'full' === qil_render_mode() && function_exists( 'qil_initial_catalogue_payload' ) ) {
+			foreach ( (array) ( qil_initial_catalogue_payload()['products'] ?? array() ) as $record ) {
+				$known[ (int) ( $record['id'] ?? 0 ) ] = true;
+			}
+		}
+		$records = array();
+		foreach ( $payload['records'] as $record ) {
+			$records[] = isset( $known[ (int) $record['id'] ] ) ? array( 'id' => (int) $record['id'], 'ref' => true ) : $record;
+		}
+		$data = array(
+			'records'     => $records,
+			'meta'        => $payload['meta'],
+			'start'       => (int) $window['start'],
+			'end'         => (int) $window['end'],
+			'hours'       => $hours,
+			'generatedAt' => (int) $payload['generatedAt'],
+		);
 		$remain  = max( 0, (int) $window['end'] - time() );
 		$days    = (int) floor( $remain / DAY_IN_SECONDS );
 		$clock   = array( 'd' => $days, 'h' => (int) floor( ( $remain % DAY_IN_SECONDS ) / HOUR_IN_SECONDS ), 'm' => (int) floor( ( $remain % HOUR_IN_SECONDS ) / MINUTE_IN_SECONDS ), 's' => $remain % MINUTE_IN_SECONDS );
@@ -540,7 +667,7 @@ final class QIL_Flash_Drop {
 					<span class="qil-flash-aurora" aria-hidden="true"></span>
 					<header class="qil-flash-head">
 						<div class="qil-flash-titles">
-							<span class="qil-flash-kicker"><i class="qil-flash-pulse" aria-hidden="true"></i><?php echo esc_html( $ar ? sprintf( 'مجموعة مباشرة · %d منتجات', $count ) : sprintf( 'LIVE DROP · %d PRODUCTS', $count ) ); ?></span>
+							<span class="qil-flash-kicker"><i class="qil-flash-pulse" aria-hidden="true"></i><?php echo esc_html( $ar ? sprintf( 'مجموعة مباشرة · %d منتجات', $count ) : sprintf( 'LIVE DROP · %d PRODUCTS', $count ) ); ?><?php if ( $gone ) : ?><b class="qil-flash-gone"><?php echo esc_html( $ar ? sprintf( '%d على وشك النفاد', $gone ) : sprintf( '%d ALMOST GONE', $gone ) ); ?></b><?php endif; ?></span>
 							<h2 id="qil-flash-title"><span class="qil-flash-word"><?php echo esc_html( $title ); ?></span> <em><?php echo esc_html( $span ); ?></em></h2>
 							<p><?php echo esc_html( $lead ); ?></p>
 						</div>
@@ -554,7 +681,8 @@ final class QIL_Flash_Drop {
 							<small class="qil-flash-ends" data-qil-flash-ends><?php echo esc_html( ( $ar ? 'تنتهي: ' : 'Ends ' ) . $ends_at ); ?></small>
 						</div>
 					</header>
-					<div class="qil-collection-grid qil-rail qil-flash-rail" data-qil-flash-grid data-qil-rail="flash-drop" aria-live="polite"><div class="qil-collection-skeleton" aria-hidden="true"><i></i><i></i><i></i><i></i></div></div>
+					<div class="qil-collection-grid qil-rail qil-boost-rail qil-flash-rail" data-qil-flash-grid data-qil-rail="flash-drop" aria-live="polite"><div class="qil-collection-skeleton" aria-hidden="true"><i></i><i></i><i></i><i></i></div></div>
+					<script type="application/json" data-qil-flash-data><?php echo wp_json_encode( $data, JSON_HEX_TAG | JSON_HEX_AMP | JSON_HEX_APOS | JSON_HEX_QUOT | JSON_UNESCAPED_UNICODE | JSON_UNESCAPED_SLASHES ); // phpcs:ignore WordPress.Security.EscapeOutput.OutputNotEscaped -- JSON with every markup character escaped. ?></script>
 					<footer class="qil-flash-foot">
 						<div class="qil-rail-nav" data-qil-rail-nav="flash-drop"><button type="button" data-qil-rail-prev aria-label="<?php echo esc_attr( $ar ? 'السابق' : 'Previous' ); ?>"><svg aria-hidden="true"><use href="#qil-i-arrow"/></svg></button><button type="button" data-qil-rail-next aria-label="<?php echo esc_attr( $ar ? 'التالي' : 'Next' ); ?>"><svg aria-hidden="true"><use href="#qil-i-arrow"/></svg></button></div>
 						<p class="qil-flash-truth"><svg aria-hidden="true"><use href="#qil-i-shield"/></svg><span><?php echo esc_html( $ar ? 'أسعار ومخزون ووكومرس المباشر. لا عدّاد وهمي: الوقت هو نهاية هذه المجموعة فعلاً.' : 'Live WooCommerce prices and stock. No fake timer: the clock is the real end of this drop.' ); ?></span></p>
@@ -675,6 +803,7 @@ final class QIL_Flash_Drop {
 					'discountPct'  => (int) ( $meta['pct'] ?? 0 ),
 					'upTo'         => ! empty( $meta['upTo'] ),
 					'stock'        => $meta['stock'] ?? null,
+					'lowStock'     => $meta['low'] ?? null,
 					'saleEndsAt'   => (int) ( $meta['endsAt'] ?? 0 ) ?: null,
 				);
 			}
@@ -722,7 +851,7 @@ final class QIL_Flash_Drop {
 		echo '<table class="widefat striped"><thead><tr><th>Product</th><th>Now</th><th>Was</th><th>Off</th><th>Stock</th><th>Sale ends</th></tr></thead><tbody>';
 		foreach ( $payload['records'] as $record ) {
 			$meta = $payload['meta'][ (int) $record['id'] ] ?? array();
-			echo '<tr><td><a href="' . esc_url( $record['url'] ) . '">' . esc_html( $record['name'] ) . '</a> <code>#' . (int) $record['id'] . '</code></td><td>' . wp_kses_post( $record['price']['current']['minimumFormattedHtml'] ?? '' ) . '</td><td>' . wp_kses_post( $record['price']['regular']['minimumFormattedHtml'] ?? '' ) . '</td><td>' . ( ! empty( $meta['upTo'] ) ? 'up to ' : '' ) . (int) ( $meta['pct'] ?? 0 ) . '%</td><td>' . esc_html( null === ( $meta['stock'] ?? null ) ? 'In stock' : (string) $meta['stock'] ) . '</td><td>' . esc_html( ! empty( $meta['endsAt'] ) ? self::oman_time( $meta['endsAt'], false ) : '—' ) . '</td></tr>';
+			echo '<tr><td><a href="' . esc_url( $record['url'] ) . '">' . esc_html( $record['name'] ) . '</a> <code>#' . (int) $record['id'] . '</code></td><td>' . wp_kses_post( $record['price']['current']['minimumFormattedHtml'] ?? '' ) . '</td><td>' . wp_kses_post( $record['price']['regular']['minimumFormattedHtml'] ?? '' ) . '</td><td>' . ( ! empty( $meta['upTo'] ) ? 'up to ' : '' ) . (int) ( $meta['pct'] ?? 0 ) . '%</td><td>' . esc_html( ( null === ( $meta['stock'] ?? null ) ? 'In stock' : (string) $meta['stock'] ) . ( ! empty( $meta['low'] ) ? ' (only ' . (int) $meta['low']['qty'] . ' in ' . $meta['low']['option'] . ')' : '' ) ) . '</td><td>' . esc_html( ! empty( $meta['endsAt'] ) ? self::oman_time( $meta['endsAt'], false ) : '—' ) . '</td></tr>';
 		}
 		echo '</tbody></table>';
 		$feed = add_query_arg( 'qil_locale', 'en', rest_url( 'qimia-lab/v1/flash-drop' ) );

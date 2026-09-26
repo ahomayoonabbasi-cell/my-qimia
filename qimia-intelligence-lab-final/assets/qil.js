@@ -3245,6 +3245,8 @@
         context: () => ({compare: state.compare.map(p => Number(p.id)).slice(0,3)}),
         refresh: () => { setupRails(); observeReveals(); renderLiveInventory(); }
     });
+    // Sections that render with the shared card may load before or after this file.
+    document.dispatchEvent(new CustomEvent('qil:cards-ready'));
 
 	const productTotal = $('[data-qil-product-total]');
 	const brandTotal = $('[data-qil-brand-total]');

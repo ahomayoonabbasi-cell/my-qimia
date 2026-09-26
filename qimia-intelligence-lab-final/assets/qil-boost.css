@@ -149,30 +149,45 @@ li.qil-boost-li::before, li.qil-boost-li::after { content: none !important; disp
 }
 .qil-boost .qil-boost-pick-note .qil-boost-icon, .qil-boost .qil-boost-unlock .qil-boost-icon { width: 12px; height: 12px; color: #c98a12; }
 
-/* One-tap add. WooCommerce's own AJAX add runs on these links. */
+/* One-tap add: the homepage's Add to cart button (.qil-buy) exactly: same
+   gradient, pill, shadow, hover and light sweep. Restated here because the
+   drawer and the cart totals sit outside the Qimia shell. WooCommerce's own
+   AJAX add runs on these links. */
 .qil-boost .qil-boost-add {
-	position: relative;
-	display: inline-flex !important; align-items: center; justify-content: center; gap: 5px;
-	min-height: 34px; margin: 0 !important; padding: 0 12px !important;
-	border: 0 !important; border-radius: 99px !important;
-	background: var(--qb-ink) !important; color: #fff !important;
-	font-size: 11.5px !important; font-weight: 800 !important; line-height: 1 !important;
-	letter-spacing: 0 !important; text-transform: none !important; white-space: nowrap;
-	box-shadow: 0 8px 18px rgba(7,31,44,.16) !important;
-	transition: background-color .18s ease, box-shadow .18s ease, opacity .18s ease !important;
+	position: relative; overflow: hidden;
+	display: inline-flex !important; align-items: center; justify-content: center; gap: 6px;
+	min-height: 36px; margin: 0 !important; padding: 0 14px !important;
+	border: 0 !important; border-radius: var(--qil-pill, 999px) !important;
+	background: var(--qil-grad-primary, linear-gradient(135deg,#0b7f89 0%,#12a3a6 48%,#39c9c3 100%)) !important;
+	color: #fff !important;
+	font-size: 11px !important; font-weight: 820 !important; line-height: 1.2 !important;
+	letter-spacing: 0 !important; text-transform: none !important; text-decoration: none !important; white-space: nowrap;
+	box-shadow: var(--qil-shadow-tiffany, 0 12px 30px rgba(9,124,132,.24)), inset 0 1px rgba(255,255,255,.28) !important;
+	transition: background-image .2s var(--qil-ease, cubic-bezier(.22,.61,.36,1)), box-shadow .2s var(--qil-ease, cubic-bezier(.22,.61,.36,1)) !important;
 }
-.qil-boost .qil-boost-add:hover { background: #105361 !important; }
-.qil-boost .qil-boost-add .qil-boost-icon { width: 14px; height: 14px; stroke-width: 2.4; }
-.qil-boost .qil-boost-add.is-options { background: #fff !important; color: var(--qb-ink) !important; box-shadow: inset 0 0 0 1.5px rgba(7,31,44,.22) !important; }
-.qil-boost .qil-boost-add.is-options:hover { box-shadow: inset 0 0 0 1.5px var(--qb-teal) !important; color: var(--qb-teal) !important; }
-.qil-boost .qil-boost-add.loading { opacity: .7; pointer-events: none; }
-.qil-boost .qil-boost-add.loading::after {
-	content: "" !important; position: static !important; width: 12px; height: 12px; margin: 0 !important;
-	border: 2px solid rgba(255,255,255,.35); border-top-color: #fff; border-radius: 50%;
-	animation: qil-boost-spin .7s linear infinite !important;
+.qil-boost .qil-boost-add:hover, .qil-boost .qil-boost-add:focus-visible {
+	background: var(--qil-grad-primary-hover, linear-gradient(135deg,#06636c 0%,#0d8a90 48%,#2dbcb7 100%)) !important;
+	box-shadow: 0 16px 36px rgba(9,124,132,.3), inset 0 1px rgba(255,255,255,.3) !important;
+	color: #fff !important;
+}
+.qil-boost .qil-boost-add::after {
+	content: ""; position: absolute; z-index: 0; inset: 0 auto 0 -60%; width: 45%;
+	background: linear-gradient(100deg, transparent, rgba(255,255,255,.34), transparent);
+	pointer-events: none; transform: skewX(-18deg);
+	transition: transform .55s var(--qil-ease, cubic-bezier(.22,.61,.36,1));
+}
+.qil-boost .qil-boost-add:hover::after { transform: translateX(340%) skewX(-18deg); }
+.qil-boost .qil-boost-add > * { position: relative; z-index: 1; }
+.qil-boost .qil-boost-add .qil-boost-icon { width: 15px; height: 15px; stroke-width: 2; }
+.qil-boost[dir="rtl"] .qil-boost-add.is-link .qil-boost-icon, [dir="rtl"] .qil-boost .qil-boost-add.is-link .qil-boost-icon { transform: scaleX(-1); }
+.qil-boost .qil-boost-add.loading { pointer-events: none; opacity: .82; }
+.qil-boost .qil-boost-add.loading::before {
+	content: ""; position: relative; z-index: 1; width: 13px; height: 13px; flex: none;
+	border: 2px solid rgba(255,255,255,.4); border-top-color: #fff; border-radius: 50%;
+	animation: qil-boost-spin .7s linear infinite;
 }
 .qil-boost .qil-boost-add.loading .qil-boost-icon { display: none; }
-.qil-boost .qil-boost-add.is-done { background: var(--qil-success, #167456) !important; pointer-events: none; }
+.qil-boost .qil-boost-add.is-done { pointer-events: none; }
 .qil-boost a.added_to_cart { display: none !important; }
 @keyframes qil-boost-spin { to { transform: rotate(360deg); } }
 
@@ -185,56 +200,25 @@ li.qil-boost-li::before, li.qil-boost-li::after { content: none !important; disp
 @media (max-width: 420px) { .qil-boost .qil-boost-steps { grid-template-columns: repeat(3,minmax(0,1fr)); } }
 .qil-boost-cart-panel { container-type: inline-size; }
 
-/* --- Cart page: Complete your stack ------------------------------------- */
-/* A one-column minmax(0,1fr) grid: the card scroller never widens the cart form
-   (no grid/flex blowout on phones, whatever layout the theme gives the form). */
-.qil-boost-stack {
-	display: grid; grid-template-columns: minmax(0,1fr); min-width: 0; max-width: 100%;
-	margin: 22px 0 8px; padding: 20px;
-	border: 1px solid rgba(8,121,131,.14); border-radius: 26px;
-	background:
-		radial-gradient(80% 120% at 100% 0%, rgba(53,185,189,.12), transparent 60%),
-		linear-gradient(180deg, #fff, #f5fbfa);
-}
-.qil-boost-stack-head h2 { margin: 0 0 4px !important; color: var(--qb-ink); font-size: clamp(19px,2.2vw,24px) !important; font-weight: 850; line-height: 1.15; letter-spacing: -.01em; }
-.qil-boost-stack-head p { color: var(--qb-muted); font-size: 13px; }
-.qil-boost-stack .qil-boost-kicker { color: var(--qb-teal); }
-.qil-boost-stack-grid {
-	display: grid; grid-template-columns: repeat(4,minmax(0,1fr)); gap: 12px; margin-top: 16px;
-}
-.qil-boost .qil-boost-card {
-	position: relative; display: flex; flex-direction: column; gap: 6px; min-width: 0;
-	padding: 10px 10px 12px; border: 1px solid var(--qb-line); border-radius: 20px; background: #fff;
-	transition: border-color .2s ease, box-shadow .2s ease, transform .2s ease;
-}
-.qil-boost .qil-boost-card:hover { border-color: rgba(8,121,131,.32); box-shadow: 0 16px 36px rgba(7,31,44,.1); }
-.qil-boost .qil-boost-card.is-added { border-color: rgba(22,116,86,.45); }
-.qil-boost .qil-boost-card-media { display: grid; place-items: center; aspect-ratio: 1; border-radius: 14px; background: radial-gradient(circle at 50% 60%, #fff, #eef7f6); overflow: hidden; }
-.qil-boost .qil-boost-card-media img { width: 86% !important; height: 86% !important; object-fit: contain; }
-.qil-boost .qil-boost-chip {
-	align-self: flex-start; padding: 3px 8px; border-radius: 99px;
-	background: var(--qb-soft); color: #0a5f66; font-size: 10px; font-weight: 800;
-}
-.qil-boost .qil-boost-card-name {
-	display: -webkit-box; -webkit-box-orient: vertical; -webkit-line-clamp: 2; overflow: hidden;
-	min-height: 2.6em; color: var(--qb-ink) !important; font-size: 13px; font-weight: 750; line-height: 1.3;
-}
-.qil-boost .qil-boost-card .qil-boost-price { font-size: 14px; }
-.qil-boost .qil-boost-card .qil-boost-add { margin-top: auto !important; width: 100%; min-height: 38px; }
-@media (max-width: 900px) {
-	.qil-boost-stack-grid {
-		display: flex; overflow-x: auto; scroll-snap-type: x mandatory; gap: 10px; margin-inline: -20px; padding: 2px 20px 6px;
-		scrollbar-width: none;
-	}
-	.qil-boost-stack-grid::-webkit-scrollbar { display: none; }
-	.qil-boost-stack-grid > .qil-boost-card { flex: 0 0 min(46%, 210px); scroll-snap-align: start; }
-}
-@media (max-width: 560px) {
-	.qil-boost-stack { padding: 16px; border-radius: 22px; }
-	.qil-boost-stack-grid { margin-inline: -16px; padding-inline: 16px; }
-	.qil-boost-stack-grid > .qil-boost-card { flex-basis: 60%; }
-	.qil-boost .qil-boost-card-media { aspect-ratio: 5/4; }
-}
+/* --- Cart page: Complete your stack (the theme's cards in a theme shell) --- */
+:is(#qimia-lab,.qil-shell).qil-boost-band-shell { min-height: 0; overflow: visible; background: transparent; }
+.qil-boost-band-shell { clear: both; margin: 22px 0 6px; }
+:is(#qimia-lab,.qil-shell) .qil-boost-band.qil-section { padding-block: 0; background: transparent; }
+:is(#qimia-lab,.qil-shell) .qil-boost-band .qil-container { width: 100%; padding-inline: 0; }
+:is(#qimia-lab,.qil-shell) .qil-boost-band .qil-collection-block { margin: 0; }
+:is(#qimia-lab,.qil-shell) .qil-boost-band .qil-collection-head { margin-bottom: 14px; }
+:is(#qimia-lab,.qil-shell) .qil-boost-band .qil-collection-head h3 { font-size: clamp(19px,2.2vw,24px); }
+:is(#qimia-lab,.qil-shell) .qil-boost-band .qil-collection-head p { margin: 4px 0 0; color: var(--qil-muted, #536b74); font-size: 12.5px; }
+/* The cart column is about half the page: three cards fit there at the theme's card size. */
+:is(#qimia-lab,.qil-shell) .qil-boost-band .qil-boost-rail.qil-collection-grid.qil-rail { --qil-rail-per-view: 3; }
+@media (max-width: 760px) { :is(#qimia-lab,.qil-shell) .qil-boost-band .qil-boost-rail.qil-collection-grid.qil-rail { --qil-rail-per-view: 2; } }
+
+/* The theme's cart shelf kept the homepage's 72–108px section padding and
+   tint, which left a tall empty band at the bottom of the cart. */
+:is(#qimia-lab,.qil-shell).qil-personal-cart-shell .qil-personal-section { padding-block: 8px 28px; background: transparent; }
+
+/* Long labels end in an ellipsis instead of being clipped on both sides. */
+:is(#qimia-lab,.qil-shell) .qil-boost-rail .qil-label-stack > .qil-product-badge { display: block; overflow: hidden; line-height: 1.6; text-overflow: ellipsis; white-space: nowrap; }
 
 /* Cart-page wallet bar */
 .qil-boost-wallet-bar {
@@ -313,20 +297,48 @@ li.qil-boost-li::before, li.qil-boost-li::after { content: none !important; disp
 :is(#qimia-lab,.qil-shell) .qil-flash-drop.is-ended .qil-flash-digits { opacity: .35; }
 
 /* The rail on the dark stage: five cards across on a wide screen. */
-:is(#qimia-lab,.qil-shell) .qil-flash-rail.qil-collection-grid.qil-rail { --qil-rail-per-view: 5; }
-@media (max-width: 1180px) { :is(#qimia-lab,.qil-shell) .qil-flash-rail.qil-collection-grid.qil-rail { --qil-rail-per-view: 4; } }
-@media (max-width: 980px) { :is(#qimia-lab,.qil-shell) .qil-flash-rail.qil-collection-grid.qil-rail { --qil-rail-per-view: 3; } }
-@media (max-width: 760px) { :is(#qimia-lab,.qil-shell) .qil-flash-rail.qil-collection-grid.qil-rail { --qil-rail-per-view: 2; } }
 :is(#qimia-lab,.qil-shell) .qil-flash-rail .qil-collection-skeleton i { background: rgba(255,255,255,.07) !important; border-color: rgba(255,255,255,.08) !important; }
 :is(#qimia-lab,.qil-shell) .qil-flash-rail .qil-product-card { border-color: rgba(255,255,255,.08); box-shadow: 0 18px 44px rgba(0,0,0,.28); }
-:is(#qimia-lab,.qil-shell) .qil-flash-meter { display: grid; gap: 5px; margin: 2px 0 8px; }
-:is(#qimia-lab,.qil-shell) .qil-flash-stock { display: grid; gap: 4px; }
-:is(#qimia-lab,.qil-shell) .qil-flash-stock b { color: #b8421f; font-size: 10.5px; font-weight: 850; }
-:is(#qimia-lab,.qil-shell) .qil-flash-bar { display: block; height: 5px; border-radius: 99px; background: #fbe6de; overflow: hidden; }
+:is(#qimia-lab,.qil-shell) .qil-flash-gone { margin-inline-start: 2px; padding: 2px 8px; border-radius: 99px; background: rgba(255,138,107,.2); color: #ffc2b1; font-weight: 900; }
+
+/* Stock on the product image: the count leads, the theme card stays intact. */
+:is(#qimia-lab,.qil-shell) .qil-flash-stock {
+	position: absolute; z-index: 6; inset-inline: 10px; bottom: 10px;
+	display: grid; gap: 5px; padding: 7px 10px 8px;
+	border: 1px solid rgba(7,31,44,.06); border-radius: 12px;
+	background: rgba(255,255,255,.95); box-shadow: 0 8px 22px rgba(7,31,44,.14);
+	color: var(--qil-ink, #071f2c); text-align: start; pointer-events: none;
+}
+:is(#qimia-lab,.qil-shell) .qil-flash-stock b { display: flex; align-items: center; gap: 6px; min-width: 0; overflow: hidden; font-size: 11px; font-weight: 850; line-height: 1.25; white-space: nowrap; text-overflow: ellipsis; }
+:is(#qimia-lab,.qil-shell) .qil-flash-stock.is-hot b { color: #c2410c; }
+:is(#qimia-lab,.qil-shell) .qil-flash-stock.is-warm b { color: #8a5300; }
+:is(#qimia-lab,.qil-shell) .qil-flash-stock.is-hot b::before { content: ""; flex: none; width: 7px; height: 7px; border-radius: 50%; background: #e2562f; box-shadow: 0 0 0 3px rgba(226,86,47,.18); }
+:is(#qimia-lab,.qil-shell) .qil-flash-stock small { color: #3d5963; font-size: 10px; font-weight: 700; }
+:is(#qimia-lab,.qil-shell) .qil-flash-stock small b { display: inline; color: var(--qil-ink, #071f2c); font-size: inherit; font-variant-numeric: tabular-nums; }
+:is(#qimia-lab,.qil-shell) .qil-flash-bar { display: block; height: 4px; border-radius: 99px; background: #f3e4de; overflow: hidden; }
 :is(#qimia-lab,.qil-shell) .qil-flash-bar i { display: block; height: 100%; border-radius: inherit; background: linear-gradient(90deg, #ff8a6b, #e2562f); }
+:is(#qimia-lab,.qil-shell) .qil-flash-stock.is-warm .qil-flash-bar { background: #f6ecd8; }
+:is(#qimia-lab,.qil-shell) .qil-flash-stock.is-warm .qil-flash-bar i { background: linear-gradient(90deg, #f6c667, #e39a1c); }
 :is(#qimia-lab,.qil-shell)[dir="rtl"] .qil-flash-bar i { margin-inline-start: auto; }
-:is(#qimia-lab,.qil-shell) .qil-flash-ends-card { color: var(--qil-ink, #071f2c); font-size: 10.5px; font-weight: 650; }
-:is(#qimia-lab,.qil-shell) .qil-flash-ends-card b { font-variant-numeric: tabular-nums; font-weight: 850; }
+:is(#qimia-lab,.qil-shell) .has-flash-stock :is(.qil-inventory-labels,.qil-verified-badge) { bottom: 58px; }
+@media (max-width: 760px) {
+	:is(#qimia-lab,.qil-shell) .qil-flash-stock { inset-inline: 6px; bottom: 6px; padding: 5px 7px 6px; border-radius: 10px; }
+	:is(#qimia-lab,.qil-shell) .qil-flash-stock b { font-size: 9.5px; }
+	:is(#qimia-lab,.qil-shell) .has-flash-stock :is(.qil-inventory-labels,.qil-verified-badge) { bottom: 46px; }
+}
+
+/* Phones: product cards size to their content and stretch to the tallest card
+   in their own rail, instead of reserving a fixed 268px body, which left about
+   30px of empty space above the buttons on most cards. Every rail, same rule. */
+@media (max-width: 760px) {
+	body.qil-body :is(#qimia-lab,.qil-shell) .qil-collection-grid.qil-rail > .qil-product-card > .qil-product-info { min-height: 0; }
+}
+
+/* The new homepage rails: four cards on a desktop, three on a tablet, two on a
+   phone, the theme's own arrows for the rest. */
+:is(#qimia-lab,.qil-shell) .qil-boost-rail.qil-collection-grid.qil-rail { --qil-rail-per-view: 4; }
+@media (max-width: 980px) { :is(#qimia-lab,.qil-shell) .qil-boost-rail.qil-collection-grid.qil-rail { --qil-rail-per-view: 3; } }
+@media (max-width: 760px) { :is(#qimia-lab,.qil-shell) .qil-boost-rail.qil-collection-grid.qil-rail { --qil-rail-per-view: 2; } }
 :is(#qimia-lab,.qil-shell) .qil-flash-foot { display: flex; flex-wrap: wrap; align-items: center; justify-content: space-between; gap: 12px 18px; margin-top: 18px; }
 :is(#qimia-lab,.qil-shell) .qil-flash-foot .qil-rail-nav button { border-color: rgba(255,255,255,.2); background: rgba(255,255,255,.08); color: #fff; }
 :is(#qimia-lab,.qil-shell) .qil-flash-truth { display: inline-flex; align-items: center; gap: 8px; margin: 0; color: rgba(255,255,255,.62); font-size: 12px; }
@@ -408,14 +420,15 @@ li.qil-boost-li::before, li.qil-boost-li::after { content: none !important; disp
 :is(#qimia-lab,.qil-shell) .qil-running-when[data-urgent="1"] { color: #b8421f; }
 :is(#qimia-lab,.qil-shell) .qil-running-buy { display: grid; justify-items: end; gap: 6px; }
 :is(#qimia-lab,.qil-shell) .qil-running-price { font-size: 14px; font-weight: 850; }
-:is(#qimia-lab,.qil-shell) .qil-running-add { min-height: 36px; padding: 0 14px; border: 0; border-radius: 99px; background: var(--qil-ink, #071f2c); color: #fff; font-size: 12px; font-weight: 850; white-space: nowrap; box-shadow: 0 8px 18px rgba(7,31,44,.16); }
-:is(#qimia-lab,.qil-shell) .qil-running-add:hover { background: #105361; }
-:is(#qimia-lab,.qil-shell) .qil-running-add:disabled { opacity: .7; cursor: default; }
-:is(#qimia-lab,.qil-shell) .qil-running-row.is-added .qil-running-add { background: var(--qil-success, #167456); }
+:is(#qimia-lab,.qil-shell) .qil-running .qil-buy.qil-running-add { min-height: 40px; padding: 0 16px; border: 0 none transparent !important; appearance: none; cursor: pointer; font-size: 11px; white-space: nowrap; }
+:is(#qimia-lab,.qil-shell) .qil-running .qil-buy.qil-running-add svg { width: 16px !important; min-width: 16px; height: 16px !important; }
+:is(#qimia-lab,.qil-shell) .qil-running .qil-running-add:disabled { opacity: .72; cursor: wait; }
 :is(#qimia-lab,.qil-shell) .qil-running-note { margin: 0; color: var(--qil-muted, #536b74); font-size: 11.5px; }
 :is(#qimia-lab,.qil-shell) .qil-wallet-picks { margin-top: 16px; }
-:is(#qimia-lab,.qil-shell) .qil-wallet-reason { display: flex; align-items: center; gap: 7px; margin: 5px 0 2px; color: var(--qil-tiffany, #087983); font-size: 11px; font-weight: 800; line-height: 1.3; }
-:is(#qimia-lab,.qil-shell) .qil-wallet-reason::before { content: ""; flex: none; width: 6px; height: 6px; border-radius: 50%; background: currentColor; box-shadow: 0 0 0 3px rgba(8,121,131,.14); }
+/* One line on every card, so the cards in a row keep one height. */
+:is(#qimia-lab,.qil-shell) .qil-wallet-reason { margin: 4px 0 2px; overflow: hidden; color: var(--qil-tiffany, #087983); font-size: 11px; font-weight: 800; line-height: 1.35; white-space: nowrap; text-overflow: ellipsis; }
+@media (max-width: 760px) { :is(#qimia-lab,.qil-shell) .qil-wallet-reason { font-size: 10px; } }
+:is(#qimia-lab,.qil-shell) .qil-wallet-reason::before { content: ""; display: inline-block; width: 6px; height: 6px; margin-inline-end: 7px; border-radius: 50%; background: currentColor; box-shadow: 0 0 0 3px rgba(8,121,131,.14); vertical-align: 1px; }
 :is(#qimia-lab,.qil-shell) .qil-topbar-wallet { color: inherit; font-weight: 700; }
 :is(#qimia-lab,.qil-shell) .qil-topbar-wallet b { color: #ffe39c; font-weight: 850; }
 @media (max-width: 900px) { :is(#qimia-lab,.qil-shell) .qil-member-grid { grid-template-columns: minmax(0,1fr); } }
@@ -429,59 +442,20 @@ li.qil-boost-li::before, li.qil-boost-li::after { content: none !important; disp
 /* ======================================================================
    Homepage: cashback stacks
    ====================================================================== */
-:is(#qimia-lab,.qil-shell) .qil-stacks { padding-block: clamp(46px,6vw,84px); }
-:is(#qimia-lab,.qil-shell) .qil-stacks-head { max-width: 720px; margin-bottom: 22px; }
-:is(#qimia-lab,.qil-shell) .qil-stacks-head h2 { margin: 0; font-size: clamp(28px,3.6vw,44px); line-height: 1.05; letter-spacing: -.03em; }
-:is(#qimia-lab,.qil-shell)[dir="rtl"] .qil-stacks-head h2 { letter-spacing: 0; line-height: 1.25; }
-:is(#qimia-lab,.qil-shell) .qil-stacks-head p { margin: 12px 0 0; color: var(--qil-muted, #536b74); font-size: 15px; }
-:is(#qimia-lab,.qil-shell) .qil-stacks-grid {
-	display: grid; grid-template-columns: repeat(4,minmax(0,1fr)); gap: 16px;
+:is(#qimia-lab,.qil-shell) .qil-stacks.qil-section { padding-block: clamp(18px,2.4vw,30px); }
+:is(#qimia-lab,.qil-shell) .qil-stacks-block {
+	margin: 0; position: relative; overflow: hidden;
+	background:
+		radial-gradient(60% 120% at 100% 0%, rgba(246,198,103,.14), transparent 60%),
+		radial-gradient(50% 110% at 0% 0%, rgba(53,185,189,.12), transparent 62%),
+		rgba(255,255,255,.9);
 }
-:is(#qimia-lab,.qil-shell) .qil-bundle-card {
-	position: relative; display: flex; flex-direction: column; overflow: hidden; min-width: 0;
-	border: 1px solid rgba(7,31,44,.08); border-radius: 28px; background: #fff;
-	box-shadow: 0 16px 44px rgba(7,31,44,.06);
-	transition: border-color .25s ease, box-shadow .25s ease;
-}
-:is(#qimia-lab,.qil-shell) .qil-bundle-card:hover { border-color: rgba(8,121,131,.28); box-shadow: 0 26px 60px rgba(7,31,44,.12); }
-:is(#qimia-lab,.qil-shell) .qil-bundle-media {
-	position: relative; display: grid; place-items: center; aspect-ratio: 5 / 4; overflow: hidden;
-	background: radial-gradient(90% 90% at 50% 65%, #ffffff, #e8f5f3 60%, #d9efec);
-}
-:is(#qimia-lab,.qil-shell) .qil-bundle-media img { width: 78%; height: 86%; object-fit: contain; transition: transform .5s cubic-bezier(.22,.61,.36,1); }
-:is(#qimia-lab,.qil-shell) .qil-bundle-card:hover .qil-bundle-media img { transform: scale(1.04); }
-:is(#qimia-lab,.qil-shell) .qil-bundle-reward {
-	position: absolute; inset-block-start: 12px; inset-inline-start: 12px; display: grid; gap: 1px; padding: 7px 11px 8px;
-	border-radius: 16px; background: linear-gradient(140deg, #071f2c, #0e3a48); color: #fff;
-	box-shadow: 0 10px 24px rgba(7,31,44,.28), 0 0 0 3px rgba(246,198,103,.22);
-}
-:is(#qimia-lab,.qil-shell) .qil-bundle-reward small { color: #ffe39c; font-size: 8.5px; font-weight: 850; letter-spacing: .14em; }
-:is(#qimia-lab,.qil-shell)[dir="rtl"] .qil-bundle-reward small { letter-spacing: 0; }
-:is(#qimia-lab,.qil-shell) .qil-bundle-reward b { font-size: 15px; font-weight: 900; }
-:is(#qimia-lab,.qil-shell) .qil-bundle-body { display: flex; flex: 1; flex-direction: column; gap: 9px; padding: 16px 16px 18px; }
-:is(#qimia-lab,.qil-shell) .qil-bundle-body h3 { margin: 0; font-size: 17px; line-height: 1.25; }
-:is(#qimia-lab,.qil-shell) .qil-bundle-inside { display: flex; flex-wrap: wrap; gap: 5px; margin: 0; padding: 0; list-style: none; }
-:is(#qimia-lab,.qil-shell) .qil-bundle-inside li { max-width: 100%; padding: 4px 9px; overflow: hidden; border-radius: 99px; background: #eef7f6; color: #0a5f66; font-size: 11px; font-weight: 700; text-overflow: ellipsis; white-space: nowrap; }
-:is(#qimia-lab,.qil-shell) .qil-bundle-blurb { margin: 0; color: var(--qil-muted, #536b74); font-size: 12.5px; }
-:is(#qimia-lab,.qil-shell) .qil-bundle-value { display: flex; flex-wrap: wrap; align-items: baseline; gap: 4px 10px; margin-top: auto; }
-:is(#qimia-lab,.qil-shell) .qil-bundle-value strong { font-size: 24px; font-weight: 900; letter-spacing: -.02em; }
-:is(#qimia-lab,.qil-shell) .qil-bundle-separately { color: var(--qil-muted, #536b74); font-size: 12px; }
-:is(#qimia-lab,.qil-shell) .qil-bundle-save { margin: 0; color: var(--qil-success, #167456); font-size: 12.5px; font-weight: 800; }
-:is(#qimia-lab,.qil-shell) .qil-bundle-earn { margin: 0; color: var(--qil-tiffany, #087983); font-size: 12.5px; font-weight: 750; }
-:is(#qimia-lab,.qil-shell) .qil-bundle-add { width: 100%; margin-top: 6px; }
-:is(#qimia-lab,.qil-shell) .qil-bundle-add svg { width: 17px !important; min-width: 17px; height: 17px !important; }
-:is(#qimia-lab,.qil-shell) .qil-bundle-add.added { background: var(--qil-success, #167456) !important; border-color: var(--qil-success, #167456) !important; }
-:is(#qimia-lab,.qil-shell) .qil-stacks .added_to_cart { display: none !important; }
-:is(#qimia-lab,.qil-shell) .qil-stacks-note { margin: 16px 0 0; color: var(--qil-muted, #536b74); font-size: 12px; }
-@media (max-width: 1100px) { :is(#qimia-lab,.qil-shell) .qil-stacks-grid { grid-template-columns: repeat(3,minmax(0,1fr)); } }
-@media (max-width: 860px) {
-	:is(#qimia-lab,.qil-shell) .qil-stacks-grid {
-		display: flex; overflow-x: auto; scroll-snap-type: x mandatory; gap: 12px; padding-bottom: 6px;
-		scrollbar-width: none; overscroll-behavior-x: contain;
-	}
-	:is(#qimia-lab,.qil-shell) .qil-stacks-grid::-webkit-scrollbar { display: none; }
-	:is(#qimia-lab,.qil-shell) .qil-stacks-grid > .qil-bundle-card { flex: 0 0 min(72%, 300px); scroll-snap-align: start; }
-}
+:is(#qimia-lab,.qil-shell) .qil-stacks-block .qil-collection-head p { max-width: 640px; margin: 6px 0 0; color: var(--qil-muted, #536b74); font-size: 13px; }
+:is(#qimia-lab,.qil-shell) .qil-stacks-kicker { display: inline-flex; align-items: center; gap: 7px; color: #8a5a06 !important; }
+:is(#qimia-lab,.qil-shell) .qil-stacks-kicker i { flex: none; width: 12px; height: 12px; border-radius: 50%; background: linear-gradient(145deg, #ffe39c, #f6c667 55%, #d99a2b); box-shadow: 0 0 0 3px rgba(246,198,103,.2); }
+:is(#qimia-lab,.qil-shell) .qil-stacks-rail .qil-product-badge.is-cashback { border-color: rgba(201,138,18,.35); background: linear-gradient(145deg, #fff6dc, #ffe39c); color: #5a3d00; }
+:is(#qimia-lab,.qil-shell) .qil-stack-separately del { color: inherit; opacity: .8; }
+:is(#qimia-lab,.qil-shell) .qil-stacks-note { margin: 12px 0 0; color: var(--qil-muted, #536b74); font-size: 11.5px; }
 
 @media (prefers-reduced-motion: reduce) {
 	/* Pseudo-elements carry the sheen and the step pulse, so name them too. */

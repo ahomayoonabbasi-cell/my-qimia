@@ -19,6 +19,9 @@ function near( $a, $b, $eps = 1e-9 ) { return abs( (float) $a - (float) $b ) <= 
 function ids_of( array $picks ) { return array_map( static function ( $p ) { return (int) $p['row']['id']; }, $picks ); }
 function capture( callable $fn ) { ob_start(); try { $fn(); } finally { $out = ob_get_clean(); } return $out; }
 function ajax( callable $fn ) { try { $fn(); } catch ( QT_Json_Response $r ) { return array( $r->status, $r->data ); } return array( 0, null ); }
+function embedded_json( $html, $attribute ) {
+	return preg_match( '#<script type="application/json" ' . preg_quote( $attribute, '#' ) . '>(.*?)</script>#s', (string) $html, $m ) ? json_decode( $m[1], true ) : null;
+}
 function same_origin_post( array $post ) {
 	$_SERVER['REQUEST_METHOD'] = 'POST';
 	$_SERVER['HTTP_X_QIMIA_REQUEST'] = 'shopping/1';
@@ -164,14 +167,16 @@ case 'cartpage':
 	// WooCommerce prints the band (after the table) before the totals panel.
 	$band  = QIL_Boost::stack_band_markup();
 	$panel = QIL_Boost::cart_panel_markup();
-	preg_match_all( '/data-qil-boost-product="(\d+)"/', $band, $b );
+	$b     = array( 1 => preg_match( '/data-qil-boost-ids="([\d,]+)"/', $band, $ids ) ? explode( ',', $ids[1] ) : array() );
 	preg_match_all( '/data-qil-boost-product="(\d+)"/', $panel, $p );
+	$band_data = embedded_json( $band, 'data-qil-boost-band-data' );
 	ok( 'totals panel: full ladder with six steps, current step marked', 6 === substr_count( $panel, '<li class=' ) && false !== strpos( $panel, 'aria-current="step"' ), $panel );
 	ok( 'panel shows 3 products that reach the next band', 3 === count( $p[1] ), $p[1] );
 	ok( 'Complete your stack: 2–4 complements', count( $b[1] ) >= 2 && count( $b[1] ) <= 4, $b[1] );
 	ok( 'no product is shown twice on the cart page (hook-order safe)', ! array_intersect( $b[1], $p[1] ), array( $b[1], $p[1] ) );
 	ok( 'band title names the paired role (Creatine)', false !== strpos( $band, 'Made to pair with your Creatine' ), $band );
-	ok( 'band buttons say "Add to my order"', false !== strpos( $band, 'Add to my order' ) );
+	ok( 'band is the theme card shelf: full records for the shared renderer, in the listed order', array_map( 'strval', array_column( $band_data['records'] ?? array(), 'id' ) ) === $b[1] && false !== strpos( $band, 'qil-shell qil-boost-band-shell' ) && false !== strpos( $band, 'qil-collection-grid qil-rail qil-boost-rail' ), array( 'ids' => $b[1], 'records' => array_column( $band_data['records'] ?? array(), 'id' ) ) );
+	ok( 'each card is labelled: what it pairs with, or the cashback it unlocks', count( $band_data['labels'] ?? array() ) === count( $b[1] ) && ! array_filter( $band_data['labels'], static function ( $l ) { return false === strpos( $l, 'Pairs with' ) && false === strpos( $l, 'cashback' ); } ), $band_data['labels'] ?? null );
 	ok( 'panel is printed once per request', '' !== capture( array( 'QIL_Boost', 'cart_panel' ) ) && '' === capture( array( 'QIL_Boost', 'cart_panel' ) ) );
 	break;
 
@@ -192,6 +197,8 @@ case 'flash':
 	ok( 'percent is computed from WooCommerce prices (201: 30.000 → 22.500 = 25%)', 25 === $candidates[201]['pct'] && false === $candidates[201]['upTo'] );
 	ok( 'mixed variations are "up to" (216: up to 25%)', 25 === $candidates[216]['pct'] && true === $candidates[216]['upTo'] );
 	ok( 'real stock from managed quantity (201: 10; 216: 4+3)', 10 === $candidates[201]['stock'] && 7 === $candidates[216]['stock'] );
+	ok( 'a variable product names its lowest option (216: only 3 left in Chocolate)', 3 === ( $candidates[216]['low']['qty'] ?? 0 ) && 'Chocolate' === ( $candidates[216]['low']['option'] ?? '' ), $candidates[216]['low'] ?? null );
+	ok( 'simple products carry no option line', null === $candidates[201]['low'] );
 	ok( 'real sale end only where one exists (201 in ~30h, 202 none)', $candidates[201]['endsAt'] > time() + 29 * HOUR_IN_SECONDS && 0 === $candidates[202]['endsAt'] );
 	$w = QIL_Flash_Drop::window();
 	ok( '72-hour window aligned to the Oman anchor', 72 === $w['hours'] && 0 === ( $w['start'] - QIL_Flash_Drop::anchor() ) % ( 72 * HOUR_IN_SECONDS ) && $w['start'] <= time() && time() < $w['end'] );
@@ -205,8 +212,12 @@ case 'flash':
 	$section = QIL_Flash_Drop::section();
 	ok( 'section: FLASH SALE — 72 HOURS, live clock to the window end', false !== strpos( $section, 'FLASH SALE' ) && false !== strpos( $section, '— 72 HOURS' ) && false !== strpos( $section, 'data-qil-flash-end="' . $w['end'] . '"' ) );
 	ok( 'section: Ask Qimia AI boots the assistant', false !== strpos( $section, 'data-qil-flash-ai data-qimia-ai-open' ) );
-	$data = apply_filters( 'qil_boost_page_data', array() );
-	ok( 'homepage receives the drop with the page (no AJAX)', isset( $data['flash']['records'] ) && 10 === count( $data['flash']['records'] ) );
+	$data = embedded_json( $section, 'data-qil-flash-data' );
+	ok( 'the section carries its own drop data (no AJAX, no separate page data)', 10 === count( $data['records'] ?? array() ) && 10 === count( $data['meta'] ?? array() ) && $w['end'] === ( $data['end'] ?? 0 ), array_keys( (array) $data ) );
+	ok( 'flash data is not duplicated into the page data any more', ! isset( apply_filters( 'qil_boost_page_data', array() )['flash'] ) );
+	$gone = count( array_filter( $payload['meta'], static function ( $m ) { return ! empty( $m['low'] ) || ( null !== $m['stock'] && $m['stock'] <= 10 ); } ) );
+	ok( 'kicker counts the products that are almost gone', $gone > 0 && false !== strpos( $section, $gone . ' ALMOST GONE' ), $gone );
+	ok( 'every record sent with the section is a full record or a catalogue reference', ! array_filter( $data['records'], static function ( $r ) { return empty( $r['ref'] ) && empty( $r['name'] ); } ) );
 	$request = new WP_REST_Request(); $request->set_param( 'qil_locale', 'en' );
 	$rest = QIL_Flash_Drop::rest( $request )->get_data();
 	ok( 'REST feed: 10 products with Instagram UTM links', 10 === count( $rest['products'] ) && false !== strpos( $rest['products'][0]['url'], 'utm_source=instagram' ) && false !== strpos( $rest['products'][0]['url'], 'utm_campaign=flash-drop-' ) );
@@ -215,6 +226,78 @@ case 'flash':
 	$ai = apply_filters( 'qimia_customer_source_projection_v2', array( 'interests' => array(), 'permissions' => array() ) );
 	ok( 'Qimia AI context lists the drop', ( $ai['intelligence_lab']['flash_drop']['product_ids'] ?? array() ) === $state['ids'] );
 	ok( 'size is limited to 8–12', 12 === QIL_Boost::sanitize( array( 'flash_size' => 40 ) )['flash_size'] && 8 === QIL_Boost::sanitize( array( 'flash_size' => 2 ) )['flash_size'] );
+	break;
+
+case 'flash_contended':
+	// Another worker holds the candidate-scan lock and nothing is cached yet.
+	$identity = qil_perf_market_identity(); unset( $identity['user'], $identity['session'] );
+	$settings = QIL_Boost::settings();
+	$key      = 'qil_flash_candidates_v1_' . md5( (string) wp_json_encode( array( QIL_VERSION, qil_perf_product_version(), $identity, (int) $settings['flash_min_pct'], $settings['flash_exclude'] ) ) );
+	add_option( 'qil_lock_' . md5( 'flash-candidates|' . $key ), time(), '', false );
+	$nocache = array();
+	add_action( 'litespeed_control_set_nocache', static function ( $reason = '' ) use ( &$nocache ) { $nocache[] = $reason; } );
+	$started = microtime( true );
+	$section = QIL_Flash_Drop::section();
+	ok( 'first-ever scan still running elsewhere: no section, and this page is kept out of the page cache', '' === $section && in_array( 'Qimia flash drop not ready', $nocache, true ), $nocache );
+	ok( 'the waiting request gave up after ~3 s (bounded)', microtime( true ) - $started < 4.5 );
+	$cached = array_filter( array_keys( $GLOBALS['qt']['transients'] ?? array() ), static function ( $k ) { return false !== strpos( $k, 'qil_flash_payload' ); } );
+	$stored = array_filter( array_map( static function ( $k ) { return $GLOBALS['qt']['transients'][ $k ][0] ?? null; }, $cached ) );
+	ok( 'an empty drop caused by the contention is never cached', ! array_filter( $stored, static function ( $v ) { return is_array( $v ) && empty( $v['records'] ); } ), array_values( $cached ) );
+	break;
+
+case 'flash_last_scan':
+	// The lock is held, but an earlier scan completed: that one is used.
+	$full = QIL_Flash_Drop::candidates();
+	update_option( 'qil_flash_drop_last_scan', array( 'at' => time() - 600, 'rows' => $full ), false );
+	$GLOBALS['qt']['version'] = '2'; // Product version moved on: the cached scan no longer matches.
+	$identity = qil_perf_market_identity(); unset( $identity['user'], $identity['session'] );
+	$settings = QIL_Boost::settings();
+	$key      = 'qil_flash_candidates_v1_' . md5( (string) wp_json_encode( array( QIL_VERSION, qil_perf_product_version(), $identity, (int) $settings['flash_min_pct'], $settings['flash_exclude'] ) ) );
+	add_option( 'qil_lock_' . md5( 'flash-candidates|' . $key ), time(), '', false );
+	$again = QIL_Flash_Drop::candidates();
+	ok( 'while another worker rescans, the last complete scan answers (never "no flash sale")', array_keys( $again ) === array_keys( $full ) );
+	ok( 'the homepage still shows the drop', false !== strpos( QIL_Flash_Drop::section(), 'data-qil-flash-data' ) );
+	break;
+
+case 'flash_budget':
+	QIL_Flash_Drop::candidates();
+	$budget = new ReflectionProperty( 'QIL_Flash_Drop', 'variation_budget' );
+	$budget->setAccessible( true );
+	$budget->setValue( null, 0 ); // The candidate scan spent every variation it may read.
+	$state = QIL_Flash_Drop::state();
+	$rows  = QIL_Flash_Drop::drop();
+	ok( 'the drop re-reads its own products even with the scan budget spent (216 stays)', in_array( 216, $state['ids'], true ) ? isset( $rows[216] ) && 3 === $rows[216]['low']['qty'] : true, array_keys( $rows ) );
+	ok( 'the drop keeps its size', count( $rows ) === count( $state['ids'] ) );
+	break;
+
+case 'flash_stock_purge':
+	$state = QIL_Flash_Drop::state();
+	$in    = (int) $state['ids'][0];
+	$out   = 101; // Whey: not a flash product.
+	unset( $GLOBALS['qt']['cron']['qil_flash_drop_purge'] );
+	do_action( 'woocommerce_product_set_stock', wc_get_product( $out ) );
+	ok( 'a stock change elsewhere does not touch the cached homepage', empty( $GLOBALS['qt']['cron']['qil_flash_drop_purge'] ) );
+	do_action( 'woocommerce_product_set_stock', wc_get_product( $in ) );
+	ok( 'a drop product\'s stock change queues one homepage purge (WP-Cron, now)', ( $GLOBALS['qt']['cron']['qil_flash_drop_purge'] ?? 0 ) >= time() - 1 && ( $GLOBALS['qt']['cron']['qil_flash_drop_purge'] ?? 0 ) <= time() + 1 );
+	$purged = array();
+	add_action( 'litespeed_purge_url', static function ( $url ) use ( &$purged ) { $purged[] = $url; } );
+	unset( $GLOBALS['qt']['cron']['qil_flash_drop_purge'] );
+	do_action( 'qil_flash_drop_purge' );
+	ok( 'the purge refreshes exactly the two homepages', array( 'https://qimia.om/', 'https://qimia.om/ar/' ) === $purged, $purged );
+	$variation = wc_get_product( 2161 );
+	do_action( 'woocommerce_variation_set_stock', $variation );
+	$next = $GLOBALS['qt']['cron']['qil_flash_drop_purge'] ?? 0;
+	ok( 'a variation of a drop product counts; a burst waits five minutes after the last purge', in_array( 216, $state['ids'], true ) ? $next >= time() + 299 : true, $next - time() );
+	break;
+
+case 'upgrade_purge':
+	update_option( 'qil_boost_seen_version', '0.0.0-before' );
+	unset( $GLOBALS['qt']['cron']['qil_flash_drop_purge'] );
+	do_action( 'init' );
+	ok( 'first request after an upgrade queues a purge of the cached homepages', ! empty( $GLOBALS['qt']['cron']['qil_flash_drop_purge'] ) && QIL_VERSION === get_option( 'qil_boost_seen_version' ), array( 'cron' => $GLOBALS['qt']['cron'], 'seen' => get_option( 'qil_boost_seen_version' ), 'version' => QIL_VERSION ) );
+	unset( $GLOBALS['qt']['cron']['qil_flash_drop_purge'] );
+	do_action( 'init' );
+	ok( 'only once per version', empty( $GLOBALS['qt']['cron']['qil_flash_drop_purge'] ) );
 	break;
 
 case 'flash_rotation':
@@ -331,9 +414,13 @@ case 'stacks':
 	ok( 'Recovery Pack: contents from the Growth map, separately 12.660', 3 === count( $by[302]['inside'] ) && near( $by[302]['separately'], 12.66 ), $by[302] );
 	ok( 'Daily Essentials: no known contents → no "separately"; real sale shown as "was"', 0.0 === $by[303]['separately'] && near( $by[303]['was'], 36.0 ) && '' !== $by[303]['blurb'], $by[303] );
 	ok( 'cashback tier from the issuer: 24.9 → 3, 11.9 → 2, 34.9 → 4 OMR', near( $by[301]['reward'], 3 ) && near( $by[302]['reward'], 2 ) && near( $by[303]['reward'], 4 ) );
-	$html = QIL_Stacks::section();
-	ok( 'section shows separately, was, savings and cashback', false !== strpos( $html, 'Separately' ) && false !== strpos( $html, 'Was' ) && false !== strpos( $html, 'You save' ) && false !== strpos( $html, '+3 OMR' ) );
-	ok( 'simple stacks add in one tap', false !== strpos( $html, 'data-product_id="301"' ) );
+	$html  = QIL_Stacks::section();
+	$data  = embedded_json( $html, 'data-qil-stacks-data' );
+	$facts = $data['facts'] ?? array();
+	ok( 'section sends the theme card records for the shared renderer', array( 301, 302, 303 ) === array_map( 'intval', array_column( $data['records'] ?? array(), 'id' ) ) && false !== strpos( $html, 'qil-collection-grid qil-rail qil-boost-rail qil-stacks-rail' ) );
+	ok( 'Muscle Starter facts: inside, separately, saving and cashback', 'Protein + Creatine' === ( $facts[301]['inside'] ?? '' ) && 'Gold Standard 100% Whey + Creatine Monohydrate 300g' === ( $facts[301]['insideFull'] ?? '' ) && 0 === strpos( $facts[301]['separately'] ?? '', '25.880' ) && 0 === strpos( $facts[301]['save'] ?? '', '0.980' ) && '+3 OMR' === ( $facts[301]['reward'] ?? '' ), $facts[301] ?? null );
+	ok( 'Daily Essentials: no "separately"; saving from its real sale (36.000 → 34.900)', '' === ( $facts[303]['separately'] ?? 'x' ) && 0 === strpos( $facts[303]['save'] ?? '', '1.100' ) && '' === ( $facts[303]['inside'] ?? 'x' ), $facts[303] ?? null );
+	ok( 'simple stacks add in one tap (the theme card\'s AJAX add)', 'add' === ( $data['records'][0]['purchase']['action'] ?? '' ) || true === ( $data['records'][0]['purchase']['ajax'] ?? false ), $data['records'][0]['purchase'] ?? null );
 	break;
 
 case 'admin':
@@ -344,6 +431,16 @@ case 'admin':
 	ok( 'price points 24.9–64.9 with their cashback', false !== strpos( $html, '24.900' ) && false !== strpos( $html, '64.900' ) );
 	$GLOBALS['qt']['admin_user'] = false;
 	ok( 'non-admins see nothing', '' === capture( array( 'QIL_Boost', 'admin' ) ) );
+	break;
+
+case 'xss_json':
+	$GLOBALS['qt']['products'][201]->name = 'Whey</script><script>alert(1)</script>';
+	$GLOBALS['qt']['products'][301]->name = 'Stack</script><img src=x onerror=alert(2)>';
+	update_option( 'qil_boost', array_merge( QIL_Boost::defaults(), array( 'stack_components' => "302: 105, 106, 104" ) ) );
+	$html = QIL_Flash_Drop::section() . QIL_Stacks::section();
+	ok( 'embedded JSON can never close its script tag or open markup', 2 === substr_count( $html, '</script>' ) && false === strpos( $html, '<script>alert' ) && false === strpos( $html, '<img src=x' ), substr_count( $html, '</script>' ) );
+	$data = embedded_json( $html, 'data-qil-flash-data' );
+	ok( 'the data still decodes to the real text', is_array( $data ) && 10 === count( $data['records'] ) );
 	break;
 
 case 'xss':

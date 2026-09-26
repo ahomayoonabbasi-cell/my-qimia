@@ -1,0 +1,53 @@
+{
+ "version": "1.18.1",
+ "scope": "flash drop reliability on cached homepages, stock per option, one theme card and button everywhere, less empty space",
+ "php_syntax": {
+  "passed": 26,
+  "failed": 0
+ },
+ "javascript_syntax": {
+  "passed": 16,
+  "failed": 0
+ },
+ "php_scenarios": {
+  "passed": 159,
+  "failed": 0,
+  "runtime": "PHP 8.4.19",
+  "details": "php-harness.json"
+ },
+ "chromium": {
+  "passed": 173,
+  "failed": 0,
+  "runtime": "Chromium via Playwright 1.56.1",
+  "details": "browser.json"
+ },
+ "checks": {
+  "flash_contention_never_caches_empty_drop": true,
+  "flash_contention_page_marked_nocache": true,
+  "flash_last_complete_scan_used_while_rescanning": true,
+  "flash_drop_rereads_only_its_own_products": true,
+  "flash_variation_budget_cannot_hide_drop_products": true,
+  "homepage_purge_on_new_drop_stock_change_and_upgrade": true,
+  "homepage_purge_debounced_5_minutes": true,
+  "flash_renders_without_inline_page_data": true,
+  "flash_renders_with_scripts_out_of_order": true,
+  "flash_stock_per_option_low_named": true,
+  "flash_almost_gone_first_and_counted": true,
+  "theme_card_everywhere_flash_stacks_wallet_cart": true,
+  "rails_4_desktop_3_cart_2_phone_carousel": true,
+  "drawer_and_panel_buttons_match_theme_buy": true,
+  "buy_again_is_theme_button": true,
+  "phone_card_gap_35px_to_7px": true,
+  "cart_bottom_shelf_padding_tightened": true,
+  "embedded_json_script_injection_safe": true
+ },
+ "metrics_harness_only": {
+  "pool_rows": 280,
+  "pool_cold_build_ms": 15.6,
+  "mini_cart_render_ms_avg": 0.08
+ },
+ "guest_homepage_extra_requests": 0,
+ "production_deployed": false,
+ "production_load_tested": false,
+ "live_wordpress_woocommerce_woodmart_tested": false
+}

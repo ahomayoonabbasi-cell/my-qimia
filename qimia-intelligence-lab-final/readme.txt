@@ -2,11 +2,23 @@
 Contributors: qimia
 Requires at least: 6.2
 Requires PHP: 8.1
-Stable tag: 1.18.0
+Stable tag: 1.18.1
 License: GPL-2.0-or-later
 
 Bilingual Qimia storefront, separated from the My Qimia workspace.
 Full replacement of the supplied Lab plugin, not a second Lab installation.
+
+== Release 1.18.1 ==
+The flash drop always shows on cached homepages, desktop and mobile: a momentary
+lock during the flash-category scan can no longer produce (and cache) a homepage
+without the drop; normal renders re-read only the drop's own products; cached
+homepages are purged when a new drop starts, when a drop product's stock changes
+(at most every five minutes) and after an upgrade; the section carries its own data,
+so script optimizers cannot hide it. Cards lead with real stock, including the
+option running low ("Only 2 left in Chocolate"). Flash, stacks, wallet picks and the
+cart's "Complete your stack" use the homepage's own product card, four per view on a
+desktop and two on a phone; every Add button is the theme's. Phone cards lose the
+empty space above their buttons. See RELEASE-1.18.1.md and docs/VERIFICATION-1.18.1.md.
 
 == Release 1.18.0 ==
 Sales release. Mini cart and cart page: an exact cashback ladder from the issuer's

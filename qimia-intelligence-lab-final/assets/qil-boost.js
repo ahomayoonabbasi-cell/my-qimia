@@ -13,8 +13,25 @@
 	const esc = value => String(value ?? '').replace(/[&<>"']/g, ch => ({'&': '&amp;', '<': '&lt;', '>': '&gt;', '"': '&quot;', "'": '&#39;'}[ch]));
 	const num = value => lang() === 'ar' ? String(value).replace(/\d/g, d => '٠١٢٣٤٥٦٧٨٩'[d]) : String(value);
 	const cards = () => window.QILCards || null;
+	// The theme's card renderer comes from qil.js. Wait for it without relying
+	// on script order or on the load event (optimizers may change both).
+	const whenCards = callback => {
+		let done = false, tries = 0;
+		const run = () => { if (done || !cards()?.render) return; done = true; callback(); };
+		run();
+		if (done) return;
+		document.addEventListener('qil:cards-ready', run, {once: true});
+		window.addEventListener('load', run, {once: true});
+		const poll = () => { run(); if (!done && ++tries < 60) window.setTimeout(poll, 250); };
+		window.setTimeout(poll, 250);
+	};
 	const $ = (selector, scope = document) => scope.querySelector(selector);
 	const $$ = (selector, scope = document) => [...scope.querySelectorAll(selector)];
+	// Sections carry their own data, so they never depend on page data that an
+	// optimizer may run late or out of order.
+	const sectionData = (section, selector) => {
+		try { const node = $(selector, section); return node ? JSON.parse(node.textContent || 'null') : null; } catch (_) { return null; }
+	};
 	const reduceMotion = window.matchMedia('(prefers-reduced-motion: reduce)');
 	const idle = (fn, timeout = 1500) => ('requestIdleCallback' in window ? window.requestIdleCallback(fn, {timeout}) : window.setTimeout(fn, 400));
 	const safeUrl = value => { try { const url = new URL(String(value || ''), location.href); return /^https?:$/.test(url.protocol) ? url.href : ''; } catch (_) { return ''; } };
@@ -76,6 +93,31 @@
 		window.jQuery(document.body).on('added_to_cart', (event, fragments, hash, button) => markAdded(button?.jquery ? button.get(0) : button));
 	}
 
+	// "Complete your stack" on the cart page is the theme's own product card.
+	// WooCommerce replaces the cart form after an update; a fresh band renders again.
+	function renderBands() {
+		const api = cards();
+		if (!api?.render) return;
+		$$('[data-qil-boost-band]').forEach(band => {
+			if (band.dataset.qilBandReady) return;
+			band.dataset.qilBandReady = '1';
+			const data = sectionData(band, 'script[data-qil-boost-band-data]');
+			const grid = $('[data-qil-boost-band-grid]', band);
+			const records = Array.isArray(data?.records) ? data.records.filter(record => Number(record?.id) > 0) : [];
+			if (!grid || records.length < 2) { band.closest('.qil-boost-band-shell')?.setAttribute('hidden', ''); return; }
+			api.upsert(records);
+			grid.innerHTML = records.map((product, index) => api.render(product, index, 'boost-stack')).join('');
+			$$('.qil-product-card', grid).forEach(card => {
+				const label = data.labels?.[String(card.dataset.productId || '')];
+				const badge = $('.qil-product-badge', card);
+				if (badge && label) { badge.textContent = label; badge.title = label; }
+			});
+			api.refresh?.();
+		});
+	}
+	if ($('[data-qil-boost-band]')) whenCards(renderBands);
+	if (window.jQuery) window.jQuery(document.body).on('updated_wc_div updated_cart_totals cart_page_refreshed', () => whenCards(renderBands));
+
 	// Block-based cart: WooCommerce Blocks own the cart; refresh the ladder
 	// fragment when their store's totals change (debounced, no polling).
 	const blockCart = $('[data-qil-boost-block-cart]');
@@ -116,24 +158,28 @@
 	// so its own generation time is never used to correct the browser clock.
 	const now = () => Date.now() / 1000;
 
-	function flashMeterMarkup(meta, fresh, dropEnd) {
-		const parts = [];
-		const stock = meta?.stock;
-		if (typeof stock === 'number' && stock > 0 && stock <= 20) {
-			if (fresh) {
-				const level = Math.max(8, Math.min(100, Math.round((stock / 20) * 100)));
-				parts.push(`<span class="qil-flash-stock"><span class="qil-flash-bar" aria-hidden="true"><i style="width:${level}%"></i></span><b>${esc(stock <= 10 ? t(`Only ${stock} left`, `بقي ${num(stock)} فقط`) : t(`${stock} left`, `بقي ${num(stock)}`))}</b></span>`);
-			} else if (stock <= 10) {
-				parts.push(`<span class="qil-flash-stock"><b>${esc(t('Low stock', 'كمية محدودة'))}</b></span>`);
-			}
+	// Quantity is the point of a flash drop: one chip on the product image
+	// (the card itself stays the theme card, so every card keeps its height).
+	function flashStockChip(meta, fresh, dropEnd) {
+		const low = meta?.low, stock = meta?.stock;
+		let text = '', tone = '', level = null;
+		if (low && Number(low.qty) > 0 && String(low.option || '')) {
+			const qty = Number(low.qty);
+			text = fresh ? t(`Only ${qty} left in ${low.option}`, `بقي ${num(qty)} فقط من ${low.option}`) : t(`Low stock in ${low.option}`, `كمية محدودة من ${low.option}`);
+			tone = 'hot'; level = fresh ? Math.max(10, Math.min(100, qty * 20)) : null;
+		} else if (typeof stock === 'number' && stock > 0 && stock < 100) {
+			if (stock <= 10) { text = fresh ? t(`Only ${stock} left`, `بقي ${num(stock)} فقط`) : t('Low stock', 'كمية محدودة'); tone = 'hot'; }
+			else if (fresh) { text = t(`${stock} left`, `بقي ${num(stock)}`); tone = 'warm'; }
+			level = fresh && text ? Math.max(8, Math.min(100, Math.round((stock / 50) * 100))) : null;
 		}
 		const ends = Number(meta?.endsAt || 0);
-		// Only worth saying when this product's own sale ends before the drop does.
-		if (ends > now() && ends - now() < 7 * 86400 && !(dropEnd > 0 && ends >= dropEnd - 60)) {
-			parts.push(`<span class="qil-flash-ends-card">${esc(t('Sale ends in', 'ينتهي الخصم بعد'))} <b dir="ltr" data-qil-flash-card-end="${ends}">${esc(shortClock(ends - now()))}</b></span>`);
-		}
-		return parts.length ? `<div class="qil-flash-meter">${parts.join('')}</div>` : '';
+		// A product's own sale end, only when it comes before the drop's end.
+		const endsLine = ends > now() && ends - now() < 7 * 86400 && !(dropEnd > 0 && ends >= dropEnd - 60)
+			? `<small>${esc(t('Sale ends in', 'ينتهي الخصم بعد'))} <b dir="ltr" data-qil-flash-card-end="${ends}">${esc(shortClock(ends - now()))}</b></small>` : '';
+		if (!text && !endsLine) return '';
+		return `<span class="qil-flash-stock${tone ? ` is-${tone}` : ''}" data-qil-flash-stock>${text ? `<b>${esc(text)}</b>` : ''}${level !== null ? `<span class="qil-flash-bar" aria-hidden="true"><i style="width:${level}%"></i></span>` : ''}${endsLine}</span>`;
 	}
+	const flashUrgency = meta => (meta?.low || (typeof meta?.stock === 'number' && meta.stock <= 10)) ? 0 : (typeof meta?.stock === 'number' && meta.stock < 100 ? 1 : 2);
 
 	function renderFlash(section, flash) {
 		const api = cards();
@@ -147,19 +193,21 @@
 		});
 		if (fresh.length) api.upsert(fresh);
 		if (records.length < 4) { section.hidden = true; return false; }
-		const stale = now() - Number(flash.generatedAt || 0) > 900;
-		const dropEnd = Number(section.dataset.qilFlashEnd || 0);
-		grid.innerHTML = records.map((product, index) => api.render(product, index, 'flash-drop')).join('');
+		// Counts are exact while the page is recent; stock changes purge the cached page.
+		const recent = now() - Number(flash.generatedAt || 0) < 12 * 3600;
+		const dropEnd = Number(section.dataset.qilFlashEnd || flash.end || 0);
+		const order = records.map((product, index) => ({product, index, urgency: flashUrgency(flash.meta?.[String(product.id)])}))
+			.sort((a, b) => a.urgency - b.urgency || a.index - b.index).map(row => row.product);
+		grid.innerHTML = order.map((product, index) => api.render(product, index, 'flash-drop')).join('');
 		$$('.qil-product-card', grid).forEach(card => {
-			const id = String(card.dataset.productId || '');
-			const meta = flash.meta?.[id] || {};
+			const meta = flash.meta?.[String(card.dataset.productId || '')] || {};
 			const badge = $('.qil-product-badge', card);
 			if (badge) badge.textContent = t('Flash drop', 'مجموعة سريعة');
 			if (!$('[data-qil-sale-badge]', card) && Number(meta.pct) > 0) {
 				$('.qil-label-stack', card)?.insertAdjacentHTML('beforeend', `<span class="qil-sale-badge qil-flash-sale-badge" data-qil-sale-badge="flash">${esc((meta.upTo ? t('Up to ', 'حتى ') : '') + '−' + num(Math.round(meta.pct)) + (lang() === 'ar' ? '٪' : '%'))}</span>`);
 			}
-			const meter = flashMeterMarkup(meta, !stale, dropEnd);
-			if (meter) $('.qil-card-actions', card)?.insertAdjacentHTML('beforebegin', meter);
+			const chip = flashStockChip(meta, recent, dropEnd);
+			if (chip) { card.classList.add('has-flash-stock'); $('.qil-product-image', card)?.insertAdjacentHTML('beforeend', chip); }
 		});
 		api.refresh?.();
 		return true;
@@ -185,7 +233,7 @@
 			if (units.s) units.s.textContent = num(pad(p.s));
 			$$('[data-qil-flash-card-end]', section).forEach(node => {
 				const remaining = Number(node.dataset.qilFlashCardEnd) - now();
-				if (remaining <= 0) { node.closest('.qil-flash-ends-card')?.replaceChildren(document.createTextNode(t('Sale ended — WooCommerce shows the current price', 'انتهى الخصم — يظهر السعر الحالي في السلة'))); return; }
+				if (remaining <= 0) { node.closest('small')?.replaceChildren(document.createTextNode(t('Sale ended — the cart shows the current price', 'انتهى الخصم — تظهر السلة السعر الحالي'))); return; }
 				node.textContent = shortClock(remaining);
 			});
 		};
@@ -248,17 +296,48 @@
 	}
 
 	const flashSection = $('[data-qil-flash-drop]');
-	if (flashSection && B.flash) {
-		// A cached page can outlive its drop; the clock then says so honestly.
-		const end = Number(flashSection.dataset.qilFlashEnd || B.flash.end || 0);
-		const draw = () => {
-			if (renderFlash(flashSection, B.flash)) { setupFlashClock(flashSection, end); setupFlashAI(flashSection, B.flash); }
-			else if (!cards()) flashSection.hidden = true;
-		};
-		if (cards()) draw(); else window.addEventListener('load', draw, {once: true});
-	} else if (flashSection) {
-		flashSection.hidden = true;
+	if (flashSection) {
+		const flash = sectionData(flashSection, 'script[data-qil-flash-data]');
+		if (!flash || !Array.isArray(flash.records) || flash.records.length < 4) flashSection.hidden = true;
+		else whenCards(() => {
+			// A cached page can outlive its drop; the clock then says so honestly.
+			const end = Number(flashSection.dataset.qilFlashEnd || flash.end || 0);
+			if (renderFlash(flashSection, flash)) { setupFlashClock(flashSection, end); setupFlashAI(flashSection, flash); }
+		});
 	}
+
+	/* ---------------------------------------------------------------
+	   2b. Cashback stacks: the theme's cards; stack facts fill the card's
+	   own slots (badge, per-serving line, two fact boxes).
+	   --------------------------------------------------------------- */
+	function renderStacks(section) {
+		const api = cards(), grid = $('[data-qil-stacks-grid]', section);
+		const data = sectionData(section, 'script[data-qil-stacks-data]');
+		const records = Array.isArray(data?.records) ? data.records.filter(record => Number(record?.id) > 0) : [];
+		if (!api?.render || !grid) return;
+		if (records.length < 2) { section.hidden = true; return; }
+		api.upsert(records);
+		grid.innerHTML = records.map((product, index) => api.render(product, index, 'stacks')).join('');
+		const fill = (slot, label, value, title = value) => {
+			if (!slot || !value) return;
+			const name = $('.qil-fact-label', slot), text = $('.qil-fact-value', slot);
+			if (name) name.textContent = label;
+			if (text) { text.textContent = value; text.title = title; }
+		};
+		$$('.qil-product-card', grid).forEach(card => {
+			const fact = data.facts?.[String(card.dataset.productId || '')] || {};
+			const badge = $('.qil-product-badge', card);
+			if (badge && fact.reward) { badge.textContent = t(`${fact.reward} cashback`, `${fact.reward} كاش باك`); badge.title = badge.textContent; badge.classList.add('is-cashback'); }
+			else if (badge) badge.textContent = t('Stack', 'مجموعة');
+			if (fact.separately) $('.qil-card-price', card)?.insertAdjacentHTML('beforeend', `<span class="qil-per-serving qil-stack-separately">${esc(t('Separately', 'منفصلة'))} <del dir="ltr">${esc(fact.separately)}</del></span>`);
+			const slots = $$('.qil-fact', card);
+			fill(slots[0], t('Inside', 'بداخلها'), fact.inside, fact.insideFull || fact.inside);
+			fill(slots[1], fact.save ? t('You save', 'توفّر') : t('Cashback', 'كاش باك'), fact.save || fact.reward);
+		});
+		api.refresh?.();
+	}
+	const stacksSection = $('#qil-stacks');
+	if (stacksSection && $('script[data-qil-stacks-data]', stacksSection)) whenCards(() => renderStacks(stacksSection));
 
 	/* ---------------------------------------------------------------
 	   3. Member hub: wallet, Running low?, best ways to use it
@@ -373,7 +452,7 @@
 			return `<div class="qil-running-row" data-qil-running-key="${esc(row.key)}">
 				<a class="qil-running-media" href="${esc(safeUrl(row.url))}" tabindex="-1" aria-hidden="true">${image}</a>
 				<div class="qil-running-body"><a class="qil-running-name" href="${esc(safeUrl(row.url))}">${esc(row.name)}</a>${row.selection ? `<span class="qil-running-choice" dir="auto">${esc(row.selection)}</span>` : ''}<span class="qil-running-when" data-urgent="${Number(row.daysLeft) <= 3 ? '1' : '0'}">${esc(runningEstimate(row))}</span></div>
-				<div class="qil-running-buy"><span class="qil-running-price" dir="ltr">${row.price || ''}</span><button type="button" class="qil-running-add" data-qil-running-buy="${esc(row.key)}" aria-label="${esc(t('Buy again', 'اشترِ مجدداً') + ': ' + row.name + (row.selection ? ' — ' + row.selection : ''))}"><span>${esc(t('Buy again', 'اشترِ مجدداً'))}</span></button></div>
+				<div class="qil-running-buy"><span class="qil-running-price" dir="ltr">${row.price || ''}</span><button type="button" class="qil-buy qil-running-add" data-qil-running-buy="${esc(row.key)}" aria-label="${esc(t('Buy again', 'اشترِ مجدداً') + ': ' + row.name + (row.selection ? ' — ' + row.selection : ''))}"><span>${esc(t('Buy again', 'اشترِ مجدداً'))}</span><svg aria-hidden="true"><use href="#qil-i-cart-plus"/></svg></button></div>
 			</div>`;
 		}).join('');
 		box.hidden = false;
@@ -423,7 +502,7 @@
 			const reason = picks.reasons?.[card.dataset.productId];
 			const badge = $('.qil-product-badge', card);
 			if (badge) badge.textContent = t('Cashback pick', 'اختيار لرصيدك');
-			if (reason) $('.qil-product-info h3', card)?.insertAdjacentHTML('afterend', `<p class="qil-wallet-reason">${esc(reason)}</p>`);
+			if (reason) $('.qil-product-info h3', card)?.insertAdjacentHTML('afterend', `<p class="qil-wallet-reason" title="${esc(reason)}">${esc(reason)}</p>`);
 		});
 		const title = $('[data-qil-wallet-picks-title]', box);
 		if (title) title.textContent = t(`Best ways to use your ${wallet.best.amount}`, `أفضل طرق استخدام ${wallet.best.amount}`);

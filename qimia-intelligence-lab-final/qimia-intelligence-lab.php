@@ -2,7 +2,7 @@
 /**
  * Plugin Name: Qimia Intelligence Lab
  * Description: The bilingual intelligent Qimia storefront, with isolated staging protections.
- * Version: 1.18.0
+ * Version: 1.18.1
  * Author: Qimia
  * Text Domain: qimia-intelligence-lab
  * Requires at least: 6.2
@@ -11,7 +11,7 @@
 
 defined( 'ABSPATH' ) || exit;
 
-define( 'QIL_VERSION', '1.18.0' );
+define( 'QIL_VERSION', '1.18.1' );
 define( 'QIL_SCHEMA_VERSION', 15 );
 define( 'QIL_FILE', __FILE__ );
 define( 'QIL_DIR', plugin_dir_path( __FILE__ ) );

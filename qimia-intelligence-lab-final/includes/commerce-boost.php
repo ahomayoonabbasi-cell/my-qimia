@@ -802,6 +802,8 @@ final class QIL_Boost {
 			'plus'  => '<path d="M12 5v14M5 12h14"/>',
 			'spark' => '<path d="M12 3l1.7 5.1L19 10l-5.3 1.9L12 17l-1.7-5.1L5 10l5.3-1.9L12 3Z"/>',
 			'arrow' => '<path d="M5 12h14M13 6l6 6-6 6"/>',
+			// The theme's own add-to-cart icon (qil-i-cart-plus), inline: the drawer lives outside the shell.
+			'cart'  => '<path d="M3 4h2l2.1 10.2a2 2 0 0 0 2 1.6h7.8a2 2 0 0 0 2-1.6L20 8H7"/><circle cx="10" cy="20" r="1"/><circle cx="18" cy="20" r="1"/><path d="M15 2v6M12 5h6"/>',
 		);
 		return '<svg class="qil-boost-icon" viewBox="0 0 24 24" aria-hidden="true" focusable="false">' . ( $paths[ $name ] ?? '' ) . '</svg>';
 	}
@@ -837,29 +839,29 @@ final class QIL_Boost {
 			$cart_url = function_exists( 'wc_get_cart_url' ) ? wc_get_cart_url() : home_url( '/' );
 			$url      = add_query_arg( array( 'add-to-cart' => (int) $row['id'], 'quantity' => 1 ), $cart_url );
 			return sprintf(
-				'<a href="%1$s" data-quantity="1" data-product_id="%2$d" data-product_sku="%3$s" class="qil-boost-add add_to_cart_button ajax_add_to_cart product_type_simple%4$s" rel="nofollow" aria-label="%5$s">%6$s<span>%7$s</span></a>',
+				'<a href="%1$s" data-quantity="1" data-product_id="%2$d" data-product_sku="%3$s" class="qil-boost-add add_to_cart_button ajax_add_to_cart product_type_simple%4$s" rel="nofollow" aria-label="%5$s"><span>%7$s</span>%6$s</a>',
 				esc_url( $url ),
 				(int) $row['id'],
 				esc_attr( $row['k'] ),
 				esc_attr( $class ? ' ' . $class : '' ),
 				esc_attr( sprintf( self::t( 'Add %s to your order', 'أضف %s إلى طلبك' ), $name ) ),
-				self::icon( 'plus' ),
+				self::icon( 'cart' ),
 				esc_html( $label )
 			);
 		}
 		if ( 'v' === $row['t'] ) {
 			return sprintf(
-				'<a href="%1$s" class="qil-boost-add is-options%2$s" data-qil-quick-view-id="%3$d" data-qil-boost-record="%4$s" aria-haspopup="dialog" aria-label="%5$s">%6$s<span>%7$s</span></a>',
+				'<a href="%1$s" class="qil-boost-add is-options%2$s" data-qil-quick-view-id="%3$d" data-qil-boost-record="%4$s" aria-haspopup="dialog" aria-label="%5$s"><span>%7$s</span>%6$s</a>',
 				esc_url( $row['u'] ),
 				esc_attr( $class ? ' ' . $class : '' ),
 				(int) $row['id'],
 				esc_attr( (string) wp_json_encode( self::quick_record( $row ), JSON_UNESCAPED_UNICODE | JSON_UNESCAPED_SLASHES ) ),
 				esc_attr( sprintf( self::t( 'Choose options for %s', 'اختر خيارات %s' ), $name ) ),
-				self::icon( 'plus' ),
+				self::icon( 'cart' ),
 				esc_html( self::t( 'Options', 'الخيارات' ) )
 			);
 		}
-		return sprintf( '<a href="%1$s" class="qil-boost-add is-link%2$s"><span>%3$s</span></a>', esc_url( $row['u'] ), esc_attr( $class ? ' ' . $class : '' ), esc_html( self::t( 'View', 'عرض' ) ) );
+		return sprintf( '<a href="%1$s" class="qil-boost-add is-link%2$s"><span>%3$s</span>%4$s</a>', esc_url( $row['u'] ), esc_attr( $class ? ' ' . $class : '' ), esc_html( self::t( 'View', 'عرض' ) ), self::icon( 'arrow' ) );
 	}
 
 	private static function pick_price( array $row ) {
@@ -1063,7 +1065,7 @@ final class QIL_Boost {
 
 	/** "Complete your stack": rule-based complements with one-tap add. */
 	public static function stack_band_markup() {
-		if ( ! self::cart_ready() || ! self::on( 'stack' ) ) {
+		if ( ! self::cart_ready() || ! self::on( 'stack' ) || ! function_exists( 'qil_get_catalogue' ) ) {
 			return '';
 		}
 		$ctx = self::cart_context();
@@ -1076,32 +1078,40 @@ final class QIL_Boost {
 		if ( count( $picks ) < 2 ) {
 			return '';
 		}
+		// The theme's own product card, from the shared catalogue record (cached per market).
+		$ids   = array_map( static function ( $pick ) { return (int) $pick['row']['id']; }, $picks );
+		$by_id = array();
+		foreach ( qil_get_catalogue( array( 'include' => $ids, 'limit' => count( $ids ), 'orderby' => 'include' ) ) as $record ) {
+			$by_id[ (int) $record['id'] ] = $record;
+		}
+		$records = array();
+		foreach ( $ids as $id ) {
+			if ( isset( $by_id[ $id ] ) ) {
+				$records[] = $by_id[ $id ];
+			}
+		}
+		$ids = array_map( static function ( $record ) { return (int) $record['id']; }, $records );
+		if ( count( $records ) < 2 ) {
+			return '';
+		}
+		$labels = array();
+		foreach ( $picks as $pick ) {
+			$labels[ (int) $pick['row']['id'] ] = $pick['reaches'] && $state && $state['next']
+				? '+' . self::reward_text( $state['next']['reward'] ) . ' ' . self::t( 'cashback', 'كاش باك' )
+				: sprintf( self::t( 'Pairs with %s', 'يكمّل %s' ), self::role_label( $pick['reason'] ) );
+		}
+		$ar        = self::is_ar();
 		$lead_role = $picks[0]['reason'] ?: ( $ctx['primary'][0] ?? '' );
 		$title_id  = 'qil-boost-stack-title';
-		$out  = '<section class="qil-boost qil-boost-stack" aria-labelledby="' . esc_attr( $title_id ) . '"' . self::locale_attrs() . '>';
-		$out .= '<header class="qil-boost-stack-head"><span class="qil-boost-kicker">' . esc_html( self::t( 'COMPLETE YOUR STACK', 'أكمل مجموعتك' ) ) . '</span>';
-		$out .= '<h2 id="' . esc_attr( $title_id ) . '">' . esc_html( sprintf( self::t( 'Made to pair with your %s', 'مختارة لتكمّل %s' ), self::role_label( $lead_role ) ) ) . '</h2>';
-		$out .= '<p>' . esc_html( self::t( 'One tap adds it to this order — no product page, same checkout.', 'بلمسة واحدة يُضاف إلى هذا الطلب — بدون صفحة المنتج وبنفس الدفع.' ) ) . '</p></header><div class="qil-boost-stack-grid">';
-		foreach ( $picks as $pick ) {
-			$row   = $pick['row'];
-			$chip  = sprintf( self::t( 'Pairs with %s', 'يكمّل %s' ), self::role_label( $pick['reason'] ) );
-			$extra = $pick['reaches'] && $state && $state['next']
-				? '<span class="qil-boost-unlock">' . self::icon( 'spark' ) . esc_html( sprintf( self::t( 'Unlocks %s cashback', 'يفتح كاش باك %s' ), self::reward_text( $state['next']['reward'] ) ) ) . '</span>'
-				: '';
-			$img   = $row['i2'] ?: $row['i']['src'];
-			$out  .= sprintf(
-				'<article class="qil-boost-card" data-qil-boost-product="%1$d"><a class="qil-boost-card-media" href="%2$s" tabindex="-1" aria-hidden="true"><img src="%3$s" width="300" height="300" alt="" loading="lazy" decoding="async"></a><span class="qil-boost-chip">%4$s</span><a class="qil-boost-card-name" href="%2$s">%5$s</a>%6$s%7$s%8$s</article>',
-				(int) $row['id'],
-				esc_url( $row['u'] ),
-				esc_url( $img ),
-				esc_html( $chip ),
-				esc_html( $row['n'] ),
-				self::pick_price( $row ),
-				$extra,
-				self::add_button( $row, self::t( 'Add to my order', 'أضف إلى طلبي' ), 'is-wide' )
-			);
-		}
-		return $out . '</div></section>';
+		$data      = array( 'records' => $records, 'labels' => array_intersect_key( $labels, array_flip( $ids ) ) );
+		$nav       = '<div class="qil-rail-nav" data-qil-rail-nav="qil-boost-band"><button type="button" data-qil-rail-prev aria-label="' . esc_attr( self::t( 'Previous', 'السابق' ) ) . '"><svg aria-hidden="true"><use href="#qil-i-arrow"/></svg></button><button type="button" data-qil-rail-next aria-label="' . esc_attr( self::t( 'Next', 'التالي' ) ) . '"><svg aria-hidden="true"><use href="#qil-i-arrow"/></svg></button></div>';
+		$out  = '<div class="qil-shell qil-boost-band-shell notranslate" data-qil-shell dir="' . ( $ar ? 'rtl' : 'ltr' ) . '" lang="' . ( $ar ? 'ar' : 'en' ) . '" data-qil-locale="' . ( $ar ? 'ar' : 'en' ) . '" translate="no" data-qaatm-no-rewrite data-no-translation>';
+		$out .= '<section class="qil-section qil-commerce-collections qil-boost-band" data-qil-boost-band data-qil-boost-ids="' . esc_attr( implode( ',', $ids ) ) . '" aria-labelledby="' . esc_attr( $title_id ) . '"><div class="qil-container"><article class="qil-collection-block">';
+		$out .= '<div class="qil-collection-head"><div><small>' . esc_html( self::t( 'COMPLETE YOUR STACK', 'أكمل مجموعتك' ) ) . '</small><h3 id="' . esc_attr( $title_id ) . '">' . esc_html( sprintf( self::t( 'Made to pair with your %s', 'مختارة لتكمّل %s' ), self::role_label( $lead_role ) ) ) . '</h3>';
+		$out .= '<p>' . esc_html( self::t( 'One tap adds it to this order — no product page, same checkout.', 'بلمسة واحدة يُضاف إلى هذا الطلب — بدون صفحة المنتج وبنفس الدفع.' ) ) . '</p></div><div class="qil-collection-tools">' . $nav . '</div></div>';
+		$out .= '<div class="qil-collection-grid qil-rail qil-boost-rail" data-qil-boost-band-grid data-qil-rail="qil-boost-band"><div class="qil-collection-skeleton" aria-hidden="true"><i></i><i></i><i></i><i></i></div></div>';
+		$out .= '<script type="application/json" data-qil-boost-band-data>' . wp_json_encode( $data, JSON_HEX_TAG | JSON_HEX_AMP | JSON_HEX_APOS | JSON_HEX_QUOT | JSON_UNESCAPED_UNICODE | JSON_UNESCAPED_SLASHES ) . '</script>';
+		return $out . '</article></div></section></div>';
 	}
 
 	public static function stack_band() {
@@ -1184,7 +1194,7 @@ final class QIL_Boost {
 		echo '<table class="form-table" role="presentation"><tbody>';
 		echo '<tr><th scope="row">Cart cashback ladder</th><td>' . $check( 'ladder', 'Show "Add X more → get Y cashback" in the mini cart and on the cart page' ) . '<p>Products that reach the next band: ' . $number( 'ladder_picks', 0, 3 ) . ' (0 hides them)</p><p class="description">Measured on items after discounts, fees and tax, excluding shipping, so "add X" can only ever be on the safe side. Rides on WooCommerce\'s existing cart fragments: no extra request.</p></td></tr>';
 		echo '<tr><th scope="row">Complete your stack</th><td>' . $check( 'stack', 'Rule-based complements with one-tap "Add to my order" on the cart page' ) . '<p class="description">Creatine → Whey / Pre-workout · Whey → Creatine · Fat burner → Multivitamin / Protein · Magnesium → Ashwagandha / Daily wellness (plus sensible defaults). Developers can change the map with the <code>qil_stack_rules</code> filter.</p></td></tr>';
-		echo '<tr><th scope="row">Flash drop</th><td>' . $check( 'flash', 'Feature a short, rotating flash drop on the homepage' ) . '<p>Products per drop ' . $number( 'flash_size', 8, 12 ) . ' · drop length ' . $number( 'flash_hours', 24, 168 ) . ' hours · minimum real discount ' . $number( 'flash_min_pct', 1, 90 ) . '%</p><p>First drop starts (Oman time, <code>YYYY-MM-DD HH:MM</code>): ' . $text( 'flash_anchor', 'regular-text', '2026-01-01 00:00' ) . '</p><p>Always include product IDs: ' . $text( 'flash_pins', 'regular-text', '123, 456' ) . '</p><p>Never include product IDs: ' . $text( 'flash_exclude', 'regular-text', '789' ) . '</p><p>Instagram campaign name: ' . $text( 'flash_campaign', 'regular-text' ) . '</p><p>' . $check( 'flash_exclusive', 'Show only the current drop on the Flash Sale category page' ) . '</p><p class="description">Candidates are in-stock flash-sale products that WooCommerce sells below their regular price right now. Products from the previous drop are skipped when possible, so every drop is new. The clock shows the real end of the drop; a product\'s own "sale ends" time appears only when a real end date exists.</p></td></tr>';
+		echo '<tr><th scope="row">Flash drop</th><td>' . $check( 'flash', 'Feature a short, rotating flash drop on the homepage' ) . '<p>Products per drop ' . $number( 'flash_size', 8, 12 ) . ' · drop length ' . $number( 'flash_hours', 24, 168 ) . ' hours · minimum real discount ' . $number( 'flash_min_pct', 1, 90 ) . '%</p><p>First drop starts (Oman time, <code>YYYY-MM-DD HH:MM</code>): ' . $text( 'flash_anchor', 'regular-text', '2026-01-01 00:00' ) . '</p><p>Always include product IDs: ' . $text( 'flash_pins', 'regular-text', '123, 456' ) . '</p><p>Never include product IDs: ' . $text( 'flash_exclude', 'regular-text', '789' ) . '</p><p>Instagram campaign name: ' . $text( 'flash_campaign', 'regular-text' ) . '</p><p>' . $check( 'flash_exclusive', 'Show only the current drop on the Flash Sale category page' ) . '</p><p class="description">Candidates are in-stock flash-sale products that WooCommerce sells below their regular price right now. Products from the previous drop are skipped when possible, so every drop is new. The clock shows the real end of the drop. Each card leads with its real stock ("Only 3 left", or the option running low: "Only 2 left in Chocolate"); a product\'s own sale end appears only when it comes before the drop\'s end.</p></td></tr>';
 		echo '<tr><th scope="row">Cashback wallet</th><td>' . $check( 'wallet', 'Show signed-in shoppers their unused cashback on the homepage and let them apply it in one tap' ) . '<p><label><input type="radio" name="' . esc_attr( $name( 'wallet_mode' ) ) . '" value="auto" ' . checked( 'auto', $s['wallet_mode'], false ) . '> Issuer-marked coupons, and single-use fixed-amount coupons restricted to the shopper\'s email with an expiry date</label><br><label><input type="radio" name="' . esc_attr( $name( 'wallet_mode' ) ) . '" value="strict" ' . checked( 'strict', $s['wallet_mode'], false ) . '> Only coupons the cashback issuer marked (meta starting with <code>_qcb2</code>, or "cashback" in the description)</label></p><p class="description">Coupon codes never reach the browser. The cashback plugin can supply its coupons directly through the <code>qil_cashback_wallet_coupons</code> filter.</p></td></tr>';
 		echo '<tr><th scope="row">Running low? (reorder)</th><td>' . $check( 'reorder', 'Remind signed-in shoppers to restock the exact product, flavour and size' ) . '<p>Show from ' . $number( 'reorder_lead', 1, 30 ) . ' days before the estimated run-out until ' . $number( 'reorder_grace', 3, 60 ) . ' days after it.</p><p class="description">Estimate = the label\'s verified serving count × quantity bought ÷ servings a day (1; pre-workout, aminos and electrolytes 5 a week), from the payment date plus two days for delivery. Products without a verified serving count are never estimated. Filter: <code>qil_reorder_servings_per_day</code>.</p></td></tr>';
 		echo '<tr><th scope="row">Cashback stacks</th><td>' . $check( 'stacks', 'Show stack products with their contents, real value and cashback tier on the homepage' ) . '<p>Stack category slugs: ' . $text( 'stack_slugs', 'large-text' ) . '</p><p>Stack contents when the product does not define them (one per line, <code>stackID: productID, productID x2</code>):</p><textarea class="large-text code" rows="4" name="' . esc_attr( $name( 'stack_components' ) ) . '">' . esc_textarea( $s['stack_components'] ) . '</textarea><p class="description">Grouped products, WPC Product Bundles, WooCommerce Product Bundles and YITH bundles are read automatically.</p></td></tr>';
@@ -1201,9 +1211,10 @@ final class QIL_Boost {
 		$rows = array(
 			'Mini cart & cart'  => 'Printed inside WooCommerce\'s mini-cart and cart-totals templates, refreshed by the existing fragments. No new request.',
 			'Product pool'      => 'Up to ' . self::POOL_LIMIT . ' in-stock products per market and language, public data only, rebuilt when WooCommerce\'s product version changes or after 15 minutes; one build at a time.',
-			'Flash drop'        => 'Embedded in the homepage response; the choice is stored once per window and rotated by WP-Cron, which also purges the two cached homepages.',
+			'Flash drop'        => 'Sent inside its own homepage section (no request); the choice is stored once per window, only the drop\'s own products are re-read, and a momentary lock never produces a homepage without the drop.',
+			'Cached homepages'  => 'Purged (WP-Cron, at most once every five minutes) when a new drop starts, when a drop product\'s stock, price or sale changes, and once after a plugin upgrade.',
 			'Wallet & reorder'  => 'One private, idle-time request for signed-in shoppers on the homepage or cart. Guests never trigger it; nothing is cached for them.',
-			'Stacks'            => 'Server-rendered with the homepage; ten-minute public cache per market and language.',
+			'Stacks'            => 'The theme\'s product cards, from records sent with the homepage; ten-minute public cache per market and language.',
 			'Emergency stop'    => 'define( \'QIL_BOOST_DISABLE\', true ); in wp-config.php',
 		);
 		foreach ( $rows as $label => $value ) {

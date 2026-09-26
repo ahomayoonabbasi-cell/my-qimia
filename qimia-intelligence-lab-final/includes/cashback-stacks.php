@@ -179,7 +179,8 @@ final class QIL_Stacks {
 						$known = false;
 						continue;
 					}
-					$inside[] = array( 'name' => qil_clean_text( $part->get_name() ), 'qty' => (int) $pair[1] );
+					$root     = $part->is_type( 'variation' ) ? (int) $part->get_parent_id() : (int) $part->get_id();
+					$inside[] = array( 'name' => qil_clean_text( $part->get_name() ), 'qty' => (int) $pair[1], 'role' => QIL_Boost::roles_for( $root, $part->get_name() )[0] );
 					$names[]  = qil_clean_text( $part->get_name() );
 					$sum     += $each * (int) $pair[1];
 				}
@@ -207,7 +208,7 @@ final class QIL_Stacks {
 					'sku'        => qil_clean_text( $product->get_sku() ),
 				);
 				$rows[]     = $row;
-				if ( count( $rows ) >= 8 ) {
+				if ( count( $rows ) >= 12 ) {
 					break;
 				}
 			}
@@ -227,82 +228,73 @@ final class QIL_Stacks {
 		return $memo[ $key ] = $rows;
 	}
 
-	private static function add_control( array $row ) {
-		$ar = QIL_Boost::is_ar();
-		if ( 's' === $row['type'] && $row['ajax'] ) {
-			$cart = function_exists( 'wc_get_cart_url' ) ? wc_get_cart_url() : home_url( '/' );
-			return sprintf(
-				'<a href="%1$s" data-quantity="1" data-product_id="%2$d" data-product_sku="%3$s" class="qil-button qil-button-primary qil-bundle-add add_to_cart_button ajax_add_to_cart product_type_simple" rel="nofollow" aria-label="%4$s"><span>%5$s</span><svg aria-hidden="true"><use href="#qil-i-cart-plus"/></svg></a>',
-				esc_url( add_query_arg( array( 'add-to-cart' => (int) $row['id'], 'quantity' => 1 ), $cart ) ),
-				(int) $row['id'],
-				esc_attr( $row['sku'] ),
-				esc_attr( sprintf( $ar ? 'أضف %s إلى السلة' : 'Add %s to your cart', $row['name'] ) ),
-				esc_html( $ar ? 'أضف المجموعة' : 'Add the stack' )
-			);
-		}
-		return sprintf(
-			'<a href="%1$s" class="qil-button qil-button-primary qil-bundle-add"><span>%2$s</span><svg aria-hidden="true"><use href="#qil-i-arrow"/></svg></a>',
-			esc_url( $row['url'] ),
-			esc_html( $ar ? 'اختر المجموعة' : 'Choose this stack' )
-		);
+	/** Plain text of a WooCommerce price ("25.880 ر.ع."), for text-only placement in a card. */
+	private static function price_text( $amount ) {
+		return trim( html_entity_decode( wp_strip_all_tags( QIL_Boost::price_html( $amount ) ), ENT_QUOTES, 'UTF-8' ) );
 	}
 
+	/**
+	 * The stacks rail: the theme's own product cards (the shared renderer in
+	 * qil.js, from catalogue records sent with the section), four on a desktop,
+	 * two on a phone, arrows for the rest. Stack facts fill the card's existing
+	 * slots, so every card keeps the theme's shape and height.
+	 */
 	public static function section() {
 		$stacks = self::stacks();
-		if ( count( $stacks ) < self::MIN_STACKS ) {
+		if ( count( $stacks ) < self::MIN_STACKS || ! function_exists( 'qil_get_catalogue' ) ) {
 			return '';
 		}
-		$ar = QIL_Boost::is_ar();
+		$ids     = array_map( 'absint', array_column( $stacks, 'id' ) );
+		$by_id   = array();
+		foreach ( qil_get_catalogue( array( 'include' => $ids, 'limit' => count( $ids ), 'orderby' => 'include' ) ) as $record ) {
+			$by_id[ (int) $record['id'] ] = $record;
+		}
+		$ar      = QIL_Boost::is_ar();
+		$records = array();
+		$facts   = array();
+		foreach ( $stacks as $row ) {
+			if ( ! isset( $by_id[ (int) $row['id'] ] ) ) {
+				continue;
+			}
+			$records[] = $by_id[ (int) $row['id'] ];
+			$reference = $row['separately'] > 0 ? $row['separately'] : (float) ( $row['was'] ?? 0 );
+			$short     = array();
+			$full      = array();
+			foreach ( $row['inside'] as $part ) {
+				$count   = $part['qty'] > 1 ? $part['qty'] . ' × ' : '';
+				// "Protein + Creatine" reads in full in the card; the names stay in the tooltip.
+				$short[] = $count . ( ! empty( $part['role'] ) ? QIL_Boost::role_label( $part['role'] ) : $part['name'] );
+				$full[]  = $count . $part['name'];
+			}
+			$facts[ (int) $row['id'] ] = array(
+				'inside'     => implode( ' + ', $short ),
+				'insideFull' => implode( ' + ', $full ),
+				'separately' => $row['separately'] > 0 ? self::price_text( $row['separately'] ) : '',
+				'save'       => $reference > 0 ? self::price_text( $reference - $row['price'] ) : '',
+				'reward'     => null !== $row['reward'] ? '+' . QIL_Boost::reward_text( $row['reward'] ) : '',
+			);
+		}
+		if ( count( $records ) < self::MIN_STACKS ) {
+			return '';
+		}
+		$data = array( 'records' => $records, 'facts' => $facts );
 		ob_start();
 		?>
-		<section id="qil-stacks" class="qil-section qil-stacks" aria-labelledby="qil-stacks-title">
+		<section id="qil-stacks" class="qil-section qil-commerce-collections qil-stacks" aria-labelledby="qil-stacks-title">
 			<div class="qil-container">
-				<header class="qil-stacks-head">
-					<span class="qil-kicker"><?php echo esc_html( $ar ? 'مجموعات مصمّمة للكاش باك' : 'STACKS BUILT FOR CASHBACK' ); ?></span>
-					<h2 id="qil-stacks-title"><?php echo esc_html( $ar ? 'قيمة واضحة. بدون خصومات غريبة.' : 'Clear value. No strange discounts.' ); ?></h2>
-					<p><?php echo esc_html( $ar ? 'كل مجموعة تقع ضمن فئة كاش باك. ترى ما بداخلها، وسعرها منفصلة اليوم، والكاش باك الذي تمنحك إياه.' : 'Every stack lands on a cashback tier. See what is inside, what the same items cost separately today, and the cashback it earns.' ); ?></p>
-				</header>
-				<div class="qil-stacks-grid qil-rail" data-qil-rail="stacks">
-					<?php foreach ( $stacks as $row ) : ?>
-						<article class="qil-bundle-card qil-reveal" data-product-id="<?php echo esc_attr( $row['id'] ); ?>">
-							<a class="qil-bundle-media" href="<?php echo esc_url( $row['url'] ); ?>" tabindex="-1" aria-hidden="true">
-								<?php if ( ! empty( $row['image']['src'] ) ) : ?>
-									<img src="<?php echo esc_url( $row['image']['src'] ); ?>"<?php echo ! empty( $row['image']['srcset'] ) ? ' srcset="' . esc_attr( $row['image']['srcset'] ) . '" sizes="(max-width: 680px) 72vw, 300px"' : ''; ?> width="<?php echo esc_attr( $row['image']['width'] ); ?>" height="<?php echo esc_attr( $row['image']['height'] ); ?>" alt="" loading="lazy" decoding="async">
-								<?php endif; ?>
-								<?php if ( null !== $row['reward'] ) : ?>
-									<span class="qil-bundle-reward"><small><?php echo esc_html( $ar ? 'كاش باك' : 'CASHBACK' ); ?></small><b><bdi><?php echo esc_html( '+' . QIL_Boost::reward_text( $row['reward'] ) ); ?></bdi></b></span>
-								<?php endif; ?>
-							</a>
-							<div class="qil-bundle-body">
-								<h3><a href="<?php echo esc_url( $row['url'] ); ?>"><?php echo esc_html( $row['name'] ); ?></a></h3>
-								<?php if ( $row['inside'] ) : ?>
-									<ul class="qil-bundle-inside" aria-label="<?php echo esc_attr( $ar ? 'محتويات المجموعة' : 'What is inside' ); ?>">
-										<?php foreach ( $row['inside'] as $part ) : ?>
-											<li dir="auto"><?php echo esc_html( ( $part['qty'] > 1 ? $part['qty'] . ' × ' : '' ) . $part['name'] ); ?></li>
-										<?php endforeach; ?>
-									</ul>
-								<?php elseif ( '' !== $row['blurb'] ) : ?>
-									<p class="qil-bundle-blurb"><?php echo esc_html( $row['blurb'] ); ?></p>
-								<?php endif; ?>
-								<?php $reference = $row['separately'] > 0 ? $row['separately'] : (float) ( $row['was'] ?? 0 ); ?>
-								<div class="qil-bundle-value">
-									<strong><?php echo QIL_Boost::price_html( $row['price'] ); // phpcs:ignore WordPress.Security.EscapeOutput.OutputNotEscaped -- wc_price() through wp_kses_post(). ?></strong>
-									<?php if ( $reference > 0 ) : ?>
-										<span class="qil-bundle-separately"><?php echo esc_html( $row['separately'] > 0 ? ( $ar ? 'منفصلة' : 'Separately' ) : ( $ar ? 'كان' : 'Was' ) ); ?> <del><?php echo QIL_Boost::price_html( $reference ); // phpcs:ignore WordPress.Security.EscapeOutput.OutputNotEscaped ?></del></span>
-									<?php endif; ?>
-								</div>
-								<?php if ( $reference > 0 ) : ?>
-									<p class="qil-bundle-save"><?php echo wp_kses_post( sprintf( $ar ? 'توفّر %s اليوم' : 'You save %s today', QIL_Boost::price_html( $reference - $row['price'] ) ) ); ?></p>
-								<?php endif; ?>
-								<?php if ( null !== $row['reward'] ) : ?>
-									<p class="qil-bundle-earn"><?php echo esc_html( sprintf( $ar ? 'ويمنحك كاش باك %s لطلبك القادم' : 'Plus %s cashback for your next order', QIL_Boost::reward_text( $row['reward'] ) ) ); ?></p>
-								<?php endif; ?>
-								<?php echo self::add_control( $row ); // phpcs:ignore WordPress.Security.EscapeOutput.OutputNotEscaped -- Escaped in the builder. ?>
-							</div>
-						</article>
-					<?php endforeach; ?>
-				</div>
-				<p class="qil-stacks-note"><?php echo esc_html( $ar ? 'الأسعار "منفصلة" هي أسعار المنتجات نفسها اليوم في كيميا. الكاش باك رصيد لطلب قادم على الطلبات المدفوعة المؤهلة.' : '"Separately" is what the same products cost at Qimia today. Cashback is credit for a future order on eligible paid orders.' ); ?></p>
+				<article class="qil-collection-block qil-stacks-block">
+					<div class="qil-collection-head">
+						<div>
+							<small class="qil-stacks-kicker"><i aria-hidden="true"></i><?php echo esc_html( $ar ? 'مجموعات مصمّمة للكاش باك' : 'STACKS BUILT FOR CASHBACK' ); ?></small>
+							<h3 id="qil-stacks-title"><?php echo esc_html( $ar ? 'قيمة واضحة. بدون خصومات غريبة.' : 'Clear value. No strange discounts.' ); ?></h3>
+							<p><?php echo esc_html( $ar ? 'كل مجموعة تقع ضمن فئة كاش باك: ما بداخلها، وسعرها منفصلة اليوم، والكاش باك الذي تمنحك إياه.' : 'Every stack lands on a cashback tier: what is inside, what the same items cost separately today, and the cashback it earns.' ); ?></p>
+						</div>
+						<div class="qil-collection-tools"><div class="qil-rail-nav" data-qil-rail-nav="stacks"><button type="button" data-qil-rail-prev aria-label="<?php echo esc_attr( $ar ? 'السابق' : 'Previous' ); ?>"><svg aria-hidden="true"><use href="#qil-i-arrow"/></svg></button><button type="button" data-qil-rail-next aria-label="<?php echo esc_attr( $ar ? 'التالي' : 'Next' ); ?>"><svg aria-hidden="true"><use href="#qil-i-arrow"/></svg></button></div></div>
+					</div>
+					<div class="qil-collection-grid qil-rail qil-boost-rail qil-stacks-rail" data-qil-stacks-grid data-qil-rail="stacks"><div class="qil-collection-skeleton" aria-hidden="true"><i></i><i></i><i></i><i></i></div></div>
+					<p class="qil-stacks-note"><?php echo esc_html( $ar ? '"منفصلة" هي أسعار المنتجات نفسها اليوم في كيميا. الكاش باك رصيد لطلب قادم على الطلبات المدفوعة المؤهلة.' : '"Separately" is what the same products cost at Qimia today. Cashback is credit for a future order on eligible paid orders.' ); ?></p>
+					<script type="application/json" data-qil-stacks-data><?php echo wp_json_encode( $data, JSON_HEX_TAG | JSON_HEX_AMP | JSON_HEX_APOS | JSON_HEX_QUOT | JSON_UNESCAPED_UNICODE | JSON_UNESCAPED_SLASHES ); // phpcs:ignore WordPress.Security.EscapeOutput.OutputNotEscaped -- JSON with every markup character escaped. ?></script>
+				</article>
 			</div>
 		</section>
 		<?php

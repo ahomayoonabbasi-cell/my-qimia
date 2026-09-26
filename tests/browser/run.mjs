@@ -53,6 +53,13 @@ const clean = { style: '.qil-skip,.qil-header,.qil-topbar,[data-qil-ai-launcher]
 // compare with the device width and require an unzoomed visual viewport.
 const noOverflow = page => page.evaluate(width => document.documentElement.scrollWidth <= width + 1 && (window.visualViewport?.scale ?? 1) >= 0.999, page.viewportSize().width);
 const text = (page, selector) => page.locator(selector).first().innerText().catch(() => '');
+// Cards fully inside a rail's visible box: the carousel's "per view".
+const perView = (page, rail) => page.evaluate(selector => {
+	const node = document.querySelector(selector), box = node?.getBoundingClientRect();
+	if (!box) return -1;
+	return [...node.querySelectorAll(':scope > .qil-product-card')].filter(card => { const r = card.getBoundingClientRect(); return r.width > 0 && r.left >= box.left - 1 && r.right <= box.right + 1; }).length;
+}, rail);
+const flashData = page => page.evaluate(() => { try { return JSON.parse(document.querySelector('script[data-qil-flash-data]').textContent); } catch (_) { return null; } });
 
 try {
 	/* ---------------- Guest homepage ---------------- */
@@ -64,7 +71,13 @@ try {
 		await page.waitForSelector('.qil-flash-rail .qil-product-card', { timeout: 6000 });
 		check(`${label}: flash drop renders 10 real products with the shared card`, (await page.locator('.qil-flash-rail .qil-product-card').count()) === 10);
 		check(`${label}: cards are labelled as the flash drop`, /Flash drop|مجموعة سريعة/.test(await text(page, '.qil-flash-rail .qil-product-badge')));
-		check(`${label}: stock is real and bounded ("Only N left")`, (await page.locator('.qil-flash-stock b').count()) > 0 && /\d|[٠-٩]/.test(await text(page, '.qil-flash-stock b')));
+		check(`${label}: the drop shows ${viewport === 'desktop' ? 4 : 2} theme cards per view, the rest on the carousel`, (await perView(page, '.qil-flash-rail')) === (viewport === 'desktop' ? 4 : 2), await perView(page, '.qil-flash-rail'));
+		const chips = await page.locator('.qil-flash-rail .qil-product-card').evaluateAll(cards => cards.map(card => ({ id: card.dataset.productId, chip: card.querySelector('.qil-product-image [data-qil-flash-stock] b')?.textContent || '' })));
+		const low = chips.find(row => row.id === '216');
+		check(`${label}: a flavour running low is named ("Only 3 left in Chocolate")`, low && (path === '/' ? low.chip === 'Only 3 left in Chocolate' : /٣/.test(low.chip) && /Chocolate/.test(low.chip)), JSON.stringify(low));
+		check(`${label}: counts lead: the almost-gone products come first`, chips.slice(0, 2).every(row => /Only|فقط/.test(row.chip)), JSON.stringify(chips.slice(0, 3)));
+		check(`${label}: the kicker counts what is almost gone`, /ALMOST GONE|على وشك النفاد/.test(await text(page, '.qil-flash-kicker')));
+		check(`${label}: flash cards use the theme's own Add to cart button`, (await page.locator('.qil-flash-rail .qil-product-card .qil-buy').count()) === 10);
 		const idle1 = await text(page, '[data-qil-flash-unit="s"]');
 		await page.waitForTimeout(1300);
 		const idle2 = await text(page, '[data-qil-flash-unit="s"]');
@@ -80,7 +93,8 @@ try {
 		check(`${label}: clock matches the real end time`, Number.isFinite(end) && end * 1000 > Date.now(), `${shown} end=${end}`);
 		const cardEnds = await page.evaluate(() => {
 			const dropEnd = Number(document.querySelector('[data-qil-flash-drop]').dataset.qilFlashEnd);
-			const meta = window.QIL_BOOST?.flash?.meta || {};
+			let meta = {};
+			try { meta = JSON.parse(document.querySelector('script[data-qil-flash-data]').textContent).meta || {}; } catch (_) { meta = {}; }
 			return [...document.querySelectorAll('.qil-flash-rail .qil-product-card')].map(card => {
 				const ends = Number(meta[card.dataset.productId]?.endsAt || 0), left = ends - Date.now() / 1000;
 				return { id: card.dataset.productId, expected: left > 5 && left < 7 * 86400 && ends < dropEnd - 60, shown: !!card.querySelector('[data-qil-flash-card-end]') };
@@ -88,14 +102,16 @@ try {
 		});
 		check(`${label}: a product's own sale end shows only when it ends before the drop`, cardEnds.every(row => row.expected === row.shown), JSON.stringify(cardEnds.filter(row => row.expected !== row.shown)));
 		check(`${label}: header says FLASH SALE — 72 HOURS`, /FLASH SALE|تخفيضات سريعة/.test(await text(page, '#qil-flash-title')) && /72/.test(await text(page, '#qil-flash-title')));
-		check(`${label}: three cashback stacks with their cashback tier`, (await page.locator('.qil-bundle-card').count()) === 3 && (await page.locator('.qil-bundle-reward').count()) === 3);
-		const valueOrder = await page.evaluate(rtl => [...document.querySelectorAll('.qil-bundle-value')].filter(row => row.querySelector('strong') && row.querySelector('.qil-bundle-separately')).map(row => {
-			const a = row.querySelector('strong').getBoundingClientRect(), b = row.querySelector('.qil-bundle-separately').getBoundingClientRect();
-			if (b.top >= a.bottom - 1) return true; // wrapped: the reference is on a later line
-			if (a.top >= b.bottom - 1) return false;
-			return rtl ? a.right > b.right : a.left < b.left;
-		}), path !== '/');
-		check(`${label}: stack price reads before its reference price`, valueOrder.length > 0 && valueOrder.every(Boolean), JSON.stringify(valueOrder));
+		await page.waitForSelector('#qil-stacks .qil-product-card', { timeout: 6000 }).catch(() => {});
+		check(`${label}: stacks are theme product cards with the theme's Add to cart`, (await page.locator('#qil-stacks .qil-product-card').count()) === 3 && (await page.locator('#qil-stacks .qil-product-card .qil-buy').count()) === 3);
+		const stackCard = await page.locator('#qil-stacks .qil-product-card[data-product-id="301"]').evaluate(card => ({
+			badge: card.querySelector('.qil-product-badge')?.textContent || '', gold: card.querySelector('.qil-product-badge')?.classList.contains('is-cashback'),
+			facts: [...card.querySelectorAll('.qil-fact')].map(f => `${f.querySelector('.qil-fact-label')?.textContent}: ${f.querySelector('.qil-fact-value')?.textContent}`),
+			separately: card.querySelector('.qil-stack-separately')?.textContent || '',
+		})).catch(() => null);
+		check(`${label}: stack card: gold cashback tier, what is inside, saving, separately`, !!stackCard && stackCard.gold && (path === '/' ? stackCard.badge === '+3 OMR cashback' && stackCard.facts[0] === 'Inside: Protein + Creatine' && /^You save: 0\.980/.test(stackCard.facts[1]) && /Separately\s+25\.880/.test(stackCard.separately) : /كاش باك/.test(stackCard.badge) && /بداخلها/.test(stackCard.facts[0])), JSON.stringify(stackCard));
+		const stackWidth = await page.evaluate(() => { const rail = document.querySelector('.qil-stacks-rail'), card = rail?.querySelector('.qil-product-card'); return rail && card ? card.getBoundingClientRect().width / rail.getBoundingClientRect().width : 0; });
+		check(`${label}: stack cards are sized ${viewport === 'desktop' ? 'four' : 'two'} per view`, viewport === 'desktop' ? stackWidth > 0.22 && stackWidth < 0.26 : stackWidth > 0.46 && stackWidth < 0.51, stackWidth);
 		check(`${label}: member hub stays hidden for guests`, await page.locator('[data-qil-member]').isHidden());
 		check(`${label}: no private request for guests (no qil_member)`, !requests.some(url => url.includes('qil_member')), requests.join(' '));
 		check(`${label}: no horizontal overflow`, await noOverflow(page));
@@ -140,6 +156,27 @@ try {
 		await context.close();
 	}
 
+	/* ---------------- Optimizer-proof: missing page data, reversed scripts ---------------- */
+	for (const [name, rewrite] of [
+		['inline page data removed (an optimizer delayed it)', html => html.replace(/<script>window\.QIL_BOOST = [\s\S]*?<\/script>/, '')],
+		['Qimia scripts run in the wrong order', html => {
+			const main = html.match(/<script src="[^"]*qil\.min\.js[^"]*"><\/script>/)?.[0], boost = html.match(/<script src="[^"]*qil-boost\.min\.js[^"]*"><\/script>/)?.[0];
+			return main && boost ? html.replace(main, '__MAIN__').replace(boost, main).replace('__MAIN__', boost) : html;
+		}],
+	]) {
+		for (const viewport of ['desktop', 'mobile']) {
+			const context = await browser.newContext({ viewport: viewports[viewport], isMobile: !!viewports[viewport].isMobile, hasTouch: !!viewports[viewport].hasTouch });
+			const page = await context.newPage();
+			const errors = [];
+			page.on('pageerror', error => errors.push(String(error)));
+			await page.route(`${BASE}/`, async route => { const response = await route.fetch(); await route.fulfill({ response, body: rewrite(await response.text()) }); });
+			await page.goto(`${BASE}/`);
+			await page.waitForSelector('.qil-flash-rail .qil-product-card', { timeout: 8000 }).catch(() => {});
+			check(`flash drop still shows on ${viewport} when ${name}`, (await page.locator('.qil-flash-rail .qil-product-card').count()) === 10 && await page.locator('[data-qil-flash-drop]').isVisible(), errors.join(' | '));
+			await context.close();
+		}
+	}
+
 	/* ---------------- Signed-in homepage: wallet + Running low ---------------- */
 	for (const viewport of ['desktop', 'mobile']) {
 		const label = `member ${viewport}`;
@@ -159,7 +196,9 @@ try {
 			const node = card.querySelector('.qil-wallet-reason');
 			return node ? { text: node.textContent, clipped: node.scrollWidth > node.clientWidth + 1 } : null;
 		}));
-		check(`${label}: every pick says why, in full (no clipped label)`, reasons.every(row => row && /You compared|You viewed|Pairs with your/.test(row.text) && !row.clipped), JSON.stringify(reasons));
+		check(`${label}: every pick says why, in full (no clipped label)`, reasons.every(row => row && /You compared|You viewed|Pairs with/.test(row.text) && !row.clipped), JSON.stringify(reasons));
+		check(`${label}: the picks show ${viewport === 'desktop' ? 4 : 2} theme cards per view`, (await perView(page, '[data-qil-wallet-grid]')) === (viewport === 'desktop' ? 4 : 2), await perView(page, '[data-qil-wallet-grid]'));
+		check(`${label}: Buy again is the theme's Add to cart button`, (await page.locator('.qil-running .qil-buy[data-qil-running-buy]').count()) === 2);
 		check(`${label}: exactly one private request (qil_member)`, requests.filter(url => url.includes('qil_member')).length === 1, requests.join(' '));
 		await page.locator('[data-qil-member]').screenshot({ path: join(shots, `member-${viewport}.png`), ...clean });
 		if (viewport === 'desktop') {
@@ -195,6 +234,11 @@ try {
 			return { width: Math.round(box.width), overflow: drawer.scrollWidth > drawer.clientWidth + 1, outside: rows.filter(r => r.left < box.left - 1 || r.right > box.right + 1).length };
 		});
 		check(`${label}: ladder and picks fit the ${viewport === 'desktop' ? '340' : '300'}px WoodMart drawer`, !fit.overflow && fit.outside === 0 && fit.width === (viewport === 'desktop' ? 340 : 300), JSON.stringify(fit));
+		const buttons = await page.evaluate(() => {
+			const style = node => { if (!node) return null; const cs = getComputedStyle(node), after = getComputedStyle(node, '::after'); return { image: cs.backgroundImage, radius: cs.borderTopLeftRadius, shadow: cs.boxShadow !== 'none', color: cs.color, sweep: after.content !== 'none' && after.backgroundImage.includes('gradient') }; };
+			return { drawer: style(document.querySelector('.cart-widget-side .qil-boost-add')), theme: style(document.querySelector('.qil-flash-rail .qil-buy')) };
+		});
+		check(`${label}: drawer Add buttons are the homepage's Add to cart (gradient, pill, shadow, light sweep)`, !!buttons.drawer && !!buttons.theme && buttons.drawer.image === buttons.theme.image && buttons.drawer.color === buttons.theme.color && parseFloat(buttons.drawer.radius) >= 99 && buttons.drawer.shadow && buttons.drawer.sweep, JSON.stringify(buttons));
 		await page.locator('.cart-widget-side').screenshot({ path: join(shots, `minicart-${path === '/' ? 'en' : 'ar'}-${viewport}.png`) });
 		if (path === '/' && viewport === 'desktop') {
 			await page.click('.cart-widget-side .qil-boost-pick .ajax_add_to_cart >> nth=0');
@@ -237,10 +281,15 @@ try {
 		const { page, context, errors } = await open(path, { viewport, cookies: { qt_cart: '102:0:1' } });
 		check(`${label}: ladder panel with six steps in the totals`, (await page.locator('.cart_totals .qil-boost-steps li').count()) === 6);
 		const ladderIds = await page.locator('.cart_totals [data-qil-boost-product]').evaluateAll(nodes => nodes.map(n => n.dataset.qilBoostProduct));
-		const bandIds = await page.locator('.qil-boost-stack [data-qil-boost-product]').evaluateAll(nodes => nodes.map(n => n.dataset.qilBoostProduct));
+		await page.waitForSelector('.qil-boost-band .qil-product-card', { timeout: 6000 }).catch(() => {});
+		const bandIds = await page.locator('.qil-boost-band .qil-product-card').evaluateAll(nodes => nodes.map(n => n.dataset.productId));
 		check(`${label}: 3 products that reach the next band`, ladderIds.length === 3, ladderIds);
-		check(`${label}: Complete your stack with 2–4 complements`, bandIds.length >= 2 && bandIds.length <= 4, bandIds);
+		check(`${label}: Complete your stack: 2–4 theme product cards with the theme's Add to cart`, bandIds.length >= 2 && bandIds.length <= 4 && (await page.locator('.qil-boost-band .qil-product-card .qil-buy').count()) === bandIds.length, bandIds);
+		check(`${label}: ${viewport === 'desktop' ? 3 : 2} cards per view in the cart column, labels in full`, (await perView(page, '[data-qil-boost-band-grid]')) === Math.min(bandIds.length, viewport === 'desktop' ? 3 : 2) && (await page.locator('.qil-boost-band .qil-buy span').evaluateAll(spans => spans.every(span => span.scrollWidth <= span.clientWidth + 1))), await perView(page, '[data-qil-boost-band-grid]'));
+		check(`${label}: each card says what it pairs with or the cashback it unlocks`, (await page.locator('.qil-boost-band .qil-product-badge').allInnerTexts()).every(label => /Pairs with|cashback|يكمّل|كاش باك/.test(label)));
 		check(`${label}: nothing shown twice`, !bandIds.some(id => ladderIds.includes(id)), `${ladderIds} / ${bandIds}`);
+		const panelButtons = await page.evaluate(() => { const b = document.querySelector('.cart_totals .qil-boost-add'), t = document.querySelector('.qil-boost-band .qil-buy'); return b && t ? [getComputedStyle(b).backgroundImage, getComputedStyle(t).backgroundImage] : []; });
+		check(`${label}: ladder picks use the same Add to cart button as the theme cards`, panelButtons.length === 2 && panelButtons[0] === panelButtons[1], JSON.stringify(panelButtons));
 		const order = await page.evaluate(rtl => [...document.querySelectorAll('.qil-boost-price')].filter(row => row.querySelector('small') && row.querySelector('strong')).map(row => {
 			const a = row.querySelector('small').getBoundingClientRect(), b = row.querySelector('strong').getBoundingClientRect();
 			if (b.top >= a.bottom - 1) return true; // wrapped: the price is on a later line
@@ -253,9 +302,13 @@ try {
 		check(`${label}: no horizontal overflow`, await noOverflow(page));
 		await page.screenshot({ path: join(shots, `cart-${path.startsWith('/ar') ? 'ar' : 'en'}-${viewport}.png`), fullPage: true });
 		if (viewport === 'desktop' && !path.startsWith('/ar')) {
-			await page.click('.qil-boost-stack .ajax_add_to_cart >> nth=0');
-			await page.waitForSelector('.qil-boost-stack .qil-boost-card.is-added', { timeout: 5000 }).catch(() => {});
-			check(`${label}: "Add to my order" adds without leaving the cart`, (await page.locator('.qil-boost-stack .qil-boost-card.is-added').count()) === 1 && (await page.locator('.qil-boost-stack a.added_to_cart').count()) === 0);
+			const button = page.locator('.qil-boost-band .qil-buy.ajax_add_to_cart').first();
+			const id = await button.getAttribute('data-product_id');
+			await button.click();
+			await page.waitForFunction(pid => new RegExp(`(^|,)${pid}:`).test(decodeURIComponent(document.cookie.split('; ').find(c => c.startsWith('qt_cart='))?.slice(8) || '')), id, { timeout: 6000 }).catch(() => {});
+			await page.waitForTimeout(300); // The theme removes WooCommerce's "View cart" link on the next tick.
+			const cart = decodeURIComponent((await context.cookies()).find(c => c.name === 'qt_cart')?.value || '');
+			check(`${label}: the theme card adds to this order without leaving the cart`, new RegExp(`(^|,)${id}:0:1`).test(cart) && (await page.locator('.qil-boost-band a.added_to_cart').count()) === 0, `${id} → ${cart}`);
 		}
 		check(`${label}: no JavaScript errors`, errors.length === 0, errors.join(' | '));
 		await context.close();

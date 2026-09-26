@@ -664,7 +664,7 @@ final class QIL_Member {
 			$out[]   = $by_rec[ $id ];
 			$reason  = $reasons[ $id ];
 			$why[ $id ] = 'pairs' === $reason['kind']
-				? sprintf( $ar ? 'يكمّل %s' : 'Pairs with your %s', QIL_Boost::role_label( $reason['role'] ) )
+				? sprintf( $ar ? 'يكمّل %s' : 'Pairs with %s', QIL_Boost::role_label( $reason['role'] ) )
 				: ( 'compared' === $reason['kind'] ? ( $ar ? 'قارنته' : 'You compared' ) : ( $ar ? 'شاهدته' : 'You viewed' ) );
 		}
 		return array( 'records' => $out, 'reasons' => $why );
@@ -752,7 +752,7 @@ final class QIL_Member {
 				</div>
 				<article class="qil-collection-block qil-wallet-picks" data-qil-wallet-picks hidden>
 					<div class="qil-collection-head"><div><small data-qil-wallet-picks-kicker><?php echo esc_html( $ar ? 'أفضل طرق استخدام رصيدك' : 'BEST WAYS TO USE IT' ); ?></small><h3 data-qil-wallet-picks-title></h3></div><div class="qil-collection-tools"><div class="qil-rail-nav" data-qil-rail-nav="wallet-picks"><button type="button" data-qil-rail-prev aria-label="<?php echo esc_attr( $ar ? 'السابق' : 'Previous' ); ?>"><svg aria-hidden="true"><use href="#qil-i-arrow"/></svg></button><button type="button" data-qil-rail-next aria-label="<?php echo esc_attr( $ar ? 'التالي' : 'Next' ); ?>"><svg aria-hidden="true"><use href="#qil-i-arrow"/></svg></button></div></div></div>
-					<div class="qil-collection-grid qil-rail" data-qil-wallet-grid data-qil-rail="wallet-picks"></div>
+					<div class="qil-collection-grid qil-rail qil-boost-rail" data-qil-wallet-grid data-qil-rail="wallet-picks"><div class="qil-collection-skeleton" aria-hidden="true"><i></i><i></i><i></i><i></i></div></div>
 				</article>
 			</div>
 		</section>
