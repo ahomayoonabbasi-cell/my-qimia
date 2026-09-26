@@ -2,11 +2,18 @@
 Contributors: qimia
 Requires at least: 6.2
 Requires PHP: 8.1
-Stable tag: 1.18.1
+Stable tag: 1.18.2
 License: GPL-2.0-or-later
 
 Bilingual Qimia storefront, separated from the My Qimia workspace.
 Full replacement of the supplied Lab plugin, not a second Lab installation.
+
+== Release 1.18.2 ==
+Design follow-up. Stack cards bring back the 1.18.0 cashback badge ("CASHBACK
++3 OMR") in the image corner opposite the theme's discount label, which stays still
+in its own corner, so they never overlap. The flash drop's stock line sits under the
+product name on every card. The flash stage casts no shadow and its section fades
+into the white section below, with no two-tone edge. See RELEASE-1.18.2.md.
 
 == Release 1.18.1 ==
 The flash drop always shows on cached homepages, desktop and mobile: a momentary

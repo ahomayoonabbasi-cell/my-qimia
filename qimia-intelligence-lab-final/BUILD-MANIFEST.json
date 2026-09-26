@@ -1,6 +1,6 @@
 {
   "package": "qimia-intelligence-lab",
-  "version": "1.18.1",
+  "version": "1.18.2",
   "built_date": "2026-09-26",
   "internal_plugin_directory": "qimia-intelligence-lab-final",
   "merged_sources": [
@@ -10,9 +10,9 @@
       "role": "production base"
     },
     {
-      "file": "qimia-intelligence-lab-1.18.0.zip",
-      "sha256": "09efaaa7dcd008823e224abd73aea26124e455d06923b0ba93ea9979afe71684",
-      "role": "previous release; 1.18.1 fixes the flash drop on cached homepages and unifies cards and buttons"
+      "file": "qimia-intelligence-lab-1.18.1.zip",
+      "sha256": "040c0939e78a26e208982b6f7baae64673b6957923dddc480dc17b237d22344f",
+      "role": "previous release; 1.18.2 changes presentation only"
     }
   ],
   "agent_context_bridge": {
@@ -41,7 +41,7 @@
     "wp_cron_init_shutdown_wp_loaded_paths_guarded": true,
     "production_deployed": false,
     "production_load_tested": false,
-    "details": "docs/VERIFICATION-1.18.1.md",
+    "details": "docs/VERIFICATION-1.18.2.md",
     "homepage_primary_image_rank_math_og": true,
     "homepage_primary_image_rank_math_jsonld": true,
     "homepage_max_image_preview_large": true,
@@ -58,7 +58,7 @@
     "repeat_context_full_read_visible_inventory_recheck_removed": true,
     "php_scenarios_passed": 159,
     "php_scenarios_failed": 0,
-    "chromium_checks_passed": 173,
+    "chromium_checks_passed": 191,
     "chromium_checks_failed": 0,
     "harness": "real plugin code over WordPress/WooCommerce doubles; Chromium via Playwright",
     "live_wordpress_woocommerce_woodmart_tested": false,
@@ -81,30 +81,25 @@
     "theme_card_everywhere": true,
     "buttons_match_theme": true,
     "phone_card_min_height_released": true,
-    "theme_css_overrides": "personal cart/product shell min-height (1.18.0); phone product-card body min-height and cart shelf padding (1.18.1)"
+    "theme_css_overrides": "personal cart/product shell min-height (1.18.0); phone product-card body min-height and cart shelf padding (1.18.1)",
+    "stack_cashback_badge_opposite_discount": true,
+    "flash_stock_line_under_name": true,
+    "flash_section_no_shadow_no_two_tone_edge": true
   },
   "modified_runtime_files": [
     "assets/qil-boost.css",
     "assets/qil-boost.js",
     "assets/qil-boost.min.css",
     "assets/qil-boost.min.js",
-    "assets/qil-personalization.js",
-    "assets/qil-personalization.min.js",
-    "assets/qil.js",
-    "assets/qil.min.js",
-    "includes/cashback-stacks.php",
-    "includes/commerce-boost.php",
-    "includes/flash-drop.php",
-    "includes/member-hub.php",
     "qimia-intelligence-lab.php",
     "readme.txt"
   ],
   "added_files": [
-    "RELEASE-1.18.1.md",
-    "docs/VERIFICATION-1.18.1.md",
-    "docs/verification-1.18.1/browser.json",
-    "docs/verification-1.18.1/php-harness.json",
-    "docs/verification-1.18.1/results.json"
+    "RELEASE-1.18.2.md",
+    "docs/VERIFICATION-1.18.2.md",
+    "docs/verification-1.18.2/browser.json",
+    "docs/verification-1.18.2/php-harness.json",
+    "docs/verification-1.18.2/results.json"
   ],
   "file_hashes": {
     "CUSTOMER-BRAIN-RELEASE.json": "f279a21c86259c8289bc3eb812b93f73918a5dbe6b72f02eb7d1dac63a43648b",
@@ -132,16 +127,17 @@
     "RELEASE-1.17.6.md": "87143d67f5d42381715e3581e06ec7456821dad9bfcb46f7ee8523664efd7abb",
     "RELEASE-1.18.0.md": "6d741f5f135a35398af0241ae87de2896a0dbcddce1d1738f57e304a6838c672",
     "RELEASE-1.18.1.md": "30b963159543860206e1fdb523fa52ff0e1cbd2a6b7f75dd81c02b57d14b615e",
+    "RELEASE-1.18.2.md": "aefeb3385ffdb4c22167e3c1f232f4e80e48d8be3b70fd965e6a7697a3eafbae",
     "RELEASE-1.6.1.md": "730f05397acaea66cc4b3611c8a9a2bd3e9f4091d1e5a878fc235bb1fa26c768",
     "RELEASE-1.6.2.md": "3ab14d3ff93bc223eef64307327f8e053734463e4e98bcd94613075e5d2892c2",
     "RELEASE-1.6.3.md": "5a6b96c0a0e242fa705e485cdb8d9d8b7756a0c90c57dd9a9d7b72608e277cc1",
     "RELEASE-1.7.0.md": "1fec5129027f9210dd98313bc6b17c507239b6afdee1b605d744235d858ddc00",
     "assets/qh-chrome.css": "260a9c864b21ff7bccc5d619ef8371911018bf6892ce08f257b3d9a826e94c74",
     "assets/qh-chrome.js": "24213b1d3d2af0aace569189ed02a473fc7d2787c15caedc01f696dcba77edfc",
-    "assets/qil-boost.css": "86c0e7ef68caf711b704b3843a94cc464939bc038ac4a432185206d224f137dd",
-    "assets/qil-boost.js": "ca2c0f5c7c8aa08ae4ca0e0d4caf3982b1c33fddeca963812fd8d43998b41c76",
-    "assets/qil-boost.min.css": "d4340e277eee3b00874c7884e43155852703a0316fee32c24dc3b91525cc9739",
-    "assets/qil-boost.min.js": "8626dcf62b0bd0dd208be10988ef8e154e72c863de771f38488b91b761053696",
+    "assets/qil-boost.css": "7c05d844f0cdc71215c5d71b3e95e417c8448b28f23023528f25b75c68dafba7",
+    "assets/qil-boost.js": "692a36168810baf640b7f9665a0fb480aad730cf4caa3b9fc15a3794dedec27a",
+    "assets/qil-boost.min.css": "1b2e8ff12ecacc143ee8d4b46f2746495a853e98afe404d90c1b10541803c613",
+    "assets/qil-boost.min.js": "0559f5d7644943e7dab1a1d72c90fee687c33778179861a963a86a6fce90a28b",
     "assets/qil-brain-signals.js": "7e376464f4e847cba87c2d7bd9e2b69767e305b69977f5b4abff55c007c1b01a",
     "assets/qil-cashback.css": "011aa0838b0c84e23b856869d0d1cd9e8420bf83f312d544292e3776cd3a324d",
     "assets/qil-hero-admin.css": "d9343a286d5f9b666cf597a5b364591466ea0e7abfa0c4ad26916dbd522b1c60",
@@ -199,6 +195,7 @@
     "docs/VERIFICATION-1.17.6.md": "de74abcc2da4e0b50ae702c523e96ba70a7d707d817532756a205186d8ce96b5",
     "docs/VERIFICATION-1.18.0.md": "bd46c7b5d46a63205266e2a5b94803f0847ed6371a0f5542ccc3e4281c5d76f0",
     "docs/VERIFICATION-1.18.1.md": "dc5d24dafeef2ce87731379605239549462823015ce0d867f5d886e49f7f1cc5",
+    "docs/VERIFICATION-1.18.2.md": "26e3cbed17a0718e76953db6372bde35212aeb29ef664d359485ae91374a5ab2",
     "docs/verification-1.13.0/browser-results.json": "1dd6318a1ef889947f1059a23c32845166a3a844cbb57378ef62398bd80013b5",
     "docs/verification-1.13.0/php-results.json": "c73cf08b92ab54811c9457543634bbf6681e73363c86f859d4d57e233253c99c",
     "docs/verification-1.13.0/syntax-results.json": "ddf4912864d284f7197480fc0cf498d4f2991202c95b00d74966e2638505fa1f",
@@ -224,6 +221,9 @@
     "docs/verification-1.18.1/browser.json": "9a18230b80f3948a6bd0f474f083e472c913cdfbc8ceccc3e2f4d6ae867b4c89",
     "docs/verification-1.18.1/php-harness.json": "48463617447ad5052b63787d5f7e3763f5c32012eae5ed306436785d2d9e0372",
     "docs/verification-1.18.1/results.json": "af5e0ad365b93a9bf6a8f035989d74a7d528ddb69c0167ecba64b138100c53da",
+    "docs/verification-1.18.2/browser.json": "fd045ac313b571010cbccbaa1b676bc836dabed49cb194b6b71e73dd277a9dcb",
+    "docs/verification-1.18.2/php-harness.json": "e7b7aae750c5127b83714c1cf139fd8f678027184b9f3f8b5e85fa14baf573bf",
+    "docs/verification-1.18.2/results.json": "837996264eccdc28c371baad469a3abf6790fe1ea0fd65a5a681a75d55c5c5f8",
     "includes/cashback-stacks.php": "eb80a9e0811c64b1fd4ee70248e732043064804802940a5f04d0bcad75e86ac9",
     "includes/cashback.php": "d68925ae6ca84bb083457e77a269fc13dd98651ab60a07179fb9763b0447ea68",
     "includes/class-qil-admin.php": "e1b6536e439821f4057222bb8a41fb651d5db8eedeb71849511ede71a54122cb",
@@ -247,8 +247,8 @@
     "includes/site-chrome.php": "fb539f4f511584268d4f7e5a9c93c0e6bd5f4ea8b5762d5af39b6db214f0e545",
     "includes/storefront.php": "1ba39a2894eba013d19a9df6e77492e51385ae65daf511f561da62f897ec7b52",
     "includes/verified-filters.php": "340331995224a499ff5e79b68cab26d41e8508c73e410e5ffa1d799594eaa64d",
-    "qimia-intelligence-lab.php": "f4c895eaf2490cb9c7869044c473fcfda76c824511fe6b62ee0968e768dfde2e",
-    "readme.txt": "a54f236f70ee65d91722be619eece21041308ddd4870213b0ea9e39afade4d92",
+    "qimia-intelligence-lab.php": "a46a1451575cc8a85342b1d7a89663e502c80e0b2637ebc730175d27d62152e9",
+    "readme.txt": "1529c9940861ceaea61889d4af26f96e350cc06f5bde62b295c77d25e59b1f52",
     "templates/cashback.php": "56060ab2efd1eb9c1ede3ccf6091ddf47e971a38c514b6cef4cadeb0fd09b63f",
     "templates/home.php": "f67f1c78bfb12bb451aa362b64c1fb74a5072b2dfb8059b189a690740ed592d0"
   }

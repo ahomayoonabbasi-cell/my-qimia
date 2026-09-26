@@ -158,11 +158,11 @@
 	// so its own generation time is never used to correct the browser clock.
 	const now = () => Date.now() / 1000;
 
-	// Quantity is the point of a flash drop: one chip on the product image
-	// (the card itself stays the theme card, so every card keeps its height).
-	function flashStockChip(meta, fresh, dropEnd) {
+	// Quantity is the point of a flash drop: one stock line under the product
+	// name on every card (so every card in the rail keeps the same shape).
+	function flashStockRow(meta, fresh, dropEnd) {
 		const low = meta?.low, stock = meta?.stock;
-		let text = '', tone = '', level = null;
+		let text = t('In stock', 'متوفر'), tone = 'ok', level = null;
 		if (low && Number(low.qty) > 0 && String(low.option || '')) {
 			const qty = Number(low.qty);
 			text = fresh ? t(`Only ${qty} left in ${low.option}`, `بقي ${num(qty)} فقط من ${low.option}`) : t(`Low stock in ${low.option}`, `كمية محدودة من ${low.option}`);
@@ -170,14 +170,13 @@
 		} else if (typeof stock === 'number' && stock > 0 && stock < 100) {
 			if (stock <= 10) { text = fresh ? t(`Only ${stock} left`, `بقي ${num(stock)} فقط`) : t('Low stock', 'كمية محدودة'); tone = 'hot'; }
 			else if (fresh) { text = t(`${stock} left`, `بقي ${num(stock)}`); tone = 'warm'; }
-			level = fresh && text ? Math.max(8, Math.min(100, Math.round((stock / 50) * 100))) : null;
+			level = fresh && tone !== 'ok' ? Math.max(8, Math.min(100, Math.round((stock / 50) * 100))) : null;
 		}
 		const ends = Number(meta?.endsAt || 0);
 		// A product's own sale end, only when it comes before the drop's end.
 		const endsLine = ends > now() && ends - now() < 7 * 86400 && !(dropEnd > 0 && ends >= dropEnd - 60)
 			? `<small>${esc(t('Sale ends in', 'ينتهي الخصم بعد'))} <b dir="ltr" data-qil-flash-card-end="${ends}">${esc(shortClock(ends - now()))}</b></small>` : '';
-		if (!text && !endsLine) return '';
-		return `<span class="qil-flash-stock${tone ? ` is-${tone}` : ''}" data-qil-flash-stock>${text ? `<b>${esc(text)}</b>` : ''}${level !== null ? `<span class="qil-flash-bar" aria-hidden="true"><i style="width:${level}%"></i></span>` : ''}${endsLine}</span>`;
+		return `<div class="qil-flash-stock is-${tone}" data-qil-flash-stock><b title="${esc(text)}">${esc(text)}</b><span class="qil-flash-bar" aria-hidden="true">${level !== null ? `<i style="width:${level}%"></i>` : ''}</span>${endsLine}</div>`;
 	}
 	const flashUrgency = meta => (meta?.low || (typeof meta?.stock === 'number' && meta.stock <= 10)) ? 0 : (typeof meta?.stock === 'number' && meta.stock < 100 ? 1 : 2);
 
@@ -206,8 +205,7 @@
 			if (!$('[data-qil-sale-badge]', card) && Number(meta.pct) > 0) {
 				$('.qil-label-stack', card)?.insertAdjacentHTML('beforeend', `<span class="qil-sale-badge qil-flash-sale-badge" data-qil-sale-badge="flash">${esc((meta.upTo ? t('Up to ', 'حتى ') : '') + '−' + num(Math.round(meta.pct)) + (lang() === 'ar' ? '٪' : '%'))}</span>`);
 			}
-			const chip = flashStockChip(meta, recent, dropEnd);
-			if (chip) { card.classList.add('has-flash-stock'); $('.qil-product-image', card)?.insertAdjacentHTML('beforeend', chip); }
+			$('.qil-product-info h3', card)?.insertAdjacentHTML('afterend', flashStockRow(meta, recent, dropEnd));
 		});
 		api.refresh?.();
 		return true;
@@ -326,9 +324,10 @@
 		};
 		$$('.qil-product-card', grid).forEach(card => {
 			const fact = data.facts?.[String(card.dataset.productId || '')] || {};
-			const badge = $('.qil-product-badge', card);
-			if (badge && fact.reward) { badge.textContent = t(`${fact.reward} cashback`, `${fact.reward} كاش باك`); badge.title = badge.textContent; badge.classList.add('is-cashback'); }
-			else if (badge) badge.textContent = t('Stack', 'مجموعة');
+			// The theme's discount keeps its corner (still, no roll); the cashback tier
+			// takes the opposite top corner, so the two never overlap.
+			$('.qil-label-stack .qil-product-badge', card)?.remove();
+			if (fact.reward) $('.qil-product-image', card)?.insertAdjacentHTML('beforeend', `<span class="qil-bundle-reward" title="${esc(t(`${fact.reward} cashback for your next order`, `كاش باك ${fact.reward} لطلبك القادم`))}"><small>${esc(t('CASHBACK', 'كاش باك'))}</small> <b><bdi>${esc(fact.reward)}</bdi></b></span>`);
 			if (fact.separately) $('.qil-card-price', card)?.insertAdjacentHTML('beforeend', `<span class="qil-per-serving qil-stack-separately">${esc(t('Separately', 'منفصلة'))} <del dir="ltr">${esc(fact.separately)}</del></span>`);
 			const slots = $$('.qil-fact', card);
 			fill(slots[0], t('Inside', 'بداخلها'), fact.inside, fact.insideFull || fact.inside);

@@ -1,0 +1,33 @@
+{
+ "version": "1.18.2",
+ "scope": "stack cashback badge restored in the opposite corner, flash stock line under the product name, no shadow or two-tone edge around the flash drop",
+ "php_syntax": {
+  "passed": 26,
+  "failed": 0
+ },
+ "javascript_syntax": {
+  "passed": 16,
+  "failed": 0
+ },
+ "php_scenarios": {
+  "passed": 159,
+  "failed": 0,
+  "details": "php-harness.json"
+ },
+ "chromium": {
+  "passed": 191,
+  "failed": 0,
+  "details": "browser.json"
+ },
+ "checks": {
+  "flash_stock_line_under_product_name_every_card": true,
+  "flash_stock_lines_one_height": true,
+  "stack_cashback_badge_restored_opposite_corner": true,
+  "stack_discount_label_still_and_no_overlap": true,
+  "flash_stage_no_outer_shadow": true,
+  "flash_section_fades_into_next_section": true,
+  "wallet_section_starts_in_white": true
+ },
+ "production_deployed": false,
+ "live_wordpress_woocommerce_woodmart_tested": false
+}

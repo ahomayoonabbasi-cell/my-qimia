@@ -72,7 +72,9 @@ try {
 		check(`${label}: flash drop renders 10 real products with the shared card`, (await page.locator('.qil-flash-rail .qil-product-card').count()) === 10);
 		check(`${label}: cards are labelled as the flash drop`, /Flash drop|مجموعة سريعة/.test(await text(page, '.qil-flash-rail .qil-product-badge')));
 		check(`${label}: the drop shows ${viewport === 'desktop' ? 4 : 2} theme cards per view, the rest on the carousel`, (await perView(page, '.qil-flash-rail')) === (viewport === 'desktop' ? 4 : 2), await perView(page, '.qil-flash-rail'));
-		const chips = await page.locator('.qil-flash-rail .qil-product-card').evaluateAll(cards => cards.map(card => ({ id: card.dataset.productId, chip: card.querySelector('.qil-product-image [data-qil-flash-stock] b')?.textContent || '' })));
+		const chips = await page.locator('.qil-flash-rail .qil-product-card').evaluateAll(cards => cards.map(card => ({ id: card.dataset.productId, chip: card.querySelector('.qil-product-info h3 + [data-qil-flash-stock] > b')?.textContent || '', onImage: !!card.querySelector('.qil-product-image [data-qil-flash-stock]'), height: Math.round(card.querySelector('[data-qil-flash-stock]')?.getBoundingClientRect().height || 0) })));
+		check(`${label}: every flash card has its stock line right under the product name (not on the image)`, chips.length === 10 && chips.every(row => row.chip && !row.onImage), JSON.stringify(chips.filter(row => !row.chip || row.onImage)));
+		check(`${label}: the stock lines share one height (cards keep one shape)`, new Set(chips.map(row => row.height)).size === 1, JSON.stringify(chips.map(row => row.height)));
 		const low = chips.find(row => row.id === '216');
 		check(`${label}: a flavour running low is named ("Only 3 left in Chocolate")`, low && (path === '/' ? low.chip === 'Only 3 left in Chocolate' : /٣/.test(low.chip) && /Chocolate/.test(low.chip)), JSON.stringify(low));
 		check(`${label}: counts lead: the almost-gone products come first`, chips.slice(0, 2).every(row => /Only|فقط/.test(row.chip)), JSON.stringify(chips.slice(0, 3)));
@@ -101,15 +103,32 @@ try {
 			});
 		});
 		check(`${label}: a product's own sale end shows only when it ends before the drop`, cardEnds.every(row => row.expected === row.shown), JSON.stringify(cardEnds.filter(row => row.expected !== row.shown)));
+		const edge = await page.evaluate(() => {
+			const flash = document.querySelector('#qil-flash-drop'), next = flash?.nextElementSibling, stage = flash?.querySelector('.qil-flash-stage');
+			const shadow = stage ? getComputedStyle(stage).boxShadow : '';
+			return { outerShadow: shadow.split(/,(?![^(]*\))/).some(part => part.trim() !== 'none' && !part.includes('inset')), image: getComputedStyle(flash).backgroundImage, next: next ? getComputedStyle(next).backgroundColor : '' };
+		});
+		check(`${label}: the flash stage casts no shadow and its section fades into the white section below (no two-tone edge)`, !edge.outerShadow && /rgb\(255, 255, 255\)\)?\s*100%|rgb\(255, 255, 255\)\)$/.test(edge.image.replace(/\s+/g, ' ')) && edge.next === 'rgb(255, 255, 255)', JSON.stringify(edge));
 		check(`${label}: header says FLASH SALE — 72 HOURS`, /FLASH SALE|تخفيضات سريعة/.test(await text(page, '#qil-flash-title')) && /72/.test(await text(page, '#qil-flash-title')));
 		await page.waitForSelector('#qil-stacks .qil-product-card', { timeout: 6000 }).catch(() => {});
 		check(`${label}: stacks are theme product cards with the theme's Add to cart`, (await page.locator('#qil-stacks .qil-product-card').count()) === 3 && (await page.locator('#qil-stacks .qil-product-card .qil-buy').count()) === 3);
 		const stackCard = await page.locator('#qil-stacks .qil-product-card[data-product-id="301"]').evaluate(card => ({
-			badge: card.querySelector('.qil-product-badge')?.textContent || '', gold: card.querySelector('.qil-product-badge')?.classList.contains('is-cashback'),
+			reward: card.querySelector('.qil-product-image .qil-bundle-reward')?.textContent.replace(/\s+/g, ' ').trim() || '',
+			roleBadge: !!card.querySelector('.qil-product-badge'),
 			facts: [...card.querySelectorAll('.qil-fact')].map(f => `${f.querySelector('.qil-fact-label')?.textContent}: ${f.querySelector('.qil-fact-value')?.textContent}`),
 			separately: card.querySelector('.qil-stack-separately')?.textContent || '',
 		})).catch(() => null);
-		check(`${label}: stack card: gold cashback tier, what is inside, saving, separately`, !!stackCard && stackCard.gold && (path === '/' ? stackCard.badge === '+3 OMR cashback' && stackCard.facts[0] === 'Inside: Protein + Creatine' && /^You save: 0\.980/.test(stackCard.facts[1]) && /Separately\s+25\.880/.test(stackCard.separately) : /كاش باك/.test(stackCard.badge) && /بداخلها/.test(stackCard.facts[0])), JSON.stringify(stackCard));
+		check(`${label}: stack card: the 1.18.0 cashback badge, what is inside, saving, separately`, !!stackCard && !stackCard.roleBadge && (path === '/' ? stackCard.reward === 'CASHBACK +3 OMR' && stackCard.facts[0] === 'Inside: Protein + Creatine' && /^You save: 0\.980/.test(stackCard.facts[1]) && /Separately\s+25\.880/.test(stackCard.separately) : /كاش باك/.test(stackCard.reward) && /بداخلها/.test(stackCard.facts[0])), JSON.stringify(stackCard));
+		const corners = await page.locator('#qil-stacks .qil-product-card[data-product-id="303"]').evaluate((card, rtl) => {
+			const image = card.querySelector('.qil-product-image').getBoundingClientRect();
+			const sale = card.querySelector('.qil-sale-badge'), reward = card.querySelector('.qil-bundle-reward');
+			if (!sale || !reward) return { sale: !!sale, reward: !!reward };
+			const a = sale.getBoundingClientRect(), b = reward.getBoundingClientRect();
+			const overlap = !(a.right <= b.left || b.right <= a.left || a.bottom <= b.top || b.bottom <= a.top);
+			const middle = image.left + image.width / 2;
+			return { sale: true, reward: true, overlap, saleStart: rtl ? a.left > middle : a.right < middle, rewardEnd: rtl ? b.right < middle : b.left > middle, still: getComputedStyle(sale).animationName === 'none' && getComputedStyle(sale).opacity === '1' };
+		}, path !== '/');
+		check(`${label}: on a discounted stack the discount keeps its corner, still, and the cashback sits in the other corner without overlap`, corners.sale && corners.reward && !corners.overlap && corners.saleStart && corners.rewardEnd && corners.still, JSON.stringify(corners));
 		const stackWidth = await page.evaluate(() => { const rail = document.querySelector('.qil-stacks-rail'), card = rail?.querySelector('.qil-product-card'); return rail && card ? card.getBoundingClientRect().width / rail.getBoundingClientRect().width : 0; });
 		check(`${label}: stack cards are sized ${viewport === 'desktop' ? 'four' : 'two'} per view`, viewport === 'desktop' ? stackWidth > 0.22 && stackWidth < 0.26 : stackWidth > 0.46 && stackWidth < 0.51, stackWidth);
 		check(`${label}: member hub stays hidden for guests`, await page.locator('[data-qil-member]').isHidden());
@@ -199,6 +218,8 @@ try {
 		check(`${label}: every pick says why, in full (no clipped label)`, reasons.every(row => row && /You compared|You viewed|Pairs with/.test(row.text) && !row.clipped), JSON.stringify(reasons));
 		check(`${label}: the picks show ${viewport === 'desktop' ? 4 : 2} theme cards per view`, (await perView(page, '[data-qil-wallet-grid]')) === (viewport === 'desktop' ? 4 : 2), await perView(page, '[data-qil-wallet-grid]'));
 		check(`${label}: Buy again is the theme's Add to cart button`, (await page.locator('.qil-running .qil-buy[data-qil-running-buy]').count()) === 2);
+		const memberEdge = await page.evaluate(() => { const member = document.querySelector('#qil-member'), prev = member?.previousElementSibling; return { image: getComputedStyle(member).backgroundImage, prev: prev ? getComputedStyle(prev).backgroundColor : '' }; });
+		check(`${label}: the wallet section starts in the white of the section above (no two-tone edge)`, /^linear-gradient\(rgb\(255, 255, 255\)/.test(memberEdge.image) && memberEdge.prev === 'rgb(255, 255, 255)', JSON.stringify(memberEdge));
 		check(`${label}: exactly one private request (qil_member)`, requests.filter(url => url.includes('qil_member')).length === 1, requests.join(' '));
 		await page.locator('[data-qil-member]').screenshot({ path: join(shots, `member-${viewport}.png`), ...clean });
 		if (viewport === 'desktop') {

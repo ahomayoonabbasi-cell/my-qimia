@@ -1,0 +1,967 @@
+{
+  "passed": 191,
+  "failed": 0,
+  "tests": [
+    {
+      "name": "guest EN desktop: flash drop renders 10 real products with the shared card",
+      "ok": true,
+      "detail": ""
+    },
+    {
+      "name": "guest EN desktop: cards are labelled as the flash drop",
+      "ok": true,
+      "detail": ""
+    },
+    {
+      "name": "guest EN desktop: the drop shows 4 theme cards per view, the rest on the carousel",
+      "ok": true,
+      "detail": ""
+    },
+    {
+      "name": "guest EN desktop: every flash card has its stock line right under the product name (not on the image)",
+      "ok": true,
+      "detail": ""
+    },
+    {
+      "name": "guest EN desktop: the stock lines share one height (cards keep one shape)",
+      "ok": true,
+      "detail": ""
+    },
+    {
+      "name": "guest EN desktop: a flavour running low is named (\"Only 3 left in Chocolate\")",
+      "ok": true,
+      "detail": ""
+    },
+    {
+      "name": "guest EN desktop: counts lead: the almost-gone products come first",
+      "ok": true,
+      "detail": ""
+    },
+    {
+      "name": "guest EN desktop: the kicker counts what is almost gone",
+      "ok": true,
+      "detail": ""
+    },
+    {
+      "name": "guest EN desktop: flash cards use the theme's own Add to cart button",
+      "ok": true,
+      "detail": ""
+    },
+    {
+      "name": "guest EN desktop: clock stays idle while off screen (no CPU spent)",
+      "ok": true,
+      "detail": ""
+    },
+    {
+      "name": "guest EN desktop: the clock counts down to the real end of the drop",
+      "ok": true,
+      "detail": ""
+    },
+    {
+      "name": "guest EN desktop: clock matches the real end time",
+      "ok": true,
+      "detail": ""
+    },
+    {
+      "name": "guest EN desktop: a product's own sale end shows only when it ends before the drop",
+      "ok": true,
+      "detail": ""
+    },
+    {
+      "name": "guest EN desktop: the flash stage casts no shadow and its section fades into the white section below (no two-tone edge)",
+      "ok": true,
+      "detail": ""
+    },
+    {
+      "name": "guest EN desktop: header says FLASH SALE — 72 HOURS",
+      "ok": true,
+      "detail": ""
+    },
+    {
+      "name": "guest EN desktop: stacks are theme product cards with the theme's Add to cart",
+      "ok": true,
+      "detail": ""
+    },
+    {
+      "name": "guest EN desktop: stack card: the 1.18.0 cashback badge, what is inside, saving, separately",
+      "ok": true,
+      "detail": ""
+    },
+    {
+      "name": "guest EN desktop: on a discounted stack the discount keeps its corner, still, and the cashback sits in the other corner without overlap",
+      "ok": true,
+      "detail": ""
+    },
+    {
+      "name": "guest EN desktop: stack cards are sized four per view",
+      "ok": true,
+      "detail": ""
+    },
+    {
+      "name": "guest EN desktop: member hub stays hidden for guests",
+      "ok": true,
+      "detail": ""
+    },
+    {
+      "name": "guest EN desktop: no private request for guests (no qil_member)",
+      "ok": true,
+      "detail": ""
+    },
+    {
+      "name": "guest EN desktop: no horizontal overflow",
+      "ok": true,
+      "detail": ""
+    },
+    {
+      "name": "guest EN desktop: no JavaScript errors",
+      "ok": true,
+      "detail": ""
+    },
+    {
+      "name": "guest EN desktop: flash animation pauses off screen",
+      "ok": true,
+      "detail": ""
+    },
+    {
+      "name": "guest EN mobile: flash drop renders 10 real products with the shared card",
+      "ok": true,
+      "detail": ""
+    },
+    {
+      "name": "guest EN mobile: cards are labelled as the flash drop",
+      "ok": true,
+      "detail": ""
+    },
+    {
+      "name": "guest EN mobile: the drop shows 2 theme cards per view, the rest on the carousel",
+      "ok": true,
+      "detail": ""
+    },
+    {
+      "name": "guest EN mobile: every flash card has its stock line right under the product name (not on the image)",
+      "ok": true,
+      "detail": ""
+    },
+    {
+      "name": "guest EN mobile: the stock lines share one height (cards keep one shape)",
+      "ok": true,
+      "detail": ""
+    },
+    {
+      "name": "guest EN mobile: a flavour running low is named (\"Only 3 left in Chocolate\")",
+      "ok": true,
+      "detail": ""
+    },
+    {
+      "name": "guest EN mobile: counts lead: the almost-gone products come first",
+      "ok": true,
+      "detail": ""
+    },
+    {
+      "name": "guest EN mobile: the kicker counts what is almost gone",
+      "ok": true,
+      "detail": ""
+    },
+    {
+      "name": "guest EN mobile: flash cards use the theme's own Add to cart button",
+      "ok": true,
+      "detail": ""
+    },
+    {
+      "name": "guest EN mobile: clock stays idle while off screen (no CPU spent)",
+      "ok": true,
+      "detail": ""
+    },
+    {
+      "name": "guest EN mobile: the clock counts down to the real end of the drop",
+      "ok": true,
+      "detail": ""
+    },
+    {
+      "name": "guest EN mobile: clock matches the real end time",
+      "ok": true,
+      "detail": ""
+    },
+    {
+      "name": "guest EN mobile: a product's own sale end shows only when it ends before the drop",
+      "ok": true,
+      "detail": ""
+    },
+    {
+      "name": "guest EN mobile: the flash stage casts no shadow and its section fades into the white section below (no two-tone edge)",
+      "ok": true,
+      "detail": ""
+    },
+    {
+      "name": "guest EN mobile: header says FLASH SALE — 72 HOURS",
+      "ok": true,
+      "detail": ""
+    },
+    {
+      "name": "guest EN mobile: stacks are theme product cards with the theme's Add to cart",
+      "ok": true,
+      "detail": ""
+    },
+    {
+      "name": "guest EN mobile: stack card: the 1.18.0 cashback badge, what is inside, saving, separately",
+      "ok": true,
+      "detail": ""
+    },
+    {
+      "name": "guest EN mobile: on a discounted stack the discount keeps its corner, still, and the cashback sits in the other corner without overlap",
+      "ok": true,
+      "detail": ""
+    },
+    {
+      "name": "guest EN mobile: stack cards are sized two per view",
+      "ok": true,
+      "detail": ""
+    },
+    {
+      "name": "guest EN mobile: member hub stays hidden for guests",
+      "ok": true,
+      "detail": ""
+    },
+    {
+      "name": "guest EN mobile: no private request for guests (no qil_member)",
+      "ok": true,
+      "detail": ""
+    },
+    {
+      "name": "guest EN mobile: no horizontal overflow",
+      "ok": true,
+      "detail": ""
+    },
+    {
+      "name": "guest EN mobile: no JavaScript errors",
+      "ok": true,
+      "detail": ""
+    },
+    {
+      "name": "guest AR desktop: flash drop renders 10 real products with the shared card",
+      "ok": true,
+      "detail": ""
+    },
+    {
+      "name": "guest AR desktop: cards are labelled as the flash drop",
+      "ok": true,
+      "detail": ""
+    },
+    {
+      "name": "guest AR desktop: the drop shows 4 theme cards per view, the rest on the carousel",
+      "ok": true,
+      "detail": ""
+    },
+    {
+      "name": "guest AR desktop: every flash card has its stock line right under the product name (not on the image)",
+      "ok": true,
+      "detail": ""
+    },
+    {
+      "name": "guest AR desktop: the stock lines share one height (cards keep one shape)",
+      "ok": true,
+      "detail": ""
+    },
+    {
+      "name": "guest AR desktop: a flavour running low is named (\"Only 3 left in Chocolate\")",
+      "ok": true,
+      "detail": ""
+    },
+    {
+      "name": "guest AR desktop: counts lead: the almost-gone products come first",
+      "ok": true,
+      "detail": ""
+    },
+    {
+      "name": "guest AR desktop: the kicker counts what is almost gone",
+      "ok": true,
+      "detail": ""
+    },
+    {
+      "name": "guest AR desktop: flash cards use the theme's own Add to cart button",
+      "ok": true,
+      "detail": ""
+    },
+    {
+      "name": "guest AR desktop: clock stays idle while off screen (no CPU spent)",
+      "ok": true,
+      "detail": ""
+    },
+    {
+      "name": "guest AR desktop: the clock counts down to the real end of the drop",
+      "ok": true,
+      "detail": ""
+    },
+    {
+      "name": "guest AR desktop: clock matches the real end time",
+      "ok": true,
+      "detail": ""
+    },
+    {
+      "name": "guest AR desktop: a product's own sale end shows only when it ends before the drop",
+      "ok": true,
+      "detail": ""
+    },
+    {
+      "name": "guest AR desktop: the flash stage casts no shadow and its section fades into the white section below (no two-tone edge)",
+      "ok": true,
+      "detail": ""
+    },
+    {
+      "name": "guest AR desktop: header says FLASH SALE — 72 HOURS",
+      "ok": true,
+      "detail": ""
+    },
+    {
+      "name": "guest AR desktop: stacks are theme product cards with the theme's Add to cart",
+      "ok": true,
+      "detail": ""
+    },
+    {
+      "name": "guest AR desktop: stack card: the 1.18.0 cashback badge, what is inside, saving, separately",
+      "ok": true,
+      "detail": ""
+    },
+    {
+      "name": "guest AR desktop: on a discounted stack the discount keeps its corner, still, and the cashback sits in the other corner without overlap",
+      "ok": true,
+      "detail": ""
+    },
+    {
+      "name": "guest AR desktop: stack cards are sized four per view",
+      "ok": true,
+      "detail": ""
+    },
+    {
+      "name": "guest AR desktop: member hub stays hidden for guests",
+      "ok": true,
+      "detail": ""
+    },
+    {
+      "name": "guest AR desktop: no private request for guests (no qil_member)",
+      "ok": true,
+      "detail": ""
+    },
+    {
+      "name": "guest AR desktop: no horizontal overflow",
+      "ok": true,
+      "detail": ""
+    },
+    {
+      "name": "guest AR desktop: no JavaScript errors",
+      "ok": true,
+      "detail": ""
+    },
+    {
+      "name": "guest AR desktop: RTL shell",
+      "ok": true,
+      "detail": ""
+    },
+    {
+      "name": "guest AR desktop: flash animation pauses off screen",
+      "ok": true,
+      "detail": ""
+    },
+    {
+      "name": "guest AR mobile: flash drop renders 10 real products with the shared card",
+      "ok": true,
+      "detail": ""
+    },
+    {
+      "name": "guest AR mobile: cards are labelled as the flash drop",
+      "ok": true,
+      "detail": ""
+    },
+    {
+      "name": "guest AR mobile: the drop shows 2 theme cards per view, the rest on the carousel",
+      "ok": true,
+      "detail": ""
+    },
+    {
+      "name": "guest AR mobile: every flash card has its stock line right under the product name (not on the image)",
+      "ok": true,
+      "detail": ""
+    },
+    {
+      "name": "guest AR mobile: the stock lines share one height (cards keep one shape)",
+      "ok": true,
+      "detail": ""
+    },
+    {
+      "name": "guest AR mobile: a flavour running low is named (\"Only 3 left in Chocolate\")",
+      "ok": true,
+      "detail": ""
+    },
+    {
+      "name": "guest AR mobile: counts lead: the almost-gone products come first",
+      "ok": true,
+      "detail": ""
+    },
+    {
+      "name": "guest AR mobile: the kicker counts what is almost gone",
+      "ok": true,
+      "detail": ""
+    },
+    {
+      "name": "guest AR mobile: flash cards use the theme's own Add to cart button",
+      "ok": true,
+      "detail": ""
+    },
+    {
+      "name": "guest AR mobile: clock stays idle while off screen (no CPU spent)",
+      "ok": true,
+      "detail": ""
+    },
+    {
+      "name": "guest AR mobile: the clock counts down to the real end of the drop",
+      "ok": true,
+      "detail": ""
+    },
+    {
+      "name": "guest AR mobile: clock matches the real end time",
+      "ok": true,
+      "detail": ""
+    },
+    {
+      "name": "guest AR mobile: a product's own sale end shows only when it ends before the drop",
+      "ok": true,
+      "detail": ""
+    },
+    {
+      "name": "guest AR mobile: the flash stage casts no shadow and its section fades into the white section below (no two-tone edge)",
+      "ok": true,
+      "detail": ""
+    },
+    {
+      "name": "guest AR mobile: header says FLASH SALE — 72 HOURS",
+      "ok": true,
+      "detail": ""
+    },
+    {
+      "name": "guest AR mobile: stacks are theme product cards with the theme's Add to cart",
+      "ok": true,
+      "detail": ""
+    },
+    {
+      "name": "guest AR mobile: stack card: the 1.18.0 cashback badge, what is inside, saving, separately",
+      "ok": true,
+      "detail": ""
+    },
+    {
+      "name": "guest AR mobile: on a discounted stack the discount keeps its corner, still, and the cashback sits in the other corner without overlap",
+      "ok": true,
+      "detail": ""
+    },
+    {
+      "name": "guest AR mobile: stack cards are sized two per view",
+      "ok": true,
+      "detail": ""
+    },
+    {
+      "name": "guest AR mobile: member hub stays hidden for guests",
+      "ok": true,
+      "detail": ""
+    },
+    {
+      "name": "guest AR mobile: no private request for guests (no qil_member)",
+      "ok": true,
+      "detail": ""
+    },
+    {
+      "name": "guest AR mobile: no horizontal overflow",
+      "ok": true,
+      "detail": ""
+    },
+    {
+      "name": "guest AR mobile: no JavaScript errors",
+      "ok": true,
+      "detail": ""
+    },
+    {
+      "name": "guest AR mobile: RTL shell",
+      "ok": true,
+      "detail": ""
+    },
+    {
+      "name": "reduced motion: no aurora animation",
+      "ok": true,
+      "detail": ""
+    },
+    {
+      "name": "reduced motion: no meter sheen either (pseudo-elements included)",
+      "ok": true,
+      "detail": ""
+    },
+    {
+      "name": "a drop that ends on screen says so honestly (no reset, no fake timer)",
+      "ok": true,
+      "detail": ""
+    },
+    {
+      "name": "flash drop still shows on desktop when inline page data removed (an optimizer delayed it)",
+      "ok": true,
+      "detail": ""
+    },
+    {
+      "name": "flash drop still shows on mobile when inline page data removed (an optimizer delayed it)",
+      "ok": true,
+      "detail": ""
+    },
+    {
+      "name": "flash drop still shows on desktop when Qimia scripts run in the wrong order",
+      "ok": true,
+      "detail": ""
+    },
+    {
+      "name": "flash drop still shows on mobile when Qimia scripts run in the wrong order",
+      "ok": true,
+      "detail": ""
+    },
+    {
+      "name": "member desktop: wallet says \"You have 9 OMR cashback\"",
+      "ok": true,
+      "detail": ""
+    },
+    {
+      "name": "member desktop: best coupon and its real expiry",
+      "ok": true,
+      "detail": ""
+    },
+    {
+      "name": "member desktop: no coupon code is shown",
+      "ok": true,
+      "detail": ""
+    },
+    {
+      "name": "member desktop: each credit listed with its days left (first to be used highlighted)",
+      "ok": true,
+      "detail": ""
+    },
+    {
+      "name": "member desktop: top bar turns into the cashback reminder",
+      "ok": true,
+      "detail": ""
+    },
+    {
+      "name": "member desktop: Running low lists 2 exact previous items",
+      "ok": true,
+      "detail": ""
+    },
+    {
+      "name": "member desktop: exact flavour shown",
+      "ok": true,
+      "detail": ""
+    },
+    {
+      "name": "member desktop: best ways to use it (cards with reasons)",
+      "ok": true,
+      "detail": ""
+    },
+    {
+      "name": "member desktop: every pick says why, in full (no clipped label)",
+      "ok": true,
+      "detail": ""
+    },
+    {
+      "name": "member desktop: the picks show 4 theme cards per view",
+      "ok": true,
+      "detail": ""
+    },
+    {
+      "name": "member desktop: Buy again is the theme's Add to cart button",
+      "ok": true,
+      "detail": ""
+    },
+    {
+      "name": "member desktop: the wallet section starts in the white of the section above (no two-tone edge)",
+      "ok": true,
+      "detail": ""
+    },
+    {
+      "name": "member desktop: exactly one private request (qil_member)",
+      "ok": true,
+      "detail": ""
+    },
+    {
+      "name": "member desktop: Shop with cashback (empty cart) → ready, applies automatically",
+      "ok": true,
+      "detail": ""
+    },
+    {
+      "name": "member desktop: Buy again adds the exact item in one tap",
+      "ok": true,
+      "detail": ""
+    },
+    {
+      "name": "member desktop: cart holds the exact product (and the pending cashback applied)",
+      "ok": true,
+      "detail": ""
+    },
+    {
+      "name": "member desktop: no horizontal overflow",
+      "ok": true,
+      "detail": ""
+    },
+    {
+      "name": "member desktop: no JavaScript errors",
+      "ok": true,
+      "detail": ""
+    },
+    {
+      "name": "member mobile: wallet says \"You have 9 OMR cashback\"",
+      "ok": true,
+      "detail": ""
+    },
+    {
+      "name": "member mobile: best coupon and its real expiry",
+      "ok": true,
+      "detail": ""
+    },
+    {
+      "name": "member mobile: no coupon code is shown",
+      "ok": true,
+      "detail": ""
+    },
+    {
+      "name": "member mobile: each credit listed with its days left (first to be used highlighted)",
+      "ok": true,
+      "detail": ""
+    },
+    {
+      "name": "member mobile: top bar turns into the cashback reminder",
+      "ok": true,
+      "detail": ""
+    },
+    {
+      "name": "member mobile: Running low lists 2 exact previous items",
+      "ok": true,
+      "detail": ""
+    },
+    {
+      "name": "member mobile: exact flavour shown",
+      "ok": true,
+      "detail": ""
+    },
+    {
+      "name": "member mobile: best ways to use it (cards with reasons)",
+      "ok": true,
+      "detail": ""
+    },
+    {
+      "name": "member mobile: every pick says why, in full (no clipped label)",
+      "ok": true,
+      "detail": ""
+    },
+    {
+      "name": "member mobile: the picks show 2 theme cards per view",
+      "ok": true,
+      "detail": ""
+    },
+    {
+      "name": "member mobile: Buy again is the theme's Add to cart button",
+      "ok": true,
+      "detail": ""
+    },
+    {
+      "name": "member mobile: the wallet section starts in the white of the section above (no two-tone edge)",
+      "ok": true,
+      "detail": ""
+    },
+    {
+      "name": "member mobile: exactly one private request (qil_member)",
+      "ok": true,
+      "detail": ""
+    },
+    {
+      "name": "member mobile: no horizontal overflow",
+      "ok": true,
+      "detail": ""
+    },
+    {
+      "name": "member mobile: no JavaScript errors",
+      "ok": true,
+      "detail": ""
+    },
+    {
+      "name": "mini cart EN desktop: \"Add 0.101 more → get 3 OMR cashback\"",
+      "ok": true,
+      "detail": ""
+    },
+    {
+      "name": "mini cart EN desktop: three related picks that reach the next band",
+      "ok": true,
+      "detail": ""
+    },
+    {
+      "name": "mini cart EN desktop: ladder and picks fit the 340px WoodMart drawer",
+      "ok": true,
+      "detail": ""
+    },
+    {
+      "name": "mini cart EN desktop: drawer Add buttons are the homepage's Add to cart (gradient, pill, shadow, light sweep)",
+      "ok": true,
+      "detail": ""
+    },
+    {
+      "name": "mini cart EN desktop: one tap adds creatine; ladder moves on (add 4.121 → 4 OMR)",
+      "ok": true,
+      "detail": ""
+    },
+    {
+      "name": "mini cart EN desktop: no JavaScript errors",
+      "ok": true,
+      "detail": ""
+    },
+    {
+      "name": "mini cart EN mobile: \"Add 0.101 more → get 3 OMR cashback\"",
+      "ok": true,
+      "detail": ""
+    },
+    {
+      "name": "mini cart EN mobile: three related picks that reach the next band",
+      "ok": true,
+      "detail": ""
+    },
+    {
+      "name": "mini cart EN mobile: ladder and picks fit the 300px WoodMart drawer",
+      "ok": true,
+      "detail": ""
+    },
+    {
+      "name": "mini cart EN mobile: drawer Add buttons are the homepage's Add to cart (gradient, pill, shadow, light sweep)",
+      "ok": true,
+      "detail": ""
+    },
+    {
+      "name": "mini cart EN mobile: no JavaScript errors",
+      "ok": true,
+      "detail": ""
+    },
+    {
+      "name": "mini cart AR mobile: \"Add 0.101 more → get 3 OMR cashback\"",
+      "ok": true,
+      "detail": ""
+    },
+    {
+      "name": "mini cart AR mobile: three related picks that reach the next band",
+      "ok": true,
+      "detail": ""
+    },
+    {
+      "name": "mini cart AR mobile: ladder and picks fit the 300px WoodMart drawer",
+      "ok": true,
+      "detail": ""
+    },
+    {
+      "name": "mini cart AR mobile: drawer Add buttons are the homepage's Add to cart (gradient, pill, shadow, light sweep)",
+      "ok": true,
+      "detail": ""
+    },
+    {
+      "name": "mini cart AR mobile: no JavaScript errors",
+      "ok": true,
+      "detail": ""
+    },
+    {
+      "name": "variable pick offers \"Options\" (no product page needed)",
+      "ok": true,
+      "detail": ""
+    },
+    {
+      "name": "Quick View opens in place with the option picker",
+      "ok": true,
+      "detail": ""
+    },
+    {
+      "name": "chosen variation is added to the order",
+      "ok": true,
+      "detail": ""
+    },
+    {
+      "name": "no JavaScript errors (quick view flow)",
+      "ok": true,
+      "detail": ""
+    },
+    {
+      "name": "cart page EN desktop: ladder panel with six steps in the totals",
+      "ok": true,
+      "detail": ""
+    },
+    {
+      "name": "cart page EN desktop: 3 products that reach the next band",
+      "ok": true,
+      "detail": ""
+    },
+    {
+      "name": "cart page EN desktop: Complete your stack: 2–4 theme product cards with the theme's Add to cart",
+      "ok": true,
+      "detail": ""
+    },
+    {
+      "name": "cart page EN desktop: 3 cards per view in the cart column, labels in full",
+      "ok": true,
+      "detail": ""
+    },
+    {
+      "name": "cart page EN desktop: each card says what it pairs with or the cashback it unlocks",
+      "ok": true,
+      "detail": ""
+    },
+    {
+      "name": "cart page EN desktop: nothing shown twice",
+      "ok": true,
+      "detail": ""
+    },
+    {
+      "name": "cart page EN desktop: ladder picks use the same Add to cart button as the theme cards",
+      "ok": true,
+      "detail": ""
+    },
+    {
+      "name": "cart page EN desktop: \"From\" reads before the price in this language",
+      "ok": true,
+      "detail": ""
+    },
+    {
+      "name": "cart page EN desktop: an empty personal shelf reserves no screen-tall gap",
+      "ok": true,
+      "detail": ""
+    },
+    {
+      "name": "cart page EN desktop: no horizontal overflow",
+      "ok": true,
+      "detail": ""
+    },
+    {
+      "name": "cart page EN desktop: the theme card adds to this order without leaving the cart",
+      "ok": true,
+      "detail": ""
+    },
+    {
+      "name": "cart page EN desktop: no JavaScript errors",
+      "ok": true,
+      "detail": ""
+    },
+    {
+      "name": "cart page EN mobile: ladder panel with six steps in the totals",
+      "ok": true,
+      "detail": ""
+    },
+    {
+      "name": "cart page EN mobile: 3 products that reach the next band",
+      "ok": true,
+      "detail": ""
+    },
+    {
+      "name": "cart page EN mobile: Complete your stack: 2–4 theme product cards with the theme's Add to cart",
+      "ok": true,
+      "detail": ""
+    },
+    {
+      "name": "cart page EN mobile: 2 cards per view in the cart column, labels in full",
+      "ok": true,
+      "detail": ""
+    },
+    {
+      "name": "cart page EN mobile: each card says what it pairs with or the cashback it unlocks",
+      "ok": true,
+      "detail": ""
+    },
+    {
+      "name": "cart page EN mobile: nothing shown twice",
+      "ok": true,
+      "detail": ""
+    },
+    {
+      "name": "cart page EN mobile: ladder picks use the same Add to cart button as the theme cards",
+      "ok": true,
+      "detail": ""
+    },
+    {
+      "name": "cart page EN mobile: \"From\" reads before the price in this language",
+      "ok": true,
+      "detail": ""
+    },
+    {
+      "name": "cart page EN mobile: an empty personal shelf reserves no screen-tall gap",
+      "ok": true,
+      "detail": ""
+    },
+    {
+      "name": "cart page EN mobile: no horizontal overflow",
+      "ok": true,
+      "detail": ""
+    },
+    {
+      "name": "cart page EN mobile: no JavaScript errors",
+      "ok": true,
+      "detail": ""
+    },
+    {
+      "name": "cart page AR desktop: ladder panel with six steps in the totals",
+      "ok": true,
+      "detail": ""
+    },
+    {
+      "name": "cart page AR desktop: 3 products that reach the next band",
+      "ok": true,
+      "detail": ""
+    },
+    {
+      "name": "cart page AR desktop: Complete your stack: 2–4 theme product cards with the theme's Add to cart",
+      "ok": true,
+      "detail": ""
+    },
+    {
+      "name": "cart page AR desktop: 3 cards per view in the cart column, labels in full",
+      "ok": true,
+      "detail": ""
+    },
+    {
+      "name": "cart page AR desktop: each card says what it pairs with or the cashback it unlocks",
+      "ok": true,
+      "detail": ""
+    },
+    {
+      "name": "cart page AR desktop: nothing shown twice",
+      "ok": true,
+      "detail": ""
+    },
+    {
+      "name": "cart page AR desktop: ladder picks use the same Add to cart button as the theme cards",
+      "ok": true,
+      "detail": ""
+    },
+    {
+      "name": "cart page AR desktop: \"From\" reads before the price in this language",
+      "ok": true,
+      "detail": ""
+    },
+    {
+      "name": "cart page AR desktop: an empty personal shelf reserves no screen-tall gap",
+      "ok": true,
+      "detail": ""
+    },
+    {
+      "name": "cart page AR desktop: no horizontal overflow",
+      "ok": true,
+      "detail": ""
+    },
+    {
+      "name": "cart page AR desktop: no JavaScript errors",
+      "ok": true,
+      "detail": ""
+    },
+    {
+      "name": "router: no PHP errors, warnings or notices during the run",
+      "ok": true,
+      "detail": ""
+    }
+  ],
+  "requests": {
+    "guest EN desktop": [],
+    "guest EN mobile": [],
+    "guest AR desktop": [],
+    "guest AR mobile": []
+  }
+}

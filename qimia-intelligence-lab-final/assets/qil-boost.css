@@ -242,7 +242,9 @@ li.qil-boost-li::before, li.qil-boost-li::after { content: none !important; disp
 /* ======================================================================
    Homepage: Flash drop (cinematic stage)
    ====================================================================== */
-:is(#qimia-lab,.qil-shell) .qil-flash-drop { padding-block: clamp(34px,5vw,64px); }
+/* The section fades from the page colour above to the white of the section
+   below, and the stage casts no shadow, so there is no two-tone edge. */
+:is(#qimia-lab,.qil-shell) .qil-flash-drop { padding-block: clamp(34px,5vw,64px); background: linear-gradient(180deg, #f7fbfb 0%, #fff 100%); }
 :is(#qimia-lab,.qil-shell) .qil-flash-stage {
 	position: relative; isolation: isolate; overflow: hidden;
 	padding: clamp(20px,3vw,34px);
@@ -252,7 +254,7 @@ li.qil-boost-li::before, li.qil-boost-li::after { content: none !important; disp
 		radial-gradient(60% 80% at 100% 0%, rgba(255,138,107,.2), transparent 62%),
 		linear-gradient(140deg, #041620 0%, #0a2a37 55%, #07202b 100%);
 	color: #fff;
-	box-shadow: 0 30px 80px rgba(3,20,28,.28), inset 0 1px 0 rgba(255,255,255,.08);
+	box-shadow: inset 0 1px 0 rgba(255,255,255,.08);
 }
 :is(#qimia-lab,.qil-shell) .qil-flash-aurora {
 	position: absolute; z-index: -1; inset: -40% -20% auto; height: 120%;
@@ -301,30 +303,25 @@ li.qil-boost-li::before, li.qil-boost-li::after { content: none !important; disp
 :is(#qimia-lab,.qil-shell) .qil-flash-rail .qil-product-card { border-color: rgba(255,255,255,.08); box-shadow: 0 18px 44px rgba(0,0,0,.28); }
 :is(#qimia-lab,.qil-shell) .qil-flash-gone { margin-inline-start: 2px; padding: 2px 8px; border-radius: 99px; background: rgba(255,138,107,.2); color: #ffc2b1; font-weight: 900; }
 
-/* Stock on the product image: the count leads, the theme card stays intact. */
-:is(#qimia-lab,.qil-shell) .qil-flash-stock {
-	position: absolute; z-index: 6; inset-inline: 10px; bottom: 10px;
-	display: grid; gap: 5px; padding: 7px 10px 8px;
-	border: 1px solid rgba(7,31,44,.06); border-radius: 12px;
-	background: rgba(255,255,255,.95); box-shadow: 0 8px 22px rgba(7,31,44,.14);
-	color: var(--qil-ink, #071f2c); text-align: start; pointer-events: none;
-}
-:is(#qimia-lab,.qil-shell) .qil-flash-stock b { display: flex; align-items: center; gap: 6px; min-width: 0; overflow: hidden; font-size: 11px; font-weight: 850; line-height: 1.25; white-space: nowrap; text-overflow: ellipsis; }
-:is(#qimia-lab,.qil-shell) .qil-flash-stock.is-hot b { color: #c2410c; }
-:is(#qimia-lab,.qil-shell) .qil-flash-stock.is-warm b { color: #8a5300; }
-:is(#qimia-lab,.qil-shell) .qil-flash-stock.is-hot b::before { content: ""; flex: none; width: 7px; height: 7px; border-radius: 50%; background: #e2562f; box-shadow: 0 0 0 3px rgba(226,86,47,.18); }
+/* Stock under the product name, on every card: the count leads. */
+:is(#qimia-lab,.qil-shell) .qil-flash-stock { display: grid; gap: 4px; min-height: 26px; margin: 0 0 7px; text-align: start; }
+:is(#qimia-lab,.qil-shell) .qil-flash-stock > b { display: flex; align-items: center; gap: 6px; min-width: 0; overflow: hidden; color: #17684f; font-size: 11px; font-weight: 850; line-height: 1.25; white-space: nowrap; text-overflow: ellipsis; }
+:is(#qimia-lab,.qil-shell) .qil-flash-stock > b::before { content: ""; flex: none; width: 7px; height: 7px; border-radius: 50%; background: currentColor; box-shadow: 0 0 0 3px color-mix(in srgb, currentColor 18%, transparent); }
+:is(#qimia-lab,.qil-shell) .qil-flash-stock.is-hot > b { color: #c2410c; }
+:is(#qimia-lab,.qil-shell) .qil-flash-stock.is-warm > b { color: #8a5300; }
 :is(#qimia-lab,.qil-shell) .qil-flash-stock small { color: #3d5963; font-size: 10px; font-weight: 700; }
-:is(#qimia-lab,.qil-shell) .qil-flash-stock small b { display: inline; color: var(--qil-ink, #071f2c); font-size: inherit; font-variant-numeric: tabular-nums; }
-:is(#qimia-lab,.qil-shell) .qil-flash-bar { display: block; height: 4px; border-radius: 99px; background: #f3e4de; overflow: hidden; }
+:is(#qimia-lab,.qil-shell) .qil-flash-stock small b { color: var(--qil-ink, #071f2c); font-variant-numeric: tabular-nums; }
+:is(#qimia-lab,.qil-shell) .qil-flash-bar { display: block; height: 4px; border-radius: 99px; background: #eef4f3; overflow: hidden; }
+/* No count, no bar (an empty track would read as "none left"); the space stays. */
+:is(#qimia-lab,.qil-shell) .qil-flash-bar:empty { visibility: hidden; }
 :is(#qimia-lab,.qil-shell) .qil-flash-bar i { display: block; height: 100%; border-radius: inherit; background: linear-gradient(90deg, #ff8a6b, #e2562f); }
+:is(#qimia-lab,.qil-shell) .qil-flash-stock.is-hot .qil-flash-bar { background: #f7e7e1; }
 :is(#qimia-lab,.qil-shell) .qil-flash-stock.is-warm .qil-flash-bar { background: #f6ecd8; }
 :is(#qimia-lab,.qil-shell) .qil-flash-stock.is-warm .qil-flash-bar i { background: linear-gradient(90deg, #f6c667, #e39a1c); }
 :is(#qimia-lab,.qil-shell)[dir="rtl"] .qil-flash-bar i { margin-inline-start: auto; }
-:is(#qimia-lab,.qil-shell) .has-flash-stock :is(.qil-inventory-labels,.qil-verified-badge) { bottom: 58px; }
 @media (max-width: 760px) {
-	:is(#qimia-lab,.qil-shell) .qil-flash-stock { inset-inline: 6px; bottom: 6px; padding: 5px 7px 6px; border-radius: 10px; }
-	:is(#qimia-lab,.qil-shell) .qil-flash-stock b { font-size: 9.5px; }
-	:is(#qimia-lab,.qil-shell) .has-flash-stock :is(.qil-inventory-labels,.qil-verified-badge) { bottom: 46px; }
+	:is(#qimia-lab,.qil-shell) .qil-flash-stock { min-height: 22px; margin-bottom: 6px; }
+	:is(#qimia-lab,.qil-shell) .qil-flash-stock > b { font-size: 9.5px; }
 }
 
 /* Phones: product cards size to their content and stretch to the tallest card
@@ -365,6 +362,7 @@ li.qil-boost-li::before, li.qil-boost-li::after { content: none !important; disp
    Homepage: member hub (wallet + Running low?)
    ====================================================================== */
 :is(#qimia-lab,.qil-shell) .qil-member { padding-block: clamp(26px,4vw,48px) 0; }
+:is(#qimia-lab,.qil-shell) .qil-member.qil-section { background: linear-gradient(180deg, #fff 0%, var(--qil-ice, #f4faf9) 100%); }
 :is(#qimia-lab,.qil-shell) .qil-member-grid { display: grid; grid-template-columns: minmax(0,1.05fr) minmax(0,1fr); gap: 16px; }
 :is(#qimia-lab,.qil-shell) .qil-member:not(.has-wallet) .qil-member-grid,
 :is(#qimia-lab,.qil-shell) .qil-member:not(.has-running) .qil-member-grid { grid-template-columns: minmax(0,1fr); }
@@ -442,7 +440,7 @@ li.qil-boost-li::before, li.qil-boost-li::after { content: none !important; disp
 /* ======================================================================
    Homepage: cashback stacks
    ====================================================================== */
-:is(#qimia-lab,.qil-shell) .qil-stacks.qil-section { padding-block: clamp(18px,2.4vw,30px); }
+:is(#qimia-lab,.qil-shell) .qil-stacks.qil-section { padding-block: clamp(18px,2.4vw,30px); background: transparent; }
 :is(#qimia-lab,.qil-shell) .qil-stacks-block {
 	margin: 0; position: relative; overflow: hidden;
 	background:
@@ -453,7 +451,24 @@ li.qil-boost-li::before, li.qil-boost-li::after { content: none !important; disp
 :is(#qimia-lab,.qil-shell) .qil-stacks-block .qil-collection-head p { max-width: 640px; margin: 6px 0 0; color: var(--qil-muted, #536b74); font-size: 13px; }
 :is(#qimia-lab,.qil-shell) .qil-stacks-kicker { display: inline-flex; align-items: center; gap: 7px; color: #8a5a06 !important; }
 :is(#qimia-lab,.qil-shell) .qil-stacks-kicker i { flex: none; width: 12px; height: 12px; border-radius: 50%; background: linear-gradient(145deg, #ffe39c, #f6c667 55%, #d99a2b); box-shadow: 0 0 0 3px rgba(246,198,103,.2); }
-:is(#qimia-lab,.qil-shell) .qil-stacks-rail .qil-product-badge.is-cashback { border-color: rgba(201,138,18,.35); background: linear-gradient(145deg, #fff6dc, #ffe39c); color: #5a3d00; }
+/* The 1.18.0 cashback badge, in the image's other top corner. */
+:is(#qimia-lab,.qil-shell) .qil-stacks-rail .qil-bundle-reward {
+	position: absolute; z-index: 7; inset-block-start: 11px; inset-inline-end: 11px;
+	display: grid; gap: 1px; padding: 7px 11px 8px; text-align: center; line-height: 1.15; pointer-events: none;
+	border-radius: 16px; background: linear-gradient(140deg, #071f2c, #0e3a48); color: #fff;
+	box-shadow: 0 10px 24px rgba(7,31,44,.28), 0 0 0 3px rgba(246,198,103,.22);
+}
+:is(#qimia-lab,.qil-shell) .qil-stacks-rail .qil-bundle-reward small { color: #ffe39c; font-size: 8.5px; font-weight: 850; letter-spacing: .14em; }
+:is(#qimia-lab,.qil-shell)[dir="rtl"] .qil-stacks-rail .qil-bundle-reward small { letter-spacing: 0; }
+:is(#qimia-lab,.qil-shell) .qil-stacks-rail .qil-bundle-reward b { font-size: 15px; font-weight: 900; white-space: nowrap; }
+/* The discount keeps the theme's own look and corner, without the label roll. */
+:is(#qimia-lab,.qil-shell) .qil-stacks-rail .qil-label-stack > .qil-sale-badge { animation: none !important; opacity: 1 !important; transform: none !important; }
+:is(#qimia-lab,.qil-shell) .qil-stacks-rail .qil-label-stack:not(.has-multiple) > .qil-sale-badge { margin-inline-start: 0; }
+@media (max-width: 760px) {
+	:is(#qimia-lab,.qil-shell) .qil-stacks-rail .qil-bundle-reward { inset-block-start: 7px; inset-inline-end: 7px; padding: 5px 8px 6px; border-radius: 12px; }
+	:is(#qimia-lab,.qil-shell) .qil-stacks-rail .qil-bundle-reward small { font-size: 7px; }
+	:is(#qimia-lab,.qil-shell) .qil-stacks-rail .qil-bundle-reward b { font-size: 12px; }
+}
 :is(#qimia-lab,.qil-shell) .qil-stack-separately del { color: inherit; opacity: .8; }
 :is(#qimia-lab,.qil-shell) .qil-stacks-note { margin: 12px 0 0; color: var(--qil-muted, #536b74); font-size: 11.5px; }
 
