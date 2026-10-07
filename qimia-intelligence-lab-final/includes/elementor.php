@@ -201,9 +201,9 @@ function qil_elementor_register_widgets( $widgets_manager = null ) {
 			protected function register_controls() {
 				$this->start_controls_section( 'qil_hero_copy', array( 'label' => 'Slogan' ) );
 				$this->qil_add_text_pair( 'eyebrow', 'Eyebrow', 'QIMIA PORTAL', 'بوابة كيميا' );
-				$this->qil_add_text_pair( 'lineOne', 'Headline line 1', 'STOP GUESSING.', 'لا تخمين.' );
-				$this->qil_add_text_pair( 'lineTwo', 'Headline line 2', 'START KNOWING.', 'معرفة حقيقية.' );
-				$this->qil_add_text_pair( 'lineThree', 'Headline line 3 (gradient)', 'YOUR QIMIA.', 'كيميا الخاصة بك.' );
+				$this->qil_add_text_pair( 'lineOne', 'Headline line 1', 'STOP GUESSING', 'لا تخمين.' );
+				$this->qil_add_text_pair( 'lineTwo', 'Optional middle headline', '', 'معرفة حقيقية.' );
+				$this->qil_add_text_pair( 'lineThree', 'Headline final line (gradient)', 'START MY QIMIA.', 'كيميا الخاصة بك.' );
 				$this->qil_add_text_pair( 'lead', 'Lead paragraph', 'Shop to join My Qimia — your routine, orders & cashback, together.', 'انضم إلى ماي كيميا مع شرائك — روتينك وطلباتك وكاش باكك معاً.', 'textarea' );
 				$this->end_controls_section();
 

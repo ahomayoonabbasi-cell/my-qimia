@@ -1,0 +1,835 @@
+{
+  "suite": "isolated Chromium cart event fixtures",
+  "browser": "144.0.7559.96",
+  "not_live_wordpress": true,
+  "checks": [
+    {
+      "name": "qil.js: initialized",
+      "passed": true,
+      "detail": []
+    },
+    {
+      "name": "qil.js: native-before",
+      "passed": true,
+      "detail": {
+        "state": {
+          "opened": false,
+          "overlay": false,
+          "success": 1,
+          "refresh": 0,
+          "requests": 0,
+          "count": "2",
+          "total": "20.00"
+        },
+        "errors": []
+      }
+    },
+    {
+      "name": "qil.js: cart listener preserved native-before",
+      "passed": true
+    },
+    {
+      "name": "qil.js: initialized",
+      "passed": true,
+      "detail": []
+    },
+    {
+      "name": "qil.js: native-after",
+      "passed": true,
+      "detail": {
+        "state": {
+          "opened": false,
+          "overlay": false,
+          "success": 1,
+          "refresh": 0,
+          "requests": 0,
+          "count": "2",
+          "total": "20.00"
+        },
+        "errors": []
+      }
+    },
+    {
+      "name": "qil.js: cart listener preserved native-after",
+      "passed": true
+    },
+    {
+      "name": "qil.js: initialized",
+      "passed": true,
+      "detail": []
+    },
+    {
+      "name": "qil.js: native-delay",
+      "passed": true,
+      "detail": {
+        "state": {
+          "opened": false,
+          "overlay": false,
+          "success": 1,
+          "refresh": 0,
+          "requests": 0,
+          "count": "2",
+          "total": "20.00"
+        },
+        "errors": []
+      }
+    },
+    {
+      "name": "qil.js: cart listener preserved native-delay",
+      "passed": true
+    },
+    {
+      "name": "qil.js: initialized",
+      "passed": true,
+      "detail": []
+    },
+    {
+      "name": "qil.js: absent-drawer",
+      "passed": true,
+      "detail": {
+        "state": {
+          "opened": false,
+          "overlay": false,
+          "success": 1,
+          "refresh": 0,
+          "requests": 0,
+          "count": "2",
+          "total": "20.00"
+        },
+        "errors": []
+      }
+    },
+    {
+      "name": "qil.js: cart listener preserved absent-drawer",
+      "passed": true
+    },
+    {
+      "name": "qil.js: initialized",
+      "passed": true,
+      "detail": []
+    },
+    {
+      "name": "qil.js: hidden-drawer",
+      "passed": true,
+      "detail": {
+        "state": {
+          "opened": false,
+          "overlay": false,
+          "success": 1,
+          "refresh": 0,
+          "requests": 0,
+          "count": "2",
+          "total": "20.00"
+        },
+        "errors": []
+      }
+    },
+    {
+      "name": "qil.js: cart listener preserved hidden-drawer",
+      "passed": true
+    },
+    {
+      "name": "qil.js: initialized",
+      "passed": true,
+      "detail": []
+    },
+    {
+      "name": "qil.js: fallback-cart",
+      "passed": true,
+      "detail": {
+        "state": {
+          "opened": false,
+          "overlay": false,
+          "success": 1,
+          "refresh": 0,
+          "requests": 0,
+          "count": "2",
+          "total": "20.00"
+        },
+        "errors": []
+      }
+    },
+    {
+      "name": "qil.js: cart listener preserved fallback-cart",
+      "passed": true
+    },
+    {
+      "name": "qil.js: initialized",
+      "passed": true,
+      "detail": []
+    },
+    {
+      "name": "qil.js: body-detection",
+      "passed": true,
+      "detail": {
+        "state": {
+          "opened": false,
+          "overlay": false,
+          "success": 1,
+          "refresh": 0,
+          "requests": 0,
+          "count": "2",
+          "total": "20.00"
+        },
+        "errors": []
+      }
+    },
+    {
+      "name": "qil.js: cart listener preserved body-detection",
+      "passed": true
+    },
+    {
+      "name": "qil.js: initialized",
+      "passed": true,
+      "detail": []
+    },
+    {
+      "name": "qil.js: block-detection",
+      "passed": true,
+      "detail": {
+        "state": {
+          "opened": false,
+          "overlay": false,
+          "success": 1,
+          "refresh": 0,
+          "requests": 0,
+          "count": "2",
+          "total": "20.00"
+        },
+        "errors": []
+      }
+    },
+    {
+      "name": "qil.js: cart listener preserved block-detection",
+      "passed": true
+    },
+    {
+      "name": "qil.js: initialized",
+      "passed": true,
+      "detail": []
+    },
+    {
+      "name": "qil.js: block-without-jquery",
+      "passed": true,
+      "detail": {
+        "state": {
+          "opened": false,
+          "overlay": false,
+          "success": 1,
+          "refresh": 0,
+          "requests": 0,
+          "count": "1",
+          "total": "10.00"
+        },
+        "errors": []
+      }
+    },
+    {
+      "name": "qil.js: initialized",
+      "passed": true,
+      "detail": []
+    },
+    {
+      "name": "qil.js: other-page native=True hidden=False",
+      "passed": true,
+      "detail": {
+        "state": {
+          "opened": true,
+          "overlay": true,
+          "success": 1,
+          "refresh": 0,
+          "requests": 0,
+          "count": "2",
+          "total": "20.00"
+        },
+        "errors": []
+      }
+    },
+    {
+      "name": "qil.js: initialized",
+      "passed": true,
+      "detail": []
+    },
+    {
+      "name": "qil.js: other-page native=False hidden=False",
+      "passed": true,
+      "detail": {
+        "state": {
+          "opened": true,
+          "overlay": true,
+          "success": 1,
+          "refresh": 0,
+          "requests": 0,
+          "count": "2",
+          "total": "20.00"
+        },
+        "errors": []
+      }
+    },
+    {
+      "name": "qil.js: initialized",
+      "passed": true,
+      "detail": []
+    },
+    {
+      "name": "qil.js: other-page native=False hidden=True",
+      "passed": true,
+      "detail": {
+        "state": {
+          "opened": false,
+          "overlay": false,
+          "success": 1,
+          "refresh": 0,
+          "requests": 0,
+          "count": "2",
+          "total": "20.00"
+        },
+        "errors": []
+      }
+    },
+    {
+      "name": "qil.js: initialized",
+      "passed": true,
+      "detail": []
+    },
+    {
+      "name": "qil.js: preserve mobile-nav",
+      "passed": true,
+      "detail": {
+        "opened": false,
+        "overlay": true,
+        "success": 1,
+        "refresh": 0,
+        "requests": 0,
+        "count": "2",
+        "total": "20.00"
+      }
+    },
+    {
+      "name": "qil.js: initialized",
+      "passed": true,
+      "detail": []
+    },
+    {
+      "name": "qil.js: preserve login-form-side",
+      "passed": true,
+      "detail": {
+        "opened": false,
+        "overlay": true,
+        "success": 1,
+        "refresh": 0,
+        "requests": 0,
+        "count": "2",
+        "total": "20.00"
+      }
+    },
+    {
+      "name": "qil.js: initialized",
+      "passed": true,
+      "detail": []
+    },
+    {
+      "name": "qil.js: preserve wd-search-full-screen",
+      "passed": true,
+      "detail": {
+        "opened": false,
+        "overlay": true,
+        "success": 1,
+        "refresh": 0,
+        "requests": 0,
+        "count": "2",
+        "total": "20.00"
+      }
+    },
+    {
+      "name": "qil.js: initialized",
+      "passed": true,
+      "detail": []
+    },
+    {
+      "name": "qil.js: explicit bag native=True",
+      "passed": true,
+      "detail": {
+        "opened": true,
+        "overlay": true,
+        "success": 1,
+        "refresh": 1,
+        "requests": 0,
+        "count": "2",
+        "total": "20.00"
+      }
+    },
+    {
+      "name": "qil.js: initialized",
+      "passed": true,
+      "detail": []
+    },
+    {
+      "name": "qil.js: explicit bag native=False",
+      "passed": true,
+      "detail": {
+        "opened": true,
+        "overlay": true,
+        "success": 1,
+        "refresh": 1,
+        "requests": 0,
+        "count": "2",
+        "total": "20.00"
+      }
+    },
+    {
+      "name": "qil.js: initialized",
+      "passed": true,
+      "detail": []
+    },
+    {
+      "name": "qil.js: observer disconnected",
+      "passed": true,
+      "detail": {
+        "active": 4,
+        "baseline": 4
+      }
+    },
+    {
+      "name": "qil.js: repeated add after cart replacement",
+      "passed": true,
+      "detail": {
+        "opened": false,
+        "overlay": false,
+        "success": 2,
+        "refresh": 0,
+        "requests": 0,
+        "count": "3",
+        "total": "30.00"
+      }
+    },
+    {
+      "name": "qil.js: pagehide disconnects",
+      "passed": true,
+      "detail": {
+        "active": 4,
+        "baseline": 4
+      }
+    },
+    {
+      "name": "qil.js: no shell no initialization",
+      "passed": true,
+      "detail": []
+    },
+    {
+      "name": "qil.min.js: initialized",
+      "passed": true,
+      "detail": []
+    },
+    {
+      "name": "qil.min.js: native-before",
+      "passed": true,
+      "detail": {
+        "state": {
+          "opened": false,
+          "overlay": false,
+          "success": 1,
+          "refresh": 0,
+          "requests": 0,
+          "count": "2",
+          "total": "20.00"
+        },
+        "errors": []
+      }
+    },
+    {
+      "name": "qil.min.js: cart listener preserved native-before",
+      "passed": true
+    },
+    {
+      "name": "qil.min.js: initialized",
+      "passed": true,
+      "detail": []
+    },
+    {
+      "name": "qil.min.js: native-after",
+      "passed": true,
+      "detail": {
+        "state": {
+          "opened": false,
+          "overlay": false,
+          "success": 1,
+          "refresh": 0,
+          "requests": 0,
+          "count": "2",
+          "total": "20.00"
+        },
+        "errors": []
+      }
+    },
+    {
+      "name": "qil.min.js: cart listener preserved native-after",
+      "passed": true
+    },
+    {
+      "name": "qil.min.js: initialized",
+      "passed": true,
+      "detail": []
+    },
+    {
+      "name": "qil.min.js: native-delay",
+      "passed": true,
+      "detail": {
+        "state": {
+          "opened": false,
+          "overlay": false,
+          "success": 1,
+          "refresh": 0,
+          "requests": 0,
+          "count": "2",
+          "total": "20.00"
+        },
+        "errors": []
+      }
+    },
+    {
+      "name": "qil.min.js: cart listener preserved native-delay",
+      "passed": true
+    },
+    {
+      "name": "qil.min.js: initialized",
+      "passed": true,
+      "detail": []
+    },
+    {
+      "name": "qil.min.js: absent-drawer",
+      "passed": true,
+      "detail": {
+        "state": {
+          "opened": false,
+          "overlay": false,
+          "success": 1,
+          "refresh": 0,
+          "requests": 0,
+          "count": "2",
+          "total": "20.00"
+        },
+        "errors": []
+      }
+    },
+    {
+      "name": "qil.min.js: cart listener preserved absent-drawer",
+      "passed": true
+    },
+    {
+      "name": "qil.min.js: initialized",
+      "passed": true,
+      "detail": []
+    },
+    {
+      "name": "qil.min.js: hidden-drawer",
+      "passed": true,
+      "detail": {
+        "state": {
+          "opened": false,
+          "overlay": false,
+          "success": 1,
+          "refresh": 0,
+          "requests": 0,
+          "count": "2",
+          "total": "20.00"
+        },
+        "errors": []
+      }
+    },
+    {
+      "name": "qil.min.js: cart listener preserved hidden-drawer",
+      "passed": true
+    },
+    {
+      "name": "qil.min.js: initialized",
+      "passed": true,
+      "detail": []
+    },
+    {
+      "name": "qil.min.js: fallback-cart",
+      "passed": true,
+      "detail": {
+        "state": {
+          "opened": false,
+          "overlay": false,
+          "success": 1,
+          "refresh": 0,
+          "requests": 0,
+          "count": "2",
+          "total": "20.00"
+        },
+        "errors": []
+      }
+    },
+    {
+      "name": "qil.min.js: cart listener preserved fallback-cart",
+      "passed": true
+    },
+    {
+      "name": "qil.min.js: initialized",
+      "passed": true,
+      "detail": []
+    },
+    {
+      "name": "qil.min.js: body-detection",
+      "passed": true,
+      "detail": {
+        "state": {
+          "opened": false,
+          "overlay": false,
+          "success": 1,
+          "refresh": 0,
+          "requests": 0,
+          "count": "2",
+          "total": "20.00"
+        },
+        "errors": []
+      }
+    },
+    {
+      "name": "qil.min.js: cart listener preserved body-detection",
+      "passed": true
+    },
+    {
+      "name": "qil.min.js: initialized",
+      "passed": true,
+      "detail": []
+    },
+    {
+      "name": "qil.min.js: block-detection",
+      "passed": true,
+      "detail": {
+        "state": {
+          "opened": false,
+          "overlay": false,
+          "success": 1,
+          "refresh": 0,
+          "requests": 0,
+          "count": "2",
+          "total": "20.00"
+        },
+        "errors": []
+      }
+    },
+    {
+      "name": "qil.min.js: cart listener preserved block-detection",
+      "passed": true
+    },
+    {
+      "name": "qil.min.js: initialized",
+      "passed": true,
+      "detail": []
+    },
+    {
+      "name": "qil.min.js: block-without-jquery",
+      "passed": true,
+      "detail": {
+        "state": {
+          "opened": false,
+          "overlay": false,
+          "success": 1,
+          "refresh": 0,
+          "requests": 0,
+          "count": "1",
+          "total": "10.00"
+        },
+        "errors": []
+      }
+    },
+    {
+      "name": "qil.min.js: initialized",
+      "passed": true,
+      "detail": []
+    },
+    {
+      "name": "qil.min.js: other-page native=True hidden=False",
+      "passed": true,
+      "detail": {
+        "state": {
+          "opened": true,
+          "overlay": true,
+          "success": 1,
+          "refresh": 0,
+          "requests": 0,
+          "count": "2",
+          "total": "20.00"
+        },
+        "errors": []
+      }
+    },
+    {
+      "name": "qil.min.js: initialized",
+      "passed": true,
+      "detail": []
+    },
+    {
+      "name": "qil.min.js: other-page native=False hidden=False",
+      "passed": true,
+      "detail": {
+        "state": {
+          "opened": true,
+          "overlay": true,
+          "success": 1,
+          "refresh": 0,
+          "requests": 0,
+          "count": "2",
+          "total": "20.00"
+        },
+        "errors": []
+      }
+    },
+    {
+      "name": "qil.min.js: initialized",
+      "passed": true,
+      "detail": []
+    },
+    {
+      "name": "qil.min.js: other-page native=False hidden=True",
+      "passed": true,
+      "detail": {
+        "state": {
+          "opened": false,
+          "overlay": false,
+          "success": 1,
+          "refresh": 0,
+          "requests": 0,
+          "count": "2",
+          "total": "20.00"
+        },
+        "errors": []
+      }
+    },
+    {
+      "name": "qil.min.js: initialized",
+      "passed": true,
+      "detail": []
+    },
+    {
+      "name": "qil.min.js: preserve mobile-nav",
+      "passed": true,
+      "detail": {
+        "opened": false,
+        "overlay": true,
+        "success": 1,
+        "refresh": 0,
+        "requests": 0,
+        "count": "2",
+        "total": "20.00"
+      }
+    },
+    {
+      "name": "qil.min.js: initialized",
+      "passed": true,
+      "detail": []
+    },
+    {
+      "name": "qil.min.js: preserve login-form-side",
+      "passed": true,
+      "detail": {
+        "opened": false,
+        "overlay": true,
+        "success": 1,
+        "refresh": 0,
+        "requests": 0,
+        "count": "2",
+        "total": "20.00"
+      }
+    },
+    {
+      "name": "qil.min.js: initialized",
+      "passed": true,
+      "detail": []
+    },
+    {
+      "name": "qil.min.js: preserve wd-search-full-screen",
+      "passed": true,
+      "detail": {
+        "opened": false,
+        "overlay": true,
+        "success": 1,
+        "refresh": 0,
+        "requests": 0,
+        "count": "2",
+        "total": "20.00"
+      }
+    },
+    {
+      "name": "qil.min.js: initialized",
+      "passed": true,
+      "detail": []
+    },
+    {
+      "name": "qil.min.js: explicit bag native=True",
+      "passed": true,
+      "detail": {
+        "opened": true,
+        "overlay": true,
+        "success": 1,
+        "refresh": 1,
+        "requests": 0,
+        "count": "2",
+        "total": "20.00"
+      }
+    },
+    {
+      "name": "qil.min.js: initialized",
+      "passed": true,
+      "detail": []
+    },
+    {
+      "name": "qil.min.js: explicit bag native=False",
+      "passed": true,
+      "detail": {
+        "opened": true,
+        "overlay": true,
+        "success": 1,
+        "refresh": 1,
+        "requests": 0,
+        "count": "2",
+        "total": "20.00"
+      }
+    },
+    {
+      "name": "qil.min.js: initialized",
+      "passed": true,
+      "detail": []
+    },
+    {
+      "name": "qil.min.js: observer disconnected",
+      "passed": true,
+      "detail": {
+        "active": 4,
+        "baseline": 4
+      }
+    },
+    {
+      "name": "qil.min.js: repeated add after cart replacement",
+      "passed": true,
+      "detail": {
+        "opened": false,
+        "overlay": false,
+        "success": 2,
+        "refresh": 0,
+        "requests": 0,
+        "count": "3",
+        "total": "30.00"
+      }
+    },
+    {
+      "name": "qil.min.js: pagehide disconnects",
+      "passed": true,
+      "detail": {
+        "active": 4,
+        "baseline": 4
+      }
+    },
+    {
+      "name": "qil.min.js: no shell no initialization",
+      "passed": true,
+      "detail": []
+    }
+  ],
+  "passed": 94,
+  "failed": 0
+}

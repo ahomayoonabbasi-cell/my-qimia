@@ -39,12 +39,12 @@ function qt_isolated( $scenario ) {
 
 /* ------------------------------------------------------------------ */
 section( 'Plugin load' );
-check( 'plugin version is 1.18.4', defined( 'QIL_VERSION' ) && '1.18.4' === QIL_VERSION, defined( 'QIL_VERSION' ) ? QIL_VERSION : 'undefined' );
+check( 'plugin version is 1.18.22', defined( 'QIL_VERSION' ) && '1.18.22' === QIL_VERSION, defined( 'QIL_VERSION' ) ? QIL_VERSION : 'undefined' );
 foreach ( array( 'QIL_Boost', 'QIL_Flash_Drop', 'QIL_Member', 'QIL_Stacks', 'QIL_Cashback', 'QIL_Personalization' ) as $class ) {
 	check( "class $class loaded", class_exists( $class ) );
 }
 check( 'mini-cart ladder hook registered', has_filter( 'woocommerce_before_mini_cart' ) );
-check( 'cart totals panel hook registered', has_filter( 'woocommerce_before_cart_totals' ) );
+check( 'cart totals panel hook registered (after the totals since 1.18.6)', has_filter( 'woocommerce_after_cart_totals' ) );
 check( 'flash drop REST route registered after rest_api_init', ( do_action( 'rest_api_init' ) || true ) && isset( $GLOBALS['qt']['rest']['qimia-lab/v1/flash-drop'] ) );
 
 /* ------------------------------------------------------------------ */

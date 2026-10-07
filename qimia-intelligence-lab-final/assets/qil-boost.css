@@ -116,9 +116,182 @@
 }
 li.qil-boost-li::before, li.qil-boost-li::after { content: none !important; display: none !important; }
 .cart-widget-side li.qil-boost-li { margin: 4px 0 12px !important; padding: 0 15px !important; }
-.qil-boost-mini { margin: 0 0 12px; padding: 0; }
-.cart-widget-side .qil-boost-mini { margin: 12px 15px 4px; }
+/* 1.18.11: the current reward and original coin share the compact header.
+   Normal flow, edge-to-edge and square: no negative margin, fixed height,
+   animation, image, script or new request. The full cart ladder is untouched. */
+.qil-boost-mini { min-width: 0; margin: 0; padding: 0; }
+.cart-widget-side .qil-boost-mini {
+	margin: 0 !important;
+	padding: 0;
+	align-self: stretch;
+	flex-shrink: 0;
+}
+.qil-boost .qil-boost-ladder.is-compact {
+	max-width: 100%;
+	padding: 12px 16px 11px;
+	box-shadow: none;
+}
+.qil-boost-mini .qil-boost-ladder.is-compact {
+	margin: 0;
+	border-radius: 0;
+	border-bottom: 1px solid rgba(53,185,189,.22);
+	background: radial-gradient(95% 160% at 0% 0%, rgba(53,185,189,.2), transparent 68%), linear-gradient(115deg, #082b38, #0b2430);
+}
+.qil-boost .qil-boost-current-row {
+	display: grid;
+	grid-template-columns: 34px minmax(0,1fr) minmax(0,max-content);
+	align-items: center;
+	gap: 7px 10px;
+	min-width: 0;
+}
+.qil-boost .qil-boost-current-badge {
+	width: 34px;
+	height: 34px;
+	min-width: 34px;
+	border-radius: 50%;
+	box-shadow: 0 0 0 4px rgba(246,198,103,.16), 0 6px 16px rgba(246,198,103,.16);
+}
+.qil-boost .qil-boost-current-copy { min-width: 0; }
+.qil-boost .qil-boost-current-label {
+	display: block;
+	color: #bdf4ef;
+	font-size: 11px;
+	font-weight: 800;
+	line-height: 1.4;
+}
+.qil-boost .qil-boost-current-terms {
+	grid-column: 1 / -1;
+	display: block;
+	margin: 0;
+	color: #c3d8dd;
+	font-size: 10px;
+	font-weight: 400;
+	line-height: 1.4;
+}
+.qil-boost .qil-boost-current-amount {
+	display: block;
+	max-width: 148px;
+	margin: 0;
+	color: #ffdb83;
+	font-size: 30px;
+	font-weight: 900;
+	line-height: 1.15;
+	letter-spacing: -.035em;
+	font-variant-numeric: tabular-nums;
+	text-align: end;
+	overflow-wrap: anywhere;
+}
+.qil-boost[dir="rtl"] .qil-boost-current-amount { letter-spacing: 0; }
+.qil-boost .qil-boost-next-message {
+	margin: 9px 0 0;
+	padding-top: 8px;
+	border-top: 1px solid rgba(255,255,255,.14);
+	color: #e0ebee;
+	font-size: 12px;
+	font-weight: 400;
+	line-height: 1.45;
+}
+.qil-boost .qil-boost-next-message .qil-boost-next-gap,
+.qil-boost .qil-boost-next-message .woocommerce-Price-amount { color: #fff; font-weight: 750; }
+.qil-boost .qil-boost-next-message .qil-boost-next-reward { color: #a5ede7; font-weight: 800; }
+.qil-boost .qil-boost-next-message.is-complete { display: flex; align-items: center; gap: 6px; color: #a5ede7; }
+.qil-boost .qil-boost-ladder.is-compact .qil-boost-meter { height: 4px; margin: 7px 0 0; }
+.qil-boost .qil-boost-ladder.is-compact .qil-boost-meter > span { box-shadow: none; transition: none; }
+.qil-boost .qil-boost-ladder.is-compact .qil-boost-meter > span::after { content: none; animation: none; }
+/* Divider between the shopper's actual mini-cart lines and the recommendation
+   area below, so the two never read as the same list. */
+.widget_shopping_cart_content li.qil-boost-cart-items-label,
+.woocommerce-mini-cart li.qil-boost-cart-items-label,
+.product_list_widget li.qil-boost-cart-items-label {
+	display: flex !important;
+	align-items: center;
+	justify-content: space-between;
+	gap: 10px;
+	margin: 0 0 10px !important;
+	padding: 12px 14px 10px !important;
+	border: 0 !important;
+	border-top: 1px solid rgba(7,31,44,.06) !important;
+	border-bottom: 1px solid rgba(8,121,131,.14) !important;
+	background: linear-gradient(180deg,#ffffff 0%,#fbfdfd 100%) !important;
+	list-style: none !important;
+}
+li.qil-boost-cart-items-label::before, li.qil-boost-cart-items-label::after { content: none !important; display: none !important; }
+.qil-boost-mini-section-title {
+	color: var(--qb-ink, #071f2c);
+	font-size: 11px;
+	font-weight: 900;
+	letter-spacing: .14em;
+	text-transform: uppercase;
+}
+.qil-boost-mini-section-count {
+	display: inline-flex;
+	align-items: center;
+	justify-content: center;
+	min-height: 24px;
+	padding: 0 10px;
+	border-radius: 999px;
+	background: rgba(8,121,131,.08);
+	color: var(--qb-teal, #087983);
+	font-size: 10.5px;
+	font-weight: 800;
+	white-space: nowrap;
+}
+.qil-boost[dir="rtl"] .qil-boost-mini-section-title,
+[dir="rtl"] .qil-boost .qil-boost-mini-section-title { letter-spacing: 0; }
+/* The shopper's real cart rows get a quiet card treatment. This keeps them
+   visually distinct from the tinted suggestion panel that follows. */
+.cart-widget-side .woocommerce-mini-cart > li.woocommerce-mini-cart-item,
+.widget_shopping_cart_content .woocommerce-mini-cart > li.woocommerce-mini-cart-item {
+	position: relative;
+	margin: 0 0 10px !important;
+	padding-block: 12px !important;
+	padding-inline: 14px !important;
+	border: 1px solid rgba(7,31,44,.08) !important;
+	border-radius: 18px !important;
+	background: linear-gradient(180deg, #ffffff 0%, #fbfdfd 100%) !important;
+	box-shadow: 0 8px 20px rgba(7,31,44,.04);
+}
+/* The previous absolute Added badge occupied the remove button's corner.
+   Keep that button free. Put the badge in the quantity row's normal flow. */
+.cart-widget-side .woocommerce-mini-cart > li.woocommerce-mini-cart-item::before,
+.widget_shopping_cart_content .woocommerce-mini-cart > li.woocommerce-mini-cart-item::before { content: none; }
+.cart-widget-side .woocommerce-mini-cart .mini_cart_item .quantity::after,
+.widget_shopping_cart_content .woocommerce-mini-cart .mini_cart_item .quantity::after {
+	content: "Added";
+	display: inline-flex;
+	align-items: center;
+	min-height: 20px;
+	padding: 2px 7px;
+	border-radius: 999px;
+	background: #e5f5f2;
+	color: var(--qb-teal, #087983);
+	font-size: 10px;
+	font-weight: 800;
+	line-height: 1.3;
+}
+[dir="rtl"] .cart-widget-side .woocommerce-mini-cart .mini_cart_item .quantity::after,
+[dir="rtl"] .widget_shopping_cart_content .woocommerce-mini-cart .mini_cart_item .quantity::after,
+.qil-boost[dir="rtl"] ~ * .woocommerce-mini-cart .mini_cart_item .quantity::after { content: "مضاف"; }
 .qil-boost-mini-picks > .qil-boost-ladder { margin-bottom: 10px; }
+.cart-widget-side .woocommerce-mini-cart .mini_cart_item .quantity,
+.widget_shopping_cart_content .woocommerce-mini-cart .mini_cart_item .quantity {
+	display: flex;
+	align-items: center;
+	flex-wrap: wrap;
+	gap: 4px 7px;
+	margin-top: 8px;
+	color: var(--qb-teal, #087983);
+	font-size: 14px;
+	font-weight: 850;
+}
+.cart-widget-side .woocommerce-mini-cart .mini_cart_item a:not(.remove),
+.widget_shopping_cart_content .woocommerce-mini-cart .mini_cart_item a:not(.remove) {
+	display: block;
+	padding-inline-end: 28px;
+	color: var(--qb-ink, #071f2c) !important;
+	font-weight: 750;
+	line-height: 1.35;
+}
 .qil-boost .qil-boost-picks { display: grid; gap: 7px; }
 .qil-boost .qil-boost-picks-title { margin: 2px 2px 1px; color: var(--qb-ink); font-size: 12px; font-weight: 800; }
 .qil-boost .qil-boost-pick {
@@ -191,8 +364,198 @@ li.qil-boost-li::before, li.qil-boost-li::after { content: none !important; disp
 .qil-boost a.added_to_cart { display: none !important; }
 @keyframes qil-boost-spin { to { transform: rotate(360deg); } }
 
+/* --- Mini-cart recommendations: a drawer-width layout, not a tiny 3-column
+   product table. The first row belongs to the name/image. The second belongs
+   to price and action. This also works on a narrow desktop drawer, independent
+   of the viewport width. All selectors are confined to this helper panel. --- */
+.qil-boost-mini-picks { min-width: 0; }
+.qil-boost.qil-boost-mini-picks .qil-boost-picks {
+	gap: 10px;
+	min-width: 0;
+	padding: 12px;
+	border: 1px solid rgba(53,185,189,.24);
+	border-radius: 20px;
+	background: linear-gradient(180deg, #e8f7f6, #f3faf9);
+	box-shadow: inset 0 1px rgba(255,255,255,.8);
+}
+.qil-boost.qil-boost-mini-picks .qil-boost-picks-title {
+	margin: 0 0 2px;
+	padding: 0 2px;
+	color: var(--qb-teal);
+	font-size: 13px;
+	font-weight: 800;
+	line-height: 1.4;
+	word-break: normal;
+	overflow-wrap: break-word;
+}
+.qil-boost-mini-picks .qil-boost-pick.is-mini {
+	display: grid;
+	grid-template-columns: minmax(0,1fr);
+	gap: 10px;
+	min-width: 0;
+	margin: 0;
+	padding: 12px;
+	border-color: rgba(8,121,131,.18);
+	border-radius: 16px;
+	background: #fff;
+	box-shadow: 0 3px 12px rgba(7,31,44,.025);
+}
+.qil-boost-mini-picks .qil-boost-pick.is-mini.is-added { background: #f0fbf6; border-color: rgba(22,116,86,.4); }
+.qil-boost-mini-picks .qil-boost-pick-main {
+	display: grid;
+	grid-template-columns: 52px minmax(0,1fr);
+	align-items: start;
+	gap: 10px;
+	min-width: 0;
+}
+.qil-boost-mini-picks .qil-boost-pick.is-mini .qil-boost-pick-media {
+	display: grid;
+	place-items: center;
+	position: static;
+	float: none;
+	width: 52px;
+	height: 66px;
+	min-width: 0;
+	max-width: 100%;
+	margin: 0;
+	padding: 0;
+	border-radius: 10px;
+	background: #fff;
+}
+.qil-boost-mini-picks .qil-boost-pick.is-mini .qil-boost-pick-media img {
+	width: 52px !important;
+	height: 66px !important;
+	min-width: 0;
+	min-height: 0;
+	max-height: 66px;
+	object-fit: contain;
+}
+.qil-boost-mini-picks .qil-boost-pick.is-mini .qil-boost-pick-body {
+	display: grid;
+	gap: 5px;
+	min-width: 0;
+	margin: 0;
+	padding: 0;
+}
+.qil-boost-mini-picks .qil-boost-pick.is-mini .qil-boost-pick-name {
+	display: -webkit-box;
+	-webkit-box-orient: vertical;
+	-webkit-line-clamp: 3;
+	position: static;
+	float: none;
+	width: auto;
+	max-width: none;
+	min-width: 0;
+	height: auto;
+	margin: 0;
+	padding: 0;
+	font-size: 13px;
+	font-weight: 750;
+	line-height: 1.35;
+	white-space: normal;
+	word-break: normal;
+	overflow-wrap: break-word;
+	text-align: start;
+}
+.qil-boost-mini-picks .qil-boost-pick.is-mini .qil-boost-pick-note {
+	display: block;
+	margin: 0;
+	padding: 0;
+	font-size: 10.5px;
+	font-weight: 600;
+	line-height: 1.4;
+	white-space: normal;
+	word-break: normal;
+	overflow-wrap: break-word;
+}
+.qil-boost-mini-picks .qil-boost-pick.is-mini .qil-boost-pick-note .qil-boost-icon {
+	display: inline-block;
+	margin-inline-end: 4px;
+	vertical-align: -2px;
+}
+.qil-boost-mini-picks .qil-boost-pick-footer {
+	display: flex;
+	align-items: center;
+	justify-content: space-between;
+	flex-wrap: wrap;
+	gap: 8px 10px;
+	min-width: 0;
+	padding-top: 9px;
+	border-top: 1px solid rgba(8,121,131,.1);
+}
+.qil-boost-mini-picks .qil-boost-pick.is-mini .qil-boost-price {
+	display: flex;
+	flex: 1 1 82px;
+	align-items: baseline;
+	flex-wrap: wrap;
+	gap: 2px 5px;
+	min-width: 0;
+	margin: 0;
+	padding: 0;
+	font-size: 14px;
+	line-height: 1.4;
+	color: var(--qb-teal);
+}
+.qil-boost-mini-picks .qil-boost-pick.is-mini .qil-boost-price strong { flex-basis: 100%; font-size: 15px; color: var(--qb-teal); }
+.qil-boost-mini-picks .qil-boost-pick.is-mini .qil-boost-price :is(del,small) { font-size: 10.5px; }
+.qil-boost-mini-picks .qil-boost-pick.is-mini .qil-boost-price :is(.amount,bdi) { color: inherit; white-space: nowrap; }
+.qil-boost-mini-picks .qil-boost-pick.is-mini .qil-boost-add {
+	position: relative;
+	flex: 0 0 auto;
+	float: none;
+	width: auto;
+	min-width: 84px;
+	max-width: 100%;
+	min-height: 42px;
+	align-self: center;
+	font-size: 12px !important;
+	box-shadow: 0 4px 12px rgba(9,124,132,.16), inset 0 1px rgba(255,255,255,.28) !important;
+}
+.qil-boost-mini-picks .qil-boost-pick.is-mini .qil-boost-add:focus-visible { outline: 2px solid #075e68; outline-offset: 3px; }
+
+/* --- Mini-cart free-shipping band: one skin on home and inner pages.
+   Only presentation is set here: keep WoodMart's remainder, success message,
+   hidden state and inline progress width under its own control. --- */
+body.qil-body :is(.cart-widget-side,.widget_shopping_cart_content) .wd-free-progress-bar {
+	box-sizing: border-box;
+	margin: 0 !important;
+	padding: 14px 16px !important;
+	border: 0 !important;
+	border-radius: 0 !important;
+	background: #102f3a !important;
+	color: #eef8fa !important;
+	box-shadow: none !important;
+	text-align: start;
+	--wd-text-color: #eef8fa;
+	--wd-title-color: #eef8fa;
+}
+body.qil-body :is(.cart-widget-side,.widget_shopping_cart_content) .wd-free-progress-bar .progress-msg {
+	margin: 0 0 9px;
+	color: #eef8fa !important;
+	font-size: 12px;
+	line-height: 1.55;
+}
+body.qil-body :is(.cart-widget-side,.widget_shopping_cart_content) .wd-free-progress-bar :is(.amount,.woocommerce-Price-currencySymbol) {
+	color: #9debe4 !important;
+	white-space: nowrap;
+}
+body.qil-body :is(.cart-widget-side,.widget_shopping_cart_content) .wd-free-progress-bar .progress-area {
+	height: 6px;
+	border: 0;
+	border-radius: 999px;
+	background: #e3efef !important;
+	overflow: hidden;
+}
+body.qil-body :is(.cart-widget-side,.widget_shopping_cart_content) .wd-free-progress-bar .progress-bar {
+	height: 100%;
+	border-radius: inherit;
+	background-color: #35b9bd !important;
+}
+
 /* --- Cart page: totals panel -------------------------------------------- */
-.qil-boost-cart-panel { display: grid; gap: 12px; margin: 0 0 20px; }
+/* This now sits after the order summary and checkout CTA, so it helps without
+   interrupting the main path. */
+.qil-boost-cart-panel { display: grid; gap: 12px; margin: 18px 0 0; }
 .qil-boost-cart-panel .qil-boost-ladder { padding: 16px 16px 13px; border-radius: 22px; }
 .qil-boost-cart-panel .qil-boost-ladder-msg { font-size: 15px; }
 .qil-boost-cart-panel .qil-boost-badge { flex-basis: 40px; width: 40px; height: 40px; }
@@ -242,11 +605,25 @@ li.qil-boost-li::before, li.qil-boost-li::after { content: none !important; disp
 /* ======================================================================
    Homepage: Flash drop (cinematic stage)
    ====================================================================== */
-/* The section fades from the page colour above to the white of the section
-   below, and the stage casts no shadow, so there is no two-tone edge. Space:
-   the homepage's own rhythm above the stage (the goal engine keeps the same
-   above its heading) and none below it, where the next section brings its own. */
+/* Standalone embeds keep their original spacing and fade. The dedicated
+   homepage places the drop below Show more; only that flow is adjusted. */
 :is(#qimia-lab,.qil-shell) .qil-flash-drop { padding-block: clamp(46px,4.8vw,68px) 0; background: linear-gradient(180deg, #f7fbfb 0%, #fff 100%); }
+/* 1.18.5: one white-to-ice transition at the end of the goal results. The
+   drop and the optional member/personal shelves continue the SAME colour;
+   revealing or hiding a private shelf cannot reintroduce a white seam.
+   Static CSS only: no blur, animation, new wrapper or viewport-height gap. */
+#qimia-lab .qil-home-flow > .qil-match-section {
+	padding-bottom: clamp(28px,3vw,44px);
+	background: linear-gradient(180deg, #fff 0%, #fff calc(100% - 100px), var(--qil-ice, #f4faf9) 100%);
+}
+#qimia-lab .qil-home-flow > .qil-flash-drop {
+	padding-block: clamp(18px,2.4vw,30px) 0;
+	background: var(--qil-ice, #f4faf9);
+}
+#qimia-lab .qil-home-flow > .qil-member.qil-section,
+#qimia-lab .qil-home-flow > .qil-personal-anchor[data-qil-personal-anchor="home"] {
+	background: var(--qil-ice, #f4faf9);
+}
 :is(#qimia-lab,.qil-shell) .qil-flash-stage {
 	position: relative; isolation: isolate; overflow: hidden;
 	padding: clamp(20px,3vw,34px);

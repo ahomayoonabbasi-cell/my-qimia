@@ -1,0 +1,1725 @@
+{
+  "suite": "real section renderer / local layout fixtures",
+  "browser": "144.0.7559.96",
+  "not_live_wordpress": true,
+  "checks": [
+    {
+      "name": "source 1440px en member=False embed=False no JS error",
+      "passed": true,
+      "detail": []
+    },
+    {
+      "name": "source 1440px en member=False embed=False no new fetch",
+      "passed": true,
+      "detail": 0
+    },
+    {
+      "name": "source 1440px en member=False embed=False one flash section",
+      "passed": true
+    },
+    {
+      "name": "source 1440px en member=False embed=False 6 rendered cards",
+      "passed": true
+    },
+    {
+      "name": "source 1440px en member=False embed=False no horizontal page overflow",
+      "passed": true
+    },
+    {
+      "name": "source 1440px en member=False embed=False correct section order",
+      "passed": true
+    },
+    {
+      "name": "source 1440px en member=False embed=False single background continuum",
+      "passed": true,
+      "detail": {
+        "bgMatch": "linear-gradient(rgb(255, 255, 255) 0%, rgb(255, 255, 255) calc(100% - 100px), rgb(244, 250, 249) 100%)",
+        "bgFlash": "rgb(244, 250, 249)",
+        "bgMember": "rgb(244, 250, 249)",
+        "bgPersonal": "rgb(244, 250, 249)",
+        "bgInner": "rgba(0, 0, 0, 0)"
+      }
+    },
+    {
+      "name": "source 1440px en member=False embed=False white to ice gradient",
+      "passed": true
+    },
+    {
+      "name": "source 1440px en member=False embed=False compact gap below show-more",
+      "passed": true,
+      "detail": 73.1875
+    },
+    {
+      "name": "source 1440px en member=False embed=False card columns",
+      "passed": true,
+      "detail": {
+        "expected": 4,
+        "visible": 4,
+        "grid": {
+          "x": 114,
+          "y": 483.34375,
+          "w": 1212,
+          "h": 570.71875,
+          "bottom": 1054.0625,
+          "right": 1326
+        },
+        "cards": [
+          {
+            "x": 114,
+            "y": 485.34375,
+            "w": 292.5,
+            "h": 562.71875,
+            "bottom": 1048.0625,
+            "right": 406.5
+          },
+          {
+            "x": 420.5,
+            "y": 485.34375,
+            "w": 292.5,
+            "h": 562.71875,
+            "bottom": 1048.0625,
+            "right": 713
+          },
+          {
+            "x": 727,
+            "y": 485.34375,
+            "w": 292.5,
+            "h": 562.71875,
+            "bottom": 1048.0625,
+            "right": 1019.5
+          },
+          {
+            "x": 1033.5,
+            "y": 485.34375,
+            "w": 292.5,
+            "h": 562.71875,
+            "bottom": 1048.0625,
+            "right": 1326
+          },
+          {
+            "x": 1340,
+            "y": 485.34375,
+            "w": 292.5,
+            "h": 562.71875,
+            "bottom": 1048.0625,
+            "right": 1632.5
+          },
+          {
+            "x": 1646.5,
+            "y": 485.34375,
+            "w": 292.5,
+            "h": 562.71875,
+            "bottom": 1048.0625,
+            "right": 1939
+          }
+        ]
+      }
+    },
+    {
+      "name": "source 1440px en member=False embed=False aligned card heights",
+      "passed": true
+    },
+    {
+      "name": "source 1440px en member=False embed=False carousel still advances",
+      "passed": true,
+      "detail": {
+        "before": 0,
+        "after": 613
+      }
+    },
+    {
+      "name": "source 390px en member=False embed=False no JS error",
+      "passed": true,
+      "detail": []
+    },
+    {
+      "name": "source 390px en member=False embed=False no new fetch",
+      "passed": true,
+      "detail": 0
+    },
+    {
+      "name": "source 390px en member=False embed=False one flash section",
+      "passed": true
+    },
+    {
+      "name": "source 390px en member=False embed=False 6 rendered cards",
+      "passed": true
+    },
+    {
+      "name": "source 390px en member=False embed=False no horizontal page overflow",
+      "passed": true
+    },
+    {
+      "name": "source 390px en member=False embed=False correct section order",
+      "passed": true
+    },
+    {
+      "name": "source 390px en member=False embed=False single background continuum",
+      "passed": true,
+      "detail": {
+        "bgMatch": "linear-gradient(rgb(255, 255, 255) 0%, rgb(255, 255, 255) calc(100% - 100px), rgb(244, 250, 249) 100%)",
+        "bgFlash": "rgb(244, 250, 249)",
+        "bgMember": "rgb(244, 250, 249)",
+        "bgPersonal": "rgb(244, 250, 249)",
+        "bgInner": "rgba(0, 0, 0, 0)"
+      }
+    },
+    {
+      "name": "source 390px en member=False embed=False white to ice gradient",
+      "passed": true
+    },
+    {
+      "name": "source 390px en member=False embed=False compact gap below show-more",
+      "passed": true,
+      "detail": 46.0
+    },
+    {
+      "name": "source 390px en member=False embed=False card columns",
+      "passed": true,
+      "detail": {
+        "expected": 2,
+        "visible": 2,
+        "grid": {
+          "x": 24,
+          "y": 547.296875,
+          "w": 342,
+          "h": 454.5,
+          "bottom": 1001.796875,
+          "right": 366
+        },
+        "cards": [
+          {
+            "x": 24,
+            "y": 549.296875,
+            "w": 167,
+            "h": 446.5,
+            "bottom": 995.796875,
+            "right": 191
+          },
+          {
+            "x": 199,
+            "y": 549.296875,
+            "w": 167,
+            "h": 446.5,
+            "bottom": 995.796875,
+            "right": 366
+          },
+          {
+            "x": 374,
+            "y": 549.296875,
+            "w": 167,
+            "h": 446.5,
+            "bottom": 995.796875,
+            "right": 541
+          },
+          {
+            "x": 549,
+            "y": 549.296875,
+            "w": 167,
+            "h": 446.5,
+            "bottom": 995.796875,
+            "right": 716
+          },
+          {
+            "x": 724,
+            "y": 549.296875,
+            "w": 167,
+            "h": 446.5,
+            "bottom": 995.796875,
+            "right": 891
+          },
+          {
+            "x": 899,
+            "y": 549.296875,
+            "w": 167,
+            "h": 446.5,
+            "bottom": 995.796875,
+            "right": 1066
+          }
+        ]
+      }
+    },
+    {
+      "name": "source 390px en member=False embed=False aligned card heights",
+      "passed": true
+    },
+    {
+      "name": "source 390px en member=False embed=False carousel still advances",
+      "passed": true,
+      "detail": {
+        "before": 0,
+        "after": 175
+      }
+    },
+    {
+      "name": "source 390px ar member=False embed=False no JS error",
+      "passed": true,
+      "detail": []
+    },
+    {
+      "name": "source 390px ar member=False embed=False no new fetch",
+      "passed": true,
+      "detail": 0
+    },
+    {
+      "name": "source 390px ar member=False embed=False one flash section",
+      "passed": true
+    },
+    {
+      "name": "source 390px ar member=False embed=False 6 rendered cards",
+      "passed": true
+    },
+    {
+      "name": "source 390px ar member=False embed=False no horizontal page overflow",
+      "passed": true
+    },
+    {
+      "name": "source 390px ar member=False embed=False correct section order",
+      "passed": true
+    },
+    {
+      "name": "source 390px ar member=False embed=False single background continuum",
+      "passed": true,
+      "detail": {
+        "bgMatch": "linear-gradient(rgb(255, 255, 255) 0%, rgb(255, 255, 255) calc(100% - 100px), rgb(244, 250, 249) 100%)",
+        "bgFlash": "rgb(244, 250, 249)",
+        "bgMember": "rgb(244, 250, 249)",
+        "bgPersonal": "rgb(244, 250, 249)",
+        "bgInner": "rgba(0, 0, 0, 0)"
+      }
+    },
+    {
+      "name": "source 390px ar member=False embed=False white to ice gradient",
+      "passed": true
+    },
+    {
+      "name": "source 390px ar member=False embed=False compact gap below show-more",
+      "passed": true,
+      "detail": 46.0
+    },
+    {
+      "name": "source 390px ar member=False embed=False card columns",
+      "passed": true,
+      "detail": {
+        "expected": 2,
+        "visible": 2,
+        "grid": {
+          "x": 24,
+          "y": 568.859375,
+          "w": 342,
+          "h": 445.5,
+          "bottom": 1014.359375,
+          "right": 366
+        },
+        "cards": [
+          {
+            "x": 199,
+            "y": 570.859375,
+            "w": 167,
+            "h": 437.5,
+            "bottom": 1008.359375,
+            "right": 366
+          },
+          {
+            "x": 24,
+            "y": 570.859375,
+            "w": 167,
+            "h": 437.5,
+            "bottom": 1008.359375,
+            "right": 191
+          },
+          {
+            "x": -151,
+            "y": 570.859375,
+            "w": 167,
+            "h": 437.5,
+            "bottom": 1008.359375,
+            "right": 16
+          },
+          {
+            "x": -326,
+            "y": 570.859375,
+            "w": 167,
+            "h": 437.5,
+            "bottom": 1008.359375,
+            "right": -159
+          },
+          {
+            "x": -501,
+            "y": 570.859375,
+            "w": 167,
+            "h": 437.5,
+            "bottom": 1008.359375,
+            "right": -334
+          },
+          {
+            "x": -676,
+            "y": 570.859375,
+            "w": 167,
+            "h": 437.5,
+            "bottom": 1008.359375,
+            "right": -509
+          }
+        ]
+      }
+    },
+    {
+      "name": "source 390px ar member=False embed=False aligned card heights",
+      "passed": true
+    },
+    {
+      "name": "source 390px ar member=False embed=False carousel still advances",
+      "passed": true,
+      "detail": {
+        "before": 0,
+        "after": -175
+      }
+    },
+    {
+      "name": "source 320px ar member=False embed=False no JS error",
+      "passed": true,
+      "detail": []
+    },
+    {
+      "name": "source 320px ar member=False embed=False no new fetch",
+      "passed": true,
+      "detail": 0
+    },
+    {
+      "name": "source 320px ar member=False embed=False one flash section",
+      "passed": true
+    },
+    {
+      "name": "source 320px ar member=False embed=False 6 rendered cards",
+      "passed": true
+    },
+    {
+      "name": "source 320px ar member=False embed=False no horizontal page overflow",
+      "passed": true
+    },
+    {
+      "name": "source 320px ar member=False embed=False correct section order",
+      "passed": true
+    },
+    {
+      "name": "source 320px ar member=False embed=False single background continuum",
+      "passed": true,
+      "detail": {
+        "bgMatch": "linear-gradient(rgb(255, 255, 255) 0%, rgb(255, 255, 255) calc(100% - 100px), rgb(244, 250, 249) 100%)",
+        "bgFlash": "rgb(244, 250, 249)",
+        "bgMember": "rgb(244, 250, 249)",
+        "bgPersonal": "rgb(244, 250, 249)",
+        "bgInner": "rgba(0, 0, 0, 0)"
+      }
+    },
+    {
+      "name": "source 320px ar member=False embed=False white to ice gradient",
+      "passed": true
+    },
+    {
+      "name": "source 320px ar member=False embed=False compact gap below show-more",
+      "passed": true,
+      "detail": 46.0
+    },
+    {
+      "name": "source 320px ar member=False embed=False card columns",
+      "passed": true,
+      "detail": {
+        "expected": 2,
+        "visible": 2,
+        "grid": {
+          "x": 24,
+          "y": 589.78125,
+          "w": 272,
+          "h": 423.890625,
+          "bottom": 1013.671875,
+          "right": 296
+        },
+        "cards": [
+          {
+            "x": 164,
+            "y": 591.78125,
+            "w": 132,
+            "h": 415.890625,
+            "bottom": 1007.671875,
+            "right": 296
+          },
+          {
+            "x": 24,
+            "y": 591.78125,
+            "w": 132,
+            "h": 415.890625,
+            "bottom": 1007.671875,
+            "right": 156
+          },
+          {
+            "x": -116,
+            "y": 591.78125,
+            "w": 132,
+            "h": 415.890625,
+            "bottom": 1007.671875,
+            "right": 16
+          },
+          {
+            "x": -256,
+            "y": 591.78125,
+            "w": 132,
+            "h": 415.890625,
+            "bottom": 1007.671875,
+            "right": -124
+          },
+          {
+            "x": -396,
+            "y": 591.78125,
+            "w": 132,
+            "h": 415.890625,
+            "bottom": 1007.671875,
+            "right": -264
+          },
+          {
+            "x": -536,
+            "y": 591.78125,
+            "w": 132,
+            "h": 415.890625,
+            "bottom": 1007.671875,
+            "right": -404
+          }
+        ]
+      }
+    },
+    {
+      "name": "source 320px ar member=False embed=False aligned card heights",
+      "passed": true
+    },
+    {
+      "name": "source 320px ar member=False embed=False carousel still advances",
+      "passed": true,
+      "detail": {
+        "before": 0,
+        "after": -140
+      }
+    },
+    {
+      "name": "source 900px en member=False embed=False no JS error",
+      "passed": true,
+      "detail": []
+    },
+    {
+      "name": "source 900px en member=False embed=False no new fetch",
+      "passed": true,
+      "detail": 0
+    },
+    {
+      "name": "source 900px en member=False embed=False one flash section",
+      "passed": true
+    },
+    {
+      "name": "source 900px en member=False embed=False 6 rendered cards",
+      "passed": true
+    },
+    {
+      "name": "source 900px en member=False embed=False no horizontal page overflow",
+      "passed": true
+    },
+    {
+      "name": "source 900px en member=False embed=False correct section order",
+      "passed": true
+    },
+    {
+      "name": "source 900px en member=False embed=False single background continuum",
+      "passed": true,
+      "detail": {
+        "bgMatch": "linear-gradient(rgb(255, 255, 255) 0%, rgb(255, 255, 255) calc(100% - 100px), rgb(244, 250, 249) 100%)",
+        "bgFlash": "rgb(244, 250, 249)",
+        "bgMember": "rgb(244, 250, 249)",
+        "bgPersonal": "rgb(244, 250, 249)",
+        "bgInner": "rgba(0, 0, 0, 0)"
+      }
+    },
+    {
+      "name": "source 900px en member=False embed=False white to ice gradient",
+      "passed": true
+    },
+    {
+      "name": "source 900px en member=False embed=False compact gap below show-more",
+      "passed": true,
+      "detail": 49.59375
+    },
+    {
+      "name": "source 900px en member=False embed=False card columns",
+      "passed": true,
+      "detail": {
+        "expected": 3,
+        "visible": 3,
+        "grid": {
+          "x": 51,
+          "y": 412.3125,
+          "w": 798,
+          "h": 537.53125,
+          "bottom": 949.84375,
+          "right": 849
+        },
+        "cards": [
+          {
+            "x": 51,
+            "y": 414.3125,
+            "w": 256.65625,
+            "h": 529.53125,
+            "bottom": 943.84375,
+            "right": 307.65625
+          },
+          {
+            "x": 321.65625,
+            "y": 414.3125,
+            "w": 256.65625,
+            "h": 529.53125,
+            "bottom": 943.84375,
+            "right": 578.3125
+          },
+          {
+            "x": 592.3125,
+            "y": 414.3125,
+            "w": 256.65625,
+            "h": 529.53125,
+            "bottom": 943.84375,
+            "right": 848.96875
+          },
+          {
+            "x": 862.96875,
+            "y": 414.3125,
+            "w": 256.65625,
+            "h": 529.53125,
+            "bottom": 943.84375,
+            "right": 1119.625
+          },
+          {
+            "x": 1133.625,
+            "y": 414.3125,
+            "w": 256.65625,
+            "h": 529.53125,
+            "bottom": 943.84375,
+            "right": 1390.28125
+          },
+          {
+            "x": 1404.28125,
+            "y": 414.3125,
+            "w": 256.65625,
+            "h": 529.53125,
+            "bottom": 943.84375,
+            "right": 1660.9375
+          }
+        ]
+      }
+    },
+    {
+      "name": "source 900px en member=False embed=False aligned card heights",
+      "passed": true
+    },
+    {
+      "name": "source 900px en member=False embed=False carousel still advances",
+      "passed": true,
+      "detail": {
+        "before": 0,
+        "after": 541
+      }
+    },
+    {
+      "name": "source 1440px en member=True embed=False no JS error",
+      "passed": true,
+      "detail": []
+    },
+    {
+      "name": "source 1440px en member=True embed=False no new fetch",
+      "passed": true,
+      "detail": 0
+    },
+    {
+      "name": "source 1440px en member=True embed=False one flash section",
+      "passed": true
+    },
+    {
+      "name": "source 1440px en member=True embed=False 6 rendered cards",
+      "passed": true
+    },
+    {
+      "name": "source 1440px en member=True embed=False no horizontal page overflow",
+      "passed": true
+    },
+    {
+      "name": "source 1440px en member=True embed=False correct section order",
+      "passed": true
+    },
+    {
+      "name": "source 1440px en member=True embed=False single background continuum",
+      "passed": true,
+      "detail": {
+        "bgMatch": "linear-gradient(rgb(255, 255, 255) 0%, rgb(255, 255, 255) calc(100% - 100px), rgb(244, 250, 249) 100%)",
+        "bgFlash": "rgb(244, 250, 249)",
+        "bgMember": "rgb(244, 250, 249)",
+        "bgPersonal": "rgb(244, 250, 249)",
+        "bgInner": "rgba(0, 0, 0, 0)"
+      }
+    },
+    {
+      "name": "source 1440px en member=True embed=False white to ice gradient",
+      "passed": true
+    },
+    {
+      "name": "source 1440px en member=True embed=False compact gap below show-more",
+      "passed": true,
+      "detail": 73.1875
+    },
+    {
+      "name": "source 1440px en member=True embed=False card columns",
+      "passed": true,
+      "detail": {
+        "expected": 4,
+        "visible": 4,
+        "grid": {
+          "x": 114,
+          "y": 483.34375,
+          "w": 1212,
+          "h": 570.71875,
+          "bottom": 1054.0625,
+          "right": 1326
+        },
+        "cards": [
+          {
+            "x": 114,
+            "y": 485.34375,
+            "w": 292.5,
+            "h": 562.71875,
+            "bottom": 1048.0625,
+            "right": 406.5
+          },
+          {
+            "x": 420.5,
+            "y": 485.34375,
+            "w": 292.5,
+            "h": 562.71875,
+            "bottom": 1048.0625,
+            "right": 713
+          },
+          {
+            "x": 727,
+            "y": 485.34375,
+            "w": 292.5,
+            "h": 562.71875,
+            "bottom": 1048.0625,
+            "right": 1019.5
+          },
+          {
+            "x": 1033.5,
+            "y": 485.34375,
+            "w": 292.5,
+            "h": 562.71875,
+            "bottom": 1048.0625,
+            "right": 1326
+          },
+          {
+            "x": 1340,
+            "y": 485.34375,
+            "w": 292.5,
+            "h": 562.71875,
+            "bottom": 1048.0625,
+            "right": 1632.5
+          },
+          {
+            "x": 1646.5,
+            "y": 485.34375,
+            "w": 292.5,
+            "h": 562.71875,
+            "bottom": 1048.0625,
+            "right": 1939
+          }
+        ]
+      }
+    },
+    {
+      "name": "source 1440px en member=True embed=False aligned card heights",
+      "passed": true
+    },
+    {
+      "name": "source 1440px en member=True embed=False carousel still advances",
+      "passed": true,
+      "detail": {
+        "before": 0,
+        "after": 613
+      }
+    },
+    {
+      "name": "source 1440px en member=False embed=True no JS error",
+      "passed": true,
+      "detail": []
+    },
+    {
+      "name": "source 1440px en member=False embed=True no new fetch",
+      "passed": true,
+      "detail": 0
+    },
+    {
+      "name": "source 1440px en member=False embed=True one flash section",
+      "passed": true
+    },
+    {
+      "name": "source 1440px en member=False embed=True 6 rendered cards",
+      "passed": true
+    },
+    {
+      "name": "source 1440px en member=False embed=True no horizontal page overflow",
+      "passed": true
+    },
+    {
+      "name": "source 1440px en member=False embed=True correct section order",
+      "passed": true
+    },
+    {
+      "name": "source 1440px en member=False embed=True card columns",
+      "passed": true,
+      "detail": {
+        "expected": 4,
+        "visible": 4,
+        "grid": {
+          "x": 114,
+          "y": 586.15625,
+          "w": 1212,
+          "h": 570.71875,
+          "bottom": 1156.875,
+          "right": 1326
+        },
+        "cards": [
+          {
+            "x": 114,
+            "y": 588.15625,
+            "w": 292.5,
+            "h": 562.71875,
+            "bottom": 1150.875,
+            "right": 406.5
+          },
+          {
+            "x": 420.5,
+            "y": 588.15625,
+            "w": 292.5,
+            "h": 562.71875,
+            "bottom": 1150.875,
+            "right": 713
+          },
+          {
+            "x": 727,
+            "y": 588.15625,
+            "w": 292.5,
+            "h": 562.71875,
+            "bottom": 1150.875,
+            "right": 1019.5
+          },
+          {
+            "x": 1033.5,
+            "y": 588.15625,
+            "w": 292.5,
+            "h": 562.71875,
+            "bottom": 1150.875,
+            "right": 1326
+          },
+          {
+            "x": 1340,
+            "y": 588.15625,
+            "w": 292.5,
+            "h": 562.71875,
+            "bottom": 1150.875,
+            "right": 1632.5
+          },
+          {
+            "x": 1646.5,
+            "y": 588.15625,
+            "w": 292.5,
+            "h": 562.71875,
+            "bottom": 1150.875,
+            "right": 1939
+          }
+        ]
+      }
+    },
+    {
+      "name": "source 1440px en member=False embed=True aligned card heights",
+      "passed": true
+    },
+    {
+      "name": "source 1440px en member=False embed=True carousel still advances",
+      "passed": true,
+      "detail": {
+        "before": 0,
+        "after": 613
+      }
+    },
+    {
+      "name": "min 1440px en member=False embed=False no JS error",
+      "passed": true,
+      "detail": []
+    },
+    {
+      "name": "min 1440px en member=False embed=False no new fetch",
+      "passed": true,
+      "detail": 0
+    },
+    {
+      "name": "min 1440px en member=False embed=False one flash section",
+      "passed": true
+    },
+    {
+      "name": "min 1440px en member=False embed=False 6 rendered cards",
+      "passed": true
+    },
+    {
+      "name": "min 1440px en member=False embed=False no horizontal page overflow",
+      "passed": true
+    },
+    {
+      "name": "min 1440px en member=False embed=False correct section order",
+      "passed": true
+    },
+    {
+      "name": "min 1440px en member=False embed=False single background continuum",
+      "passed": true,
+      "detail": {
+        "bgMatch": "linear-gradient(rgb(255, 255, 255) 0%, rgb(255, 255, 255) calc(100% - 100px), rgb(244, 250, 249) 100%)",
+        "bgFlash": "rgb(244, 250, 249)",
+        "bgMember": "rgb(244, 250, 249)",
+        "bgPersonal": "rgb(244, 250, 249)",
+        "bgInner": "rgba(0, 0, 0, 0)"
+      }
+    },
+    {
+      "name": "min 1440px en member=False embed=False white to ice gradient",
+      "passed": true
+    },
+    {
+      "name": "min 1440px en member=False embed=False compact gap below show-more",
+      "passed": true,
+      "detail": 73.1875
+    },
+    {
+      "name": "min 1440px en member=False embed=False card columns",
+      "passed": true,
+      "detail": {
+        "expected": 4,
+        "visible": 4,
+        "grid": {
+          "x": 114,
+          "y": 483.34375,
+          "w": 1212,
+          "h": 570.71875,
+          "bottom": 1054.0625,
+          "right": 1326
+        },
+        "cards": [
+          {
+            "x": 114,
+            "y": 485.34375,
+            "w": 292.5,
+            "h": 562.71875,
+            "bottom": 1048.0625,
+            "right": 406.5
+          },
+          {
+            "x": 420.5,
+            "y": 485.34375,
+            "w": 292.5,
+            "h": 562.71875,
+            "bottom": 1048.0625,
+            "right": 713
+          },
+          {
+            "x": 727,
+            "y": 485.34375,
+            "w": 292.5,
+            "h": 562.71875,
+            "bottom": 1048.0625,
+            "right": 1019.5
+          },
+          {
+            "x": 1033.5,
+            "y": 485.34375,
+            "w": 292.5,
+            "h": 562.71875,
+            "bottom": 1048.0625,
+            "right": 1326
+          },
+          {
+            "x": 1340,
+            "y": 485.34375,
+            "w": 292.5,
+            "h": 562.71875,
+            "bottom": 1048.0625,
+            "right": 1632.5
+          },
+          {
+            "x": 1646.5,
+            "y": 485.34375,
+            "w": 292.5,
+            "h": 562.71875,
+            "bottom": 1048.0625,
+            "right": 1939
+          }
+        ]
+      }
+    },
+    {
+      "name": "min 1440px en member=False embed=False aligned card heights",
+      "passed": true
+    },
+    {
+      "name": "min 1440px en member=False embed=False carousel still advances",
+      "passed": true,
+      "detail": {
+        "before": 0,
+        "after": 613
+      }
+    },
+    {
+      "name": "min 390px en member=False embed=False no JS error",
+      "passed": true,
+      "detail": []
+    },
+    {
+      "name": "min 390px en member=False embed=False no new fetch",
+      "passed": true,
+      "detail": 0
+    },
+    {
+      "name": "min 390px en member=False embed=False one flash section",
+      "passed": true
+    },
+    {
+      "name": "min 390px en member=False embed=False 6 rendered cards",
+      "passed": true
+    },
+    {
+      "name": "min 390px en member=False embed=False no horizontal page overflow",
+      "passed": true
+    },
+    {
+      "name": "min 390px en member=False embed=False correct section order",
+      "passed": true
+    },
+    {
+      "name": "min 390px en member=False embed=False single background continuum",
+      "passed": true,
+      "detail": {
+        "bgMatch": "linear-gradient(rgb(255, 255, 255) 0%, rgb(255, 255, 255) calc(100% - 100px), rgb(244, 250, 249) 100%)",
+        "bgFlash": "rgb(244, 250, 249)",
+        "bgMember": "rgb(244, 250, 249)",
+        "bgPersonal": "rgb(244, 250, 249)",
+        "bgInner": "rgba(0, 0, 0, 0)"
+      }
+    },
+    {
+      "name": "min 390px en member=False embed=False white to ice gradient",
+      "passed": true
+    },
+    {
+      "name": "min 390px en member=False embed=False compact gap below show-more",
+      "passed": true,
+      "detail": 46.0
+    },
+    {
+      "name": "min 390px en member=False embed=False card columns",
+      "passed": true,
+      "detail": {
+        "expected": 2,
+        "visible": 2,
+        "grid": {
+          "x": 24,
+          "y": 547.296875,
+          "w": 342,
+          "h": 454.5,
+          "bottom": 1001.796875,
+          "right": 366
+        },
+        "cards": [
+          {
+            "x": 24,
+            "y": 549.296875,
+            "w": 167,
+            "h": 446.5,
+            "bottom": 995.796875,
+            "right": 191
+          },
+          {
+            "x": 199,
+            "y": 549.296875,
+            "w": 167,
+            "h": 446.5,
+            "bottom": 995.796875,
+            "right": 366
+          },
+          {
+            "x": 374,
+            "y": 549.296875,
+            "w": 167,
+            "h": 446.5,
+            "bottom": 995.796875,
+            "right": 541
+          },
+          {
+            "x": 549,
+            "y": 549.296875,
+            "w": 167,
+            "h": 446.5,
+            "bottom": 995.796875,
+            "right": 716
+          },
+          {
+            "x": 724,
+            "y": 549.296875,
+            "w": 167,
+            "h": 446.5,
+            "bottom": 995.796875,
+            "right": 891
+          },
+          {
+            "x": 899,
+            "y": 549.296875,
+            "w": 167,
+            "h": 446.5,
+            "bottom": 995.796875,
+            "right": 1066
+          }
+        ]
+      }
+    },
+    {
+      "name": "min 390px en member=False embed=False aligned card heights",
+      "passed": true
+    },
+    {
+      "name": "min 390px en member=False embed=False carousel still advances",
+      "passed": true,
+      "detail": {
+        "before": 0,
+        "after": 175
+      }
+    },
+    {
+      "name": "min 390px ar member=False embed=False no JS error",
+      "passed": true,
+      "detail": []
+    },
+    {
+      "name": "min 390px ar member=False embed=False no new fetch",
+      "passed": true,
+      "detail": 0
+    },
+    {
+      "name": "min 390px ar member=False embed=False one flash section",
+      "passed": true
+    },
+    {
+      "name": "min 390px ar member=False embed=False 6 rendered cards",
+      "passed": true
+    },
+    {
+      "name": "min 390px ar member=False embed=False no horizontal page overflow",
+      "passed": true
+    },
+    {
+      "name": "min 390px ar member=False embed=False correct section order",
+      "passed": true
+    },
+    {
+      "name": "min 390px ar member=False embed=False single background continuum",
+      "passed": true,
+      "detail": {
+        "bgMatch": "linear-gradient(rgb(255, 255, 255) 0%, rgb(255, 255, 255) calc(100% - 100px), rgb(244, 250, 249) 100%)",
+        "bgFlash": "rgb(244, 250, 249)",
+        "bgMember": "rgb(244, 250, 249)",
+        "bgPersonal": "rgb(244, 250, 249)",
+        "bgInner": "rgba(0, 0, 0, 0)"
+      }
+    },
+    {
+      "name": "min 390px ar member=False embed=False white to ice gradient",
+      "passed": true
+    },
+    {
+      "name": "min 390px ar member=False embed=False compact gap below show-more",
+      "passed": true,
+      "detail": 46.0
+    },
+    {
+      "name": "min 390px ar member=False embed=False card columns",
+      "passed": true,
+      "detail": {
+        "expected": 2,
+        "visible": 2,
+        "grid": {
+          "x": 24,
+          "y": 568.859375,
+          "w": 342,
+          "h": 445.5,
+          "bottom": 1014.359375,
+          "right": 366
+        },
+        "cards": [
+          {
+            "x": 199,
+            "y": 570.859375,
+            "w": 167,
+            "h": 437.5,
+            "bottom": 1008.359375,
+            "right": 366
+          },
+          {
+            "x": 24,
+            "y": 570.859375,
+            "w": 167,
+            "h": 437.5,
+            "bottom": 1008.359375,
+            "right": 191
+          },
+          {
+            "x": -151,
+            "y": 570.859375,
+            "w": 167,
+            "h": 437.5,
+            "bottom": 1008.359375,
+            "right": 16
+          },
+          {
+            "x": -326,
+            "y": 570.859375,
+            "w": 167,
+            "h": 437.5,
+            "bottom": 1008.359375,
+            "right": -159
+          },
+          {
+            "x": -501,
+            "y": 570.859375,
+            "w": 167,
+            "h": 437.5,
+            "bottom": 1008.359375,
+            "right": -334
+          },
+          {
+            "x": -676,
+            "y": 570.859375,
+            "w": 167,
+            "h": 437.5,
+            "bottom": 1008.359375,
+            "right": -509
+          }
+        ]
+      }
+    },
+    {
+      "name": "min 390px ar member=False embed=False aligned card heights",
+      "passed": true
+    },
+    {
+      "name": "min 390px ar member=False embed=False carousel still advances",
+      "passed": true,
+      "detail": {
+        "before": 0,
+        "after": -175
+      }
+    },
+    {
+      "name": "min 320px ar member=False embed=False no JS error",
+      "passed": true,
+      "detail": []
+    },
+    {
+      "name": "min 320px ar member=False embed=False no new fetch",
+      "passed": true,
+      "detail": 0
+    },
+    {
+      "name": "min 320px ar member=False embed=False one flash section",
+      "passed": true
+    },
+    {
+      "name": "min 320px ar member=False embed=False 6 rendered cards",
+      "passed": true
+    },
+    {
+      "name": "min 320px ar member=False embed=False no horizontal page overflow",
+      "passed": true
+    },
+    {
+      "name": "min 320px ar member=False embed=False correct section order",
+      "passed": true
+    },
+    {
+      "name": "min 320px ar member=False embed=False single background continuum",
+      "passed": true,
+      "detail": {
+        "bgMatch": "linear-gradient(rgb(255, 255, 255) 0%, rgb(255, 255, 255) calc(100% - 100px), rgb(244, 250, 249) 100%)",
+        "bgFlash": "rgb(244, 250, 249)",
+        "bgMember": "rgb(244, 250, 249)",
+        "bgPersonal": "rgb(244, 250, 249)",
+        "bgInner": "rgba(0, 0, 0, 0)"
+      }
+    },
+    {
+      "name": "min 320px ar member=False embed=False white to ice gradient",
+      "passed": true
+    },
+    {
+      "name": "min 320px ar member=False embed=False compact gap below show-more",
+      "passed": true,
+      "detail": 46.0
+    },
+    {
+      "name": "min 320px ar member=False embed=False card columns",
+      "passed": true,
+      "detail": {
+        "expected": 2,
+        "visible": 2,
+        "grid": {
+          "x": 24,
+          "y": 589.78125,
+          "w": 272,
+          "h": 423.890625,
+          "bottom": 1013.671875,
+          "right": 296
+        },
+        "cards": [
+          {
+            "x": 164,
+            "y": 591.78125,
+            "w": 132,
+            "h": 415.890625,
+            "bottom": 1007.671875,
+            "right": 296
+          },
+          {
+            "x": 24,
+            "y": 591.78125,
+            "w": 132,
+            "h": 415.890625,
+            "bottom": 1007.671875,
+            "right": 156
+          },
+          {
+            "x": -116,
+            "y": 591.78125,
+            "w": 132,
+            "h": 415.890625,
+            "bottom": 1007.671875,
+            "right": 16
+          },
+          {
+            "x": -256,
+            "y": 591.78125,
+            "w": 132,
+            "h": 415.890625,
+            "bottom": 1007.671875,
+            "right": -124
+          },
+          {
+            "x": -396,
+            "y": 591.78125,
+            "w": 132,
+            "h": 415.890625,
+            "bottom": 1007.671875,
+            "right": -264
+          },
+          {
+            "x": -536,
+            "y": 591.78125,
+            "w": 132,
+            "h": 415.890625,
+            "bottom": 1007.671875,
+            "right": -404
+          }
+        ]
+      }
+    },
+    {
+      "name": "min 320px ar member=False embed=False aligned card heights",
+      "passed": true
+    },
+    {
+      "name": "min 320px ar member=False embed=False carousel still advances",
+      "passed": true,
+      "detail": {
+        "before": 0,
+        "after": -140
+      }
+    },
+    {
+      "name": "min 900px en member=False embed=False no JS error",
+      "passed": true,
+      "detail": []
+    },
+    {
+      "name": "min 900px en member=False embed=False no new fetch",
+      "passed": true,
+      "detail": 0
+    },
+    {
+      "name": "min 900px en member=False embed=False one flash section",
+      "passed": true
+    },
+    {
+      "name": "min 900px en member=False embed=False 6 rendered cards",
+      "passed": true
+    },
+    {
+      "name": "min 900px en member=False embed=False no horizontal page overflow",
+      "passed": true
+    },
+    {
+      "name": "min 900px en member=False embed=False correct section order",
+      "passed": true
+    },
+    {
+      "name": "min 900px en member=False embed=False single background continuum",
+      "passed": true,
+      "detail": {
+        "bgMatch": "linear-gradient(rgb(255, 255, 255) 0%, rgb(255, 255, 255) calc(100% - 100px), rgb(244, 250, 249) 100%)",
+        "bgFlash": "rgb(244, 250, 249)",
+        "bgMember": "rgb(244, 250, 249)",
+        "bgPersonal": "rgb(244, 250, 249)",
+        "bgInner": "rgba(0, 0, 0, 0)"
+      }
+    },
+    {
+      "name": "min 900px en member=False embed=False white to ice gradient",
+      "passed": true
+    },
+    {
+      "name": "min 900px en member=False embed=False compact gap below show-more",
+      "passed": true,
+      "detail": 49.59375
+    },
+    {
+      "name": "min 900px en member=False embed=False card columns",
+      "passed": true,
+      "detail": {
+        "expected": 3,
+        "visible": 3,
+        "grid": {
+          "x": 51,
+          "y": 412.3125,
+          "w": 798,
+          "h": 537.53125,
+          "bottom": 949.84375,
+          "right": 849
+        },
+        "cards": [
+          {
+            "x": 51,
+            "y": 414.3125,
+            "w": 256.65625,
+            "h": 529.53125,
+            "bottom": 943.84375,
+            "right": 307.65625
+          },
+          {
+            "x": 321.65625,
+            "y": 414.3125,
+            "w": 256.65625,
+            "h": 529.53125,
+            "bottom": 943.84375,
+            "right": 578.3125
+          },
+          {
+            "x": 592.3125,
+            "y": 414.3125,
+            "w": 256.65625,
+            "h": 529.53125,
+            "bottom": 943.84375,
+            "right": 848.96875
+          },
+          {
+            "x": 862.96875,
+            "y": 414.3125,
+            "w": 256.65625,
+            "h": 529.53125,
+            "bottom": 943.84375,
+            "right": 1119.625
+          },
+          {
+            "x": 1133.625,
+            "y": 414.3125,
+            "w": 256.65625,
+            "h": 529.53125,
+            "bottom": 943.84375,
+            "right": 1390.28125
+          },
+          {
+            "x": 1404.28125,
+            "y": 414.3125,
+            "w": 256.65625,
+            "h": 529.53125,
+            "bottom": 943.84375,
+            "right": 1660.9375
+          }
+        ]
+      }
+    },
+    {
+      "name": "min 900px en member=False embed=False aligned card heights",
+      "passed": true
+    },
+    {
+      "name": "min 900px en member=False embed=False carousel still advances",
+      "passed": true,
+      "detail": {
+        "before": 0,
+        "after": 541
+      }
+    },
+    {
+      "name": "min 1440px en member=True embed=False no JS error",
+      "passed": true,
+      "detail": []
+    },
+    {
+      "name": "min 1440px en member=True embed=False no new fetch",
+      "passed": true,
+      "detail": 0
+    },
+    {
+      "name": "min 1440px en member=True embed=False one flash section",
+      "passed": true
+    },
+    {
+      "name": "min 1440px en member=True embed=False 6 rendered cards",
+      "passed": true
+    },
+    {
+      "name": "min 1440px en member=True embed=False no horizontal page overflow",
+      "passed": true
+    },
+    {
+      "name": "min 1440px en member=True embed=False correct section order",
+      "passed": true
+    },
+    {
+      "name": "min 1440px en member=True embed=False single background continuum",
+      "passed": true,
+      "detail": {
+        "bgMatch": "linear-gradient(rgb(255, 255, 255) 0%, rgb(255, 255, 255) calc(100% - 100px), rgb(244, 250, 249) 100%)",
+        "bgFlash": "rgb(244, 250, 249)",
+        "bgMember": "rgb(244, 250, 249)",
+        "bgPersonal": "rgb(244, 250, 249)",
+        "bgInner": "rgba(0, 0, 0, 0)"
+      }
+    },
+    {
+      "name": "min 1440px en member=True embed=False white to ice gradient",
+      "passed": true
+    },
+    {
+      "name": "min 1440px en member=True embed=False compact gap below show-more",
+      "passed": true,
+      "detail": 73.1875
+    },
+    {
+      "name": "min 1440px en member=True embed=False card columns",
+      "passed": true,
+      "detail": {
+        "expected": 4,
+        "visible": 4,
+        "grid": {
+          "x": 114,
+          "y": 483.34375,
+          "w": 1212,
+          "h": 570.71875,
+          "bottom": 1054.0625,
+          "right": 1326
+        },
+        "cards": [
+          {
+            "x": 114,
+            "y": 485.34375,
+            "w": 292.5,
+            "h": 562.71875,
+            "bottom": 1048.0625,
+            "right": 406.5
+          },
+          {
+            "x": 420.5,
+            "y": 485.34375,
+            "w": 292.5,
+            "h": 562.71875,
+            "bottom": 1048.0625,
+            "right": 713
+          },
+          {
+            "x": 727,
+            "y": 485.34375,
+            "w": 292.5,
+            "h": 562.71875,
+            "bottom": 1048.0625,
+            "right": 1019.5
+          },
+          {
+            "x": 1033.5,
+            "y": 485.34375,
+            "w": 292.5,
+            "h": 562.71875,
+            "bottom": 1048.0625,
+            "right": 1326
+          },
+          {
+            "x": 1340,
+            "y": 485.34375,
+            "w": 292.5,
+            "h": 562.71875,
+            "bottom": 1048.0625,
+            "right": 1632.5
+          },
+          {
+            "x": 1646.5,
+            "y": 485.34375,
+            "w": 292.5,
+            "h": 562.71875,
+            "bottom": 1048.0625,
+            "right": 1939
+          }
+        ]
+      }
+    },
+    {
+      "name": "min 1440px en member=True embed=False aligned card heights",
+      "passed": true
+    },
+    {
+      "name": "min 1440px en member=True embed=False carousel still advances",
+      "passed": true,
+      "detail": {
+        "before": 0,
+        "after": 613
+      }
+    },
+    {
+      "name": "min 1440px en member=False embed=True no JS error",
+      "passed": true,
+      "detail": []
+    },
+    {
+      "name": "min 1440px en member=False embed=True no new fetch",
+      "passed": true,
+      "detail": 0
+    },
+    {
+      "name": "min 1440px en member=False embed=True one flash section",
+      "passed": true
+    },
+    {
+      "name": "min 1440px en member=False embed=True 6 rendered cards",
+      "passed": true
+    },
+    {
+      "name": "min 1440px en member=False embed=True no horizontal page overflow",
+      "passed": true
+    },
+    {
+      "name": "min 1440px en member=False embed=True correct section order",
+      "passed": true
+    },
+    {
+      "name": "min 1440px en member=False embed=True card columns",
+      "passed": true,
+      "detail": {
+        "expected": 4,
+        "visible": 4,
+        "grid": {
+          "x": 114,
+          "y": 586.15625,
+          "w": 1212,
+          "h": 570.71875,
+          "bottom": 1156.875,
+          "right": 1326
+        },
+        "cards": [
+          {
+            "x": 114,
+            "y": 588.15625,
+            "w": 292.5,
+            "h": 562.71875,
+            "bottom": 1150.875,
+            "right": 406.5
+          },
+          {
+            "x": 420.5,
+            "y": 588.15625,
+            "w": 292.5,
+            "h": 562.71875,
+            "bottom": 1150.875,
+            "right": 713
+          },
+          {
+            "x": 727,
+            "y": 588.15625,
+            "w": 292.5,
+            "h": 562.71875,
+            "bottom": 1150.875,
+            "right": 1019.5
+          },
+          {
+            "x": 1033.5,
+            "y": 588.15625,
+            "w": 292.5,
+            "h": 562.71875,
+            "bottom": 1150.875,
+            "right": 1326
+          },
+          {
+            "x": 1340,
+            "y": 588.15625,
+            "w": 292.5,
+            "h": 562.71875,
+            "bottom": 1150.875,
+            "right": 1632.5
+          },
+          {
+            "x": 1646.5,
+            "y": 588.15625,
+            "w": 292.5,
+            "h": 562.71875,
+            "bottom": 1150.875,
+            "right": 1939
+          }
+        ]
+      }
+    },
+    {
+      "name": "min 1440px en member=False embed=True aligned card heights",
+      "passed": true
+    },
+    {
+      "name": "min 1440px en member=False embed=True carousel still advances",
+      "passed": true,
+      "detail": {
+        "before": 0,
+        "after": 613
+      }
+    },
+    {
+      "name": "source/min same layout 1440px en",
+      "passed": true
+    },
+    {
+      "name": "source/min same layout 390px en",
+      "passed": true
+    },
+    {
+      "name": "source/min same layout 390px ar",
+      "passed": true
+    },
+    {
+      "name": "source/min same layout 320px ar",
+      "passed": true
+    },
+    {
+      "name": "source/min same layout 900px en",
+      "passed": true
+    }
+  ],
+  "passed": 167,
+  "failed": 0
+}

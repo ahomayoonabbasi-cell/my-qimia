@@ -1,0 +1,328 @@
+{
+    "suite": "real PHP template and enqueue block with dependency doubles",
+    "not_live_wordpress": true,
+    "checks": [
+        {
+            "name": "native-action module cart=0 registered=0",
+            "passed": true,
+            "detail": null
+        },
+        {
+            "name": "native-action handle cart=0 registered=0",
+            "passed": true,
+            "detail": null
+        },
+        {
+            "name": "cart state cart=0 registered=0",
+            "passed": true,
+            "detail": null
+        },
+        {
+            "name": "native drawer detection cart=0 registered=0",
+            "passed": true,
+            "detail": null
+        },
+        {
+            "name": "core cart still loaded cart=0 registered=0",
+            "passed": true,
+            "detail": null
+        },
+        {
+            "name": "theme manual drawer retained cart=0 registered=0",
+            "passed": true,
+            "detail": null
+        },
+        {
+            "name": "fragment configuration filter retained cart=0 registered=0",
+            "passed": true,
+            "detail": null
+        },
+        {
+            "name": "native-action module cart=0 registered=1",
+            "passed": true,
+            "detail": null
+        },
+        {
+            "name": "native-action handle cart=0 registered=1",
+            "passed": true,
+            "detail": null
+        },
+        {
+            "name": "cart state cart=0 registered=1",
+            "passed": true,
+            "detail": null
+        },
+        {
+            "name": "native drawer detection cart=0 registered=1",
+            "passed": true,
+            "detail": null
+        },
+        {
+            "name": "core cart still loaded cart=0 registered=1",
+            "passed": true,
+            "detail": null
+        },
+        {
+            "name": "theme manual drawer retained cart=0 registered=1",
+            "passed": true,
+            "detail": null
+        },
+        {
+            "name": "fragment configuration filter retained cart=0 registered=1",
+            "passed": true,
+            "detail": null
+        },
+        {
+            "name": "native-action module cart=1 registered=0",
+            "passed": true,
+            "detail": null
+        },
+        {
+            "name": "native-action handle cart=1 registered=0",
+            "passed": true,
+            "detail": null
+        },
+        {
+            "name": "cart state cart=1 registered=0",
+            "passed": true,
+            "detail": null
+        },
+        {
+            "name": "native drawer detection cart=1 registered=0",
+            "passed": true,
+            "detail": null
+        },
+        {
+            "name": "core cart still loaded cart=1 registered=0",
+            "passed": true,
+            "detail": null
+        },
+        {
+            "name": "theme manual drawer retained cart=1 registered=0",
+            "passed": true,
+            "detail": null
+        },
+        {
+            "name": "fragment configuration filter retained cart=1 registered=0",
+            "passed": true,
+            "detail": null
+        },
+        {
+            "name": "native-action module cart=1 registered=1",
+            "passed": true,
+            "detail": null
+        },
+        {
+            "name": "native-action handle cart=1 registered=1",
+            "passed": true,
+            "detail": null
+        },
+        {
+            "name": "cart state cart=1 registered=1",
+            "passed": true,
+            "detail": null
+        },
+        {
+            "name": "native drawer detection cart=1 registered=1",
+            "passed": true,
+            "detail": null
+        },
+        {
+            "name": "core cart still loaded cart=1 registered=1",
+            "passed": true,
+            "detail": null
+        },
+        {
+            "name": "theme manual drawer retained cart=1 registered=1",
+            "passed": true,
+            "detail": null
+        },
+        {
+            "name": "fragment configuration filter retained cart=1 registered=1",
+            "passed": true,
+            "detail": null
+        },
+        {
+            "name": "single scoped home flow ar=0 flash=0 member=0",
+            "passed": true,
+            "detail": null
+        },
+        {
+            "name": "one or no flash ar=0 flash=0 member=0",
+            "passed": true,
+            "detail": null
+        },
+        {
+            "name": "goal precedes personal ar=0 flash=0 member=0",
+            "passed": true,
+            "detail": null
+        },
+        {
+            "name": "live indexing unchanged ar=0 flash=0 member=0",
+            "passed": true,
+            "detail": null
+        },
+        {
+            "name": "single scoped home flow ar=0 flash=0 member=1",
+            "passed": true,
+            "detail": null
+        },
+        {
+            "name": "one or no flash ar=0 flash=0 member=1",
+            "passed": true,
+            "detail": null
+        },
+        {
+            "name": "goal precedes personal ar=0 flash=0 member=1",
+            "passed": true,
+            "detail": null
+        },
+        {
+            "name": "live indexing unchanged ar=0 flash=0 member=1",
+            "passed": true,
+            "detail": null
+        },
+        {
+            "name": "single scoped home flow ar=0 flash=1 member=0",
+            "passed": true,
+            "detail": null
+        },
+        {
+            "name": "one or no flash ar=0 flash=1 member=0",
+            "passed": true,
+            "detail": null
+        },
+        {
+            "name": "goal precedes personal ar=0 flash=1 member=0",
+            "passed": true,
+            "detail": null
+        },
+        {
+            "name": "flash after show-more section before personal ar=0 flash=1 member=0",
+            "passed": true,
+            "detail": null
+        },
+        {
+            "name": "live indexing unchanged ar=0 flash=1 member=0",
+            "passed": true,
+            "detail": null
+        },
+        {
+            "name": "single scoped home flow ar=0 flash=1 member=1",
+            "passed": true,
+            "detail": null
+        },
+        {
+            "name": "one or no flash ar=0 flash=1 member=1",
+            "passed": true,
+            "detail": null
+        },
+        {
+            "name": "goal precedes personal ar=0 flash=1 member=1",
+            "passed": true,
+            "detail": null
+        },
+        {
+            "name": "flash after show-more section before personal ar=0 flash=1 member=1",
+            "passed": true,
+            "detail": null
+        },
+        {
+            "name": "live indexing unchanged ar=0 flash=1 member=1",
+            "passed": true,
+            "detail": null
+        },
+        {
+            "name": "single scoped home flow ar=1 flash=0 member=0",
+            "passed": true,
+            "detail": null
+        },
+        {
+            "name": "one or no flash ar=1 flash=0 member=0",
+            "passed": true,
+            "detail": null
+        },
+        {
+            "name": "goal precedes personal ar=1 flash=0 member=0",
+            "passed": true,
+            "detail": null
+        },
+        {
+            "name": "live indexing unchanged ar=1 flash=0 member=0",
+            "passed": true,
+            "detail": null
+        },
+        {
+            "name": "single scoped home flow ar=1 flash=0 member=1",
+            "passed": true,
+            "detail": null
+        },
+        {
+            "name": "one or no flash ar=1 flash=0 member=1",
+            "passed": true,
+            "detail": null
+        },
+        {
+            "name": "goal precedes personal ar=1 flash=0 member=1",
+            "passed": true,
+            "detail": null
+        },
+        {
+            "name": "live indexing unchanged ar=1 flash=0 member=1",
+            "passed": true,
+            "detail": null
+        },
+        {
+            "name": "single scoped home flow ar=1 flash=1 member=0",
+            "passed": true,
+            "detail": null
+        },
+        {
+            "name": "one or no flash ar=1 flash=1 member=0",
+            "passed": true,
+            "detail": null
+        },
+        {
+            "name": "goal precedes personal ar=1 flash=1 member=0",
+            "passed": true,
+            "detail": null
+        },
+        {
+            "name": "flash after show-more section before personal ar=1 flash=1 member=0",
+            "passed": true,
+            "detail": null
+        },
+        {
+            "name": "live indexing unchanged ar=1 flash=1 member=0",
+            "passed": true,
+            "detail": null
+        },
+        {
+            "name": "single scoped home flow ar=1 flash=1 member=1",
+            "passed": true,
+            "detail": null
+        },
+        {
+            "name": "one or no flash ar=1 flash=1 member=1",
+            "passed": true,
+            "detail": null
+        },
+        {
+            "name": "goal precedes personal ar=1 flash=1 member=1",
+            "passed": true,
+            "detail": null
+        },
+        {
+            "name": "flash after show-more section before personal ar=1 flash=1 member=1",
+            "passed": true,
+            "detail": null
+        },
+        {
+            "name": "live indexing unchanged ar=1 flash=1 member=1",
+            "passed": true,
+            "detail": null
+        }
+    ],
+    "passed": 64,
+    "failed": 0
+}

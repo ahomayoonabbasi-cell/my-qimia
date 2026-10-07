@@ -1,0 +1,6 @@
+{
+  "css_files": 12,
+  "parse_pass": true,
+  "source_min_ast_equal": true,
+  "minification": "PostCSS AST serialization; no regular expressions applied to selectors or values"
+}

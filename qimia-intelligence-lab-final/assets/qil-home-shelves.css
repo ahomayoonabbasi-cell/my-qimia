@@ -1,0 +1,22 @@
+/* Only home product carousels that previously showed six desktop cards.
+   Original mobile/tablet rules, goal results and every other page are untouched. */
+@media (min-width:1181px) {
+ #qimia-lab #qil-main[data-qil-home-shelves] .qil-collection-grid.qil-rail { --qil-rail-per-view:4!important; }
+}
+/* Blend only the new shelf into the following white section. */
+#qil-main[data-qil-home-shelves] .qil-home-discover { padding-bottom:24px; background:linear-gradient(180deg,rgba(255,255,255,0),#fff) bottom / 100% 96px no-repeat; }
+/* Native product cards, rail, arrows and breakpoints; only the new tab header. */
+#qil-main[data-qil-home-shelves] .qil-home-discover-controls { display:flex; align-items:center; justify-content:space-between; gap:16px; flex-wrap:wrap; margin:22px 0; }
+#qil-main[data-qil-home-shelves] .qil-home-tabs { display:flex; flex-wrap:wrap; gap:10px; }
+#qil-main[data-qil-home-shelves] .qil-home-tabs button { min-height:46px; border:1px solid #bcd9d8; border-radius:999px; padding:10px 22px; background:#f4faf9; color:#285a63; font:inherit; font-size:15px; font-weight:650; cursor:pointer; }
+#qil-main[data-qil-home-shelves] .qil-home-tabs button[aria-selected="true"] { background:#337e83; border-color:#337e83; color:#fff; }
+#qil-main[data-qil-home-shelves] .qil-home-tabs button:focus-visible { outline:3px solid #238b86; outline-offset:4px; }
+#qil-main[data-qil-home-shelves] .qil-home-discover [hidden] { display:none!important; }
+#qil-main[data-qil-home-shelves] .qil-home-fallback { padding:18px; border:1px solid #d5e6e5; border-radius:18px; background:#fff; color:#285a63; }
+#qil-main[data-qil-home-shelves] .qil-home-discover .qil-product-badge { display:none; }
+#qil-main[data-qil-home-shelves] [data-qil-home-empty] { color:var(--qil-muted); }
+@media(max-width:760px) {
+ #qil-main[data-qil-home-shelves] .qil-home-discover { padding-bottom:16px; background-size:100% 64px; }
+ #qil-main[data-qil-home-shelves] .qil-home-tabs { gap:8px; }
+ #qil-main[data-qil-home-shelves] .qil-home-tabs button { padding:10px 14px; font-size:13px; white-space:normal; }
+}

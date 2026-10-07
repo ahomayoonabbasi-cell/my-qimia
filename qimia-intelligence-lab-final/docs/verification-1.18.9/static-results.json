@@ -1,0 +1,268 @@
+{
+  "php_files": 26,
+  "js_files": 16,
+  "syntax_pass": true,
+  "changed_files": [
+    "assets/qil-boost.css",
+    "assets/qil-boost.min.css",
+    "includes/commerce-boost.php",
+    "qimia-intelligence-lab.php",
+    "readme.txt"
+  ],
+  "byte_identical_files": 164,
+  "all_javascript_unchanged": true,
+  "checks": [
+    {
+      "file": "includes/cashback-stacks.php",
+      "check": "syntax",
+      "pass": true,
+      "output": "No syntax errors detected in /mnt/data/qil-1.18.9/build/qimia-intelligence-lab-final/includes/cashback-stacks.php"
+    },
+    {
+      "file": "includes/cashback.php",
+      "check": "syntax",
+      "pass": true,
+      "output": "No syntax errors detected in /mnt/data/qil-1.18.9/build/qimia-intelligence-lab-final/includes/cashback.php"
+    },
+    {
+      "file": "includes/class-qil-admin.php",
+      "check": "syntax",
+      "pass": true,
+      "output": "No syntax errors detected in /mnt/data/qil-1.18.9/build/qimia-intelligence-lab-final/includes/class-qil-admin.php"
+    },
+    {
+      "file": "includes/commerce-boost.php",
+      "check": "syntax",
+      "pass": true,
+      "output": "No syntax errors detected in /mnt/data/qil-1.18.9/build/qimia-intelligence-lab-final/includes/commerce-boost.php"
+    },
+    {
+      "file": "includes/commerce-continuity.php",
+      "check": "syntax",
+      "pass": true,
+      "output": "No syntax errors detected in /mnt/data/qil-1.18.9/build/qimia-intelligence-lab-final/includes/commerce-continuity.php"
+    },
+    {
+      "file": "includes/customer-brain.php",
+      "check": "syntax",
+      "pass": true,
+      "output": "No syntax errors detected in /mnt/data/qil-1.18.9/build/qimia-intelligence-lab-final/includes/customer-brain.php"
+    },
+    {
+      "file": "includes/customer-experience.php",
+      "check": "syntax",
+      "pass": true,
+      "output": "No syntax errors detected in /mnt/data/qil-1.18.9/build/qimia-intelligence-lab-final/includes/customer-experience.php"
+    },
+    {
+      "file": "includes/elementor.php",
+      "check": "syntax",
+      "pass": true,
+      "output": "No syntax errors detected in /mnt/data/qil-1.18.9/build/qimia-intelligence-lab-final/includes/elementor.php"
+    },
+    {
+      "file": "includes/flash-drop.php",
+      "check": "syntax",
+      "pass": true,
+      "output": "No syntax errors detected in /mnt/data/qil-1.18.9/build/qimia-intelligence-lab-final/includes/flash-drop.php"
+    },
+    {
+      "file": "includes/goal-engine.php",
+      "check": "syntax",
+      "pass": true,
+      "output": "No syntax errors detected in /mnt/data/qil-1.18.9/build/qimia-intelligence-lab-final/includes/goal-engine.php"
+    },
+    {
+      "file": "includes/hero-studio.php",
+      "check": "syntax",
+      "pass": true,
+      "output": "No syntax errors detected in /mnt/data/qil-1.18.9/build/qimia-intelligence-lab-final/includes/hero-studio.php"
+    },
+    {
+      "file": "includes/member-hub.php",
+      "check": "syntax",
+      "pass": true,
+      "output": "No syntax errors detected in /mnt/data/qil-1.18.9/build/qimia-intelligence-lab-final/includes/member-hub.php"
+    },
+    {
+      "file": "includes/navigation.php",
+      "check": "syntax",
+      "pass": true,
+      "output": "No syntax errors detected in /mnt/data/qil-1.18.9/build/qimia-intelligence-lab-final/includes/navigation.php"
+    },
+    {
+      "file": "includes/performance.php",
+      "check": "syntax",
+      "pass": true,
+      "output": "No syntax errors detected in /mnt/data/qil-1.18.9/build/qimia-intelligence-lab-final/includes/performance.php"
+    },
+    {
+      "file": "includes/personalization.php",
+      "check": "syntax",
+      "pass": true,
+      "output": "No syntax errors detected in /mnt/data/qil-1.18.9/build/qimia-intelligence-lab-final/includes/personalization.php"
+    },
+    {
+      "file": "includes/product-integration.php",
+      "check": "syntax",
+      "pass": true,
+      "output": "No syntax errors detected in /mnt/data/qil-1.18.9/build/qimia-intelligence-lab-final/includes/product-integration.php"
+    },
+    {
+      "file": "includes/product-knowledge.php",
+      "check": "syntax",
+      "pass": true,
+      "output": "No syntax errors detected in /mnt/data/qil-1.18.9/build/qimia-intelligence-lab-final/includes/product-knowledge.php"
+    },
+    {
+      "file": "includes/product.php",
+      "check": "syntax",
+      "pass": true,
+      "output": "No syntax errors detected in /mnt/data/qil-1.18.9/build/qimia-intelligence-lab-final/includes/product.php"
+    },
+    {
+      "file": "includes/promotions.php",
+      "check": "syntax",
+      "pass": true,
+      "output": "No syntax errors detected in /mnt/data/qil-1.18.9/build/qimia-intelligence-lab-final/includes/promotions.php"
+    },
+    {
+      "file": "includes/sections.php",
+      "check": "syntax",
+      "pass": true,
+      "output": "No syntax errors detected in /mnt/data/qil-1.18.9/build/qimia-intelligence-lab-final/includes/sections.php"
+    },
+    {
+      "file": "includes/site-chrome.php",
+      "check": "syntax",
+      "pass": true,
+      "output": "No syntax errors detected in /mnt/data/qil-1.18.9/build/qimia-intelligence-lab-final/includes/site-chrome.php"
+    },
+    {
+      "file": "includes/storefront.php",
+      "check": "syntax",
+      "pass": true,
+      "output": "No syntax errors detected in /mnt/data/qil-1.18.9/build/qimia-intelligence-lab-final/includes/storefront.php"
+    },
+    {
+      "file": "includes/verified-filters.php",
+      "check": "syntax",
+      "pass": true,
+      "output": "No syntax errors detected in /mnt/data/qil-1.18.9/build/qimia-intelligence-lab-final/includes/verified-filters.php"
+    },
+    {
+      "file": "qimia-intelligence-lab.php",
+      "check": "syntax",
+      "pass": true,
+      "output": "No syntax errors detected in /mnt/data/qil-1.18.9/build/qimia-intelligence-lab-final/qimia-intelligence-lab.php"
+    },
+    {
+      "file": "templates/cashback.php",
+      "check": "syntax",
+      "pass": true,
+      "output": "No syntax errors detected in /mnt/data/qil-1.18.9/build/qimia-intelligence-lab-final/templates/cashback.php"
+    },
+    {
+      "file": "templates/home.php",
+      "check": "syntax",
+      "pass": true,
+      "output": "No syntax errors detected in /mnt/data/qil-1.18.9/build/qimia-intelligence-lab-final/templates/home.php"
+    },
+    {
+      "file": "assets/qh-chrome.js",
+      "check": "syntax",
+      "pass": true,
+      "output": ""
+    },
+    {
+      "file": "assets/qil-boost.js",
+      "check": "syntax",
+      "pass": true,
+      "output": ""
+    },
+    {
+      "file": "assets/qil-boost.min.js",
+      "check": "syntax",
+      "pass": true,
+      "output": ""
+    },
+    {
+      "file": "assets/qil-brain-signals.js",
+      "check": "syntax",
+      "pass": true,
+      "output": ""
+    },
+    {
+      "file": "assets/qil-hero-admin.js",
+      "check": "syntax",
+      "pass": true,
+      "output": ""
+    },
+    {
+      "file": "assets/qil-navigation.js",
+      "check": "syntax",
+      "pass": true,
+      "output": ""
+    },
+    {
+      "file": "assets/qil-navigation.min.js",
+      "check": "syntax",
+      "pass": true,
+      "output": ""
+    },
+    {
+      "file": "assets/qil-personalization.js",
+      "check": "syntax",
+      "pass": true,
+      "output": ""
+    },
+    {
+      "file": "assets/qil-personalization.min.js",
+      "check": "syntax",
+      "pass": true,
+      "output": ""
+    },
+    {
+      "file": "assets/qil-shopping-context-fallback.js",
+      "check": "syntax",
+      "pass": true,
+      "output": ""
+    },
+    {
+      "file": "assets/qil-storefront.js",
+      "check": "syntax",
+      "pass": true,
+      "output": ""
+    },
+    {
+      "file": "assets/qil-storefront.min.js",
+      "check": "syntax",
+      "pass": true,
+      "output": ""
+    },
+    {
+      "file": "assets/qil.js",
+      "check": "syntax",
+      "pass": true,
+      "output": ""
+    },
+    {
+      "file": "assets/qil.min.js",
+      "check": "syntax",
+      "pass": true,
+      "output": ""
+    },
+    {
+      "file": "assets/qimia-experience.js",
+      "check": "syntax",
+      "pass": true,
+      "output": ""
+    },
+    {
+      "file": "assets/qimia-shopping-context.js",
+      "check": "syntax",
+      "pass": true,
+      "output": ""
+    }
+  ]
+}

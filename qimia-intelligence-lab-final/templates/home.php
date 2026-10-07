@@ -10,6 +10,7 @@
 
 defined( 'ABSPATH' ) || exit;
 
+require_once QIL_DIR . 'includes/home-shelves.php';
 $qil_context = qil_view_context();
 ?>
 <!doctype html>
@@ -45,13 +46,16 @@ $qil_context = qil_view_context();
 	echo qil_section_header(); // phpcs:ignore WordPress.Security.EscapeOutput.OutputNotEscaped
 	?>
 
-	<main id="qil-main">
+	<main id="qil-main" class="qil-home-flow" data-qil-home-shelves>
 		<?php
 		echo qil_section_hero(); // phpcs:ignore WordPress.Security.EscapeOutput.OutputNotEscaped
 		echo qil_section_category_rail(); // phpcs:ignore WordPress.Security.EscapeOutput.OutputNotEscaped
-		// 72-hour flash drop: real reductions only; hidden when fewer than four qualify.
-		echo class_exists( 'QIL_Flash_Drop' ) ? QIL_Flash_Drop::section() : ''; // phpcs:ignore WordPress.Security.EscapeOutput.OutputNotEscaped
+		echo qil_home_discovery(); // Home-only arrivals/restocks, using native product cards.
 		echo qil_section_goal_engine(); // phpcs:ignore WordPress.Security.EscapeOutput.OutputNotEscaped
+		// After the goal results / Show more, before the personal shelves.
+		// Server-render once in place: no DOM move, duplicate rail or extra request.
+		do_action( 'qil_home_before_flash' ); // Optional departments; render once before the existing flash sale.
+		echo class_exists( 'QIL_Flash_Drop' ) ? QIL_Flash_Drop::section( array( 'evergreen' => true ) ) : ''; // phpcs:ignore WordPress.Security.EscapeOutput.OutputNotEscaped
 		// Cashback wallet + "Running low?": an empty, hidden, cache-safe shell
 		// until the signed-in shopper's private response arrives.
 		echo class_exists( 'QIL_Member' ) ? QIL_Member::section() : ''; // phpcs:ignore WordPress.Security.EscapeOutput.OutputNotEscaped

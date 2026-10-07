@@ -184,7 +184,7 @@ if ( 'full' === $GLOBALS['qt']['render'] ) {
 <div class="qt-cart"><form class="woocommerce-cart-form" action="/cart/" method="post"><?php do_action( 'woocommerce_before_cart_table' ); ?><table class="shop_table cart"><thead><tr><th>Product</th><th>Price</th><th>Qty</th></tr></thead><tbody>
 <?php foreach ( WC()->cart->get_cart() as $line ) : ?><tr class="cart_item"><td><?php echo esc_html( $line['data']->get_name() ); ?></td><td><?php echo wc_price( $line['data']->get_price() ); ?></td><td><?php echo (int) $line['quantity']; ?></td></tr><?php endforeach; ?>
 </tbody></table><?php do_action( 'woocommerce_after_cart_table' ); ?></form>
-<div class="cart-collaterals"><div class="cart_totals"><?php do_action( 'woocommerce_before_cart_totals' ); ?><h2>Cart totals</h2><p>Total: <strong><?php echo wc_price( WC()->cart->get_total( 'edit' ) ); ?></strong></p><a class="checkout-button" href="#">Proceed to checkout</a></div></div></div>
+<div class="cart-collaterals"><div class="cart_totals"><?php do_action( 'woocommerce_before_cart_totals' ); ?><h2>Cart totals</h2><p>Total: <strong><?php echo wc_price( WC()->cart->get_total( 'edit' ) ); ?></strong></p><div class="wc-proceed-to-checkout"><a class="checkout-button" href="#">Proceed to checkout</a></div><?php do_action( 'woocommerce_after_cart_totals' ); ?></div></div></div>
 <?php do_action( 'woocommerce_after_cart' ); ?>
 <?php endif; ?></main>
 <div class="cart-widget-side wd-side-hidden wd-right"><div class="widget woocommerce widget_shopping_cart"><div class="widget_shopping_cart_content"><?php woocommerce_mini_cart(); ?></div></div></div><div class="wd-close-side wd-fill"></div>

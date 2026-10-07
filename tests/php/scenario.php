@@ -127,13 +127,15 @@ case 'minicart':
 	WC()->cart->add( 101, 1, 1011 );
 	$html = capture( 'woocommerce_mini_cart' );
 	ok( 'ladder at the top of the drawer', false !== strpos( $html, 'qil-boost-mini' ) && strpos( $html, 'qil-boost-mini' ) < strpos( $html, 'woocommerce-mini-cart-item' ) );
-	ok( 'message: Add 0.101 more → get 3 OMR cashback', preg_match( '/Add <bdi>.*0\.101.*<\/bdi> more<\/strong>.*get <b><bdi>3 OMR<\/bdi><\/b> cashback/s', $html ), $html );
+	ok( 'header leads with this cart\'s reward (1.18.9): 2 OMR', (bool) preg_match( '/data-qil-boost-current-reward><bdi>2 OMR<\/bdi>/', $html ), $html );
+	ok( 'message: Add 0.101 more → 3 OMR cashback', (bool) preg_match( '/Add <bdi class="qil-boost-next-gap">.*0\.101.*<\/bdi> more <span class="qil-boost-arrow" aria-hidden="true">→<\/span> <bdi class="qil-boost-next-reward">3 OMR<\/bdi> cashback/s', $html ), $html );
 	ok( 'ladder printed exactly once', 1 === substr_count( $html, 'class="qil-boost-ladder is-' ) );
-	ok( 'three picks after the items, inside the list', 3 === substr_count( $html, 'class="qil-boost-pick"' ) && strpos( $html, 'qil-boost-li' ) > strpos( $html, 'woocommerce-mini-cart-item' ) && strpos( $html, 'qil-boost-li' ) < strpos( $html, '</ul>' ) );
+	ok( 'three picks after the items, inside the list', 3 === substr_count( $html, 'class="qil-boost-pick is-mini"' ) && strpos( $html, 'qil-boost-li' ) > strpos( $html, 'woocommerce-mini-cart-item' ) && strpos( $html, 'qil-boost-li' ) < strpos( $html, '</ul>' ) );
 	ok( 'simple pick uses WooCommerce AJAX add (product 102)', (bool) preg_match( '/data-product_id="102"[^>]*class="qil-boost-add add_to_cart_button ajax_add_to_cart/', $html ) );
 	ok( 'pick rows are not counted as cart items', false === strpos( $html, 'qil-boost-li mini_cart_item' ) );
 	ok( 'progress bar is accessible', false !== strpos( $html, 'role="progressbar"' ) && false !== strpos( $html, 'aria-valuenow="' ) );
-	ok( 'honest note: eligible paid orders', false !== strpos( $html, 'eligible paid orders' ) );
+	ok( 'honest note: payment first, next-order credit', false !== strpos( $html, 'After eligible payment · next-order credit' ) );
+	ok( 'real items carry the "In your cart" divider (1.18.7)', false !== strpos( $html, 'qil-boost-cart-items-label' ) && strpos( $html, 'qil-boost-cart-items-label' ) < strpos( $html, 'woocommerce-mini-cart-item' ) );
 	// A theme that skips woocommerce_before_mini_cart still gets the ladder, inside the list.
 	$GLOBALS['qt']['done']['woocommerce_before_mini_cart'] = 0;
 	$fallback = capture( static function () { do_action( 'woocommerce_mini_cart_contents' ); } );
@@ -276,7 +278,9 @@ case 'flash_stock_purge':
 	$out   = 101; // Whey: not a flash product.
 	unset( $GLOBALS['qt']['cron']['qil_flash_drop_purge'] );
 	do_action( 'woocommerce_product_set_stock', wc_get_product( $out ) );
-	ok( 'a stock change elsewhere does not touch the cached homepage', empty( $GLOBALS['qt']['cron']['qil_flash_drop_purge'] ) );
+	// Since 1.18.x the homepage also shows evergreen best sellers from the flash category, so any stock change counts.
+	ok( 'with the flash section on, a stock change elsewhere also queues the homepage purge', ! empty( $GLOBALS['qt']['cron']['qil_flash_drop_purge'] ) );
+	unset( $GLOBALS['qt']['cron']['qil_flash_drop_purge'] );
 	do_action( 'woocommerce_product_set_stock', wc_get_product( $in ) );
 	ok( 'a drop product\'s stock change queues one homepage purge (WP-Cron, now)', ( $GLOBALS['qt']['cron']['qil_flash_drop_purge'] ?? 0 ) >= time() - 1 && ( $GLOBALS['qt']['cron']['qil_flash_drop_purge'] ?? 0 ) <= time() + 1 );
 	$purged = array();

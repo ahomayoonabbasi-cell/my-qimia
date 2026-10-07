@@ -485,6 +485,35 @@ final class QIL_Flash_Drop {
 		return $memo[ $key ] = $rows;
 	}
 
+	/** Homepage offers stay available without a rotation window, best sellers first. */
+	private static function home_products() {
+		$settings = QIL_Boost::settings();
+		$size     = max( 1, min( 12, (int) $settings['flash_size'] ) );
+		$excluded = array_filter( array_map( 'absint', preg_split( '/[\s,]+/', (string) $settings['flash_exclude'] ) ) );
+		$ranked   = self::candidates();
+		// The candidate scan's sales rank comes from total_sales DESC, ID DESC.
+		// Never let discount size, low stock, pins or rotation displace demand.
+		uasort( $ranked, static function ( $a, $b ) {
+			return ( (int) $b['sales'] <=> (int) $a['sales'] ) ?: ( (int) $b['id'] <=> (int) $a['id'] );
+		} );
+		$rows = array();
+		foreach ( $ranked as $id => $candidate ) {
+			if ( in_array( (int) $id, $excluded, true ) || ! self::in_flash_category( $id ) ) {
+				continue;
+			}
+			$facts = self::facts( wc_get_product( $id ), (int) $settings['flash_min_pct'], false );
+			if ( ! $facts ) {
+				continue;
+			}
+			$facts['id'] = (int) $id;
+			$rows[ $id ] = $facts;
+			if ( count( $rows ) >= $size ) {
+				break;
+			}
+		}
+		return $rows;
+	}
+
 	/** Rows of the last complete category scan; a site without one scans once now. */
 	private static function last_scan() {
 		$last = get_option( self::LAST_SCAN, array() );
@@ -553,7 +582,9 @@ final class QIL_Flash_Drop {
 		$ids   = is_array( $state ) ? array_map( 'absint', (array) ( $state['ids'] ?? array() ) ) : array();
 		$self  = (int) $product->get_id();
 		$root  = method_exists( $product, 'get_parent_id' ) ? (int) $product->get_parent_id() : 0;
-		if ( ( $self && in_array( $self, $ids, true ) ) || ( $root && in_array( $root, $ids, true ) ) ) {
+		// Home best sellers may differ from the timed campaign. Product edits also
+		// cover offers removed from their category and changes to demand.
+		if ( QIL_Boost::on( 'flash' ) || ( $self && in_array( $self, $ids, true ) ) || ( $root && in_array( $root, $ids, true ) ) ) {
 			self::purge_soon();
 		}
 	}
@@ -580,20 +611,21 @@ final class QIL_Flash_Drop {
 	 * Card records (shared catalogue renderer) plus flash facts, for this
 	 * market and language. Short public cache; the window is part of the key.
 	 */
-	public static function payload( $locale = null ) {
+	public static function payload( $locale = null, $evergreen = false ) {
 		static $memo = array();
 		if ( ! QIL_Boost::on( 'flash' ) ) {
 			return null;
 		}
 		$locale = in_array( $locale, array( 'en', 'ar' ), true ) ? $locale : ( QIL_Boost::is_ar() ? 'ar' : 'en' );
-		if ( array_key_exists( $locale, $memo ) ) {
-			return $memo[ $locale ];
+		$memo_key = $locale . ( $evergreen ? '|home' : '|drop' );
+		if ( array_key_exists( $memo_key, $memo ) ) {
+			return $memo[ $memo_key ];
 		}
-		return $memo[ $locale ] = self::build_payload( $locale );
+		return $memo[ $memo_key ] = self::build_payload( $locale, $evergreen );
 	}
 
-	private static function build_payload( $locale ) {
-		$window   = self::window();
+	private static function build_payload( $locale, $evergreen = false ) {
+		$window   = $evergreen ? null : self::window();
 		$identity = qil_perf_market_identity();
 		unset( $identity['user'], $identity['session'] );
 		$key    = 'qil_flash_payload_v2_' . md5( (string) wp_json_encode( array( QIL_VERSION, qil_perf_product_version(), $identity, $locale, $window, QIL_Boost::settings() ) ) );
@@ -601,7 +633,7 @@ final class QIL_Flash_Drop {
 		if ( is_array( $cached ) && isset( $cached['records'] ) ) {
 			return $cached['records'] ? $cached : null;
 		}
-		$facts   = self::drop();
+		$facts   = $evergreen ? self::home_products() : self::drop();
 		$ids     = array_keys( $facts );
 		$records = $ids ? qil_get_catalogue( array( 'include' => $ids, 'limit' => count( $ids ), 'orderby' => 'include', '_qil_locale' => $locale ) ) : array();
 		$meta    = array();
@@ -625,7 +657,7 @@ final class QIL_Flash_Drop {
 			);
 		}
 		$payload = array(
-			'records'     => count( $ordered ) >= self::MIN_PRODUCTS ? $ordered : array(),
+			'records'     => count( $ordered ) >= ( $evergreen ? 1 : self::MIN_PRODUCTS ) ? $ordered : array(),
 			'meta'        => $meta,
 			'window'      => $window,
 			'generatedAt' => time(),
@@ -667,7 +699,8 @@ final class QIL_Flash_Drop {
 	}
 
 	public static function section( array $args = array() ) {
-		$payload = self::payload();
+		$evergreen = ! empty( $args['evergreen'] );
+		$payload   = self::payload( null, $evergreen );
 		if ( ! $payload ) {
 			if ( self::$degraded ) {
 				// The first scan is still running elsewhere: this copy must not be
@@ -677,7 +710,7 @@ final class QIL_Flash_Drop {
 			return '';
 		}
 		$ar      = QIL_Boost::is_ar();
-		$window  = $payload['window'];
+		$window  = $payload['window'] ?: array( 'start' => 0, 'end' => 0, 'hours' => 0 );
 		$count   = count( $payload['records'] );
 		$hours   = (int) $window['hours'];
 		$gone    = count( array_filter( $payload['meta'], array( __CLASS__, 'almost_gone' ) ) );
@@ -698,6 +731,7 @@ final class QIL_Flash_Drop {
 			'start'       => (int) $window['start'],
 			'end'         => (int) $window['end'],
 			'hours'       => $hours,
+			'evergreen'   => $evergreen,
 			'generatedAt' => (int) $payload['generatedAt'],
 		);
 		$remain  = max( 0, (int) $window['end'] - time() );
@@ -709,20 +743,25 @@ final class QIL_Flash_Drop {
 		$lead    = $ar
 			? sprintf( $count <= 10 ? '%d تخفيضات حقيقية مختارة لمدة %d ساعة: مخزون حقيقي، ونسبة خصم حقيقية، وسعر سابق حقيقي. ثم تتغيّر المجموعة.' : '%d تخفيضاً حقيقياً مختاراً لمدة %d ساعة: مخزون حقيقي، ونسبة خصم حقيقية، وسعر سابق حقيقي. ثم تتغيّر المجموعة.', $count, $hours )
 			: sprintf( '%d real reductions, chosen for %d hours. Real stock, real discount, real previous price — then the drop changes.', $count, $hours );
+		if ( $evergreen ) {
+			$span = $ar ? '— الأكثر مبيعاً أولاً' : '— BEST SELLERS FIRST';
+			$lead = $ar ? 'عروض متوفرة مرتبة حسب المبيعات. أسعار ومخزون حقيقيان، وتُحدّث المنتجات مع تغيّر العروض.' : 'In-stock offers, ranked by sales. Real prices and availability, updated as offers change.';
+		}
 		$ends_at = self::oman_time( $window['end'], $ar );
 		$units   = $ar ? array( 'd' => 'يوم', 'h' => 'ساعة', 'm' => 'دقيقة', 's' => 'ثانية' ) : array( 'd' => 'days', 'h' => 'hrs', 'm' => 'min', 's' => 'sec' );
 		ob_start();
 		?>
-		<section id="qil-flash-drop" class="qil-section qil-flash-drop" data-qil-flash-drop data-qil-flash-end="<?php echo esc_attr( $window['end'] ); ?>" aria-labelledby="qil-flash-title">
+		<section id="qil-flash-drop" class="qil-section qil-flash-drop" data-qil-flash-drop<?php if ( ! $evergreen ) : ?> data-qil-flash-end="<?php echo esc_attr( $window['end'] ); ?>"<?php endif; ?> aria-labelledby="qil-flash-title">
 			<div class="qil-container">
 				<div class="qil-flash-stage">
 					<span class="qil-flash-aurora" aria-hidden="true"></span>
 					<header class="qil-flash-head">
 						<div class="qil-flash-titles">
-							<span class="qil-flash-kicker"><i class="qil-flash-pulse" aria-hidden="true"></i><?php echo esc_html( $ar ? sprintf( $count <= 10 ? 'مجموعة مباشرة · %d منتجات' : 'مجموعة مباشرة · %d منتجاً', $count ) : sprintf( 'LIVE DROP · %d PRODUCTS', $count ) ); ?><?php if ( $gone ) : ?><b class="qil-flash-gone"><?php echo esc_html( $ar ? sprintf( '%d على وشك النفاد', $gone ) : sprintf( '%d ALMOST GONE', $gone ) ); ?></b><?php endif; ?></span>
+							<span class="qil-flash-kicker"><i class="qil-flash-pulse" aria-hidden="true"></i><?php echo esc_html( $ar ? ( $evergreen ? 'عروض مباشرة' : sprintf( $count <= 10 ? 'مجموعة مباشرة · %d منتجات' : 'مجموعة مباشرة · %d منتجاً', $count ) ) : sprintf( $evergreen ? 'LIVE OFFERS · %d PRODUCTS' : 'LIVE DROP · %d PRODUCTS', $count ) ); ?><?php if ( $gone ) : ?><b class="qil-flash-gone"><?php echo esc_html( $ar ? sprintf( '%d على وشك النفاد', $gone ) : sprintf( '%d ALMOST GONE', $gone ) ); ?></b><?php endif; ?></span>
 							<h2 id="qil-flash-title"><span class="qil-flash-word"><?php echo esc_html( $title ); ?></span> <em><?php echo esc_html( $span ); ?></em></h2>
 							<p><?php echo esc_html( $lead ); ?></p>
 						</div>
+						<?php if ( ! $evergreen ) : ?>
 						<div class="qil-flash-clock" data-qil-flash-clock>
 							<small><?php echo esc_html( $ar ? 'تنتهي المجموعة خلال' : 'DROP ENDS IN' ); ?></small>
 							<div class="qil-flash-digits" role="timer" aria-live="off" dir="ltr">
@@ -732,14 +771,15 @@ final class QIL_Flash_Drop {
 							</div>
 							<small class="qil-flash-ends" data-qil-flash-ends><?php echo esc_html( $ends_at ); ?></small>
 						</div>
+						<?php endif; ?>
 					</header>
 					<div class="qil-collection-grid qil-rail qil-boost-rail qil-flash-rail" data-qil-flash-grid data-qil-rail="flash-drop" aria-live="polite"><div class="qil-collection-skeleton" aria-hidden="true"><i></i><i></i><i></i><i></i></div></div>
 					<script type="application/json" data-qil-flash-data><?php echo wp_json_encode( $data, JSON_HEX_TAG | JSON_HEX_AMP | JSON_HEX_APOS | JSON_HEX_QUOT | JSON_UNESCAPED_UNICODE | JSON_UNESCAPED_SLASHES ); // phpcs:ignore WordPress.Security.EscapeOutput.OutputNotEscaped -- JSON with every markup character escaped. ?></script>
 					<footer class="qil-flash-foot">
 						<div class="qil-rail-nav" data-qil-rail-nav="flash-drop"><button type="button" data-qil-rail-prev aria-label="<?php echo esc_attr( $ar ? 'السابق' : 'Previous' ); ?>"><svg aria-hidden="true"><use href="#qil-i-arrow"/></svg></button><button type="button" data-qil-rail-next aria-label="<?php echo esc_attr( $ar ? 'التالي' : 'Next' ); ?>"><svg aria-hidden="true"><use href="#qil-i-arrow"/></svg></button></div>
-						<p class="qil-flash-truth"><svg aria-hidden="true"><use href="#qil-i-shield"/></svg><span><?php echo esc_html( $ar ? 'أسعار ومخزون ووكومرس المباشر. لا عدّاد وهمي: الوقت هو نهاية هذه المجموعة فعلاً.' : 'Live WooCommerce prices and stock. No fake timer: the clock is the real end of this drop.' ); ?></span></p>
+						<p class="qil-flash-truth"><svg aria-hidden="true"><use href="#qil-i-shield"/></svg><span><?php echo esc_html( $evergreen ? ( $ar ? 'الأسعار والمخزون محدثان. الأكثر مبيعاً أولاً.' : 'Current prices and stock. Best-selling offers first.' ) : ( $ar ? 'أسعار ومخزون ووكومرس المباشر. لا عدّاد وهمي: الوقت هو نهاية هذه المجموعة فعلاً.' : 'Live WooCommerce prices and stock. No fake timer: the clock is the real end of this drop.' ) ); ?></span></p>
 						<div class="qil-flash-actions">
-							<button type="button" class="qil-button qil-button-light qil-button-small" data-qil-flash-ai data-qimia-ai-open><svg aria-hidden="true"><use href="#qil-i-spark"/></svg><span><?php echo esc_html( $ar ? 'اسأل ذكاء كيميا عن هذه المجموعة' : 'Ask Qimia AI about this drop' ); ?></span></button>
+							<button type="button" class="qil-button qil-button-light qil-button-small" data-qil-flash-ai data-qimia-ai-open><svg aria-hidden="true"><use href="#qil-i-spark"/></svg><span><?php echo esc_html( $evergreen ? ( $ar ? 'اسأل ذكاء كيميا عن هذه العروض' : 'Ask Qimia AI about these offers' ) : ( $ar ? 'اسأل ذكاء كيميا عن هذه المجموعة' : 'Ask Qimia AI about this drop' ) ); ?></span></button>
 							<?php if ( ! empty( $payload['url'] ) ) : ?>
 								<a class="qil-flash-all" href="<?php echo esc_url( $payload['url'] ); ?>"><span><?php echo esc_html( $ar ? 'كل عروض التخفيضات' : 'All flash offers' ); ?></span><svg aria-hidden="true"><use href="#qil-i-arrow"/></svg></a>
 							<?php endif; ?>
@@ -899,7 +939,7 @@ final class QIL_Flash_Drop {
 		$window  = self::window();
 		echo '<p>Window: <strong>' . esc_html( self::oman_time( $window['start'], false ) ) . '</strong> → <strong>' . esc_html( self::oman_time( $window['end'], false ) ) . '</strong>. Candidates with a real reduction right now: <strong>' . (int) count( self::candidates() ) . '</strong>.</p>';
 		if ( ! $payload ) {
-			echo '<p>Fewer than ' . (int) self::MIN_PRODUCTS . ' flash-sale products currently qualify (in stock, on sale by at least ' . (int) QIL_Boost::settings()['flash_min_pct'] . '%, with an image), so the homepage section is hidden.</p>';
+			echo '<p>Fewer than ' . (int) self::MIN_PRODUCTS . ' flash-sale products currently qualify (in stock, on sale by at least ' . (int) QIL_Boost::settings()['flash_min_pct'] . '%, with an image), so the timed drop is unavailable. The homepage lists any available qualifying offers, best sellers first.</p>';
 			return;
 		}
 		echo '<table class="widefat striped"><thead><tr><th>Product</th><th>Now</th><th>Was</th><th>Off</th><th>Stock</th><th>Sale ends</th></tr></thead><tbody>';

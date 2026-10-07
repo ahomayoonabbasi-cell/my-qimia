@@ -341,9 +341,20 @@ function qil_section_hero( array $args = array() ) {
 	$context   = qil_view_context();
 	$is_arabic = $context['isArabic'];
 
-	$line_one   = qil_text( $args, 'lineOne', 'STOP GUESSING.', 'لا تخمين.' );
-	$line_two   = qil_text( $args, 'lineTwo', 'START KNOWING.', 'معرفة حقيقية.' );
-	$line_three = qil_text( $args, 'lineThree', 'YOUR QIMIA.', 'كيميا الخاصة بك.' );
+	// Migrate stored Elementor defaults as well as the shortcode defaults.
+	// Merchant-authored copy and the Arabic headline retain their current values.
+	foreach (array('lineOneEn' => 'STOP GUESSING.', 'lineTwoEn' => 'START KNOWING.', 'lineThreeEn' => 'YOUR QIMIA.') as $key => $previous) {
+		if (isset($args[$key]) && trim((string) $args[$key]) === $previous) {
+			unset($args[$key]);
+		}
+	}
+	$line_one   = qil_text( $args, 'lineOne', 'STOP GUESSING', 'لا تخمين.' );
+	$line_two   = qil_text( $args, 'lineTwo', '', 'معرفة حقيقية.' );
+	$line_three = qil_text( $args, 'lineThree', 'START MY QIMIA.', 'كيميا الخاصة بك.' );
+	$split_myqimia_title = ! $is_arabic && 'START MY QIMIA.' === $line_three;
+	$line_three_markup = $split_myqimia_title
+		? '<span class="qil-myqimia-title-start">START </span><span class="qil-myqimia-title-name">MY QIMIA.</span>'
+		: esc_html($line_three);
 	$myqimia_url = qil_myqimia_url('today', $is_arabic);
 	$myqimia_label = $is_arabic ? 'افتح ماي كيميا' : 'Open My Qimia';
 	// Replace only previous bundled defaults, not the merchant's custom hero copy.
@@ -389,14 +400,14 @@ function qil_section_hero( array $args = array() ) {
 				<div class="qil-eyebrow"><svg><use href="#qil-i-spark"/></svg><span><?php echo esc_html( $eyebrow ); ?></span><small><?php echo esc_html( $is_arabic ? 'متصل بالمتجر' : 'LIVE STORE' ); ?></small></div>
 				<h1 id="qil-portal-title">
 					<span><?php echo esc_html( $line_one ); ?></span>
-					<span><?php echo esc_html( $line_two ); ?></span>
-					<span class="qil-myqimia-title-row">
+					<?php if ('' !== trim($line_two)) : ?><span><?php echo esc_html( $line_two ); ?></span><?php endif; ?>
+					<span class="qil-myqimia-title-row<?php echo $split_myqimia_title ? ' qil-myqimia-title-row--single' : ''; ?>">
                         <?php if ($myqimia_url) : ?>
                         <a class="qil-button-primary qil-myqimia-title-link" data-qil-myqimia-cta href="<?php echo esc_url($myqimia_url); ?>" title="<?php echo esc_attr($myqimia_label); ?>" aria-label="<?php echo esc_attr($line_three . ' — ' . $myqimia_label); ?>">
-                            <span class="qil-gradient-text qil-myqimia-title-text"><?php echo esc_html($line_three); ?></span>
+                            <span class="qil-gradient-text qil-myqimia-title-text"><?php echo $line_three_markup; // Escaped text or fixed, trusted spans. ?></span>
                         </a>
                         <?php else : ?>
-                        <span class="qil-myqimia-title-static"><span class="qil-gradient-text qil-myqimia-title-text"><?php echo esc_html($line_three); ?></span></span>
+                        <span class="qil-myqimia-title-static"><span class="qil-gradient-text qil-myqimia-title-text"><?php echo $line_three_markup; // Escaped text or fixed, trusted spans. ?></span></span>
                         <?php endif; ?>
                     </span>
 				</h1>

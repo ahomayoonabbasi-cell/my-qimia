@@ -75,68 +75,31 @@ try {
 			return { role: !!stack?.querySelector('.qil-product-badge'), sales: stack ? stack.querySelectorAll('.qil-sale-badge').length : 0, rolling: !!stack?.classList.contains('has-multiple'), animation: sale ? getComputedStyle(sale).animationName : '', opacity: sale ? getComputedStyle(sale).opacity : '', text: sale?.textContent || '' };
 		}));
 		check(`${label}: each flash card shows one discount badge, still and in view (no role label taking turns with it)`, badges.length === 10 && badges.every(b => !b.role && b.sales === 1 && !b.rolling && b.animation === 'none' && b.opacity === '1' && /−\d+(%|٪)/.test(b.text)), JSON.stringify(badges.slice(0, 3)));
-		check(`${label}: the clock counts down to the end of these prices`, /DROP ENDS IN|تنتهي المجموعة خلال/.test(await text(page, '[data-qil-flash-clock] > small')));
+		// Since 1.18.12 the homepage shows evergreen offers (best sellers first); the timed drop with its clock is the shortcode/category variant, covered by the PHP scenarios.
+		check(`${label}: homepage offers are evergreen: no timer, no end time`, (await page.locator('[data-qil-flash-clock]').count()) === 0 && (await flash.getAttribute('data-qil-flash-end')) === null);
+		check(`${label}: header says FLASH SALE — BEST SELLERS FIRST`, /FLASH SALE|تخفيضات سريعة/.test(await text(page, '#qil-flash-title')) && /BEST SELLERS FIRST|الأكثر مبيعاً أولاً/.test(await text(page, '#qil-flash-title')), await text(page, '#qil-flash-title'));
 		if (path.startsWith('/ar')) check(`${label}: Arabic uses the Western digits of the prices throughout the drop`, !/[٠-٩]/.test(await page.locator('#qil-flash-drop').innerText()));
 		check(`${label}: the drop shows ${viewport === 'desktop' ? 4 : 2} theme cards per view, the rest on the carousel`, (await perView(page, '.qil-flash-rail')) === (viewport === 'desktop' ? 4 : 2), await perView(page, '.qil-flash-rail'));
 		const chips = await page.locator('.qil-flash-rail .qil-product-card').evaluateAll(cards => cards.map(card => ({ id: card.dataset.productId, chip: card.querySelector('.qil-product-info h3 + [data-qil-flash-stock] > b')?.textContent || '', onImage: !!card.querySelector('.qil-product-image [data-qil-flash-stock]'), height: Math.round(card.querySelector('[data-qil-flash-stock]')?.getBoundingClientRect().height || 0) })));
 		check(`${label}: every flash card has its stock line right under the product name (not on the image)`, chips.length === 10 && chips.every(row => row.chip && !row.onImage), JSON.stringify(chips.filter(row => !row.chip || row.onImage)));
 		check(`${label}: the stock lines share one height (cards keep one shape)`, new Set(chips.map(row => row.height)).size === 1, JSON.stringify(chips.map(row => row.height)));
-		const low = chips.find(row => row.id === '216');
-		check(`${label}: a flavour running low is named ("Only 3 left in Chocolate")`, low && (path === '/' ? low.chip === 'Only 3 left in Chocolate' : /بقي 3 فقط/.test(low.chip) && /Chocolate/.test(low.chip)), JSON.stringify(low));
-		check(`${label}: counts lead: the almost-gone products come first`, chips.slice(0, 2).every(row => /Only|فقط/.test(row.chip)), JSON.stringify(chips.slice(0, 3)));
+		check(`${label}: best sellers lead: the rail follows total sales (201 → 210), discounts and low stock never reorder it`, chips.map(row => row.id).join() === '201,202,203,204,205,206,207,208,209,210', chips.map(row => row.id).join());
 		check(`${label}: the kicker counts what is almost gone`, /ALMOST GONE|على وشك النفاد/.test(await text(page, '.qil-flash-kicker')));
 		check(`${label}: flash cards use the theme's own Add to cart button`, (await page.locator('.qil-flash-rail .qil-product-card .qil-buy').count()) === 10);
-		const idle1 = await text(page, '[data-qil-flash-unit="s"]');
-		await page.waitForTimeout(1300);
-		const idle2 = await text(page, '[data-qil-flash-unit="s"]');
-		check(`${label}: clock stays idle while off screen (no CPU spent)`, (await flash.boundingBox()).y > viewports[viewport].height ? idle1 === idle2 : true, `${idle1} → ${idle2}`);
-		await flash.scrollIntoViewIfNeeded();
-		await page.waitForTimeout(250);
-		const s1 = await text(page, '[data-qil-flash-unit="s"]');
-		await page.waitForTimeout(2100);
-		const s2 = await text(page, '[data-qil-flash-unit="s"]');
-		check(`${label}: the clock counts down to the real end of the drop`, s1 !== s2 && s2 !== '', `${s1} → ${s2}`);
-		const shown = await page.locator('[data-qil-flash-clock]').evaluate(node => [...node.querySelectorAll('[data-qil-flash-unit]')].map(unit => unit.textContent).join(':'));
-		const end = Number(await flash.getAttribute('data-qil-flash-end'));
-		check(`${label}: clock matches the real end time`, Number.isFinite(end) && end * 1000 > Date.now(), `${shown} end=${end}`);
-		const cardEnds = await page.evaluate(() => {
-			const dropEnd = Number(document.querySelector('[data-qil-flash-drop]').dataset.qilFlashEnd);
-			let meta = {};
-			try { meta = JSON.parse(document.querySelector('script[data-qil-flash-data]').textContent).meta || {}; } catch (_) { meta = {}; }
-			return [...document.querySelectorAll('.qil-flash-rail .qil-product-card')].map(card => {
-				const ends = Number(meta[card.dataset.productId]?.endsAt || 0), left = ends - Date.now() / 1000;
-				return { id: card.dataset.productId, expected: left > 5 && left < 7 * 86400 && ends < dropEnd - 60, shown: !!card.querySelector('[data-qil-flash-card-end]') };
-			});
-		});
-		check(`${label}: a product's own sale end shows only when it ends before the drop`, cardEnds.every(row => row.expected === row.shown), JSON.stringify(cardEnds.filter(row => row.expected !== row.shown)));
 		const edge = await page.evaluate(() => {
-			const flash = document.querySelector('#qil-flash-drop'), next = flash?.nextElementSibling, stage = flash?.querySelector('.qil-flash-stage');
+			const flash = document.querySelector('#qil-flash-drop'), match = document.querySelector('#qil-match'), stage = flash?.querySelector('.qil-flash-stage');
 			const shadow = stage ? getComputedStyle(stage).boxShadow : '';
-			return { outerShadow: shadow.split(/,(?![^(]*\))/).some(part => part.trim() !== 'none' && !part.includes('inset')), image: getComputedStyle(flash).backgroundImage, next: next ? getComputedStyle(next).backgroundColor : '' };
+			return { outerShadow: shadow.split(/,(?![^(]*\))/).some(part => part.trim() !== 'none' && !part.includes('inset')), prev: flash?.previousElementSibling?.id, ground: getComputedStyle(flash).backgroundColor, fade: getComputedStyle(match).backgroundImage, gap: Math.round(stage.getBoundingClientRect().top - match.getBoundingClientRect().bottom) };
 		});
-		check(`${label}: the flash stage casts no shadow and its section fades into the white section below (no two-tone edge)`, !edge.outerShadow && /rgb\(255, 255, 255\)\)?\s*100%|rgb\(255, 255, 255\)\)$/.test(edge.image.replace(/\s+/g, ' ')) && edge.next === 'rgb(255, 255, 255)', JSON.stringify(edge));
-		// Space: the stage sits in the homepage's own rhythm, the same gap above and
-		// below it as the page keeps between the categories and the goal engine.
-		const rhythm = await page.evaluate(() => {
-			const box = selector => document.querySelector(selector)?.getBoundingClientRect();
-			const tiles = box('.qil-category-tiles'), stage = box('.qil-flash-stage'), head = box('#qil-match .qil-section-heading > div:first-child');
-			const flash = document.querySelector('#qil-flash-drop'), holder = document.createElement('div');
-			const out = { above: Math.round(stage.top - tiles.bottom), below: Math.round(head.top - stage.bottom) };
-			// The same page without the drop: the gap the homepage had before it.
-			flash.replaceWith(holder);
-			out.home = Math.round(box('#qil-match .qil-section-heading > div:first-child').top - box('.qil-category-tiles').bottom);
-			holder.replaceWith(flash);
-			return out;
-		});
+		check(`${label}: the flash stage follows the goal engine, casts no shadow and sits on the ice tone the goal section fades into (no two-tone edge)`, edge.prev === 'qil-match' && !edge.outerShadow && edge.ground === 'rgb(244, 250, 249)' && /rgb\(244, 250, 249\) 100%\)$/.test(edge.fade), JSON.stringify(edge));
+		check(`${label}: compact space between Show more and the stage (${edge.gap}px)`, edge.gap >= 12 && edge.gap <= 32, edge.gap);
 		const light = await page.evaluate(() => {
 			const drift = [];
 			const walk = (rules, media) => { for (const rule of rules) { if (rule.cssRules && rule.media) walk(rule.cssRules, rule.media.mediaText); else if (/qil-flash-aurora/.test(rule.selectorText || '') && /qil-flash-drift/.test(rule.cssText)) drift.push(media); } };
 			for (const sheet of document.styleSheets) { try { walk(sheet.cssRules, ''); } catch (_) { /* cross-origin */ } }
-			return { filter: getComputedStyle(document.querySelector('.qil-flash-aurora')).filter, backdrop: getComputedStyle(document.querySelector('.qil-flash-clock')).backdropFilter, drift };
+			return { filter: getComputedStyle(document.querySelector('.qil-flash-aurora')).filter, drift };
 		});
-		check(`${label}: the flash stage has no blur filters, and its light drifts only on screens with a mouse`, light.filter === 'none' && light.backdrop === 'none' && light.drift.length > 0 && light.drift.every(media => /hover:\s*hover/.test(media) && /pointer:\s*fine/.test(media)), JSON.stringify(light));
-		check(`${label}: the space under the flash stage equals the space above it and the homepage's own section gap (${rhythm.below}px)`, Math.abs(rhythm.below - rhythm.above) <= 1 && Math.abs(rhythm.below - rhythm.home) <= 1 && rhythm.below <= 70, JSON.stringify(rhythm));
-		check(`${label}: header says FLASH SALE — 72 HOURS`, /FLASH SALE|تخفيضات سريعة/.test(await text(page, '#qil-flash-title')) && /72/.test(await text(page, '#qil-flash-title')));
+		check(`${label}: the flash stage has no blur filter, and its light drifts only on screens with a mouse`, light.filter === 'none' && light.drift.length > 0 && light.drift.every(media => /hover:\s*hover/.test(media) && /pointer:\s*fine/.test(media)), JSON.stringify(light));
 		await page.waitForSelector('#qil-stacks .qil-product-card', { timeout: 6000 }).catch(() => {});
 		check(`${label}: stacks are theme product cards with the theme's Add to cart`, (await page.locator('#qil-stacks .qil-product-card').count()) === 3 && (await page.locator('#qil-stacks .qil-product-card .qil-buy').count()) === 3);
 		const stackCard = await page.locator('#qil-stacks .qil-product-card[data-product-id="301"]').evaluate(card => ({
@@ -186,22 +149,6 @@ try {
 		await context.close();
 	}
 
-	/* ---------------- Drop that ends while the page is open ---------------- */
-	{
-		const context = await browser.newContext({ viewport: viewports.desktop });
-		const page = await context.newPage();
-		await page.route(`${BASE}/`, async route => {
-			const response = await route.fetch();
-			const body = (await response.text()).replace(/data-qil-flash-end="\d+"/, `data-qil-flash-end="${Math.floor(Date.now() / 1000) + 3}"`);
-			await route.fulfill({ response, body });
-		});
-		await page.goto(`${BASE}/`);
-		await page.locator('[data-qil-flash-drop]').scrollIntoViewIfNeeded();
-		await page.waitForTimeout(4500);
-		check('a drop that ends on screen says so honestly (no reset, no fake timer)', /THIS DROP HAS ENDED/.test(await text(page, '[data-qil-flash-clock]')));
-		await context.close();
-	}
-
 	/* ---------------- Optimizer-proof: missing page data, reversed scripts ---------------- */
 	for (const [name, rewrite] of [
 		['inline page data removed (an optimizer delayed it)', html => html.replace(/<script>window\.QIL_BOOST = [\s\S]*?<\/script>/, '')],
@@ -245,8 +192,9 @@ try {
 		check(`${label}: every pick says why, in full (no clipped label)`, reasons.every(row => row && /You compared|You viewed|Pairs with/.test(row.text) && !row.clipped), JSON.stringify(reasons));
 		check(`${label}: the picks show ${viewport === 'desktop' ? 4 : 2} theme cards per view`, (await perView(page, '[data-qil-wallet-grid]')) === (viewport === 'desktop' ? 4 : 2), await perView(page, '[data-qil-wallet-grid]'));
 		check(`${label}: Buy again is the theme's Add to cart button`, (await page.locator('.qil-running .qil-buy[data-qil-running-buy]').count()) === 2);
-		const memberEdge = await page.evaluate(() => { const member = document.querySelector('#qil-member'), prev = member?.previousElementSibling; return { image: getComputedStyle(member).backgroundImage, prev: prev ? getComputedStyle(prev).backgroundColor : '' }; });
-		check(`${label}: the wallet section starts in the white of the section above (no two-tone edge)`, /^linear-gradient\(rgb\(255, 255, 255\)/.test(memberEdge.image) && memberEdge.prev === 'rgb(255, 255, 255)', JSON.stringify(memberEdge));
+		const memberEdge = await page.evaluate(() => { const member = document.querySelector('#qil-member'), prev = member?.previousElementSibling; return { image: getComputedStyle(member).backgroundImage, ground: getComputedStyle(member).backgroundColor, prev: prev ? getComputedStyle(prev).backgroundColor : '' }; });
+		// 1.18.5: the member area continues on the flash sale's ice ground.
+		check(`${label}: the wallet section continues on the ice ground of the section above (no two-tone edge)`, memberEdge.ground === memberEdge.prev && memberEdge.prev === 'rgb(244, 250, 249)' && memberEdge.image === 'none', JSON.stringify(memberEdge));
 		check(`${label}: exactly one private request (qil_member)`, requests.filter(url => url.includes('qil_member')).length === 1, requests.join(' '));
 		await page.locator('[data-qil-member]').screenshot({ path: join(shots, `member-${viewport}.png`), ...clean });
 		if (viewport === 'desktop') {
@@ -274,7 +222,7 @@ try {
 		await page.waitForSelector('.cart-widget-side.wd-opened', { timeout: 4000 });
 		await page.waitForTimeout(450);
 		const ladder = await text(page, '.qil-boost-mini');
-		check(`${label}: "Add 0.101 more → get 3 OMR cashback"`, path === '/' ? /Add\s+0\.101.*more.*get\s+3 OMR cashback/s.test(ladder) : /أضف/.test(ladder) && /0\.101/.test(ladder), ladder);
+		check(`${label}: header leads with this cart's reward, then "Add 0.101 more → 3 OMR cashback"`, path === '/' ? /Cashback on this order\s*2 OMR/.test(ladder) && /Add\s+0\.101.*more\s*→\s*3 OMR cashback/s.test(ladder) : /أضف/.test(ladder) && /0\.101/.test(ladder), ladder);
 		check(`${label}: three related picks that reach the next band`, (await page.locator('.cart-widget-side .qil-boost-pick').count()) === 3);
 		const fit = await page.evaluate(() => {
 			const drawer = document.querySelector('.cart-widget-side'), box = drawer.getBoundingClientRect();
@@ -328,7 +276,7 @@ try {
 		const label = `cart page ${path.startsWith('/ar') ? 'AR' : 'EN'} ${viewport}`;
 		console.log(`\n${label}`);
 		const { page, context, errors } = await open(path, { viewport, cookies: { qt_cart: '102:0:1' } });
-		check(`${label}: ladder panel with six steps in the totals`, (await page.locator('.cart_totals .qil-boost-steps li').count()) === 6);
+		check(`${label}: ladder panel with six steps in the totals, after the checkout button (1.18.6)`, (await page.locator('.cart_totals .qil-boost-steps li').count()) === 6 && await page.evaluate(() => { const go = document.querySelector('.cart_totals .checkout-button'), panel = document.querySelector('.cart_totals .qil-boost'); return !!go && !!panel && !!(go.compareDocumentPosition(panel) & Node.DOCUMENT_POSITION_FOLLOWING); }));
 		const ladderIds = await page.locator('.cart_totals [data-qil-boost-product]').evaluateAll(nodes => nodes.map(n => n.dataset.qilBoostProduct));
 		await page.waitForSelector('.qil-boost-band .qil-product-card', { timeout: 6000 }).catch(() => {});
 		const bandIds = await page.locator('.qil-boost-band .qil-product-card').evaluateAll(nodes => nodes.map(n => n.dataset.productId));

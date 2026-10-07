@@ -1,0 +1,3878 @@
+{
+  "browser": "144.0.7559.96",
+  "count": 233,
+  "passed": 233,
+  "checks": [
+    {
+      "name": "en-280-source flush below title",
+      "pass": true,
+      "detail": {
+        "hero": {
+          "x": 0,
+          "y": 64,
+          "w": 280,
+          "h": 116.78125,
+          "right": 280,
+          "bottom": 180.78125
+        },
+        "title": {
+          "x": 0,
+          "y": 0,
+          "w": 280,
+          "h": 64,
+          "right": 280,
+          "bottom": 64
+        },
+        "drawer": {
+          "x": 0,
+          "y": 0,
+          "w": 280,
+          "h": 850,
+          "right": 280,
+          "bottom": 850
+        },
+        "amount": {
+          "x": 168.25,
+          "y": 80.796875,
+          "w": 95.75,
+          "h": 36.796875,
+          "right": 264,
+          "bottom": 117.59375
+        },
+        "copy": {
+          "x": 16,
+          "y": 76,
+          "w": 140.25,
+          "h": 46.390625,
+          "right": 156.25,
+          "bottom": 122.390625
+        },
+        "current": "2 OMR",
+        "amountSize": "32px",
+        "nextSize": "12px",
+        "radius": "0px",
+        "overflow": false,
+        "track": {
+          "x": 16,
+          "y": 164.78125,
+          "w": 248,
+          "h": 4,
+          "right": 264,
+          "bottom": 168.78125
+        },
+        "animation": "none",
+        "color": "rgb(255, 219, 131)"
+      }
+    },
+    {
+      "name": "en-280-source full drawer width",
+      "pass": true,
+      "detail": {
+        "hero": {
+          "x": 0,
+          "y": 64,
+          "w": 280,
+          "h": 116.78125,
+          "right": 280,
+          "bottom": 180.78125
+        },
+        "title": {
+          "x": 0,
+          "y": 0,
+          "w": 280,
+          "h": 64,
+          "right": 280,
+          "bottom": 64
+        },
+        "drawer": {
+          "x": 0,
+          "y": 0,
+          "w": 280,
+          "h": 850,
+          "right": 280,
+          "bottom": 850
+        },
+        "amount": {
+          "x": 168.25,
+          "y": 80.796875,
+          "w": 95.75,
+          "h": 36.796875,
+          "right": 264,
+          "bottom": 117.59375
+        },
+        "copy": {
+          "x": 16,
+          "y": 76,
+          "w": 140.25,
+          "h": 46.390625,
+          "right": 156.25,
+          "bottom": 122.390625
+        },
+        "current": "2 OMR",
+        "amountSize": "32px",
+        "nextSize": "12px",
+        "radius": "0px",
+        "overflow": false,
+        "track": {
+          "x": 16,
+          "y": 164.78125,
+          "w": 248,
+          "h": 4,
+          "right": 264,
+          "bottom": 168.78125
+        },
+        "animation": "none",
+        "color": "rgb(255, 219, 131)"
+      }
+    },
+    {
+      "name": "en-280-source square corners",
+      "pass": true,
+      "detail": null
+    },
+    {
+      "name": "en-280-source current reward primary",
+      "pass": true,
+      "detail": null
+    },
+    {
+      "name": "en-280-source no horizontal overflow",
+      "pass": true,
+      "detail": null
+    },
+    {
+      "name": "en-280-source reward inside header",
+      "pass": true,
+      "detail": null
+    },
+    {
+      "name": "en-280-source compact height",
+      "pass": true,
+      "detail": 116.78125
+    },
+    {
+      "name": "en-280-source no shimmer animation",
+      "pass": true,
+      "detail": null
+    },
+    {
+      "name": "en-280-min flush below title",
+      "pass": true,
+      "detail": {
+        "hero": {
+          "x": 0,
+          "y": 64,
+          "w": 280,
+          "h": 116.78125,
+          "right": 280,
+          "bottom": 180.78125
+        },
+        "title": {
+          "x": 0,
+          "y": 0,
+          "w": 280,
+          "h": 64,
+          "right": 280,
+          "bottom": 64
+        },
+        "drawer": {
+          "x": 0,
+          "y": 0,
+          "w": 280,
+          "h": 850,
+          "right": 280,
+          "bottom": 850
+        },
+        "amount": {
+          "x": 168.25,
+          "y": 80.796875,
+          "w": 95.75,
+          "h": 36.796875,
+          "right": 264,
+          "bottom": 117.59375
+        },
+        "copy": {
+          "x": 16,
+          "y": 76,
+          "w": 140.25,
+          "h": 46.390625,
+          "right": 156.25,
+          "bottom": 122.390625
+        },
+        "current": "2 OMR",
+        "amountSize": "32px",
+        "nextSize": "12px",
+        "radius": "0px",
+        "overflow": false,
+        "track": {
+          "x": 16,
+          "y": 164.78125,
+          "w": 248,
+          "h": 4,
+          "right": 264,
+          "bottom": 168.78125
+        },
+        "animation": "none",
+        "color": "rgb(255, 219, 131)"
+      }
+    },
+    {
+      "name": "en-280-min full drawer width",
+      "pass": true,
+      "detail": {
+        "hero": {
+          "x": 0,
+          "y": 64,
+          "w": 280,
+          "h": 116.78125,
+          "right": 280,
+          "bottom": 180.78125
+        },
+        "title": {
+          "x": 0,
+          "y": 0,
+          "w": 280,
+          "h": 64,
+          "right": 280,
+          "bottom": 64
+        },
+        "drawer": {
+          "x": 0,
+          "y": 0,
+          "w": 280,
+          "h": 850,
+          "right": 280,
+          "bottom": 850
+        },
+        "amount": {
+          "x": 168.25,
+          "y": 80.796875,
+          "w": 95.75,
+          "h": 36.796875,
+          "right": 264,
+          "bottom": 117.59375
+        },
+        "copy": {
+          "x": 16,
+          "y": 76,
+          "w": 140.25,
+          "h": 46.390625,
+          "right": 156.25,
+          "bottom": 122.390625
+        },
+        "current": "2 OMR",
+        "amountSize": "32px",
+        "nextSize": "12px",
+        "radius": "0px",
+        "overflow": false,
+        "track": {
+          "x": 16,
+          "y": 164.78125,
+          "w": 248,
+          "h": 4,
+          "right": 264,
+          "bottom": 168.78125
+        },
+        "animation": "none",
+        "color": "rgb(255, 219, 131)"
+      }
+    },
+    {
+      "name": "en-280-min square corners",
+      "pass": true,
+      "detail": null
+    },
+    {
+      "name": "en-280-min current reward primary",
+      "pass": true,
+      "detail": null
+    },
+    {
+      "name": "en-280-min no horizontal overflow",
+      "pass": true,
+      "detail": null
+    },
+    {
+      "name": "en-280-min reward inside header",
+      "pass": true,
+      "detail": null
+    },
+    {
+      "name": "en-280-min compact height",
+      "pass": true,
+      "detail": 116.78125
+    },
+    {
+      "name": "en-280-min no shimmer animation",
+      "pass": true,
+      "detail": null
+    },
+    {
+      "name": "en-280-min min CSS matches source render",
+      "pass": true,
+      "detail": null
+    },
+    {
+      "name": "en-320-source flush below title",
+      "pass": true,
+      "detail": {
+        "hero": {
+          "x": 0,
+          "y": 64,
+          "w": 320,
+          "h": 107.1875,
+          "right": 320,
+          "bottom": 171.1875
+        },
+        "title": {
+          "x": 0,
+          "y": 0,
+          "w": 320,
+          "h": 64,
+          "right": 320,
+          "bottom": 64
+        },
+        "drawer": {
+          "x": 0,
+          "y": 0,
+          "w": 320,
+          "h": 850,
+          "right": 320,
+          "bottom": 850
+        },
+        "amount": {
+          "x": 208.25,
+          "y": 76,
+          "w": 95.75,
+          "h": 36.796875,
+          "right": 304,
+          "bottom": 112.796875
+        },
+        "copy": {
+          "x": 16,
+          "y": 78.203125,
+          "w": 180.25,
+          "h": 32.390625,
+          "right": 196.25,
+          "bottom": 110.59375
+        },
+        "current": "2 OMR",
+        "amountSize": "32px",
+        "nextSize": "12px",
+        "radius": "0px",
+        "overflow": false,
+        "track": {
+          "x": 16,
+          "y": 155.1875,
+          "w": 288,
+          "h": 4,
+          "right": 304,
+          "bottom": 159.1875
+        },
+        "animation": "none",
+        "color": "rgb(255, 219, 131)"
+      }
+    },
+    {
+      "name": "en-320-source full drawer width",
+      "pass": true,
+      "detail": {
+        "hero": {
+          "x": 0,
+          "y": 64,
+          "w": 320,
+          "h": 107.1875,
+          "right": 320,
+          "bottom": 171.1875
+        },
+        "title": {
+          "x": 0,
+          "y": 0,
+          "w": 320,
+          "h": 64,
+          "right": 320,
+          "bottom": 64
+        },
+        "drawer": {
+          "x": 0,
+          "y": 0,
+          "w": 320,
+          "h": 850,
+          "right": 320,
+          "bottom": 850
+        },
+        "amount": {
+          "x": 208.25,
+          "y": 76,
+          "w": 95.75,
+          "h": 36.796875,
+          "right": 304,
+          "bottom": 112.796875
+        },
+        "copy": {
+          "x": 16,
+          "y": 78.203125,
+          "w": 180.25,
+          "h": 32.390625,
+          "right": 196.25,
+          "bottom": 110.59375
+        },
+        "current": "2 OMR",
+        "amountSize": "32px",
+        "nextSize": "12px",
+        "radius": "0px",
+        "overflow": false,
+        "track": {
+          "x": 16,
+          "y": 155.1875,
+          "w": 288,
+          "h": 4,
+          "right": 304,
+          "bottom": 159.1875
+        },
+        "animation": "none",
+        "color": "rgb(255, 219, 131)"
+      }
+    },
+    {
+      "name": "en-320-source square corners",
+      "pass": true,
+      "detail": null
+    },
+    {
+      "name": "en-320-source current reward primary",
+      "pass": true,
+      "detail": null
+    },
+    {
+      "name": "en-320-source no horizontal overflow",
+      "pass": true,
+      "detail": null
+    },
+    {
+      "name": "en-320-source reward inside header",
+      "pass": true,
+      "detail": null
+    },
+    {
+      "name": "en-320-source compact height",
+      "pass": true,
+      "detail": 107.1875
+    },
+    {
+      "name": "en-320-source no shimmer animation",
+      "pass": true,
+      "detail": null
+    },
+    {
+      "name": "en-320-min flush below title",
+      "pass": true,
+      "detail": {
+        "hero": {
+          "x": 0,
+          "y": 64,
+          "w": 320,
+          "h": 107.1875,
+          "right": 320,
+          "bottom": 171.1875
+        },
+        "title": {
+          "x": 0,
+          "y": 0,
+          "w": 320,
+          "h": 64,
+          "right": 320,
+          "bottom": 64
+        },
+        "drawer": {
+          "x": 0,
+          "y": 0,
+          "w": 320,
+          "h": 850,
+          "right": 320,
+          "bottom": 850
+        },
+        "amount": {
+          "x": 208.25,
+          "y": 76,
+          "w": 95.75,
+          "h": 36.796875,
+          "right": 304,
+          "bottom": 112.796875
+        },
+        "copy": {
+          "x": 16,
+          "y": 78.203125,
+          "w": 180.25,
+          "h": 32.390625,
+          "right": 196.25,
+          "bottom": 110.59375
+        },
+        "current": "2 OMR",
+        "amountSize": "32px",
+        "nextSize": "12px",
+        "radius": "0px",
+        "overflow": false,
+        "track": {
+          "x": 16,
+          "y": 155.1875,
+          "w": 288,
+          "h": 4,
+          "right": 304,
+          "bottom": 159.1875
+        },
+        "animation": "none",
+        "color": "rgb(255, 219, 131)"
+      }
+    },
+    {
+      "name": "en-320-min full drawer width",
+      "pass": true,
+      "detail": {
+        "hero": {
+          "x": 0,
+          "y": 64,
+          "w": 320,
+          "h": 107.1875,
+          "right": 320,
+          "bottom": 171.1875
+        },
+        "title": {
+          "x": 0,
+          "y": 0,
+          "w": 320,
+          "h": 64,
+          "right": 320,
+          "bottom": 64
+        },
+        "drawer": {
+          "x": 0,
+          "y": 0,
+          "w": 320,
+          "h": 850,
+          "right": 320,
+          "bottom": 850
+        },
+        "amount": {
+          "x": 208.25,
+          "y": 76,
+          "w": 95.75,
+          "h": 36.796875,
+          "right": 304,
+          "bottom": 112.796875
+        },
+        "copy": {
+          "x": 16,
+          "y": 78.203125,
+          "w": 180.25,
+          "h": 32.390625,
+          "right": 196.25,
+          "bottom": 110.59375
+        },
+        "current": "2 OMR",
+        "amountSize": "32px",
+        "nextSize": "12px",
+        "radius": "0px",
+        "overflow": false,
+        "track": {
+          "x": 16,
+          "y": 155.1875,
+          "w": 288,
+          "h": 4,
+          "right": 304,
+          "bottom": 159.1875
+        },
+        "animation": "none",
+        "color": "rgb(255, 219, 131)"
+      }
+    },
+    {
+      "name": "en-320-min square corners",
+      "pass": true,
+      "detail": null
+    },
+    {
+      "name": "en-320-min current reward primary",
+      "pass": true,
+      "detail": null
+    },
+    {
+      "name": "en-320-min no horizontal overflow",
+      "pass": true,
+      "detail": null
+    },
+    {
+      "name": "en-320-min reward inside header",
+      "pass": true,
+      "detail": null
+    },
+    {
+      "name": "en-320-min compact height",
+      "pass": true,
+      "detail": 107.1875
+    },
+    {
+      "name": "en-320-min no shimmer animation",
+      "pass": true,
+      "detail": null
+    },
+    {
+      "name": "en-320-min min CSS matches source render",
+      "pass": true,
+      "detail": null
+    },
+    {
+      "name": "en-340-source flush below title",
+      "pass": true,
+      "detail": {
+        "hero": {
+          "x": 0,
+          "y": 64,
+          "w": 340,
+          "h": 107.1875,
+          "right": 340,
+          "bottom": 171.1875
+        },
+        "title": {
+          "x": 0,
+          "y": 0,
+          "w": 340,
+          "h": 64,
+          "right": 340,
+          "bottom": 64
+        },
+        "drawer": {
+          "x": 0,
+          "y": 0,
+          "w": 340,
+          "h": 850,
+          "right": 340,
+          "bottom": 850
+        },
+        "amount": {
+          "x": 228.25,
+          "y": 76,
+          "w": 95.75,
+          "h": 36.796875,
+          "right": 324,
+          "bottom": 112.796875
+        },
+        "copy": {
+          "x": 16,
+          "y": 78.203125,
+          "w": 200.25,
+          "h": 32.390625,
+          "right": 216.25,
+          "bottom": 110.59375
+        },
+        "current": "2 OMR",
+        "amountSize": "32px",
+        "nextSize": "12px",
+        "radius": "0px",
+        "overflow": false,
+        "track": {
+          "x": 16,
+          "y": 155.1875,
+          "w": 308,
+          "h": 4,
+          "right": 324,
+          "bottom": 159.1875
+        },
+        "animation": "none",
+        "color": "rgb(255, 219, 131)"
+      }
+    },
+    {
+      "name": "en-340-source full drawer width",
+      "pass": true,
+      "detail": {
+        "hero": {
+          "x": 0,
+          "y": 64,
+          "w": 340,
+          "h": 107.1875,
+          "right": 340,
+          "bottom": 171.1875
+        },
+        "title": {
+          "x": 0,
+          "y": 0,
+          "w": 340,
+          "h": 64,
+          "right": 340,
+          "bottom": 64
+        },
+        "drawer": {
+          "x": 0,
+          "y": 0,
+          "w": 340,
+          "h": 850,
+          "right": 340,
+          "bottom": 850
+        },
+        "amount": {
+          "x": 228.25,
+          "y": 76,
+          "w": 95.75,
+          "h": 36.796875,
+          "right": 324,
+          "bottom": 112.796875
+        },
+        "copy": {
+          "x": 16,
+          "y": 78.203125,
+          "w": 200.25,
+          "h": 32.390625,
+          "right": 216.25,
+          "bottom": 110.59375
+        },
+        "current": "2 OMR",
+        "amountSize": "32px",
+        "nextSize": "12px",
+        "radius": "0px",
+        "overflow": false,
+        "track": {
+          "x": 16,
+          "y": 155.1875,
+          "w": 308,
+          "h": 4,
+          "right": 324,
+          "bottom": 159.1875
+        },
+        "animation": "none",
+        "color": "rgb(255, 219, 131)"
+      }
+    },
+    {
+      "name": "en-340-source square corners",
+      "pass": true,
+      "detail": null
+    },
+    {
+      "name": "en-340-source current reward primary",
+      "pass": true,
+      "detail": null
+    },
+    {
+      "name": "en-340-source no horizontal overflow",
+      "pass": true,
+      "detail": null
+    },
+    {
+      "name": "en-340-source reward inside header",
+      "pass": true,
+      "detail": null
+    },
+    {
+      "name": "en-340-source compact height",
+      "pass": true,
+      "detail": 107.1875
+    },
+    {
+      "name": "en-340-source no shimmer animation",
+      "pass": true,
+      "detail": null
+    },
+    {
+      "name": "en-340-min flush below title",
+      "pass": true,
+      "detail": {
+        "hero": {
+          "x": 0,
+          "y": 64,
+          "w": 340,
+          "h": 107.1875,
+          "right": 340,
+          "bottom": 171.1875
+        },
+        "title": {
+          "x": 0,
+          "y": 0,
+          "w": 340,
+          "h": 64,
+          "right": 340,
+          "bottom": 64
+        },
+        "drawer": {
+          "x": 0,
+          "y": 0,
+          "w": 340,
+          "h": 850,
+          "right": 340,
+          "bottom": 850
+        },
+        "amount": {
+          "x": 228.25,
+          "y": 76,
+          "w": 95.75,
+          "h": 36.796875,
+          "right": 324,
+          "bottom": 112.796875
+        },
+        "copy": {
+          "x": 16,
+          "y": 78.203125,
+          "w": 200.25,
+          "h": 32.390625,
+          "right": 216.25,
+          "bottom": 110.59375
+        },
+        "current": "2 OMR",
+        "amountSize": "32px",
+        "nextSize": "12px",
+        "radius": "0px",
+        "overflow": false,
+        "track": {
+          "x": 16,
+          "y": 155.1875,
+          "w": 308,
+          "h": 4,
+          "right": 324,
+          "bottom": 159.1875
+        },
+        "animation": "none",
+        "color": "rgb(255, 219, 131)"
+      }
+    },
+    {
+      "name": "en-340-min full drawer width",
+      "pass": true,
+      "detail": {
+        "hero": {
+          "x": 0,
+          "y": 64,
+          "w": 340,
+          "h": 107.1875,
+          "right": 340,
+          "bottom": 171.1875
+        },
+        "title": {
+          "x": 0,
+          "y": 0,
+          "w": 340,
+          "h": 64,
+          "right": 340,
+          "bottom": 64
+        },
+        "drawer": {
+          "x": 0,
+          "y": 0,
+          "w": 340,
+          "h": 850,
+          "right": 340,
+          "bottom": 850
+        },
+        "amount": {
+          "x": 228.25,
+          "y": 76,
+          "w": 95.75,
+          "h": 36.796875,
+          "right": 324,
+          "bottom": 112.796875
+        },
+        "copy": {
+          "x": 16,
+          "y": 78.203125,
+          "w": 200.25,
+          "h": 32.390625,
+          "right": 216.25,
+          "bottom": 110.59375
+        },
+        "current": "2 OMR",
+        "amountSize": "32px",
+        "nextSize": "12px",
+        "radius": "0px",
+        "overflow": false,
+        "track": {
+          "x": 16,
+          "y": 155.1875,
+          "w": 308,
+          "h": 4,
+          "right": 324,
+          "bottom": 159.1875
+        },
+        "animation": "none",
+        "color": "rgb(255, 219, 131)"
+      }
+    },
+    {
+      "name": "en-340-min square corners",
+      "pass": true,
+      "detail": null
+    },
+    {
+      "name": "en-340-min current reward primary",
+      "pass": true,
+      "detail": null
+    },
+    {
+      "name": "en-340-min no horizontal overflow",
+      "pass": true,
+      "detail": null
+    },
+    {
+      "name": "en-340-min reward inside header",
+      "pass": true,
+      "detail": null
+    },
+    {
+      "name": "en-340-min compact height",
+      "pass": true,
+      "detail": 107.1875
+    },
+    {
+      "name": "en-340-min no shimmer animation",
+      "pass": true,
+      "detail": null
+    },
+    {
+      "name": "en-340-min min CSS matches source render",
+      "pass": true,
+      "detail": null
+    },
+    {
+      "name": "en-390-source flush below title",
+      "pass": true,
+      "detail": {
+        "hero": {
+          "x": 0,
+          "y": 64,
+          "w": 390,
+          "h": 107.1875,
+          "right": 390,
+          "bottom": 171.1875
+        },
+        "title": {
+          "x": 0,
+          "y": 0,
+          "w": 390,
+          "h": 64,
+          "right": 390,
+          "bottom": 64
+        },
+        "drawer": {
+          "x": 0,
+          "y": 0,
+          "w": 390,
+          "h": 850,
+          "right": 390,
+          "bottom": 850
+        },
+        "amount": {
+          "x": 278.25,
+          "y": 76,
+          "w": 95.75,
+          "h": 36.796875,
+          "right": 374,
+          "bottom": 112.796875
+        },
+        "copy": {
+          "x": 16,
+          "y": 78.203125,
+          "w": 250.25,
+          "h": 32.390625,
+          "right": 266.25,
+          "bottom": 110.59375
+        },
+        "current": "2 OMR",
+        "amountSize": "32px",
+        "nextSize": "12px",
+        "radius": "0px",
+        "overflow": false,
+        "track": {
+          "x": 16,
+          "y": 155.1875,
+          "w": 358,
+          "h": 4,
+          "right": 374,
+          "bottom": 159.1875
+        },
+        "animation": "none",
+        "color": "rgb(255, 219, 131)"
+      }
+    },
+    {
+      "name": "en-390-source full drawer width",
+      "pass": true,
+      "detail": {
+        "hero": {
+          "x": 0,
+          "y": 64,
+          "w": 390,
+          "h": 107.1875,
+          "right": 390,
+          "bottom": 171.1875
+        },
+        "title": {
+          "x": 0,
+          "y": 0,
+          "w": 390,
+          "h": 64,
+          "right": 390,
+          "bottom": 64
+        },
+        "drawer": {
+          "x": 0,
+          "y": 0,
+          "w": 390,
+          "h": 850,
+          "right": 390,
+          "bottom": 850
+        },
+        "amount": {
+          "x": 278.25,
+          "y": 76,
+          "w": 95.75,
+          "h": 36.796875,
+          "right": 374,
+          "bottom": 112.796875
+        },
+        "copy": {
+          "x": 16,
+          "y": 78.203125,
+          "w": 250.25,
+          "h": 32.390625,
+          "right": 266.25,
+          "bottom": 110.59375
+        },
+        "current": "2 OMR",
+        "amountSize": "32px",
+        "nextSize": "12px",
+        "radius": "0px",
+        "overflow": false,
+        "track": {
+          "x": 16,
+          "y": 155.1875,
+          "w": 358,
+          "h": 4,
+          "right": 374,
+          "bottom": 159.1875
+        },
+        "animation": "none",
+        "color": "rgb(255, 219, 131)"
+      }
+    },
+    {
+      "name": "en-390-source square corners",
+      "pass": true,
+      "detail": null
+    },
+    {
+      "name": "en-390-source current reward primary",
+      "pass": true,
+      "detail": null
+    },
+    {
+      "name": "en-390-source no horizontal overflow",
+      "pass": true,
+      "detail": null
+    },
+    {
+      "name": "en-390-source reward inside header",
+      "pass": true,
+      "detail": null
+    },
+    {
+      "name": "en-390-source compact height",
+      "pass": true,
+      "detail": 107.1875
+    },
+    {
+      "name": "en-390-source no shimmer animation",
+      "pass": true,
+      "detail": null
+    },
+    {
+      "name": "en-390-min flush below title",
+      "pass": true,
+      "detail": {
+        "hero": {
+          "x": 0,
+          "y": 64,
+          "w": 390,
+          "h": 107.1875,
+          "right": 390,
+          "bottom": 171.1875
+        },
+        "title": {
+          "x": 0,
+          "y": 0,
+          "w": 390,
+          "h": 64,
+          "right": 390,
+          "bottom": 64
+        },
+        "drawer": {
+          "x": 0,
+          "y": 0,
+          "w": 390,
+          "h": 850,
+          "right": 390,
+          "bottom": 850
+        },
+        "amount": {
+          "x": 278.25,
+          "y": 76,
+          "w": 95.75,
+          "h": 36.796875,
+          "right": 374,
+          "bottom": 112.796875
+        },
+        "copy": {
+          "x": 16,
+          "y": 78.203125,
+          "w": 250.25,
+          "h": 32.390625,
+          "right": 266.25,
+          "bottom": 110.59375
+        },
+        "current": "2 OMR",
+        "amountSize": "32px",
+        "nextSize": "12px",
+        "radius": "0px",
+        "overflow": false,
+        "track": {
+          "x": 16,
+          "y": 155.1875,
+          "w": 358,
+          "h": 4,
+          "right": 374,
+          "bottom": 159.1875
+        },
+        "animation": "none",
+        "color": "rgb(255, 219, 131)"
+      }
+    },
+    {
+      "name": "en-390-min full drawer width",
+      "pass": true,
+      "detail": {
+        "hero": {
+          "x": 0,
+          "y": 64,
+          "w": 390,
+          "h": 107.1875,
+          "right": 390,
+          "bottom": 171.1875
+        },
+        "title": {
+          "x": 0,
+          "y": 0,
+          "w": 390,
+          "h": 64,
+          "right": 390,
+          "bottom": 64
+        },
+        "drawer": {
+          "x": 0,
+          "y": 0,
+          "w": 390,
+          "h": 850,
+          "right": 390,
+          "bottom": 850
+        },
+        "amount": {
+          "x": 278.25,
+          "y": 76,
+          "w": 95.75,
+          "h": 36.796875,
+          "right": 374,
+          "bottom": 112.796875
+        },
+        "copy": {
+          "x": 16,
+          "y": 78.203125,
+          "w": 250.25,
+          "h": 32.390625,
+          "right": 266.25,
+          "bottom": 110.59375
+        },
+        "current": "2 OMR",
+        "amountSize": "32px",
+        "nextSize": "12px",
+        "radius": "0px",
+        "overflow": false,
+        "track": {
+          "x": 16,
+          "y": 155.1875,
+          "w": 358,
+          "h": 4,
+          "right": 374,
+          "bottom": 159.1875
+        },
+        "animation": "none",
+        "color": "rgb(255, 219, 131)"
+      }
+    },
+    {
+      "name": "en-390-min square corners",
+      "pass": true,
+      "detail": null
+    },
+    {
+      "name": "en-390-min current reward primary",
+      "pass": true,
+      "detail": null
+    },
+    {
+      "name": "en-390-min no horizontal overflow",
+      "pass": true,
+      "detail": null
+    },
+    {
+      "name": "en-390-min reward inside header",
+      "pass": true,
+      "detail": null
+    },
+    {
+      "name": "en-390-min compact height",
+      "pass": true,
+      "detail": 107.1875
+    },
+    {
+      "name": "en-390-min no shimmer animation",
+      "pass": true,
+      "detail": null
+    },
+    {
+      "name": "en-390-min min CSS matches source render",
+      "pass": true,
+      "detail": null
+    },
+    {
+      "name": "en-430-source flush below title",
+      "pass": true,
+      "detail": {
+        "hero": {
+          "x": 0,
+          "y": 64,
+          "w": 430,
+          "h": 107.1875,
+          "right": 430,
+          "bottom": 171.1875
+        },
+        "title": {
+          "x": 0,
+          "y": 0,
+          "w": 430,
+          "h": 64,
+          "right": 430,
+          "bottom": 64
+        },
+        "drawer": {
+          "x": 0,
+          "y": 0,
+          "w": 430,
+          "h": 850,
+          "right": 430,
+          "bottom": 850
+        },
+        "amount": {
+          "x": 318.25,
+          "y": 76,
+          "w": 95.75,
+          "h": 36.796875,
+          "right": 414,
+          "bottom": 112.796875
+        },
+        "copy": {
+          "x": 16,
+          "y": 78.203125,
+          "w": 290.25,
+          "h": 32.390625,
+          "right": 306.25,
+          "bottom": 110.59375
+        },
+        "current": "2 OMR",
+        "amountSize": "32px",
+        "nextSize": "12px",
+        "radius": "0px",
+        "overflow": false,
+        "track": {
+          "x": 16,
+          "y": 155.1875,
+          "w": 398,
+          "h": 4,
+          "right": 414,
+          "bottom": 159.1875
+        },
+        "animation": "none",
+        "color": "rgb(255, 219, 131)"
+      }
+    },
+    {
+      "name": "en-430-source full drawer width",
+      "pass": true,
+      "detail": {
+        "hero": {
+          "x": 0,
+          "y": 64,
+          "w": 430,
+          "h": 107.1875,
+          "right": 430,
+          "bottom": 171.1875
+        },
+        "title": {
+          "x": 0,
+          "y": 0,
+          "w": 430,
+          "h": 64,
+          "right": 430,
+          "bottom": 64
+        },
+        "drawer": {
+          "x": 0,
+          "y": 0,
+          "w": 430,
+          "h": 850,
+          "right": 430,
+          "bottom": 850
+        },
+        "amount": {
+          "x": 318.25,
+          "y": 76,
+          "w": 95.75,
+          "h": 36.796875,
+          "right": 414,
+          "bottom": 112.796875
+        },
+        "copy": {
+          "x": 16,
+          "y": 78.203125,
+          "w": 290.25,
+          "h": 32.390625,
+          "right": 306.25,
+          "bottom": 110.59375
+        },
+        "current": "2 OMR",
+        "amountSize": "32px",
+        "nextSize": "12px",
+        "radius": "0px",
+        "overflow": false,
+        "track": {
+          "x": 16,
+          "y": 155.1875,
+          "w": 398,
+          "h": 4,
+          "right": 414,
+          "bottom": 159.1875
+        },
+        "animation": "none",
+        "color": "rgb(255, 219, 131)"
+      }
+    },
+    {
+      "name": "en-430-source square corners",
+      "pass": true,
+      "detail": null
+    },
+    {
+      "name": "en-430-source current reward primary",
+      "pass": true,
+      "detail": null
+    },
+    {
+      "name": "en-430-source no horizontal overflow",
+      "pass": true,
+      "detail": null
+    },
+    {
+      "name": "en-430-source reward inside header",
+      "pass": true,
+      "detail": null
+    },
+    {
+      "name": "en-430-source compact height",
+      "pass": true,
+      "detail": 107.1875
+    },
+    {
+      "name": "en-430-source no shimmer animation",
+      "pass": true,
+      "detail": null
+    },
+    {
+      "name": "en-430-min flush below title",
+      "pass": true,
+      "detail": {
+        "hero": {
+          "x": 0,
+          "y": 64,
+          "w": 430,
+          "h": 107.1875,
+          "right": 430,
+          "bottom": 171.1875
+        },
+        "title": {
+          "x": 0,
+          "y": 0,
+          "w": 430,
+          "h": 64,
+          "right": 430,
+          "bottom": 64
+        },
+        "drawer": {
+          "x": 0,
+          "y": 0,
+          "w": 430,
+          "h": 850,
+          "right": 430,
+          "bottom": 850
+        },
+        "amount": {
+          "x": 318.25,
+          "y": 76,
+          "w": 95.75,
+          "h": 36.796875,
+          "right": 414,
+          "bottom": 112.796875
+        },
+        "copy": {
+          "x": 16,
+          "y": 78.203125,
+          "w": 290.25,
+          "h": 32.390625,
+          "right": 306.25,
+          "bottom": 110.59375
+        },
+        "current": "2 OMR",
+        "amountSize": "32px",
+        "nextSize": "12px",
+        "radius": "0px",
+        "overflow": false,
+        "track": {
+          "x": 16,
+          "y": 155.1875,
+          "w": 398,
+          "h": 4,
+          "right": 414,
+          "bottom": 159.1875
+        },
+        "animation": "none",
+        "color": "rgb(255, 219, 131)"
+      }
+    },
+    {
+      "name": "en-430-min full drawer width",
+      "pass": true,
+      "detail": {
+        "hero": {
+          "x": 0,
+          "y": 64,
+          "w": 430,
+          "h": 107.1875,
+          "right": 430,
+          "bottom": 171.1875
+        },
+        "title": {
+          "x": 0,
+          "y": 0,
+          "w": 430,
+          "h": 64,
+          "right": 430,
+          "bottom": 64
+        },
+        "drawer": {
+          "x": 0,
+          "y": 0,
+          "w": 430,
+          "h": 850,
+          "right": 430,
+          "bottom": 850
+        },
+        "amount": {
+          "x": 318.25,
+          "y": 76,
+          "w": 95.75,
+          "h": 36.796875,
+          "right": 414,
+          "bottom": 112.796875
+        },
+        "copy": {
+          "x": 16,
+          "y": 78.203125,
+          "w": 290.25,
+          "h": 32.390625,
+          "right": 306.25,
+          "bottom": 110.59375
+        },
+        "current": "2 OMR",
+        "amountSize": "32px",
+        "nextSize": "12px",
+        "radius": "0px",
+        "overflow": false,
+        "track": {
+          "x": 16,
+          "y": 155.1875,
+          "w": 398,
+          "h": 4,
+          "right": 414,
+          "bottom": 159.1875
+        },
+        "animation": "none",
+        "color": "rgb(255, 219, 131)"
+      }
+    },
+    {
+      "name": "en-430-min square corners",
+      "pass": true,
+      "detail": null
+    },
+    {
+      "name": "en-430-min current reward primary",
+      "pass": true,
+      "detail": null
+    },
+    {
+      "name": "en-430-min no horizontal overflow",
+      "pass": true,
+      "detail": null
+    },
+    {
+      "name": "en-430-min reward inside header",
+      "pass": true,
+      "detail": null
+    },
+    {
+      "name": "en-430-min compact height",
+      "pass": true,
+      "detail": 107.1875
+    },
+    {
+      "name": "en-430-min no shimmer animation",
+      "pass": true,
+      "detail": null
+    },
+    {
+      "name": "en-430-min min CSS matches source render",
+      "pass": true,
+      "detail": null
+    },
+    {
+      "name": "en-768-source flush below title",
+      "pass": true,
+      "detail": {
+        "hero": {
+          "x": 169,
+          "y": 64,
+          "w": 430,
+          "h": 107.1875,
+          "right": 599,
+          "bottom": 171.1875
+        },
+        "title": {
+          "x": 169,
+          "y": 0,
+          "w": 430,
+          "h": 64,
+          "right": 599,
+          "bottom": 64
+        },
+        "drawer": {
+          "x": 169,
+          "y": 0,
+          "w": 430,
+          "h": 850,
+          "right": 599,
+          "bottom": 850
+        },
+        "amount": {
+          "x": 487.25,
+          "y": 76,
+          "w": 95.75,
+          "h": 36.796875,
+          "right": 583,
+          "bottom": 112.796875
+        },
+        "copy": {
+          "x": 185,
+          "y": 78.203125,
+          "w": 290.25,
+          "h": 32.390625,
+          "right": 475.25,
+          "bottom": 110.59375
+        },
+        "current": "2 OMR",
+        "amountSize": "32px",
+        "nextSize": "12px",
+        "radius": "0px",
+        "overflow": false,
+        "track": {
+          "x": 185,
+          "y": 155.1875,
+          "w": 398,
+          "h": 4,
+          "right": 583,
+          "bottom": 159.1875
+        },
+        "animation": "none",
+        "color": "rgb(255, 219, 131)"
+      }
+    },
+    {
+      "name": "en-768-source full drawer width",
+      "pass": true,
+      "detail": {
+        "hero": {
+          "x": 169,
+          "y": 64,
+          "w": 430,
+          "h": 107.1875,
+          "right": 599,
+          "bottom": 171.1875
+        },
+        "title": {
+          "x": 169,
+          "y": 0,
+          "w": 430,
+          "h": 64,
+          "right": 599,
+          "bottom": 64
+        },
+        "drawer": {
+          "x": 169,
+          "y": 0,
+          "w": 430,
+          "h": 850,
+          "right": 599,
+          "bottom": 850
+        },
+        "amount": {
+          "x": 487.25,
+          "y": 76,
+          "w": 95.75,
+          "h": 36.796875,
+          "right": 583,
+          "bottom": 112.796875
+        },
+        "copy": {
+          "x": 185,
+          "y": 78.203125,
+          "w": 290.25,
+          "h": 32.390625,
+          "right": 475.25,
+          "bottom": 110.59375
+        },
+        "current": "2 OMR",
+        "amountSize": "32px",
+        "nextSize": "12px",
+        "radius": "0px",
+        "overflow": false,
+        "track": {
+          "x": 185,
+          "y": 155.1875,
+          "w": 398,
+          "h": 4,
+          "right": 583,
+          "bottom": 159.1875
+        },
+        "animation": "none",
+        "color": "rgb(255, 219, 131)"
+      }
+    },
+    {
+      "name": "en-768-source square corners",
+      "pass": true,
+      "detail": null
+    },
+    {
+      "name": "en-768-source current reward primary",
+      "pass": true,
+      "detail": null
+    },
+    {
+      "name": "en-768-source no horizontal overflow",
+      "pass": true,
+      "detail": null
+    },
+    {
+      "name": "en-768-source reward inside header",
+      "pass": true,
+      "detail": null
+    },
+    {
+      "name": "en-768-source compact height",
+      "pass": true,
+      "detail": 107.1875
+    },
+    {
+      "name": "en-768-source no shimmer animation",
+      "pass": true,
+      "detail": null
+    },
+    {
+      "name": "en-768-min flush below title",
+      "pass": true,
+      "detail": {
+        "hero": {
+          "x": 169,
+          "y": 64,
+          "w": 430,
+          "h": 107.1875,
+          "right": 599,
+          "bottom": 171.1875
+        },
+        "title": {
+          "x": 169,
+          "y": 0,
+          "w": 430,
+          "h": 64,
+          "right": 599,
+          "bottom": 64
+        },
+        "drawer": {
+          "x": 169,
+          "y": 0,
+          "w": 430,
+          "h": 850,
+          "right": 599,
+          "bottom": 850
+        },
+        "amount": {
+          "x": 487.25,
+          "y": 76,
+          "w": 95.75,
+          "h": 36.796875,
+          "right": 583,
+          "bottom": 112.796875
+        },
+        "copy": {
+          "x": 185,
+          "y": 78.203125,
+          "w": 290.25,
+          "h": 32.390625,
+          "right": 475.25,
+          "bottom": 110.59375
+        },
+        "current": "2 OMR",
+        "amountSize": "32px",
+        "nextSize": "12px",
+        "radius": "0px",
+        "overflow": false,
+        "track": {
+          "x": 185,
+          "y": 155.1875,
+          "w": 398,
+          "h": 4,
+          "right": 583,
+          "bottom": 159.1875
+        },
+        "animation": "none",
+        "color": "rgb(255, 219, 131)"
+      }
+    },
+    {
+      "name": "en-768-min full drawer width",
+      "pass": true,
+      "detail": {
+        "hero": {
+          "x": 169,
+          "y": 64,
+          "w": 430,
+          "h": 107.1875,
+          "right": 599,
+          "bottom": 171.1875
+        },
+        "title": {
+          "x": 169,
+          "y": 0,
+          "w": 430,
+          "h": 64,
+          "right": 599,
+          "bottom": 64
+        },
+        "drawer": {
+          "x": 169,
+          "y": 0,
+          "w": 430,
+          "h": 850,
+          "right": 599,
+          "bottom": 850
+        },
+        "amount": {
+          "x": 487.25,
+          "y": 76,
+          "w": 95.75,
+          "h": 36.796875,
+          "right": 583,
+          "bottom": 112.796875
+        },
+        "copy": {
+          "x": 185,
+          "y": 78.203125,
+          "w": 290.25,
+          "h": 32.390625,
+          "right": 475.25,
+          "bottom": 110.59375
+        },
+        "current": "2 OMR",
+        "amountSize": "32px",
+        "nextSize": "12px",
+        "radius": "0px",
+        "overflow": false,
+        "track": {
+          "x": 185,
+          "y": 155.1875,
+          "w": 398,
+          "h": 4,
+          "right": 583,
+          "bottom": 159.1875
+        },
+        "animation": "none",
+        "color": "rgb(255, 219, 131)"
+      }
+    },
+    {
+      "name": "en-768-min square corners",
+      "pass": true,
+      "detail": null
+    },
+    {
+      "name": "en-768-min current reward primary",
+      "pass": true,
+      "detail": null
+    },
+    {
+      "name": "en-768-min no horizontal overflow",
+      "pass": true,
+      "detail": null
+    },
+    {
+      "name": "en-768-min reward inside header",
+      "pass": true,
+      "detail": null
+    },
+    {
+      "name": "en-768-min compact height",
+      "pass": true,
+      "detail": 107.1875
+    },
+    {
+      "name": "en-768-min no shimmer animation",
+      "pass": true,
+      "detail": null
+    },
+    {
+      "name": "en-768-min min CSS matches source render",
+      "pass": true,
+      "detail": null
+    },
+    {
+      "name": "en/30.001 reward changes with replacement",
+      "pass": true,
+      "detail": [
+        "4 OMR",
+        "4 OMR"
+      ]
+    },
+    {
+      "name": "en/30.001 one header after replacement",
+      "pass": true,
+      "detail": null
+    },
+    {
+      "name": "en/60.001 reward changes with replacement",
+      "pass": true,
+      "detail": [
+        "8 OMR",
+        "8 OMR"
+      ]
+    },
+    {
+      "name": "en/60.001 one header after replacement",
+      "pass": true,
+      "detail": null
+    },
+    {
+      "name": "en/20 reward changes with replacement",
+      "pass": true,
+      "detail": [
+        "2 OMR",
+        "2 OMR"
+      ]
+    },
+    {
+      "name": "en/20 one header after replacement",
+      "pass": true,
+      "detail": null
+    },
+    {
+      "name": "SAR/en/regular long money no page overflow",
+      "pass": true,
+      "detail": null
+    },
+    {
+      "name": "SAR/en/large long money no page overflow",
+      "pass": true,
+      "detail": null
+    },
+    {
+      "name": "AED/en/regular long money no page overflow",
+      "pass": true,
+      "detail": null
+    },
+    {
+      "name": "AED/en/large long money no page overflow",
+      "pass": true,
+      "detail": null
+    },
+    {
+      "name": "KWD/en/regular long money no page overflow",
+      "pass": true,
+      "detail": null
+    },
+    {
+      "name": "KWD/en/large long money no page overflow",
+      "pass": true,
+      "detail": null
+    },
+    {
+      "name": "BHD/en/regular long money no page overflow",
+      "pass": true,
+      "detail": null
+    },
+    {
+      "name": "BHD/en/large long money no page overflow",
+      "pass": true,
+      "detail": null
+    },
+    {
+      "name": "ar-280-source flush below title",
+      "pass": true,
+      "detail": {
+        "hero": {
+          "x": 0,
+          "y": 64,
+          "w": 280,
+          "h": 116.78125,
+          "right": 280,
+          "bottom": 180.78125
+        },
+        "title": {
+          "x": 0,
+          "y": 0,
+          "w": 280,
+          "h": 64,
+          "right": 280,
+          "bottom": 64
+        },
+        "drawer": {
+          "x": 0,
+          "y": 0,
+          "w": 280,
+          "h": 850,
+          "right": 280,
+          "bottom": 850
+        },
+        "amount": {
+          "x": 16,
+          "y": 80.796875,
+          "w": 70.125,
+          "h": 36.796875,
+          "right": 86.125,
+          "bottom": 117.59375
+        },
+        "copy": {
+          "x": 98.125,
+          "y": 76,
+          "w": 165.875,
+          "h": 46.390625,
+          "right": 264,
+          "bottom": 122.390625
+        },
+        "current": "2 \u0631.\u0639",
+        "amountSize": "32px",
+        "nextSize": "12px",
+        "radius": "0px",
+        "overflow": false,
+        "track": {
+          "x": 16,
+          "y": 164.78125,
+          "w": 248,
+          "h": 4,
+          "right": 264,
+          "bottom": 168.78125
+        },
+        "animation": "none",
+        "color": "rgb(255, 219, 131)"
+      }
+    },
+    {
+      "name": "ar-280-source full drawer width",
+      "pass": true,
+      "detail": {
+        "hero": {
+          "x": 0,
+          "y": 64,
+          "w": 280,
+          "h": 116.78125,
+          "right": 280,
+          "bottom": 180.78125
+        },
+        "title": {
+          "x": 0,
+          "y": 0,
+          "w": 280,
+          "h": 64,
+          "right": 280,
+          "bottom": 64
+        },
+        "drawer": {
+          "x": 0,
+          "y": 0,
+          "w": 280,
+          "h": 850,
+          "right": 280,
+          "bottom": 850
+        },
+        "amount": {
+          "x": 16,
+          "y": 80.796875,
+          "w": 70.125,
+          "h": 36.796875,
+          "right": 86.125,
+          "bottom": 117.59375
+        },
+        "copy": {
+          "x": 98.125,
+          "y": 76,
+          "w": 165.875,
+          "h": 46.390625,
+          "right": 264,
+          "bottom": 122.390625
+        },
+        "current": "2 \u0631.\u0639",
+        "amountSize": "32px",
+        "nextSize": "12px",
+        "radius": "0px",
+        "overflow": false,
+        "track": {
+          "x": 16,
+          "y": 164.78125,
+          "w": 248,
+          "h": 4,
+          "right": 264,
+          "bottom": 168.78125
+        },
+        "animation": "none",
+        "color": "rgb(255, 219, 131)"
+      }
+    },
+    {
+      "name": "ar-280-source square corners",
+      "pass": true,
+      "detail": null
+    },
+    {
+      "name": "ar-280-source current reward primary",
+      "pass": true,
+      "detail": null
+    },
+    {
+      "name": "ar-280-source no horizontal overflow",
+      "pass": true,
+      "detail": null
+    },
+    {
+      "name": "ar-280-source reward inside header",
+      "pass": true,
+      "detail": null
+    },
+    {
+      "name": "ar-280-source compact height",
+      "pass": true,
+      "detail": 116.78125
+    },
+    {
+      "name": "ar-280-source no shimmer animation",
+      "pass": true,
+      "detail": null
+    },
+    {
+      "name": "ar-280-min flush below title",
+      "pass": true,
+      "detail": {
+        "hero": {
+          "x": 0,
+          "y": 64,
+          "w": 280,
+          "h": 116.78125,
+          "right": 280,
+          "bottom": 180.78125
+        },
+        "title": {
+          "x": 0,
+          "y": 0,
+          "w": 280,
+          "h": 64,
+          "right": 280,
+          "bottom": 64
+        },
+        "drawer": {
+          "x": 0,
+          "y": 0,
+          "w": 280,
+          "h": 850,
+          "right": 280,
+          "bottom": 850
+        },
+        "amount": {
+          "x": 16,
+          "y": 80.796875,
+          "w": 70.125,
+          "h": 36.796875,
+          "right": 86.125,
+          "bottom": 117.59375
+        },
+        "copy": {
+          "x": 98.125,
+          "y": 76,
+          "w": 165.875,
+          "h": 46.390625,
+          "right": 264,
+          "bottom": 122.390625
+        },
+        "current": "2 \u0631.\u0639",
+        "amountSize": "32px",
+        "nextSize": "12px",
+        "radius": "0px",
+        "overflow": false,
+        "track": {
+          "x": 16,
+          "y": 164.78125,
+          "w": 248,
+          "h": 4,
+          "right": 264,
+          "bottom": 168.78125
+        },
+        "animation": "none",
+        "color": "rgb(255, 219, 131)"
+      }
+    },
+    {
+      "name": "ar-280-min full drawer width",
+      "pass": true,
+      "detail": {
+        "hero": {
+          "x": 0,
+          "y": 64,
+          "w": 280,
+          "h": 116.78125,
+          "right": 280,
+          "bottom": 180.78125
+        },
+        "title": {
+          "x": 0,
+          "y": 0,
+          "w": 280,
+          "h": 64,
+          "right": 280,
+          "bottom": 64
+        },
+        "drawer": {
+          "x": 0,
+          "y": 0,
+          "w": 280,
+          "h": 850,
+          "right": 280,
+          "bottom": 850
+        },
+        "amount": {
+          "x": 16,
+          "y": 80.796875,
+          "w": 70.125,
+          "h": 36.796875,
+          "right": 86.125,
+          "bottom": 117.59375
+        },
+        "copy": {
+          "x": 98.125,
+          "y": 76,
+          "w": 165.875,
+          "h": 46.390625,
+          "right": 264,
+          "bottom": 122.390625
+        },
+        "current": "2 \u0631.\u0639",
+        "amountSize": "32px",
+        "nextSize": "12px",
+        "radius": "0px",
+        "overflow": false,
+        "track": {
+          "x": 16,
+          "y": 164.78125,
+          "w": 248,
+          "h": 4,
+          "right": 264,
+          "bottom": 168.78125
+        },
+        "animation": "none",
+        "color": "rgb(255, 219, 131)"
+      }
+    },
+    {
+      "name": "ar-280-min square corners",
+      "pass": true,
+      "detail": null
+    },
+    {
+      "name": "ar-280-min current reward primary",
+      "pass": true,
+      "detail": null
+    },
+    {
+      "name": "ar-280-min no horizontal overflow",
+      "pass": true,
+      "detail": null
+    },
+    {
+      "name": "ar-280-min reward inside header",
+      "pass": true,
+      "detail": null
+    },
+    {
+      "name": "ar-280-min compact height",
+      "pass": true,
+      "detail": 116.78125
+    },
+    {
+      "name": "ar-280-min no shimmer animation",
+      "pass": true,
+      "detail": null
+    },
+    {
+      "name": "ar-280-min min CSS matches source render",
+      "pass": true,
+      "detail": null
+    },
+    {
+      "name": "ar-320-source flush below title",
+      "pass": true,
+      "detail": {
+        "hero": {
+          "x": 0,
+          "y": 64,
+          "w": 320,
+          "h": 107.1875,
+          "right": 320,
+          "bottom": 171.1875
+        },
+        "title": {
+          "x": 0,
+          "y": 0,
+          "w": 320,
+          "h": 64,
+          "right": 320,
+          "bottom": 64
+        },
+        "drawer": {
+          "x": 0,
+          "y": 0,
+          "w": 320,
+          "h": 850,
+          "right": 320,
+          "bottom": 850
+        },
+        "amount": {
+          "x": 16,
+          "y": 76,
+          "w": 70.125,
+          "h": 36.796875,
+          "right": 86.125,
+          "bottom": 112.796875
+        },
+        "copy": {
+          "x": 98.125,
+          "y": 78.203125,
+          "w": 205.875,
+          "h": 32.390625,
+          "right": 304,
+          "bottom": 110.59375
+        },
+        "current": "2 \u0631.\u0639",
+        "amountSize": "32px",
+        "nextSize": "12px",
+        "radius": "0px",
+        "overflow": false,
+        "track": {
+          "x": 16,
+          "y": 155.1875,
+          "w": 288,
+          "h": 4,
+          "right": 304,
+          "bottom": 159.1875
+        },
+        "animation": "none",
+        "color": "rgb(255, 219, 131)"
+      }
+    },
+    {
+      "name": "ar-320-source full drawer width",
+      "pass": true,
+      "detail": {
+        "hero": {
+          "x": 0,
+          "y": 64,
+          "w": 320,
+          "h": 107.1875,
+          "right": 320,
+          "bottom": 171.1875
+        },
+        "title": {
+          "x": 0,
+          "y": 0,
+          "w": 320,
+          "h": 64,
+          "right": 320,
+          "bottom": 64
+        },
+        "drawer": {
+          "x": 0,
+          "y": 0,
+          "w": 320,
+          "h": 850,
+          "right": 320,
+          "bottom": 850
+        },
+        "amount": {
+          "x": 16,
+          "y": 76,
+          "w": 70.125,
+          "h": 36.796875,
+          "right": 86.125,
+          "bottom": 112.796875
+        },
+        "copy": {
+          "x": 98.125,
+          "y": 78.203125,
+          "w": 205.875,
+          "h": 32.390625,
+          "right": 304,
+          "bottom": 110.59375
+        },
+        "current": "2 \u0631.\u0639",
+        "amountSize": "32px",
+        "nextSize": "12px",
+        "radius": "0px",
+        "overflow": false,
+        "track": {
+          "x": 16,
+          "y": 155.1875,
+          "w": 288,
+          "h": 4,
+          "right": 304,
+          "bottom": 159.1875
+        },
+        "animation": "none",
+        "color": "rgb(255, 219, 131)"
+      }
+    },
+    {
+      "name": "ar-320-source square corners",
+      "pass": true,
+      "detail": null
+    },
+    {
+      "name": "ar-320-source current reward primary",
+      "pass": true,
+      "detail": null
+    },
+    {
+      "name": "ar-320-source no horizontal overflow",
+      "pass": true,
+      "detail": null
+    },
+    {
+      "name": "ar-320-source reward inside header",
+      "pass": true,
+      "detail": null
+    },
+    {
+      "name": "ar-320-source compact height",
+      "pass": true,
+      "detail": 107.1875
+    },
+    {
+      "name": "ar-320-source no shimmer animation",
+      "pass": true,
+      "detail": null
+    },
+    {
+      "name": "ar-320-min flush below title",
+      "pass": true,
+      "detail": {
+        "hero": {
+          "x": 0,
+          "y": 64,
+          "w": 320,
+          "h": 107.1875,
+          "right": 320,
+          "bottom": 171.1875
+        },
+        "title": {
+          "x": 0,
+          "y": 0,
+          "w": 320,
+          "h": 64,
+          "right": 320,
+          "bottom": 64
+        },
+        "drawer": {
+          "x": 0,
+          "y": 0,
+          "w": 320,
+          "h": 850,
+          "right": 320,
+          "bottom": 850
+        },
+        "amount": {
+          "x": 16,
+          "y": 76,
+          "w": 70.125,
+          "h": 36.796875,
+          "right": 86.125,
+          "bottom": 112.796875
+        },
+        "copy": {
+          "x": 98.125,
+          "y": 78.203125,
+          "w": 205.875,
+          "h": 32.390625,
+          "right": 304,
+          "bottom": 110.59375
+        },
+        "current": "2 \u0631.\u0639",
+        "amountSize": "32px",
+        "nextSize": "12px",
+        "radius": "0px",
+        "overflow": false,
+        "track": {
+          "x": 16,
+          "y": 155.1875,
+          "w": 288,
+          "h": 4,
+          "right": 304,
+          "bottom": 159.1875
+        },
+        "animation": "none",
+        "color": "rgb(255, 219, 131)"
+      }
+    },
+    {
+      "name": "ar-320-min full drawer width",
+      "pass": true,
+      "detail": {
+        "hero": {
+          "x": 0,
+          "y": 64,
+          "w": 320,
+          "h": 107.1875,
+          "right": 320,
+          "bottom": 171.1875
+        },
+        "title": {
+          "x": 0,
+          "y": 0,
+          "w": 320,
+          "h": 64,
+          "right": 320,
+          "bottom": 64
+        },
+        "drawer": {
+          "x": 0,
+          "y": 0,
+          "w": 320,
+          "h": 850,
+          "right": 320,
+          "bottom": 850
+        },
+        "amount": {
+          "x": 16,
+          "y": 76,
+          "w": 70.125,
+          "h": 36.796875,
+          "right": 86.125,
+          "bottom": 112.796875
+        },
+        "copy": {
+          "x": 98.125,
+          "y": 78.203125,
+          "w": 205.875,
+          "h": 32.390625,
+          "right": 304,
+          "bottom": 110.59375
+        },
+        "current": "2 \u0631.\u0639",
+        "amountSize": "32px",
+        "nextSize": "12px",
+        "radius": "0px",
+        "overflow": false,
+        "track": {
+          "x": 16,
+          "y": 155.1875,
+          "w": 288,
+          "h": 4,
+          "right": 304,
+          "bottom": 159.1875
+        },
+        "animation": "none",
+        "color": "rgb(255, 219, 131)"
+      }
+    },
+    {
+      "name": "ar-320-min square corners",
+      "pass": true,
+      "detail": null
+    },
+    {
+      "name": "ar-320-min current reward primary",
+      "pass": true,
+      "detail": null
+    },
+    {
+      "name": "ar-320-min no horizontal overflow",
+      "pass": true,
+      "detail": null
+    },
+    {
+      "name": "ar-320-min reward inside header",
+      "pass": true,
+      "detail": null
+    },
+    {
+      "name": "ar-320-min compact height",
+      "pass": true,
+      "detail": 107.1875
+    },
+    {
+      "name": "ar-320-min no shimmer animation",
+      "pass": true,
+      "detail": null
+    },
+    {
+      "name": "ar-320-min min CSS matches source render",
+      "pass": true,
+      "detail": null
+    },
+    {
+      "name": "ar-340-source flush below title",
+      "pass": true,
+      "detail": {
+        "hero": {
+          "x": 0,
+          "y": 64,
+          "w": 340,
+          "h": 107.1875,
+          "right": 340,
+          "bottom": 171.1875
+        },
+        "title": {
+          "x": 0,
+          "y": 0,
+          "w": 340,
+          "h": 64,
+          "right": 340,
+          "bottom": 64
+        },
+        "drawer": {
+          "x": 0,
+          "y": 0,
+          "w": 340,
+          "h": 850,
+          "right": 340,
+          "bottom": 850
+        },
+        "amount": {
+          "x": 16,
+          "y": 76,
+          "w": 70.125,
+          "h": 36.796875,
+          "right": 86.125,
+          "bottom": 112.796875
+        },
+        "copy": {
+          "x": 98.125,
+          "y": 78.203125,
+          "w": 225.875,
+          "h": 32.390625,
+          "right": 324,
+          "bottom": 110.59375
+        },
+        "current": "2 \u0631.\u0639",
+        "amountSize": "32px",
+        "nextSize": "12px",
+        "radius": "0px",
+        "overflow": false,
+        "track": {
+          "x": 16,
+          "y": 155.1875,
+          "w": 308,
+          "h": 4,
+          "right": 324,
+          "bottom": 159.1875
+        },
+        "animation": "none",
+        "color": "rgb(255, 219, 131)"
+      }
+    },
+    {
+      "name": "ar-340-source full drawer width",
+      "pass": true,
+      "detail": {
+        "hero": {
+          "x": 0,
+          "y": 64,
+          "w": 340,
+          "h": 107.1875,
+          "right": 340,
+          "bottom": 171.1875
+        },
+        "title": {
+          "x": 0,
+          "y": 0,
+          "w": 340,
+          "h": 64,
+          "right": 340,
+          "bottom": 64
+        },
+        "drawer": {
+          "x": 0,
+          "y": 0,
+          "w": 340,
+          "h": 850,
+          "right": 340,
+          "bottom": 850
+        },
+        "amount": {
+          "x": 16,
+          "y": 76,
+          "w": 70.125,
+          "h": 36.796875,
+          "right": 86.125,
+          "bottom": 112.796875
+        },
+        "copy": {
+          "x": 98.125,
+          "y": 78.203125,
+          "w": 225.875,
+          "h": 32.390625,
+          "right": 324,
+          "bottom": 110.59375
+        },
+        "current": "2 \u0631.\u0639",
+        "amountSize": "32px",
+        "nextSize": "12px",
+        "radius": "0px",
+        "overflow": false,
+        "track": {
+          "x": 16,
+          "y": 155.1875,
+          "w": 308,
+          "h": 4,
+          "right": 324,
+          "bottom": 159.1875
+        },
+        "animation": "none",
+        "color": "rgb(255, 219, 131)"
+      }
+    },
+    {
+      "name": "ar-340-source square corners",
+      "pass": true,
+      "detail": null
+    },
+    {
+      "name": "ar-340-source current reward primary",
+      "pass": true,
+      "detail": null
+    },
+    {
+      "name": "ar-340-source no horizontal overflow",
+      "pass": true,
+      "detail": null
+    },
+    {
+      "name": "ar-340-source reward inside header",
+      "pass": true,
+      "detail": null
+    },
+    {
+      "name": "ar-340-source compact height",
+      "pass": true,
+      "detail": 107.1875
+    },
+    {
+      "name": "ar-340-source no shimmer animation",
+      "pass": true,
+      "detail": null
+    },
+    {
+      "name": "ar-340-min flush below title",
+      "pass": true,
+      "detail": {
+        "hero": {
+          "x": 0,
+          "y": 64,
+          "w": 340,
+          "h": 107.1875,
+          "right": 340,
+          "bottom": 171.1875
+        },
+        "title": {
+          "x": 0,
+          "y": 0,
+          "w": 340,
+          "h": 64,
+          "right": 340,
+          "bottom": 64
+        },
+        "drawer": {
+          "x": 0,
+          "y": 0,
+          "w": 340,
+          "h": 850,
+          "right": 340,
+          "bottom": 850
+        },
+        "amount": {
+          "x": 16,
+          "y": 76,
+          "w": 70.125,
+          "h": 36.796875,
+          "right": 86.125,
+          "bottom": 112.796875
+        },
+        "copy": {
+          "x": 98.125,
+          "y": 78.203125,
+          "w": 225.875,
+          "h": 32.390625,
+          "right": 324,
+          "bottom": 110.59375
+        },
+        "current": "2 \u0631.\u0639",
+        "amountSize": "32px",
+        "nextSize": "12px",
+        "radius": "0px",
+        "overflow": false,
+        "track": {
+          "x": 16,
+          "y": 155.1875,
+          "w": 308,
+          "h": 4,
+          "right": 324,
+          "bottom": 159.1875
+        },
+        "animation": "none",
+        "color": "rgb(255, 219, 131)"
+      }
+    },
+    {
+      "name": "ar-340-min full drawer width",
+      "pass": true,
+      "detail": {
+        "hero": {
+          "x": 0,
+          "y": 64,
+          "w": 340,
+          "h": 107.1875,
+          "right": 340,
+          "bottom": 171.1875
+        },
+        "title": {
+          "x": 0,
+          "y": 0,
+          "w": 340,
+          "h": 64,
+          "right": 340,
+          "bottom": 64
+        },
+        "drawer": {
+          "x": 0,
+          "y": 0,
+          "w": 340,
+          "h": 850,
+          "right": 340,
+          "bottom": 850
+        },
+        "amount": {
+          "x": 16,
+          "y": 76,
+          "w": 70.125,
+          "h": 36.796875,
+          "right": 86.125,
+          "bottom": 112.796875
+        },
+        "copy": {
+          "x": 98.125,
+          "y": 78.203125,
+          "w": 225.875,
+          "h": 32.390625,
+          "right": 324,
+          "bottom": 110.59375
+        },
+        "current": "2 \u0631.\u0639",
+        "amountSize": "32px",
+        "nextSize": "12px",
+        "radius": "0px",
+        "overflow": false,
+        "track": {
+          "x": 16,
+          "y": 155.1875,
+          "w": 308,
+          "h": 4,
+          "right": 324,
+          "bottom": 159.1875
+        },
+        "animation": "none",
+        "color": "rgb(255, 219, 131)"
+      }
+    },
+    {
+      "name": "ar-340-min square corners",
+      "pass": true,
+      "detail": null
+    },
+    {
+      "name": "ar-340-min current reward primary",
+      "pass": true,
+      "detail": null
+    },
+    {
+      "name": "ar-340-min no horizontal overflow",
+      "pass": true,
+      "detail": null
+    },
+    {
+      "name": "ar-340-min reward inside header",
+      "pass": true,
+      "detail": null
+    },
+    {
+      "name": "ar-340-min compact height",
+      "pass": true,
+      "detail": 107.1875
+    },
+    {
+      "name": "ar-340-min no shimmer animation",
+      "pass": true,
+      "detail": null
+    },
+    {
+      "name": "ar-340-min min CSS matches source render",
+      "pass": true,
+      "detail": null
+    },
+    {
+      "name": "ar-390-source flush below title",
+      "pass": true,
+      "detail": {
+        "hero": {
+          "x": 0,
+          "y": 64,
+          "w": 390,
+          "h": 107.1875,
+          "right": 390,
+          "bottom": 171.1875
+        },
+        "title": {
+          "x": 0,
+          "y": 0,
+          "w": 390,
+          "h": 64,
+          "right": 390,
+          "bottom": 64
+        },
+        "drawer": {
+          "x": 0,
+          "y": 0,
+          "w": 390,
+          "h": 850,
+          "right": 390,
+          "bottom": 850
+        },
+        "amount": {
+          "x": 16,
+          "y": 76,
+          "w": 70.125,
+          "h": 36.796875,
+          "right": 86.125,
+          "bottom": 112.796875
+        },
+        "copy": {
+          "x": 98.125,
+          "y": 78.203125,
+          "w": 275.875,
+          "h": 32.390625,
+          "right": 374,
+          "bottom": 110.59375
+        },
+        "current": "2 \u0631.\u0639",
+        "amountSize": "32px",
+        "nextSize": "12px",
+        "radius": "0px",
+        "overflow": false,
+        "track": {
+          "x": 16,
+          "y": 155.1875,
+          "w": 358,
+          "h": 4,
+          "right": 374,
+          "bottom": 159.1875
+        },
+        "animation": "none",
+        "color": "rgb(255, 219, 131)"
+      }
+    },
+    {
+      "name": "ar-390-source full drawer width",
+      "pass": true,
+      "detail": {
+        "hero": {
+          "x": 0,
+          "y": 64,
+          "w": 390,
+          "h": 107.1875,
+          "right": 390,
+          "bottom": 171.1875
+        },
+        "title": {
+          "x": 0,
+          "y": 0,
+          "w": 390,
+          "h": 64,
+          "right": 390,
+          "bottom": 64
+        },
+        "drawer": {
+          "x": 0,
+          "y": 0,
+          "w": 390,
+          "h": 850,
+          "right": 390,
+          "bottom": 850
+        },
+        "amount": {
+          "x": 16,
+          "y": 76,
+          "w": 70.125,
+          "h": 36.796875,
+          "right": 86.125,
+          "bottom": 112.796875
+        },
+        "copy": {
+          "x": 98.125,
+          "y": 78.203125,
+          "w": 275.875,
+          "h": 32.390625,
+          "right": 374,
+          "bottom": 110.59375
+        },
+        "current": "2 \u0631.\u0639",
+        "amountSize": "32px",
+        "nextSize": "12px",
+        "radius": "0px",
+        "overflow": false,
+        "track": {
+          "x": 16,
+          "y": 155.1875,
+          "w": 358,
+          "h": 4,
+          "right": 374,
+          "bottom": 159.1875
+        },
+        "animation": "none",
+        "color": "rgb(255, 219, 131)"
+      }
+    },
+    {
+      "name": "ar-390-source square corners",
+      "pass": true,
+      "detail": null
+    },
+    {
+      "name": "ar-390-source current reward primary",
+      "pass": true,
+      "detail": null
+    },
+    {
+      "name": "ar-390-source no horizontal overflow",
+      "pass": true,
+      "detail": null
+    },
+    {
+      "name": "ar-390-source reward inside header",
+      "pass": true,
+      "detail": null
+    },
+    {
+      "name": "ar-390-source compact height",
+      "pass": true,
+      "detail": 107.1875
+    },
+    {
+      "name": "ar-390-source no shimmer animation",
+      "pass": true,
+      "detail": null
+    },
+    {
+      "name": "ar-390-min flush below title",
+      "pass": true,
+      "detail": {
+        "hero": {
+          "x": 0,
+          "y": 64,
+          "w": 390,
+          "h": 107.1875,
+          "right": 390,
+          "bottom": 171.1875
+        },
+        "title": {
+          "x": 0,
+          "y": 0,
+          "w": 390,
+          "h": 64,
+          "right": 390,
+          "bottom": 64
+        },
+        "drawer": {
+          "x": 0,
+          "y": 0,
+          "w": 390,
+          "h": 850,
+          "right": 390,
+          "bottom": 850
+        },
+        "amount": {
+          "x": 16,
+          "y": 76,
+          "w": 70.125,
+          "h": 36.796875,
+          "right": 86.125,
+          "bottom": 112.796875
+        },
+        "copy": {
+          "x": 98.125,
+          "y": 78.203125,
+          "w": 275.875,
+          "h": 32.390625,
+          "right": 374,
+          "bottom": 110.59375
+        },
+        "current": "2 \u0631.\u0639",
+        "amountSize": "32px",
+        "nextSize": "12px",
+        "radius": "0px",
+        "overflow": false,
+        "track": {
+          "x": 16,
+          "y": 155.1875,
+          "w": 358,
+          "h": 4,
+          "right": 374,
+          "bottom": 159.1875
+        },
+        "animation": "none",
+        "color": "rgb(255, 219, 131)"
+      }
+    },
+    {
+      "name": "ar-390-min full drawer width",
+      "pass": true,
+      "detail": {
+        "hero": {
+          "x": 0,
+          "y": 64,
+          "w": 390,
+          "h": 107.1875,
+          "right": 390,
+          "bottom": 171.1875
+        },
+        "title": {
+          "x": 0,
+          "y": 0,
+          "w": 390,
+          "h": 64,
+          "right": 390,
+          "bottom": 64
+        },
+        "drawer": {
+          "x": 0,
+          "y": 0,
+          "w": 390,
+          "h": 850,
+          "right": 390,
+          "bottom": 850
+        },
+        "amount": {
+          "x": 16,
+          "y": 76,
+          "w": 70.125,
+          "h": 36.796875,
+          "right": 86.125,
+          "bottom": 112.796875
+        },
+        "copy": {
+          "x": 98.125,
+          "y": 78.203125,
+          "w": 275.875,
+          "h": 32.390625,
+          "right": 374,
+          "bottom": 110.59375
+        },
+        "current": "2 \u0631.\u0639",
+        "amountSize": "32px",
+        "nextSize": "12px",
+        "radius": "0px",
+        "overflow": false,
+        "track": {
+          "x": 16,
+          "y": 155.1875,
+          "w": 358,
+          "h": 4,
+          "right": 374,
+          "bottom": 159.1875
+        },
+        "animation": "none",
+        "color": "rgb(255, 219, 131)"
+      }
+    },
+    {
+      "name": "ar-390-min square corners",
+      "pass": true,
+      "detail": null
+    },
+    {
+      "name": "ar-390-min current reward primary",
+      "pass": true,
+      "detail": null
+    },
+    {
+      "name": "ar-390-min no horizontal overflow",
+      "pass": true,
+      "detail": null
+    },
+    {
+      "name": "ar-390-min reward inside header",
+      "pass": true,
+      "detail": null
+    },
+    {
+      "name": "ar-390-min compact height",
+      "pass": true,
+      "detail": 107.1875
+    },
+    {
+      "name": "ar-390-min no shimmer animation",
+      "pass": true,
+      "detail": null
+    },
+    {
+      "name": "ar-390-min min CSS matches source render",
+      "pass": true,
+      "detail": null
+    },
+    {
+      "name": "ar-430-source flush below title",
+      "pass": true,
+      "detail": {
+        "hero": {
+          "x": 0,
+          "y": 64,
+          "w": 430,
+          "h": 107.1875,
+          "right": 430,
+          "bottom": 171.1875
+        },
+        "title": {
+          "x": 0,
+          "y": 0,
+          "w": 430,
+          "h": 64,
+          "right": 430,
+          "bottom": 64
+        },
+        "drawer": {
+          "x": 0,
+          "y": 0,
+          "w": 430,
+          "h": 850,
+          "right": 430,
+          "bottom": 850
+        },
+        "amount": {
+          "x": 16,
+          "y": 76,
+          "w": 70.125,
+          "h": 36.796875,
+          "right": 86.125,
+          "bottom": 112.796875
+        },
+        "copy": {
+          "x": 98.125,
+          "y": 78.203125,
+          "w": 315.875,
+          "h": 32.390625,
+          "right": 414,
+          "bottom": 110.59375
+        },
+        "current": "2 \u0631.\u0639",
+        "amountSize": "32px",
+        "nextSize": "12px",
+        "radius": "0px",
+        "overflow": false,
+        "track": {
+          "x": 16,
+          "y": 155.1875,
+          "w": 398,
+          "h": 4,
+          "right": 414,
+          "bottom": 159.1875
+        },
+        "animation": "none",
+        "color": "rgb(255, 219, 131)"
+      }
+    },
+    {
+      "name": "ar-430-source full drawer width",
+      "pass": true,
+      "detail": {
+        "hero": {
+          "x": 0,
+          "y": 64,
+          "w": 430,
+          "h": 107.1875,
+          "right": 430,
+          "bottom": 171.1875
+        },
+        "title": {
+          "x": 0,
+          "y": 0,
+          "w": 430,
+          "h": 64,
+          "right": 430,
+          "bottom": 64
+        },
+        "drawer": {
+          "x": 0,
+          "y": 0,
+          "w": 430,
+          "h": 850,
+          "right": 430,
+          "bottom": 850
+        },
+        "amount": {
+          "x": 16,
+          "y": 76,
+          "w": 70.125,
+          "h": 36.796875,
+          "right": 86.125,
+          "bottom": 112.796875
+        },
+        "copy": {
+          "x": 98.125,
+          "y": 78.203125,
+          "w": 315.875,
+          "h": 32.390625,
+          "right": 414,
+          "bottom": 110.59375
+        },
+        "current": "2 \u0631.\u0639",
+        "amountSize": "32px",
+        "nextSize": "12px",
+        "radius": "0px",
+        "overflow": false,
+        "track": {
+          "x": 16,
+          "y": 155.1875,
+          "w": 398,
+          "h": 4,
+          "right": 414,
+          "bottom": 159.1875
+        },
+        "animation": "none",
+        "color": "rgb(255, 219, 131)"
+      }
+    },
+    {
+      "name": "ar-430-source square corners",
+      "pass": true,
+      "detail": null
+    },
+    {
+      "name": "ar-430-source current reward primary",
+      "pass": true,
+      "detail": null
+    },
+    {
+      "name": "ar-430-source no horizontal overflow",
+      "pass": true,
+      "detail": null
+    },
+    {
+      "name": "ar-430-source reward inside header",
+      "pass": true,
+      "detail": null
+    },
+    {
+      "name": "ar-430-source compact height",
+      "pass": true,
+      "detail": 107.1875
+    },
+    {
+      "name": "ar-430-source no shimmer animation",
+      "pass": true,
+      "detail": null
+    },
+    {
+      "name": "ar-430-min flush below title",
+      "pass": true,
+      "detail": {
+        "hero": {
+          "x": 0,
+          "y": 64,
+          "w": 430,
+          "h": 107.1875,
+          "right": 430,
+          "bottom": 171.1875
+        },
+        "title": {
+          "x": 0,
+          "y": 0,
+          "w": 430,
+          "h": 64,
+          "right": 430,
+          "bottom": 64
+        },
+        "drawer": {
+          "x": 0,
+          "y": 0,
+          "w": 430,
+          "h": 850,
+          "right": 430,
+          "bottom": 850
+        },
+        "amount": {
+          "x": 16,
+          "y": 76,
+          "w": 70.125,
+          "h": 36.796875,
+          "right": 86.125,
+          "bottom": 112.796875
+        },
+        "copy": {
+          "x": 98.125,
+          "y": 78.203125,
+          "w": 315.875,
+          "h": 32.390625,
+          "right": 414,
+          "bottom": 110.59375
+        },
+        "current": "2 \u0631.\u0639",
+        "amountSize": "32px",
+        "nextSize": "12px",
+        "radius": "0px",
+        "overflow": false,
+        "track": {
+          "x": 16,
+          "y": 155.1875,
+          "w": 398,
+          "h": 4,
+          "right": 414,
+          "bottom": 159.1875
+        },
+        "animation": "none",
+        "color": "rgb(255, 219, 131)"
+      }
+    },
+    {
+      "name": "ar-430-min full drawer width",
+      "pass": true,
+      "detail": {
+        "hero": {
+          "x": 0,
+          "y": 64,
+          "w": 430,
+          "h": 107.1875,
+          "right": 430,
+          "bottom": 171.1875
+        },
+        "title": {
+          "x": 0,
+          "y": 0,
+          "w": 430,
+          "h": 64,
+          "right": 430,
+          "bottom": 64
+        },
+        "drawer": {
+          "x": 0,
+          "y": 0,
+          "w": 430,
+          "h": 850,
+          "right": 430,
+          "bottom": 850
+        },
+        "amount": {
+          "x": 16,
+          "y": 76,
+          "w": 70.125,
+          "h": 36.796875,
+          "right": 86.125,
+          "bottom": 112.796875
+        },
+        "copy": {
+          "x": 98.125,
+          "y": 78.203125,
+          "w": 315.875,
+          "h": 32.390625,
+          "right": 414,
+          "bottom": 110.59375
+        },
+        "current": "2 \u0631.\u0639",
+        "amountSize": "32px",
+        "nextSize": "12px",
+        "radius": "0px",
+        "overflow": false,
+        "track": {
+          "x": 16,
+          "y": 155.1875,
+          "w": 398,
+          "h": 4,
+          "right": 414,
+          "bottom": 159.1875
+        },
+        "animation": "none",
+        "color": "rgb(255, 219, 131)"
+      }
+    },
+    {
+      "name": "ar-430-min square corners",
+      "pass": true,
+      "detail": null
+    },
+    {
+      "name": "ar-430-min current reward primary",
+      "pass": true,
+      "detail": null
+    },
+    {
+      "name": "ar-430-min no horizontal overflow",
+      "pass": true,
+      "detail": null
+    },
+    {
+      "name": "ar-430-min reward inside header",
+      "pass": true,
+      "detail": null
+    },
+    {
+      "name": "ar-430-min compact height",
+      "pass": true,
+      "detail": 107.1875
+    },
+    {
+      "name": "ar-430-min no shimmer animation",
+      "pass": true,
+      "detail": null
+    },
+    {
+      "name": "ar-430-min min CSS matches source render",
+      "pass": true,
+      "detail": null
+    },
+    {
+      "name": "ar-768-source flush below title",
+      "pass": true,
+      "detail": {
+        "hero": {
+          "x": 169,
+          "y": 64,
+          "w": 430,
+          "h": 107.1875,
+          "right": 599,
+          "bottom": 171.1875
+        },
+        "title": {
+          "x": 169,
+          "y": 0,
+          "w": 430,
+          "h": 64,
+          "right": 599,
+          "bottom": 64
+        },
+        "drawer": {
+          "x": 169,
+          "y": 0,
+          "w": 430,
+          "h": 850,
+          "right": 599,
+          "bottom": 850
+        },
+        "amount": {
+          "x": 185,
+          "y": 76,
+          "w": 70.125,
+          "h": 36.796875,
+          "right": 255.125,
+          "bottom": 112.796875
+        },
+        "copy": {
+          "x": 267.125,
+          "y": 78.203125,
+          "w": 315.875,
+          "h": 32.390625,
+          "right": 583,
+          "bottom": 110.59375
+        },
+        "current": "2 \u0631.\u0639",
+        "amountSize": "32px",
+        "nextSize": "12px",
+        "radius": "0px",
+        "overflow": false,
+        "track": {
+          "x": 185,
+          "y": 155.1875,
+          "w": 398,
+          "h": 4,
+          "right": 583,
+          "bottom": 159.1875
+        },
+        "animation": "none",
+        "color": "rgb(255, 219, 131)"
+      }
+    },
+    {
+      "name": "ar-768-source full drawer width",
+      "pass": true,
+      "detail": {
+        "hero": {
+          "x": 169,
+          "y": 64,
+          "w": 430,
+          "h": 107.1875,
+          "right": 599,
+          "bottom": 171.1875
+        },
+        "title": {
+          "x": 169,
+          "y": 0,
+          "w": 430,
+          "h": 64,
+          "right": 599,
+          "bottom": 64
+        },
+        "drawer": {
+          "x": 169,
+          "y": 0,
+          "w": 430,
+          "h": 850,
+          "right": 599,
+          "bottom": 850
+        },
+        "amount": {
+          "x": 185,
+          "y": 76,
+          "w": 70.125,
+          "h": 36.796875,
+          "right": 255.125,
+          "bottom": 112.796875
+        },
+        "copy": {
+          "x": 267.125,
+          "y": 78.203125,
+          "w": 315.875,
+          "h": 32.390625,
+          "right": 583,
+          "bottom": 110.59375
+        },
+        "current": "2 \u0631.\u0639",
+        "amountSize": "32px",
+        "nextSize": "12px",
+        "radius": "0px",
+        "overflow": false,
+        "track": {
+          "x": 185,
+          "y": 155.1875,
+          "w": 398,
+          "h": 4,
+          "right": 583,
+          "bottom": 159.1875
+        },
+        "animation": "none",
+        "color": "rgb(255, 219, 131)"
+      }
+    },
+    {
+      "name": "ar-768-source square corners",
+      "pass": true,
+      "detail": null
+    },
+    {
+      "name": "ar-768-source current reward primary",
+      "pass": true,
+      "detail": null
+    },
+    {
+      "name": "ar-768-source no horizontal overflow",
+      "pass": true,
+      "detail": null
+    },
+    {
+      "name": "ar-768-source reward inside header",
+      "pass": true,
+      "detail": null
+    },
+    {
+      "name": "ar-768-source compact height",
+      "pass": true,
+      "detail": 107.1875
+    },
+    {
+      "name": "ar-768-source no shimmer animation",
+      "pass": true,
+      "detail": null
+    },
+    {
+      "name": "ar-768-min flush below title",
+      "pass": true,
+      "detail": {
+        "hero": {
+          "x": 169,
+          "y": 64,
+          "w": 430,
+          "h": 107.1875,
+          "right": 599,
+          "bottom": 171.1875
+        },
+        "title": {
+          "x": 169,
+          "y": 0,
+          "w": 430,
+          "h": 64,
+          "right": 599,
+          "bottom": 64
+        },
+        "drawer": {
+          "x": 169,
+          "y": 0,
+          "w": 430,
+          "h": 850,
+          "right": 599,
+          "bottom": 850
+        },
+        "amount": {
+          "x": 185,
+          "y": 76,
+          "w": 70.125,
+          "h": 36.796875,
+          "right": 255.125,
+          "bottom": 112.796875
+        },
+        "copy": {
+          "x": 267.125,
+          "y": 78.203125,
+          "w": 315.875,
+          "h": 32.390625,
+          "right": 583,
+          "bottom": 110.59375
+        },
+        "current": "2 \u0631.\u0639",
+        "amountSize": "32px",
+        "nextSize": "12px",
+        "radius": "0px",
+        "overflow": false,
+        "track": {
+          "x": 185,
+          "y": 155.1875,
+          "w": 398,
+          "h": 4,
+          "right": 583,
+          "bottom": 159.1875
+        },
+        "animation": "none",
+        "color": "rgb(255, 219, 131)"
+      }
+    },
+    {
+      "name": "ar-768-min full drawer width",
+      "pass": true,
+      "detail": {
+        "hero": {
+          "x": 169,
+          "y": 64,
+          "w": 430,
+          "h": 107.1875,
+          "right": 599,
+          "bottom": 171.1875
+        },
+        "title": {
+          "x": 169,
+          "y": 0,
+          "w": 430,
+          "h": 64,
+          "right": 599,
+          "bottom": 64
+        },
+        "drawer": {
+          "x": 169,
+          "y": 0,
+          "w": 430,
+          "h": 850,
+          "right": 599,
+          "bottom": 850
+        },
+        "amount": {
+          "x": 185,
+          "y": 76,
+          "w": 70.125,
+          "h": 36.796875,
+          "right": 255.125,
+          "bottom": 112.796875
+        },
+        "copy": {
+          "x": 267.125,
+          "y": 78.203125,
+          "w": 315.875,
+          "h": 32.390625,
+          "right": 583,
+          "bottom": 110.59375
+        },
+        "current": "2 \u0631.\u0639",
+        "amountSize": "32px",
+        "nextSize": "12px",
+        "radius": "0px",
+        "overflow": false,
+        "track": {
+          "x": 185,
+          "y": 155.1875,
+          "w": 398,
+          "h": 4,
+          "right": 583,
+          "bottom": 159.1875
+        },
+        "animation": "none",
+        "color": "rgb(255, 219, 131)"
+      }
+    },
+    {
+      "name": "ar-768-min square corners",
+      "pass": true,
+      "detail": null
+    },
+    {
+      "name": "ar-768-min current reward primary",
+      "pass": true,
+      "detail": null
+    },
+    {
+      "name": "ar-768-min no horizontal overflow",
+      "pass": true,
+      "detail": null
+    },
+    {
+      "name": "ar-768-min reward inside header",
+      "pass": true,
+      "detail": null
+    },
+    {
+      "name": "ar-768-min compact height",
+      "pass": true,
+      "detail": 107.1875
+    },
+    {
+      "name": "ar-768-min no shimmer animation",
+      "pass": true,
+      "detail": null
+    },
+    {
+      "name": "ar-768-min min CSS matches source render",
+      "pass": true,
+      "detail": null
+    },
+    {
+      "name": "ar/30.001 reward changes with replacement",
+      "pass": true,
+      "detail": [
+        "4 \u0631.\u0639",
+        "4 \u0631.\u0639"
+      ]
+    },
+    {
+      "name": "ar/30.001 one header after replacement",
+      "pass": true,
+      "detail": null
+    },
+    {
+      "name": "ar/60.001 reward changes with replacement",
+      "pass": true,
+      "detail": [
+        "8 \u0631.\u0639",
+        "8 \u0631.\u0639"
+      ]
+    },
+    {
+      "name": "ar/60.001 one header after replacement",
+      "pass": true,
+      "detail": null
+    },
+    {
+      "name": "ar/20 reward changes with replacement",
+      "pass": true,
+      "detail": [
+        "2 \u0631.\u0639",
+        "2 \u0631.\u0639"
+      ]
+    },
+    {
+      "name": "ar/20 one header after replacement",
+      "pass": true,
+      "detail": null
+    },
+    {
+      "name": "SAR/ar/regular long money no page overflow",
+      "pass": true,
+      "detail": null
+    },
+    {
+      "name": "SAR/ar/large long money no page overflow",
+      "pass": true,
+      "detail": null
+    },
+    {
+      "name": "AED/ar/regular long money no page overflow",
+      "pass": true,
+      "detail": null
+    },
+    {
+      "name": "AED/ar/large long money no page overflow",
+      "pass": true,
+      "detail": null
+    },
+    {
+      "name": "KWD/ar/regular long money no page overflow",
+      "pass": true,
+      "detail": null
+    },
+    {
+      "name": "KWD/ar/large long money no page overflow",
+      "pass": true,
+      "detail": null
+    },
+    {
+      "name": "BHD/ar/regular long money no page overflow",
+      "pass": true,
+      "detail": null
+    },
+    {
+      "name": "BHD/ar/large long money no page overflow",
+      "pass": true,
+      "detail": null
+    },
+    {
+      "name": "no local browser script errors",
+      "pass": true,
+      "detail": []
+    }
+  ]
+}
