@@ -28,3 +28,4 @@
 	:is(#qimia-lab,.qil-shell) :is(.qil-flash-drop,.qil-member,.qil-stacks) *,
 	:is(#qimia-lab,.qil-shell) :is(.qil-flash-drop,.qil-member,.qil-stacks) *::before,
 	:is(#qimia-lab,.qil-shell) :is(.qil-flash-drop,.qil-member,.qil-stacks) *::after{animation:none !important;transition:none !important}}
+:is(#qimia-lab,.qil-shell) .qil-running-plan{margin:10px 0 0;font-size:13px;font-weight:700}:is(#qimia-lab,.qil-shell) .qil-running-plan a{color:var(--qil-tiffany,#087983);text-decoration:underline;text-underline-offset:3px}

@@ -41,6 +41,8 @@ require_once QIL_DIR . 'includes/commerce-boost.php';
 require_once QIL_DIR . 'includes/flash-drop.php';
 require_once QIL_DIR . 'includes/member-hub.php';
 require_once QIL_DIR . 'includes/cashback-stacks.php';
+// 1.19.0 Qimia Refill: opt-in refill reminders with a one-tap reorder. QIL_REFILL_DISABLE stops it.
+require_once QIL_DIR . 'includes/refill.php';
 
 /**
  * Normalize the request host for storefront eligibility and sandbox isolation.

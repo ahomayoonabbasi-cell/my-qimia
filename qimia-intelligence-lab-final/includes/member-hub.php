@@ -440,12 +440,13 @@ final class QIL_Member {
 		return max( 0.1, (float) ( $rates[ $role ] ?? 1.0 ) );
 	}
 
-	private static function replenishable( $role ) {
+	/** Roles worth restocking (also the Qimia Refill eligibility list). */
+	public static function replenishable( $role ) {
 		return in_array( $role, (array) apply_filters( 'qil_reorder_roles', array( 'protein', 'creatine', 'pre_workout', 'fat_burner', 'mass_gainer', 'amino', 'magnesium', 'ashwagandha', 'multivitamin', 'omega3', 'vitamin_d', 'zinc', 'collagen', 'sleep', 'electrolytes', 'joint', 'daily_wellness' ) ), true );
 	}
 
 	/** Verified serving count for the exact bought item (flavour-only variations inherit). */
-	private static function servings( $product, $parent ) {
+	public static function servings( $product, $parent ) {
 		if ( ! function_exists( 'qil_filter_product_servings' ) ) {
 			return 0;
 		}
@@ -746,6 +747,9 @@ final class QIL_Member {
 						<h2 data-qil-running-title><?php echo esc_html( $ar ? 'جدّد روتينك بلمسة واحدة' : 'Restock your routine in one tap' ); ?></h2>
 						<div class="qil-running-list" data-qil-running-list></div>
 						<p class="qil-running-note"><?php echo esc_html( $ar ? 'تقدير من عدد الحصص على الملصق والكمية التي اشتريتها. نفس المنتج والنكهة والحجم، بسعر اليوم.' : 'Estimated from the label’s serving count and the quantity you bought. Same product, flavour and size, at today’s price.' ); ?></p>
+						<?php if ( class_exists( 'QIL_Refill' ) && QIL_Refill::visible() ) : ?>
+							<p class="qil-running-plan"><a href="<?php echo esc_url( QIL_Refill::account_url( $ar ) ); ?>"><?php echo esc_html( $ar ? 'اطلب تذكيراً قبل أن ينفد' : 'Get a reminder before it runs out' ); ?></a></p>
+						<?php endif; ?>
 					</article>
 				</div>
 				<article class="qil-collection-block qil-wallet-picks" data-qil-wallet-picks hidden>

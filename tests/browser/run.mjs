@@ -3,6 +3,7 @@
 // Starts the PHP router (real plugin over WordPress/WooCommerce doubles) and
 // drives the real homepage template, mini cart and cart page in Chromium.
 import { spawn } from 'node:child_process';
+import { createHmac } from 'node:crypto';
 import { createRequire } from 'node:module';
 import { mkdirSync, writeFileSync } from 'node:fs';
 import { dirname, join } from 'node:path';
@@ -326,6 +327,69 @@ try {
 			const cart = decodeURIComponent((await context.cookies()).find(c => c.name === 'qt_cart')?.value || '');
 			check(`${label}: the theme card adds to this order without leaving the cart`, new RegExp(`(^|,)${id}:0:1`).test(cart) && (await page.locator('.qil-boost-band a.added_to_cart').count()) === 0, `${id} → ${cart}`);
 		}
+		check(`${label}: no JavaScript errors`, errors.length === 0, errors.join(' | '));
+		await context.close();
+	}
+
+	/* ---------------- Qimia Refill: order received → reminder → My Account → email link → checkout ---------------- */
+	// The router keeps plans, cart and notices between requests for a named state (qt_state cookie).
+	const refillLink = (user, plans, issued) => {
+		const payload = `${user}.${plans.join('~')}.${issued}`;
+		return `${BASE}/?wc-ajax=qil_refill&t=${payload}.${createHmac('sha256', 'test-salt-auth|qil-refill').update(payload).digest('hex').slice(0, 32)}`;
+	};
+	const refillLayout = page => page.evaluate(() => {
+		const root = document.querySelector('[data-qil-refill]');
+		const texts = [...root.querySelectorAll('*')].filter(node => [...node.childNodes].some(child => child.nodeType === 3 && child.textContent.trim()) && node.getClientRects().length && !node.closest('.screen-reader-text'));
+		const small = texts.map(node => ({ text: node.textContent.trim().slice(0, 30), size: parseFloat(getComputedStyle(node).fontSize) })).filter(row => row.size < 13);
+		const targets = [...root.querySelectorAll('button, select, a.qil-refill-button')].filter(node => node.getClientRects().length && !node.classList.contains('qil-refill-link')).map(node => Math.round(node.getBoundingClientRect().height)).filter(height => height < 44);
+		const box = root.getBoundingClientRect();
+		const outside = [...root.querySelectorAll('*')].filter(node => { const r = node.getBoundingClientRect(); return r.width && (r.right > box.right + 1 || r.left < box.left - 1); }).map(node => node.className || node.tagName).slice(0, 5);
+		return { small, targets, outside };
+	});
+	for (const viewport of ['desktop', 'mobile']) {
+		const label = `refill ${viewport}`;
+		console.log(`\n${label}`);
+		const state = `refill${viewport}${Date.now()}`;
+		const { page, context, errors } = await open('/checkout/order-received/5001/', { viewport, cookies: { qt_user: 7, qt_state: state } });
+		const offers = page.locator('.qil-refill-thankyou .qil-refill-start');
+		check(`${label}: order received invites a reminder for the three consumables`, (await offers.count()) === 3 && /Want a reminder before it runs out\?/.test(await text(page, '#qil-refill-ty-title')));
+		check(`${label}: the pre-workout's interval comes from its label (42 days)`, (await page.locator('.qil-refill-thankyou select').first().inputValue()) === '42');
+		await page.locator('.qil-refill-thankyou').screenshot({ path: join(shots, `refill-received-${viewport}.png`) });
+		await Promise.all([page.waitForNavigation(), offers.first().locator('button').click()]);
+		check(`${label}: Remind me → back on the page with a confirmation`, /Done\. We will remind you every 42 days\./.test(await page.locator('.woocommerce-message').innerText().catch(() => '')) && /Reminder on · every 42 days/.test(await text(page, '.qil-refill-thankyou .is-on')));
+		await page.goto(`${BASE}/my-account/qimia-refills/`);
+		check(`${label}: My Account shows Refills after Orders`, (await page.locator('.woocommerce-MyAccount-navigation li').allInnerTexts()).join('|').startsWith('Dashboard|Orders|Refills'));
+		check(`${label}: the plan is listed and due (runs low in 4 days): Refill now leads`, (await page.locator('.qil-refill-plan.is-due').count()) === 1 && /Fruit Punch/.test(await text(page, '.qil-refill-plan.is-due')) && (await page.locator('.qil-refill-plan.is-due .qil-refill-button.is-primary').innerText()) === 'Refill now');
+		check(`${label}: other purchases are offered as one-tap reminders`, (await page.locator('.qil-refill-offer').count()) >= 3);
+		const layout = await refillLayout(page);
+		check(`${label}: readable (no text under 13px) and every control at least 44px tall`, layout.small.length === 0 && layout.targets.length === 0, JSON.stringify(layout));
+		check(`${label}: nothing overflows the account column`, layout.outside.length === 0 && await noOverflow(page), JSON.stringify(layout.outside));
+		await page.locator('[data-qil-refill]').screenshot({ path: join(shots, `refill-account-${viewport}.png`) });
+		await page.selectOption('.qil-refill-plan.is-due select', '30');
+		await Promise.all([page.waitForNavigation(), page.locator('.qil-refill-plan.is-due .qil-refill-interval button').click()]);
+		check(`${label}: interval saved`, /Saved\. Every 30 days/.test(await page.locator('.woocommerce-message').innerText().catch(() => '')) && (await page.locator('.qil-refill-plan select').first().inputValue()) === '30');
+		await Promise.all([page.waitForNavigation(), page.locator('.qil-refill-plan .qil-refill-button', { hasText: 'Refill now' }).first().click()]);
+		check(`${label}: Refill now → checkout with the exact flavour in the cart`, /\/checkout\/$/.test(page.url()) && (await page.locator('[data-qt-checkout] tr[data-product="103"][data-variation="1031"]').count()) === 1 && /Your refill is ready/.test(await page.locator('.woocommerce-message').innerText().catch(() => '')), page.url());
+		// The email's link in another, signed-out browser.
+		const guest = await browser.newContext({ viewport: viewports[viewport] });
+		await guest.addCookies([{ name: 'qt_state', value: state, url: BASE }]);
+		const mail = await guest.newPage();
+		await mail.goto(refillLink(7, ['103-1031'], Math.floor(Date.now() / 1000) - 3600));
+		check(`${label}: the email's Refill now (signed out) lands on checkout with the item`, /\/checkout\/$/.test(mail.url()) && (await mail.locator('[data-qt-checkout] tr[data-product="103"]').count()) === 1, mail.url());
+		await mail.goto(refillLink(7, ['103-1031'], Math.floor(Date.now() / 1000) - 3600).replace(/.$/, c => (c === 'a' ? 'b' : 'a')));
+		check(`${label}: a tampered link adds nothing and explains itself`, /qimia-refills/.test(mail.url()) && /expired/.test(await mail.locator('.woocommerce-info').innerText().catch(() => '')), mail.url());
+		await guest.close();
+		check(`${label}: no JavaScript errors`, errors.length === 0, errors.join(' | '));
+		await context.close();
+	}
+	{
+		const label = 'refill AR mobile';
+		console.log(`\n${label}`);
+		const { page, context, errors } = await open('/ar/my-account/qimia-refills/', { viewport: 'mobile', cookies: { qt_user: 7, qt_state: `refillar${Date.now()}` } });
+		check(`${label}: right to left, in Arabic`, (await page.getAttribute('[data-qil-refill]', 'dir')) === 'rtl' && /لا تدع روتينك ينفد/.test(await text(page, '.qil-refill-head h2')) && /ذكّرني/.test(await text(page, '.qil-refill-offer button')));
+		const layout = await refillLayout(page);
+		check(`${label}: readable, 44px controls, no overflow`, layout.small.length === 0 && layout.targets.length === 0 && layout.outside.length === 0 && await noOverflow(page), JSON.stringify(layout));
+		await page.locator('[data-qil-refill]').screenshot({ path: join(shots, 'refill-account-ar-mobile.png') });
 		check(`${label}: no JavaScript errors`, errors.length === 0, errors.join(' | '));
 		await context.close();
 	}

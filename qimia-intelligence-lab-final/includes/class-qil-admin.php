@@ -30,9 +30,9 @@ final class QIL_Admin {
         $tab=sanitize_key(wp_unslash($_GET['tab']??'storefront'));
         echo '<style>.qimia-admin{direction:ltr;max-width:1200px;font-size:16px;line-height:1.6}.qimia-admin-panel{padding:24px;background:white;border:1px solid #d7e6e3;border-radius:16px;margin:18px 0}.qimia-admin-tabs{display:flex;gap:16px;flex-wrap:wrap}.qimia-admin-tabs a{padding:12px;min-height:44px}.qimia-admin .button{min-height:44px;padding:6px 16px}</style>';
         echo '<div class="wrap qimia-admin" lang="en" dir="ltr"><h1>QIMIA INTELLIGENCE LAB</h1><p>Storefront presentation · '.esc_html(QIL_VERSION).'</p><nav class="qimia-admin-tabs" aria-label="Qimia Lab settings">';
-        foreach(array('storefront'=>'Storefront & Hero','shopping'=>'Shopping Experience','growth'=>'Growth','performance'=>'Performance','connections'=>'Connections') as $key=>$label)echo '<a href="'.esc_url(add_query_arg(array('page'=>self::SLUG,'tab'=>$key),admin_url('options-general.php'))).'"'.($tab===$key?' aria-current="page"':'').'>'.esc_html($label).'</a>';
+        foreach(array('storefront'=>'Storefront & Hero','shopping'=>'Shopping Experience','growth'=>'Growth','refills'=>'Refills','performance'=>'Performance','connections'=>'Connections') as $key=>$label)echo '<a href="'.esc_url(add_query_arg(array('page'=>self::SLUG,'tab'=>$key),admin_url('options-general.php'))).'"'.($tab===$key?' aria-current="page"':'').'>'.esc_html($label).'</a>';
         echo '</nav>';
-        if($tab==='connections')self::connections();elseif($tab==='shopping')QIL_Personalization::admin();elseif($tab==='growth'&&class_exists('QIL_Boost'))QIL_Boost::admin();elseif($tab==='performance'&&function_exists('qil_perf_admin'))qil_perf_admin();else self::storefront();
+        if($tab==='connections')self::connections();elseif($tab==='shopping')QIL_Personalization::admin();elseif($tab==='growth'&&class_exists('QIL_Boost'))QIL_Boost::admin();elseif($tab==='refills'&&class_exists('QIL_Refill'))QIL_Refill::admin();elseif($tab==='performance'&&function_exists('qil_perf_admin'))qil_perf_admin();else self::storefront();
         echo '</div>';
     }
     private static function connections(): void {

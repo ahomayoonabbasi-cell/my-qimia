@@ -43,6 +43,23 @@ if ( 'lang_ajax' === $scenario ) {
 if ( isset( $spec[1] ) ) { $GLOBALS['qt']['currency'] = $spec[1]; }
 if ( isset( $spec[2] ) ) { $GLOBALS['qt']['decimals'] = (int) $spec[2]; }
 if ( in_array( $scenario, array( 'minicart_ar' ), true ) ) { $_SERVER['HTTP_X_QIMIA_LANGUAGE'] = 'ar'; $_GET['wc-ajax'] = 'get_refreshed_fragments'; }
+if ( 'refill_ar' === $scenario ) { $_SERVER['HTTP_X_QIMIA_LANGUAGE'] = 'ar'; $_GET['wc-ajax'] = 'qil_refill'; }
+if ( 'refill_disabled' === $scenario ) { define( 'QIL_REFILL_DISABLE', true ); }
+if ( 'refill_staging' === $scenario ) { $GLOBALS['qt']['options']['home'] = 'https://qimialab.qimia.om'; }
+/** Refill helpers: a plan, aging it, an extra order for user 7. */
+function rf_plan( $id, $user = 7 ) { return QIL_Refill::plans( $user )[ $id ] ?? null; }
+function rf_set( $id, array $changes, $user = 7 ) { $plans = QIL_Refill::plans( $user ); $plans[ $id ] = array_merge( $plans[ $id ], $changes ); update_user_meta( $user, QIL_Refill::META, $plans ); }
+function rf_order( $oid, $customer, $days_ago, array $lines, $status = 'completed' ) {
+	$o = new WC_Order(); $o->id = $oid; $o->customer_id = $customer; $o->paid = time() - (int) round( $days_ago * DAY_IN_SECONDS ); $o->status = $status;
+	foreach ( $lines as $n => $row ) {
+		$item = new WC_Order_Item_Product(); $item->id = $oid * 10 + $n + 1; $item->order_id = $oid; $item->product_id = $row[0]; $item->variation_id = $row[1]; $item->quantity = $row[2]; $item->total = $row[4] ?? 10; $item->meta = $row[3] ?? array();
+		$o->items[ $item->id ] = $item;
+	}
+	return $GLOBALS['qt']['orders'][ $oid ] = $o;
+}
+function rf_post( array $post ) { $_SERVER['REQUEST_METHOD'] = 'POST'; $_POST = $post + array( 'qil_refill_nonce' => wp_create_nonce( 'qil_refill_' . get_current_user_id() ) ); $GLOBALS['qt']['throw_redirect'] = true; try { QIL_Refill::handle(); } catch ( QT_Redirect $r ) { return $r->url; } return null; }
+function rf_go( $token ) { $_GET['t'] = $token; $GLOBALS['qt']['throw_redirect'] = true; try { QIL_Refill::go(); } catch ( QT_Redirect $r ) { return $r->url; } return null; }
+function rf_notices( $type ) { return implode( ' | ', array_column( wc_get_notices( $type ), 'notice' ) ); }
 require realpath( __DIR__ . '/../../qimia-intelligence-lab-final/qimia-intelligence-lab.php' );
 do_action( 'template_redirect' );
 do_action( 'rest_api_init' );
@@ -538,6 +555,262 @@ case 'perf':
 	$metrics = array( 'pool_rows' => count( $pool ), 'pool_cold_build_ms' => round( $cold, 1 ), 'mini_cart_render_ms_avg' => round( $warm, 2 ) );
 	ok( 'pool is bounded (≤ 280 rows)', count( $pool ) <= 280, count( $pool ) );
 	ok( 'warm mini-cart render with ladder + picks stays well under 10 ms', $warm < 10, $warm );
+	break;
+
+case 'refill_create':
+	$GLOBALS['qt']['user'] = 7;
+	$order = wc_get_order( 5001 );
+	$fit = QIL_Refill::eligible( $order, $order->get_item( 50011 ) );
+	ok( 'pre-workout is refillable: 30 label servings ÷ 5 a week = 42 days', $fit && 42 === $fit['estimate'] && 42 === $fit['interval'] && 1031 === $fit['selection']['variationId'], $fit ? array( $fit['estimate'], $fit['interval'] ) : null );
+	$whey = QIL_Refill::eligible( wc_get_order( 5003 ), wc_get_order( 5003 )->get_item( 50035 ) );
+	ok( 'whey has no verified servings: still refillable (protein), 30 days, no estimate shown', $whey && 0 === $whey['estimate'] && 30 === $whey['interval'] );
+	rf_order( 5101, 7, 3, array( array( 109, 0, 1 ) ) );
+	ok( 'a shaker bottle (accessory) is not refillable', null === QIL_Refill::eligible( wc_get_order( 5101 ), wc_get_order( 5101 )->get_item( 51011 ) ) );
+	$plan = QIL_Refill::create( 7, 5001, 50011 );
+	ok( 'plan created from the exact order line', is_array( $plan ) && 103 === $plan['productId'] && 1031 === $plan['variationId'] && 'active' === $plan['status'] && 42 === $plan['interval'] && 'en' === $plan['locale'], $plan );
+	ok( 'runs low = payment + 2 days delivery + interval', is_array( $plan ) && $plan['nextAt'] === wc_get_order( 5001 )->paid + 44 * DAY_IN_SECONDS, is_array( $plan ) ? $plan['nextAt'] - time() : $plan );
+	ok( 'the job index holds the reminder time (run-out − 4 days)', (int) get_user_meta( 7, QIL_Refill::DUE, true ) === $plan['nextAt'] - 4 * DAY_IN_SECONDS );
+	ok( 'interval is clamped to 7–120 days', 120 === ( QIL_Refill::create( 7, 5003, 50035, 500 )['interval'] ?? 0 ) );
+	ok( 'someone else\'s order cannot start a plan', is_wp_error( QIL_Refill::create( 8, 5001, 50012 ) ) );
+	ok( 'an item from another order is refused', is_wp_error( QIL_Refill::create( 7, 5001, 50035 ) ) );
+	$GLOBALS['qt']['orders'][5002]->status = 'cancelled';
+	ok( 'a cancelled order cannot start a plan', is_wp_error( QIL_Refill::create( 7, 5002, 50021 ) ) );
+	for ( $i = 0; $i < 11; $i++ ) { qt_product( 600 + $i, array( 'name' => 'Vitamin ' . $i, 'regular_price' => '3.000' ), array( 15 ) ); rf_order( 5200 + $i, 7, 5, array( array( 600 + $i, 0, 1 ) ) ); QIL_Refill::create( 7, 5200 + $i, ( 5200 + $i ) * 10 + 1 ); }
+	$limit = QIL_Refill::create( 7, 5001, 50013 );
+	ok( 'at most 12 plans per account', is_wp_error( $limit ) && 'limit' === $limit->get_error_code() && 12 === count( QIL_Refill::plans( 7 ) ), count( QIL_Refill::plans( 7 ) ) );
+	ok( 'an existing plan can still be restarted at the limit', is_array( QIL_Refill::create( 7, 5001, 50011, 30 ) ) && 30 === rf_plan( '103-1031' )['interval'] );
+	break;
+
+case 'refill_change':
+	$GLOBALS['qt']['user'] = 7;
+	$plan = QIL_Refill::create( 7, 5001, 50011 );
+	$paid = wc_get_order( 5001 )->paid;
+	ok( 'interval change: runs low = last order + 2 + new interval', QIL_Refill::change( 7, '103-1031', 'interval', 60 ) && rf_plan( '103-1031' )['nextAt'] === $paid + 62 * DAY_IN_SECONDS );
+	ok( 'interval outside 7–120 is refused', ! QIL_Refill::change( 7, '103-1031', 'interval', 3 ) && 60 === rf_plan( '103-1031' )['interval'] );
+	$before = rf_plan( '103-1031' )['nextAt'];
+	ok( 'skip moves the next run-out one interval later', QIL_Refill::change( 7, '103-1031', 'skip' ) && rf_plan( '103-1031' )['nextAt'] === max( $before, time() ) + 60 * DAY_IN_SECONDS && 1 === rf_plan( '103-1031' )['skips'] );
+	ok( 'pause: no reminders (out of the job index)', QIL_Refill::change( 7, '103-1031', 'pause' ) && 'paused' === rf_plan( '103-1031' )['status'] && '' === get_user_meta( 7, QIL_Refill::DUE, true ) );
+	rf_set( '103-1031', array( 'nextAt' => time() - 30 * DAY_IN_SECONDS ) );
+	ok( 'resume after a break: the next run-out is one interval from today', QIL_Refill::change( 7, '103-1031', 'resume' ) && 'active' === rf_plan( '103-1031' )['status'] && abs( rf_plan( '103-1031' )['nextAt'] - ( time() + 60 * DAY_IN_SECONDS ) ) <= 2 );
+	ok( 'unknown plan or action is refused', ! QIL_Refill::change( 7, '999-0', 'pause' ) && ! QIL_Refill::change( 7, '103-1031', 'delete-everything' ) );
+	ok( 'remove deletes the plan and the account leaves the job index', QIL_Refill::change( 7, '103-1031', 'remove' ) && array() === QIL_Refill::plans( 7 ) && '' === get_user_meta( 7, QIL_Refill::DUE, true ) );
+	break;
+
+case 'refill_tick':
+case 'refill_ar':
+	$GLOBALS['qt']['user'] = 7;
+	$ar = 'refill_ar' === $scenario;
+	QIL_Refill::create( 7, 5001, 50011, 0, $ar ? 'ar' : 'en' ); // Pre-workout: runs low in 4 days → reminder due now.
+	QIL_Refill::create( 7, 5001, 50012 );                       // Creatine: 60 servings, 1 a day, bought 40 days ago → in 22 days.
+	ok( 'a plan started today gets no email on day one', array() === QIL_Refill::tick() && empty( $GLOBALS['qt']['mail'] ) );
+	rf_set( '103-1031', array( 'createdAt' => time() - 3 * DAY_IN_SECONDS, 'waitUntil' => 0 ) );
+	rf_set( '102-0', array( 'createdAt' => time() - 3 * DAY_IN_SECONDS ) );
+	update_user_meta( 7, QIL_Refill::DUE, time() - 1 );
+	$sent = QIL_Refill::tick();
+	$mail = $GLOBALS['qt']['mail'][0] ?? array();
+	ok( 'one email, only for what is due (pre-workout, not creatine)', array( 7 => array( '103-1031' ) ) === $sent && 1 === count( $GLOBALS['qt']['mail'] ?? array() ), $sent );
+	ok( 'sent through WooCommerce\'s mailer to the account email', 'wc' === ( $mail['via'] ?? '' ) && 'jane@example.com' === ( $mail['to'] ?? '' ) );
+	if ( $ar ) {
+		ok( 'Arabic plan → Arabic email, right to left', false !== strpos( $mail['subject'] ?? '', 'على وشك النفاد' ) && false !== strpos( $mail['message'] ?? '', 'dir="rtl"' ) && false !== strpos( $mail['message'] ?? '', 'جدّد الآن' ), $mail );
+		break;
+	}
+	ok( 'subject names the product', 'Your C4 Pre-Workout 30 Servings is running low' === ( $mail['subject'] ?? '' ), $mail['subject'] ?? '' );
+	ok( 'email shows the exact flavour, quantity, today\'s price and the run-out date', false !== strpos( $mail['message'], 'Fruit Punch' ) && false !== strpos( $mail['message'], 'Qty 1' ) && false !== strpos( $mail['message'], 'today' ) && false !== strpos( $mail['message'], 'Runs low around' ), $mail['message'] );
+	ok( 'price text has no stray entities', false === strpos( $mail['message'], '&amp;nbsp;' ) && false === strpos( $mail['message'], '&amp;#' ) );
+	preg_match( '/href="([^"]*wc-ajax=qil_refill[^"]*)"/', $mail['message'], $m );
+	$link = html_entity_decode( $m[1] ?? '' );
+	parse_str( (string) wp_parse_url( $link, PHP_URL_QUERY ), $query );
+	$verified = QIL_Refill::verify( $query['t'] ?? '' );
+	ok( 'the button is a signed link for this account and plan', $verified && 7 === $verified['user'] && array( '103-1031' ) === $verified['plans'], $link );
+	ok( 'the email says nothing is charged automatically and links to manage', false !== strpos( $mail['message'], 'nothing is charged automatically' ) && false !== strpos( $mail['message'], 'my-account/qimia-refills/' ) );
+	ok( 'reminded once: the job index moves to the follow-up (run-out + 5 days)', rf_plan( '103-1031' )['remindedAt'] > 0 && (int) get_user_meta( 7, QIL_Refill::DUE, true ) === min( rf_plan( '103-1031' )['nextAt'] + 5 * DAY_IN_SECONDS, rf_plan( '102-0' )['nextAt'] - 4 * DAY_IN_SECONDS ) );
+	ok( 'the next run sends nothing more', array() === QIL_Refill::tick() && 1 === count( $GLOBALS['qt']['mail'] ) );
+	$next = rf_plan( '103-1031' )['nextAt'];
+	$sent = QIL_Refill::process( 7, $next + 6 * DAY_IN_SECONDS );
+	ok( 'one follow-up five days after the run-out', array( '103-1031' ) === $sent && 0 === strpos( $GLOBALS['qt']['mail'][1]['subject'] ?? '', 'Still need C4 Pre-Workout' ), $GLOBALS['qt']['mail'][1]['subject'] ?? $sent );
+	ok( 'no third email in the same cycle', array() === QIL_Refill::process( 7, $next + 9 * DAY_IN_SECONDS ) );
+	QIL_Refill::process( 7, $next + 15 * DAY_IN_SECONDS );
+	ok( '14 days after the run-out the cycle moves on (one miss counted)', rf_plan( '103-1031' )['nextAt'] === $next + 42 * DAY_IN_SECONDS && 1 === rf_plan( '103-1031' )['misses'] && 0 === rf_plan( '103-1031' )['remindedAt'] );
+	rf_set( '103-1031', array( 'misses' => 2, 'nextAt' => time() - 20 * DAY_IN_SECONDS, 'remindedAt' => time() - 25 * DAY_IN_SECONDS, 'followedAt' => time() - 14 * DAY_IN_SECONDS ) );
+	QIL_Refill::process( 7, time() );
+	ok( 'three unanswered cycles pause the plan', 'paused' === rf_plan( '103-1031' )['status'] && 'idle' === rf_plan( '103-1031' )['paused'] );
+	// Unavailable: wait a day instead of emailing.
+	QIL_Refill::change( 7, '103-1031', 'resume' );
+	rf_set( '103-1031', array( 'nextAt' => time() + DAY_IN_SECONDS, 'remindedAt' => 0, 'followedAt' => 0, 'createdAt' => time() - 9 * DAY_IN_SECONDS ) );
+	$GLOBALS['qt']['products'][1031]->stock_status = 'outofstock';
+	$count = count( $GLOBALS['qt']['mail'] );
+	ok( 'out of stock: no email, try again tomorrow', array() === QIL_Refill::process( 7, time() ) && $count === count( $GLOBALS['qt']['mail'] ) && rf_plan( '103-1031' )['waitUntil'] >= time() + DAY_IN_SECONDS - 2 );
+	$GLOBALS['qt']['products'][1031]->stock_status = 'instock';
+	rf_set( '103-1031', array( 'waitUntil' => 0 ) );
+	$GLOBALS['qt']['mail_fails'] = true;
+	ok( 'mail failure: nothing marked as sent, retried in six hours', array() === QIL_Refill::process( 7, time() ) && 0 === rf_plan( '103-1031' )['remindedAt'] && rf_plan( '103-1031' )['waitUntil'] >= time() + 6 * HOUR_IN_SECONDS - 2 );
+	unset( $GLOBALS['qt']['mail_fails'] );
+	ok( 'reminders are scheduled hourly on the live store', ( do_action( 'init' ) || true ) && ! empty( $GLOBALS['qt']['cron'][ QIL_Refill::CRON ] ) && 'hourly' === ( $GLOBALS['qt']['cron_recurrence'][ QIL_Refill::CRON ] ?? '' ) );
+	break;
+
+case 'refill_staging':
+	$GLOBALS['qt']['user'] = 7;
+	QIL_Refill::create( 7, 5001, 50011 );
+	rf_set( '103-1031', array( 'createdAt' => time() - 3 * DAY_IN_SECONDS ) );
+	update_user_meta( 7, QIL_Refill::DUE, time() - 1 );
+	ok( 'staging site address: no reminder emails, no schedule', ! QIL_Refill::mail_ready() && array() === QIL_Refill::tick() && empty( $GLOBALS['qt']['mail'] ) && ( do_action( 'init' ) || true ) && empty( $GLOBALS['qt']['cron'][ QIL_Refill::CRON ] ) );
+	break;
+
+case 'refill_disabled':
+	$GLOBALS['qt']['user'] = 7;
+	$GLOBALS['qt']['is_account'] = true;
+	ok( 'QIL_REFILL_DISABLE: no plans, no menu, no account page, no emails', is_wp_error( QIL_Refill::create( 7, 5001, 50011 ) ) && ! isset( QIL_Refill::menu( array( 'dashboard' => 'Dashboard', 'orders' => 'Orders' ) )[ QIL_Refill::ENDPOINT ] ) && '' === capture( array( 'QIL_Refill', 'account' ) ) && ! QIL_Refill::mail_ready() && array() === QIL_Refill::tick() );
+	ok( 'QIL_REFILL_DISABLE: no endpoint and no stylesheet', ! isset( QIL_Refill::query_vars( array() )[ QIL_Refill::ENDPOINT ] ) && ( QIL_Refill::assets() || true ) && ! isset( $GLOBALS['qt']['styles']['qil-refill'] ) );
+	break;
+
+case 'refill_link':
+	$GLOBALS['qt']['user'] = 7;
+	QIL_Refill::create( 7, 5001, 50011 );
+	QIL_Refill::create( 7, 5001, 50013 ); // Magnesium x2.
+	$issued = time() - DAY_IN_SECONDS;
+	$link = QIL_Refill::link( 7, array( '103-1031', '105-0' ), $issued );
+	parse_str( (string) wp_parse_url( $link, PHP_URL_QUERY ), $q );
+	ok( 'link goes through wc-ajax (never page-cached)', 'qil_refill' === ( $q['wc-ajax'] ?? '' ) && 0 === strpos( $link, 'https://qimia.om/' ) );
+	ok( 'tampered, expired or malformed links are refused', null === QIL_Refill::verify( substr( $q['t'], 0, -1 ) . ( 'a' === substr( $q['t'], -1 ) ? 'b' : 'a' ) ) && null === QIL_Refill::verify( str_replace( '7.', '8.', $q['t'] ) ) && null === QIL_Refill::verify( explode( '.', QIL_Refill::link( 7, array( '103-1031' ), time() - 31 * DAY_IN_SECONDS ) )[0] ) && null === QIL_Refill::verify( 'x' ) && null === QIL_Refill::verify( array() ) );
+	$GLOBALS['qt']['user'] = 0; // Signed out (another browser).
+	$to = rf_go( $q['t'] );
+	$lines = array_values( WC()->cart->get_cart() );
+	ok( 'signed out: the exact selections go into this cart (variation, quantity 2 for magnesium), then checkout', 'https://qimia.om/checkout/' === $to && 2 === count( $lines ) && 1031 === (int) $lines[0]['variation_id'] && 2 === (int) $lines[1]['quantity'], array( $to, $lines ) );
+	ok( 'the success notice names the products', false !== strpos( rf_notices( 'success' ), 'C4 Pre-Workout' ) && false !== strpos( rf_notices( 'success' ), 'Magnesium' ), rf_notices( 'success' ) );
+	ok( 'the session remembers the refill for attribution', array( '103-1031', '105-0' ) === ( WC()->session->get( QIL_Refill::SESSION )['plans'] ?? null ) && 7 === WC()->session->get( QIL_Refill::SESSION )['user'] );
+	rf_go( $q['t'] );
+	ok( 'opening the email again never doubles the cart', 2 === count( WC()->cart->get_cart() ) && 1 === (int) array_values( WC()->cart->get_cart() )[0]['quantity'] );
+	WC()->cart->items = array();
+	$GLOBALS['qt']['user'] = 8;
+	$to = rf_go( $q['t'] );
+	ok( 'signed in as someone else: nothing added, sent to their own Refills page', array() === WC()->cart->get_cart() && false !== strpos( $to, 'my-account/qimia-refills/' ) && false !== strpos( rf_notices( 'error' ), 'another account' ) );
+	$GLOBALS['qt']['user'] = 7;
+	rf_set( '103-1031', array( 'lastOrderAt' => time() ) );
+	rf_set( '105-0', array( 'lastOrderAt' => time() ) );
+	$to = rf_go( $q['t'] );
+	ok( 'already reordered after the email: nothing added', array() === WC()->cart->get_cart() && false !== strpos( rf_notices( 'notice' ), 'already reordered' ) && false !== strpos( $to, 'qimia-refills' ) );
+	$GLOBALS['qt']['products'][102]->stock_status = 'outofstock';
+	QIL_Refill::create( 7, 5001, 50012 );
+	$to = rf_go( explode( '=', QIL_Refill::link( 7, array( '102-0' ) ) )[2] ?? '' );
+	ok( 'out of stock: nothing added, honest notice, back to Refills', array() === WC()->cart->get_cart() && false !== strpos( rf_notices( 'error' ), 'unavailable right now' ) && false !== strpos( (string) $to, 'qimia-refills' ), array( $to, rf_notices( 'error' ) ) );
+	$to = rf_go( 'garbage' );
+	ok( 'a broken link explains itself and goes to Refills', false !== strpos( (string) $to, 'qimia-refills' ) && false !== strpos( rf_notices( 'notice' ), 'expired' ) );
+	break;
+
+case 'refill_paid':
+	$GLOBALS['qt']['user'] = 7;
+	QIL_Refill::create( 7, 5001, 50011 );
+	WC()->session->set( QIL_Refill::SESSION, array( 'user' => 7, 'plans' => array( '103-1031' ), 'at' => time() ) );
+	$order = rf_order( 5300, 7, 0, array( array( 103, 1031, 2, array( 'pa_flavour' => 'fruit-punch' ), 19.0 ), array( 109, 0, 1 ) ), 'processing' );
+	QIL_Refill::attribute( $order );
+	ok( 'checkout marks an order placed from a refill', '103-1031' === $order->get_meta( '_qil_refill' ) && 7 === $order->get_meta( '_qil_refill_user' ) );
+	do_action( 'woocommerce_checkout_order_processed', 5300 );
+	ok( 'the refill flag is cleared after checkout', null === WC()->session->get( QIL_Refill::SESSION ) );
+	do_action( 'woocommerce_order_status_processing', 5300 );
+	$plan = rf_plan( '103-1031' );
+	ok( 'a paid order restarts the cycle from its payment date', $plan['lastOrderAt'] === $order->paid && $plan['nextAt'] === $order->paid + 44 * DAY_IN_SECONDS && 0 === $plan['remindedAt'] );
+	ok( 'the new order line becomes the source (quantity 2)', 5300 === $plan['orderId'] && 53001 === $plan['itemId'] && 2 === $plan['quantity'] );
+	ok( 'counted as a refill, with its revenue', 1 === $plan['refills'] && 1 === QIL_Refill::totals()['orders'] && near( QIL_Refill::totals()['revenue']['OMR'] ?? 0, 19.0 ), QIL_Refill::totals() );
+	do_action( 'woocommerce_order_status_completed', 5300 );
+	ok( 'processing → completed counts once', 1 === rf_plan( '103-1031' )['refills'] && 1 === QIL_Refill::totals()['orders'] && 1 === $order->get_meta( '_qil_refill_seen' ) );
+	$plain = rf_order( 5301, 7, 0, array( array( 103, 1031, 1, array( 'pa_flavour' => 'fruit-punch' ) ) ), 'processing' );
+	$plain->paid = time() + 60;
+	do_action( 'woocommerce_order_status_processing', 5301 );
+	ok( 'an ordinary order of the product also restarts the cycle, without counting a refill', rf_plan( '103-1031' )['lastOrderAt'] === $plain->paid && 1 === rf_plan( '103-1031' )['refills'] );
+	$guest = rf_order( 5302, 0, 0, array( array( 103, 1031, 1, array( 'pa_flavour' => 'fruit-punch' ), 10 ) ), 'processing' );
+	$guest->paid = time() + 120; $guest->meta = array( '_qil_refill' => '103-1031', '_qil_refill_user' => 7 ); $guest->billing_email = 'someone@else.com';
+	do_action( 'woocommerce_order_status_processing', 5302 );
+	ok( 'signed-out refill with another billing email does not touch the account', rf_plan( '103-1031' )['lastOrderAt'] === $plain->paid );
+	$guest2 = rf_order( 5303, 0, 0, array( array( 103, 1031, 1, array( 'pa_flavour' => 'fruit-punch' ), 10 ) ), 'processing' );
+	$guest2->paid = time() + 180; $guest2->meta = array( '_qil_refill' => '103-1031', '_qil_refill_user' => 7 ); $guest2->billing_email = 'JANE@example.com';
+	do_action( 'woocommerce_order_status_processing', 5303 );
+	ok( 'signed-out refill with the account\'s email counts for the account', rf_plan( '103-1031' )['lastOrderAt'] === $guest2->paid && 2 === rf_plan( '103-1031' )['refills'] && 5301 === rf_plan( '103-1031' )['orderId'] );
+	break;
+
+case 'refill_account':
+	$GLOBALS['qt']['user'] = 7;
+	$GLOBALS['qt']['is_account'] = true;
+	rf_order( 5400, 7, 110, array( array( 102, 0, 1 ) ) ); // Creatine bought 110, 75 and 40 days ago: every 35 days.
+	rf_order( 5401, 7, 75, array( array( 102, 0, 1 ) ) );
+	$items = QIL_Refill::menu( array( 'dashboard' => 'Dashboard', 'orders' => 'Orders', 'downloads' => 'Downloads', 'customer-logout' => 'Log out' ) );
+	ok( 'My Account menu: Refills right after Orders', array( 'dashboard', 'orders', 'qimia-refills', 'downloads', 'customer-logout' ) === array_keys( $items ) && 'Refills' === $items['qimia-refills'] );
+	ok( 'endpoint registered with WooCommerce', 'qimia-refills' === ( QIL_Refill::query_vars( array() )['qimia-refills'] ?? '' ) );
+	$html = capture( array( 'QIL_Refill', 'account' ) );
+	ok( 'empty account: suggestions from real orders (pre-workout with its label estimate)', false !== strpos( $html, 'C4 Pre-Workout 30 Servings' ) && false !== strpos( $html, 'One pack lasts about 42 days' ) && substr_count( $html, 'name="qil_refill_op" value="add"' ) >= 4, $html );
+	ok( 'no accessories suggested', false === strpos( $html, 'Shaker' ) );
+	ok( 'every form carries the account nonce', substr_count( $html, 'name="qil_refill_nonce" value="' . wp_create_nonce( 'qil_refill_7' ) . '"' ) === substr_count( $html, '<form' ) );
+	ok( 'interval choices are labelled for screen readers', substr_count( $html, '<label class="screen-reader-text"' ) === substr_count( $html, '<select' ) && substr_count( $html, '<select' ) > 0 );
+	QIL_Refill::create( 7, 5001, 50011 );
+	QIL_Refill::create( 7, 5001, 50012, 60 );
+	$html = capture( array( 'QIL_Refill', 'account' ) );
+	ok( 'plans listed with run-out date, today\'s price and actions', false !== strpos( $html, 'Runs low around' ) && false !== strpos( $html, 'today' ) && false !== strpos( $html, 'value="skip"' ) && false !== strpos( $html, 'value="pause"' ) && false !== strpos( $html, 'value="remove"' ) );
+	ok( 'the pre-workout is due: highlighted with Refill now as the primary action', (bool) preg_match( '/qil-refill-plan is-due.*?C4 Pre-Workout/s', $html ) && false !== strpos( $html, 'qil-refill-button is-primary">Refill now' ) );
+	ok( 'learned rhythm: "You usually reorder every 35 days" for creatine (interval 60)', false !== strpos( $html, 'You usually reorder every 35 days.' ) && false !== strpos( $html, 'name="days" value="35"' ), $html );
+	ok( 'suggestions skip products that already have a plan', 1 === substr_count( $html, '>C4 Pre-Workout 30 Servings<' ) );
+	$GLOBALS['qt']['products'][103]->name = '<img src=x onerror=alert(1)>C4';
+	$xss = capture( array( 'QIL_Refill', 'account' ) ) . QIL_Refill::thankyou_markup( 7, wc_get_order( 5001 ) );
+	ok( 'product names cannot inject markup', false === stripos( $xss, '<img src=x' ) && false === stripos( $xss, 'onerror=' ) );
+	$GLOBALS['qt']['user'] = 0;
+	ok( 'signed out: the account page prints nothing', '' === capture( array( 'QIL_Refill', 'account' ) ) );
+	QIL_Refill::assets();
+	ok( 'stylesheet only on account and order received pages', isset( $GLOBALS['qt']['styles']['qil-refill'] ) || in_array( 'qil-refill', (array) ( $GLOBALS['qt']['enqueued_styles'] ?? array() ), true ) || wp_style_is( 'qil-refill', 'enqueued' ) );
+	break;
+
+case 'refill_handle':
+	$GLOBALS['qt']['user'] = 7;
+	$GLOBALS['qt']['referer'] = 'https://qimia.om/my-account/qimia-refills/';
+	$to = rf_post( array( 'qil_refill_op' => 'add', 'order' => 5001, 'item' => 50011, 'days' => 45 ) );
+	ok( 'form: start a plan with the chosen interval, back to the page with a notice', 45 === ( rf_plan( '103-1031' )['interval'] ?? 0 ) && $GLOBALS['qt']['referer'] === $to && false !== strpos( rf_notices( 'success' ), 'every 45 days' ) );
+	$to = rf_post( array( 'qil_refill_op' => 'pause', 'plan' => '103-1031', 'qil_refill_nonce' => 'forged' ) );
+	ok( 'form: a forged nonce changes nothing', 'active' === rf_plan( '103-1031' )['status'] && false !== strpos( rf_notices( 'error' ), 'try again' ) );
+	rf_post( array( 'qil_refill_op' => 'interval', 'plan' => '103-1031', 'days' => 30 ) );
+	rf_post( array( 'qil_refill_op' => 'pause', 'plan' => '103-1031' ) );
+	ok( 'form: interval and pause', 30 === rf_plan( '103-1031' )['interval'] && 'paused' === rf_plan( '103-1031' )['status'] );
+	rf_post( array( 'qil_refill_op' => 'resume', 'plan' => '103-1031' ) );
+	$to = rf_post( array( 'qil_refill_op' => 'refill', 'plan' => '103-1031' ) );
+	ok( 'form: Refill now fills the cart and opens checkout', 'https://qimia.om/checkout/' === $to && 1 === count( WC()->cart->get_cart() ) );
+	update_option( QIL_Refill::OPTION, array_merge( QIL_Refill::defaults(), array( 'destination' => 'cart' ) ) );
+	WC()->cart->items = array();
+	QIL_Refill::create( 7, 5001, 50013 );
+	rf_set( '105-0', array( 'nextAt' => time() ) );
+	rf_set( '103-1031', array( 'nextAt' => time() + DAY_IN_SECONDS ) );
+	$to = rf_post( array( 'qil_refill_op' => 'refill', 'plan' => 'due' ) );
+	ok( 'form: Refill all due → both in the cart, cart page when chosen in settings', 'https://qimia.om/cart/' === $to && 2 === count( WC()->cart->get_cart() ), array( $to, count( WC()->cart->get_cart() ) ) );
+	rf_post( array( 'qil_refill_op' => 'remove', 'plan' => '105-0' ) );
+	ok( 'form: remove', null === rf_plan( '105-0' ) );
+	ok( 'form: plan ids are validated', null === rf_post( array( 'qil_refill_op' => 'pause', 'plan' => '../../etc' ) ) && 'active' === rf_plan( '103-1031' )['status'] );
+	$GLOBALS['qt']['user'] = 0;
+	ok( 'form: signed out → ignored', null === rf_post( array( 'qil_refill_op' => 'add', 'order' => 5001, 'item' => 50012 ) ) && null === rf_plan( '102-0' ) );
+	break;
+
+case 'refill_thankyou':
+	$GLOBALS['qt']['user'] = 7;
+	$html = capture( static function () { do_action( 'woocommerce_thankyou', 5001 ); } );
+	ok( 'order received: invites a reminder for each consumable in the order', 3 === substr_count( $html, 'value="add"' ) && false !== strpos( $html, 'Want a reminder before it runs out?' ) && false !== strpos( $html, 'Lasts about 42 days' ), $html );
+	ok( 'honest promise: no subscription, nothing charged automatically', false !== strpos( $html, 'No subscription and nothing charged automatically' ) );
+	QIL_Refill::create( 7, 5001, 50011 );
+	$html = capture( static function () { do_action( 'woocommerce_thankyou', 5001 ); } );
+	ok( 'a product with a plan shows its reminder instead of the form', false !== strpos( $html, 'Reminder on · every 42 days' ) && 2 === substr_count( $html, 'value="add"' ) );
+	$GLOBALS['qt']['user'] = 8;
+	ok( 'someone else\'s order shows nothing', '' === capture( static function () { do_action( 'woocommerce_thankyou', 5001 ); } ) );
+	$GLOBALS['qt']['user'] = 7;
+	update_option( QIL_Refill::OPTION, array_merge( QIL_Refill::defaults(), array( 'thankyou' => 0 ) ) );
+	ok( 'switched off on the Refills tab: nothing', '' === capture( static function () { do_action( 'woocommerce_thankyou', 5001 ); } ) );
+	break;
+
+case 'refill_admin':
+	$GLOBALS['qt']['admin_user'] = true;
+	$GLOBALS['qt']['user'] = 7;
+	QIL_Refill::create( 7, 5001, 50011 );
+	$html = capture( array( 'QIL_Refill', 'admin' ) );
+	ok( 'Refills tab: counts and settings', false !== strpos( $html, 'Active refills' ) && false !== strpos( $html, '<td>1</td>' ) && false !== strpos( $html, 'qil_refill_settings' ) && false !== strpos( $html, 'name="qil_refill[lead]"' ) );
+	ok( 'settings are clamped and typed', array( 'enabled' => 0, 'email' => 1, 'lead' => 14, 'follow_up' => 0, 'thankyou' => 1, 'destination' => 'checkout' ) === QIL_Refill::sanitize( array( 'email' => '1', 'lead' => 99, 'thankyou' => 'yes', 'destination' => 'evil' ) ) );
+	$GLOBALS['qt']['admin_user'] = false;
+	ok( 'non-admins see nothing', '' === capture( array( 'QIL_Refill', 'admin' ) ) );
+	update_option( 'rewrite_rules', array( '(.?.+?)/orders(/(.*))?/?$' => 'x' ) );
+	QIL_Refill::ensure_rewrite();
+	QIL_Refill::ensure_rewrite();
+	ok( 'after an in-place update the new endpoint flushes rewrite rules once', 1 === ( $GLOBALS['qt']['flushed'] ?? 0 ) );
 	break;
 
 default:

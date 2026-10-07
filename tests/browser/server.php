@@ -47,6 +47,26 @@ $_SERVER['REQUEST_METHOD'] = $_SERVER['REQUEST_METHOD'] ?? 'GET';
 if ( isset( $_SERVER['HTTP_ORIGIN'] ) ) { $_SERVER['HTTP_ORIGIN'] = str_replace( $origin, 'https://qimia.om', $_SERVER['HTTP_ORIGIN'] ); }
 if ( isset( $_SERVER['HTTP_REFERER'] ) ) { $_SERVER['HTTP_REFERER'] = $GLOBALS['qt']['referer'] = str_replace( $origin, 'https://qimia.om', $_SERVER['HTTP_REFERER'] ); }
 $GLOBALS['qt']['user'] = (int) ( $_COOKIE['qt_user'] ?? 0 );
+$GLOBALS['qt']['real_redirect'] = true;
+$GLOBALS['qt']['origin'] = $origin;
+/* Refill plans, the cart and notices across requests, only for a test that names a state (qt_state cookie). */
+$qt_state = ! empty( $_COOKIE['qt_state'] ) ? sys_get_temp_dir() . '/qt-state-' . preg_replace( '/[^a-z0-9]/', '', strtolower( $_COOKIE['qt_state'] ) ) . '.json' : '';
+if ( $qt_state && is_file( $qt_state ) ) {
+	$saved = json_decode( (string) file_get_contents( $qt_state ), true );
+	foreach ( (array) ( $saved['usermeta'] ?? array() ) as $uid => $meta ) { foreach ( $meta as $k => $v ) { $GLOBALS['qt']['usermeta'][ $uid ][ $k ] = $v; } }
+	foreach ( (array) ( $saved['session'] ?? array() ) as $k => $v ) { $GLOBALS['qt_session']->data[ $k ] = $v; }
+	foreach ( (array) ( $saved['options'] ?? array() ) as $k => $v ) { $GLOBALS['qt']['options'][ $k ] = $v; }
+}
+if ( $qt_state ) {
+	register_shutdown_function( static function () use ( $qt_state ) {
+		$meta = array();
+		foreach ( (array) ( $GLOBALS['qt']['usermeta'] ?? array() ) as $uid => $row ) { foreach ( $row as $k => $v ) { if ( 0 === strpos( $k, '_qil_refill' ) ) { $meta[ $uid ][ $k ] = $v; } } }
+		$session = array_intersect_key( $GLOBALS['qt_session']->data, array_flip( array( 'wc_notices', 'qil_refill' ) ) );
+		$options = array_intersect_key( $GLOBALS['qt']['options'], array_flip( array( 'qil_refill', 'qil_refill_stats' ) ) );
+		file_put_contents( $qt_state, json_encode( array( 'usermeta' => $meta, 'session' => $session, 'options' => $options ) ) );
+		if ( ! headers_sent() && function_exists( 'qt_persist_cart' ) ) { qt_persist_cart(); }
+	} );
+}
 if ( ! empty( $_COOKIE['qt_currency'] ) ) { $GLOBALS['qt']['currency'] = preg_replace( '/[^A-Z]/', '', $_COOKIE['qt_currency'] ); $GLOBALS['qt']['decimals'] = 'OMR' === $GLOBALS['qt']['currency'] ? 3 : 2; }
 $ar = (bool) preg_match( '#^/ar(/|$)#', $uri );
 
@@ -93,6 +113,9 @@ $endpoint = isset( $_GET['wc-ajax'] ) ? preg_replace( '/[^a-z0-9_]/', '', $_GET[
 if ( $ar ) { $_SERVER['REQUEST_URI'] = '/ar' . ( substr( $uri, 3 ) ?: '/' ); }
 if ( $endpoint ) { $GLOBALS['qt']['render'] = 'none'; }
 elseif ( '/cart/' === $uri || '/ar/cart/' === $uri ) { $GLOBALS['qt']['render'] = 'chrome'; $GLOBALS['qt']['is_cart'] = true; }
+elseif ( preg_match( '#^(/ar)?/my-account/qimia-refills/$#', $uri ) ) { $GLOBALS['qt']['render'] = 'account'; $GLOBALS['qt']['is_account'] = true; }
+elseif ( preg_match( '#^(/ar)?/checkout/order-received/(\d+)/$#', $uri, $received ) ) { $GLOBALS['qt']['render'] = 'received'; $GLOBALS['qt']['is_received'] = true; }
+elseif ( preg_match( '#^(/ar)?/checkout/$#', $uri ) ) { $GLOBALS['qt']['render'] = 'checkout'; }
 else { $GLOBALS['qt']['render'] = 'full'; }
 
 require $root . '/qimia-intelligence-lab.php';
@@ -171,6 +194,30 @@ if ( $endpoint ) {
 
 if ( 'full' === $GLOBALS['qt']['render'] ) {
 	include $root . '/templates/home.php';
+	return true;
+}
+
+/* WooCommerce account / order received / checkout pages inside a theme page (WoodMart stand-in), for Qimia Refill. */
+if ( in_array( $GLOBALS['qt']['render'], array( 'account', 'received', 'checkout' ), true ) ) {
+	$notices = '';
+	foreach ( (array) WC()->session->get( 'wc_notices', array() ) as $type => $rows ) { foreach ( $rows as $row ) { $notices .= '<div class="woocommerce-' . ( 'error' === $type ? 'error' : ( 'notice' === $type ? 'info' : 'message' ) ) . '" role="alert">' . $row['notice'] . '</div>'; } }
+	WC()->session->set( 'wc_notices', array() );
+	?><!doctype html>
+<html <?php language_attributes(); ?>><head><meta charset="utf-8"><meta name="viewport" content="width=device-width, initial-scale=1"><?php wp_head(); ?>
+<style>body{margin:0;font-family:Inter,Arial,sans-serif;background:#fff;color:#1b2b33}.qt-page{max-width:1180px;margin:30px auto;padding:0 16px}.qt-account{display:grid;grid-template-columns:220px minmax(0,1fr);gap:40px}.qt-account nav ul{list-style:none;margin:0;padding:0;border-top:1px solid #e4ecea}.qt-account nav a{display:block;padding:12px 0;border-bottom:1px solid #e4ecea;color:#1b2b33;text-decoration:none}.qt-account nav .is-active a{font-weight:700;color:#087983}.woocommerce-message,.woocommerce-info,.woocommerce-error{margin:0 0 20px;padding:14px 18px;border-radius:8px;background:#eef8f6;border-inline-start:4px solid #087983}.woocommerce-error{background:#fdf0ee;border-color:#b3402a}.screen-reader-text{position:absolute!important;width:1px;height:1px;overflow:hidden;clip:rect(1px,1px,1px,1px)}@media (max-width:860px){.qt-account{grid-template-columns:1fr;gap:20px}}</style>
+</head><body <?php body_class( 'woocommerce-account woocommerce-page' ); ?>><main class="qt-page woocommerce">
+<?php if ( 'account' === $GLOBALS['qt']['render'] ) : ?>
+<h1><?php echo $ar ? 'حسابي' : 'My account'; ?></h1>
+<div class="qt-account"><nav class="woocommerce-MyAccount-navigation"><ul><?php foreach ( apply_filters( 'woocommerce_account_menu_items', array( 'dashboard' => 'Dashboard', 'orders' => 'Orders', 'edit-address' => 'Addresses', 'customer-logout' => 'Log out' ) ) as $key => $label ) : ?><li class="<?php echo 'qimia-refills' === $key ? 'is-active' : ''; ?>"><a href="#"><?php echo esc_html( $label ); ?></a></li><?php endforeach; ?></ul></nav>
+<div class="woocommerce-MyAccount-content"><?php echo $notices; do_action( 'woocommerce_account_qimia-refills_endpoint' ); ?></div></div>
+<?php elseif ( 'received' === $GLOBALS['qt']['render'] ) : ?>
+<?php echo $notices; ?><div class="woocommerce-order"><p class="woocommerce-thankyou-order-received"><?php echo $ar ? 'شكراً لك. تم استلام طلبك.' : 'Thank you. Your order has been received.'; ?></p><ul class="woocommerce-order-overview"><li>Order number: <strong><?php echo (int) $received[2]; ?></strong></li></ul>
+<?php do_action( 'woocommerce_thankyou', (int) $received[2] ); ?></div>
+<?php else : ?>
+<h1><?php echo $ar ? 'الدفع' : 'Checkout'; ?></h1><?php echo $notices; ?><table class="shop_table" data-qt-checkout><?php foreach ( WC()->cart->get_cart() as $line ) : ?><tr data-product="<?php echo (int) $line['product_id']; ?>" data-variation="<?php echo (int) $line['variation_id']; ?>"><td><?php echo esc_html( $line['data']->get_name() ); ?></td><td><?php echo (int) $line['quantity']; ?></td></tr><?php endforeach; ?></table>
+<?php endif; ?>
+</main><?php wp_footer(); ?></body></html>
+<?php
 	return true;
 }
 

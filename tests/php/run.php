@@ -40,7 +40,7 @@ function qt_isolated( $scenario ) {
 /* ------------------------------------------------------------------ */
 section( 'Plugin load' );
 check( 'plugin version is 1.18.22', defined( 'QIL_VERSION' ) && '1.18.22' === QIL_VERSION, defined( 'QIL_VERSION' ) ? QIL_VERSION : 'undefined' );
-foreach ( array( 'QIL_Boost', 'QIL_Flash_Drop', 'QIL_Member', 'QIL_Stacks', 'QIL_Cashback', 'QIL_Personalization' ) as $class ) {
+foreach ( array( 'QIL_Boost', 'QIL_Flash_Drop', 'QIL_Member', 'QIL_Stacks', 'QIL_Cashback', 'QIL_Personalization', 'QIL_Refill' ) as $class ) {
 	check( "class $class loaded", class_exists( $class ) );
 }
 check( 'mini-cart ladder hook registered', has_filter( 'woocommerce_before_mini_cart' ) );
@@ -49,7 +49,7 @@ check( 'flash drop REST route registered after rest_api_init', ( do_action( 'res
 
 /* ------------------------------------------------------------------ */
 section( 'Scenarios (each in a clean PHP process)' );
-$scenarios = array( 'ladder', 'ladder_sar:SAR:2', 'ladder_property:OMR:3', 'ladder_property:OMR:2', 'ladder_property:SAR:2', 'picks', 'minicart', 'minicart_ar', 'lang_ajax:/ar/', 'lang_ajax:/ar/cart/', 'lang_ajax:/', 'lang_ajax:/arabic-oils/', 'lang_ajax:/ar/:en', 'lang_ajax:/:ar', 'cartpage', 'fragments', 'flash', 'flash_contended', 'flash_last_scan', 'flash_budget', 'flash_stock_purge', 'upgrade_purge', 'flash_rotation', 'flash_soldout', 'flash_topup', 'pool_rebuild', 'shortcodes', 'member_wallet', 'member_wallet_strict', 'member_apply', 'member_running', 'member_ajax', 'stacks', 'admin', 'xss', 'xss_json', 'disabled', 'perf' );
+$scenarios = array( 'ladder', 'ladder_sar:SAR:2', 'ladder_property:OMR:3', 'ladder_property:OMR:2', 'ladder_property:SAR:2', 'picks', 'minicart', 'minicart_ar', 'lang_ajax:/ar/', 'lang_ajax:/ar/cart/', 'lang_ajax:/', 'lang_ajax:/arabic-oils/', 'lang_ajax:/ar/:en', 'lang_ajax:/:ar', 'cartpage', 'fragments', 'flash', 'flash_contended', 'flash_last_scan', 'flash_budget', 'flash_stock_purge', 'upgrade_purge', 'flash_rotation', 'flash_soldout', 'flash_topup', 'pool_rebuild', 'shortcodes', 'member_wallet', 'member_wallet_strict', 'member_apply', 'member_running', 'member_ajax', 'stacks', 'admin', 'xss', 'xss_json', 'disabled', 'perf', 'refill_create', 'refill_change', 'refill_tick', 'refill_ar', 'refill_staging', 'refill_disabled', 'refill_link', 'refill_paid', 'refill_account', 'refill_handle', 'refill_thankyou', 'refill_admin' );
 foreach ( $scenarios as $scenario ) {
 	$data = qt_isolated( $scenario );
 	if ( isset( $data['error'] ) ) {

@@ -871,3 +871,7 @@ body.qil-body :is(.cart-widget-side,.widget_shopping_cart_content) .wd-free-prog
 	:is(#qimia-lab,.qil-shell) :is(.qil-flash-drop,.qil-member,.qil-stacks) *::before,
 	:is(#qimia-lab,.qil-shell) :is(.qil-flash-drop,.qil-member,.qil-stacks) *::after { animation: none !important; transition: none !important; }
 }
+
+/* 1.19.0: the way into Qimia Refill under "Running low?". */
+:is(#qimia-lab,.qil-shell) .qil-running-plan { margin: 10px 0 0; font-size: 13px; font-weight: 700; }
+:is(#qimia-lab,.qil-shell) .qil-running-plan a { color: var(--qil-tiffany, #087983); text-decoration: underline; text-underline-offset: 3px; }
