@@ -1,2 +1,4 @@
 node_modules/
 tests/browser/screenshots/
+.playwright-mcp/
+.impeccable/config.local.json

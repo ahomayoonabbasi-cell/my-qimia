@@ -1,0 +1,6 @@
+{
+  "enabledMcpjsonServers": ["playwright"],
+  "env": {
+    "IMPECCABLE_NO_TELEMETRY": "1"
+  }
+}
