@@ -5997,3 +5997,43 @@ body.qil-body #qimia-lab[dir=rtl] .qil-collections-intro h2 {
     min-height:21px; padding:3px 6px; font-size:8.5px;
   }
 }
+
+/* 1.19.0 readability floor (audit: 650 text runs under 11px, labels at 7.5px).
+   The six-up step-down above still applied to four-up rails and to phone
+   cards. Labels move to sentence case so larger type fits the same card;
+   nothing here changes a card's structure, order or behaviour. Doubled
+   class: these win over the rail and RTL steps above at equal specificity. */
+:is(#qimia-lab,.qil-shell) .qil-product-card.qil-product-card .qil-facts :is(.qil-fact-label,small) { color: #4f6870; font-size: 10.5px; letter-spacing: 0; text-transform: none; }
+:is(#qimia-lab,.qil-shell) .qil-product-card.qil-product-card .qil-facts :is(.qil-fact-value,strong) { font-size: 12px; }
+:is(#qimia-lab,.qil-shell) .qil-product-card.qil-product-card .qil-product-brand { font-size: 10px; letter-spacing: .04em; }
+:is(#qimia-lab,.qil-shell) .qil-product-card.qil-product-card :is(.qil-product-badge,.qil-sale-badge,.qil-verified-badge) { font-size: 10px; }
+:is(#qimia-lab,.qil-shell) .qil-product-card.qil-product-card .qil-card-price .qil-per-serving { font-size: 10.5px; }
+:is(#qimia-lab,.qil-shell) .qil-product-card.qil-product-card .qil-card-price :is(.qil-regular-price,del) { font-size: 10.5px !important; }
+:is(#qimia-lab,.qil-shell) .qil-product-card.qil-product-card .qil-card-price .qil-price-from { font-size: 10px !important; }
+:is(#qimia-lab,.qil-shell) .qil-product-card.qil-product-card .qil-buy { font-size: 12px; letter-spacing: 0; text-transform: none; }
+:is(#qimia-lab,.qil-shell) .qil-product-card.qil-product-card .qil-buy span { font-size: inherit; white-space: nowrap; }
+:is(#qimia-lab,.qil-shell) .qil-product-card.qil-product-card .qil-ask-product { font-size: 11px; letter-spacing: 0; text-transform: none; }
+:is(#qimia-lab,.qil-shell) .qil-product-card.qil-product-card .qil-ask-product span { overflow: hidden; text-overflow: ellipsis; white-space: nowrap; }
+:is(#qimia-lab,.qil-shell) .qil-footer-links a { font-size: 13px; }
+:is(#qimia-lab,.qil-shell) .qil-product-card.qil-product-card .qil-product-brand > span { font-size: 10px; }
+:is(#qimia-lab,.qil-shell) .qil-product-card.qil-product-card .qil-ask-product span { font-size: inherit; }
+:is(#qimia-lab,.qil-shell) .qil-product-card.qil-product-card .qil-flash-stock b { font-size: 11px; }
+:is(#qimia-lab,.qil-shell) .qil-product-card.qil-product-card .qil-bundle-reward small { font-size: 10px; letter-spacing: 0; }
+:is(#qimia-lab,.qil-shell)[dir="rtl"] .qil-product-card.qil-product-card .qil-card-price .qil-price-from { font-size: 10.5px !important; }
+:is(#qimia-lab,.qil-shell)[dir="rtl"] .qil-product-card.qil-product-card .qil-ask-product { font-size: 11px; }
+:is(#qimia-lab,.qil-shell)[dir="rtl"] .qil-product-card.qil-product-card .qil-facts :is(.qil-fact-label,small) { font-size: 11px; }
+:is(#qimia-lab,.qil-shell)[dir="rtl"] .qil-product-card.qil-product-card .qil-facts :is(.qil-fact-value,strong) { font-size: 12.5px; }
+:is(#qimia-lab,.qil-shell)[dir="rtl"] .qil-product-card.qil-product-card :is(.qil-product-badge,.qil-sale-badge,.qil-verified-badge) { font-size: 11px; }
+:is(#qimia-lab,.qil-shell)[dir="rtl"] .qil-product-card.qil-product-card .qil-card-price .qil-per-serving { font-size: 11.5px; }
+@media (min-width: 761px) {
+	:is(#qimia-lab,.qil-shell) .qil-collection-grid.qil-rail .qil-product-card.qil-product-card .qil-product-info h3 { font-size: 13.5px; }
+	:is(#qimia-lab,.qil-shell)[dir="rtl"] .qil-collection-grid.qil-rail .qil-product-card.qil-product-card .qil-product-info h3 { font-size: 15px; }
+}
+/* Phones: two cards per view. In English the cart icon steps aside so "Select options" fits on one line (the Arabic label fits with it). */
+@media (max-width: 760px) {
+	:is(#qimia-lab,.qil-shell) .qil-product-card.qil-product-card .qil-buy { padding-inline: 8px; font-size: 11.5px; }
+	:is(#qimia-lab,.qil-shell):not([dir="rtl"]) .qil-product-card.qil-product-card .qil-buy svg { display: none; }
+	:is(#qimia-lab,.qil-shell) .qil-product-card.qil-product-card .qil-ask-product { font-size: 10.5px; }
+	:is(#qimia-lab,.qil-shell) .qil-product-card.qil-product-card .qil-product-info h3 { font-size: 13px; line-height: 1.35; }
+	:is(#qimia-lab,.qil-shell)[dir="rtl"] .qil-product-card.qil-product-card .qil-product-info h3 { font-size: 15px; }
+}

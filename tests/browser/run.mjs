@@ -87,6 +87,16 @@ try {
 		check(`${label}: best sellers lead: the rail follows total sales (201 → 210), discounts and low stock never reorder it`, chips.map(row => row.id).join() === '201,202,203,204,205,206,207,208,209,210', chips.map(row => row.id).join());
 		check(`${label}: the kicker counts what is almost gone`, /ALMOST GONE|على وشك النفاد/.test(await text(page, '.qil-flash-kicker')));
 		check(`${label}: flash cards use the theme's own Add to cart button`, (await page.locator('.qil-flash-rail .qil-product-card .qil-buy').count()) === 10);
+		const type = await page.evaluate(() => {
+			const cards = [...document.querySelectorAll('#qimia-lab .qil-product-card')].filter(card => card.getClientRects().length);
+			const tiny = [];
+			for (const card of cards) for (const node of card.querySelectorAll('*')) {
+				if ([...node.childNodes].some(child => child.nodeType === 3 && child.textContent.trim()) && node.getClientRects().length && parseFloat(getComputedStyle(node).fontSize) < 10) tiny.push(`${node.className || node.tagName} ${getComputedStyle(node).fontSize}`);
+			}
+			const wrapped = cards.flatMap(card => [...card.querySelectorAll('.qil-buy span')]).filter(span => span.getClientRects().length > 1 || span.getBoundingClientRect().height > parseFloat(getComputedStyle(span).fontSize) * 1.9).map(span => span.textContent.trim());
+			return { cards: cards.length, tiny: [...new Set(tiny)].slice(0, 6), wrapped: [...new Set(wrapped)] };
+		});
+		check(`${label}: product cards are readable (1.19.0 floor: no card text under 10px) and their buttons stay on one line`, type.cards > 0 && type.tiny.length === 0 && type.wrapped.length === 0, JSON.stringify(type));
 		const edge = await page.evaluate(() => {
 			const flash = document.querySelector('#qil-flash-drop'), match = document.querySelector('#qil-match'), stage = flash?.querySelector('.qil-flash-stage');
 			const shadow = stage ? getComputedStyle(stage).boxShadow : '';
