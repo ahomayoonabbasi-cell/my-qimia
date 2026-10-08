@@ -39,7 +39,7 @@ function qt_isolated( $scenario ) {
 
 /* ------------------------------------------------------------------ */
 section( 'Plugin load' );
-check( 'plugin version is 1.18.22', defined( 'QIL_VERSION' ) && '1.18.22' === QIL_VERSION, defined( 'QIL_VERSION' ) ? QIL_VERSION : 'undefined' );
+check( 'plugin version is 1.19.0', defined( 'QIL_VERSION' ) && '1.19.0' === QIL_VERSION, defined( 'QIL_VERSION' ) ? QIL_VERSION : 'undefined' );
 foreach ( array( 'QIL_Boost', 'QIL_Flash_Drop', 'QIL_Member', 'QIL_Stacks', 'QIL_Cashback', 'QIL_Personalization', 'QIL_Refill' ) as $class ) {
 	check( "class $class loaded", class_exists( $class ) );
 }

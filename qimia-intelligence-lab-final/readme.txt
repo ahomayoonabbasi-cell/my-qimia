@@ -2,11 +2,20 @@
 Contributors: qimia
 Requires at least: 6.2
 Requires PHP: 8.1
-Stable tag: 1.18.15
+Stable tag: 1.19.0
 License: GPL-2.0-or-later
 
 Bilingual Qimia storefront, separated from the My Qimia workspace.
 Full replacement of the supplied Lab plugin, not a second Lab installation.
+
+== Release 1.19.0 ==
+Qimia Refill: shoppers turn on refill reminders for the supplements they use up
+(order received page, My Account → Refills). A few days before the estimated
+run-out one email offers a one-tap refill of the same product, flavour and size
+at today's price; checkout as usual, nothing charged automatically. Paid orders
+restart the cycle; refill orders are counted on the new Refills tab.
+QIL_REFILL_DISABLE stops it. Product cards get a readability floor (labels were
+7.5–9px). Fix: the 1.18.7 mini-cart divider now follows QIL_BOOST_DISABLE.
 
 == Release 1.18.15 ==
 Beauty card stock indicators and image badges agree with current WooCommerce

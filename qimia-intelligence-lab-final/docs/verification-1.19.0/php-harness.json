@@ -1,0 +1,1340 @@
+{
+    "version": "1.19.0",
+    "php": "8.3.6",
+    "passed": 265,
+    "failed": 0,
+    "tests": [
+        {
+            "name": "plugin version is 1.19.0",
+            "ok": true,
+            "detail": ""
+        },
+        {
+            "name": "class QIL_Boost loaded",
+            "ok": true,
+            "detail": ""
+        },
+        {
+            "name": "class QIL_Flash_Drop loaded",
+            "ok": true,
+            "detail": ""
+        },
+        {
+            "name": "class QIL_Member loaded",
+            "ok": true,
+            "detail": ""
+        },
+        {
+            "name": "class QIL_Stacks loaded",
+            "ok": true,
+            "detail": ""
+        },
+        {
+            "name": "class QIL_Cashback loaded",
+            "ok": true,
+            "detail": ""
+        },
+        {
+            "name": "class QIL_Personalization loaded",
+            "ok": true,
+            "detail": ""
+        },
+        {
+            "name": "class QIL_Refill loaded",
+            "ok": true,
+            "detail": ""
+        },
+        {
+            "name": "mini-cart ladder hook registered",
+            "ok": true,
+            "detail": ""
+        },
+        {
+            "name": "cart totals panel hook registered (after the totals since 1.18.6)",
+            "ok": true,
+            "detail": ""
+        },
+        {
+            "name": "flash drop REST route registered after rest_api_init",
+            "ok": true,
+            "detail": ""
+        },
+        {
+            "name": "[ladder] value 27.6 OMR → band #1, earns 3, next 4 after adding 2.401",
+            "ok": true,
+            "detail": ""
+        },
+        {
+            "name": "[ladder] value 20 OMR → band #0, earns 2, next 3 after adding 0.001",
+            "ok": true,
+            "detail": ""
+        },
+        {
+            "name": "[ladder] value 20.001 OMR → band #1, earns 3, next 4 after adding 10",
+            "ok": true,
+            "detail": ""
+        },
+        {
+            "name": "[ladder] value 30 OMR → band #1, earns 3, next 4 after adding 0.001",
+            "ok": true,
+            "detail": ""
+        },
+        {
+            "name": "[ladder] value 60 OMR → band #4, earns 6, next 8 after adding 0.001",
+            "ok": true,
+            "detail": ""
+        },
+        {
+            "name": "[ladder] value 0.5 OMR → band #0, earns 2, next 3 after adding 19.501",
+            "ok": true,
+            "detail": ""
+        },
+        {
+            "name": "[ladder] value 45.25 OMR → band #3, earns 5, next 6 after adding 4.751",
+            "ok": true,
+            "detail": ""
+        },
+        {
+            "name": "[ladder] 60.001 OMR is the top band: 8 OMR, no next step",
+            "ok": true,
+            "detail": ""
+        },
+        {
+            "name": "[ladder] empty / zero value gives no ladder",
+            "ok": true,
+            "detail": ""
+        },
+        {
+            "name": "[ladder] gap is formatted by WooCommerce with store decimals (2.401)",
+            "ok": true,
+            "detail": ""
+        },
+        {
+            "name": "[ladder_sar:SAR:2] 250 SAR (rate 9.75) is band #1 (3 OMR); next 4 OMR",
+            "ok": true,
+            "detail": ""
+        },
+        {
+            "name": "[ladder_sar:SAR:2] foreign gap is whole units rounded up (43 SAR)",
+            "ok": true,
+            "detail": ""
+        },
+        {
+            "name": "[ladder_sar:SAR:2] 250 + 43 SAR really exceeds 30 OMR",
+            "ok": true,
+            "detail": ""
+        },
+        {
+            "name": "[ladder_sar:SAR:2] foreign gap is marked approximate",
+            "ok": true,
+            "detail": ""
+        },
+        {
+            "name": "[ladder_sar:SAR:2] reward shown in SAR as approximate",
+            "ok": true,
+            "detail": ""
+        },
+        {
+            "name": "[ladder_property:OMR:3] adding the shown amount always reaches the promised band, and one unit less never does (5,000 random carts)",
+            "ok": true,
+            "detail": ""
+        },
+        {
+            "name": "[ladder_property:OMR:2] adding the shown amount always reaches the promised band, and one unit less never does (5,000 random carts)",
+            "ok": true,
+            "detail": ""
+        },
+        {
+            "name": "[ladder_property:SAR:2] adding the shown amount always reaches the promised band (5,000 random carts)",
+            "ok": true,
+            "detail": ""
+        },
+        {
+            "name": "[picks] whey 19.900 → earns 2 OMR, add 0.101 for 3 OMR",
+            "ok": true,
+            "detail": ""
+        },
+        {
+            "name": "[picks] cart role is protein",
+            "ok": true,
+            "detail": ""
+        },
+        {
+            "name": "[picks] ladder picks = creatine, multivitamin, shaker (related first, cheapest that reaches)",
+            "ok": true,
+            "detail": ""
+        },
+        {
+            "name": "[picks] every ladder pick alone reaches the next band",
+            "ok": true,
+            "detail": ""
+        },
+        {
+            "name": "[picks] cart product, hidden and sold-out products are never picked",
+            "ok": true,
+            "detail": ""
+        },
+        {
+            "name": "[picks] Whey → Creatine first, then Pre-workout, Multivitamin",
+            "ok": true,
+            "detail": ""
+        },
+        {
+            "name": "[picks] Fat burner → Multivitamin",
+            "ok": true,
+            "detail": ""
+        },
+        {
+            "name": "[picks] Magnesium → Ashwagandha",
+            "ok": true,
+            "detail": ""
+        },
+        {
+            "name": "[picks] Creatine → Whey / protein",
+            "ok": true,
+            "detail": ""
+        },
+        {
+            "name": "[picks] Magnesium stack includes daily-wellness complements after Ashwagandha",
+            "ok": true,
+            "detail": ""
+        },
+        {
+            "name": "[minicart] empty mini cart is untouched (no Qimia block)",
+            "ok": true,
+            "detail": ""
+        },
+        {
+            "name": "[minicart] ladder at the top of the drawer",
+            "ok": true,
+            "detail": ""
+        },
+        {
+            "name": "[minicart] header leads with this cart's reward (1.18.9): 2 OMR",
+            "ok": true,
+            "detail": ""
+        },
+        {
+            "name": "[minicart] message: Add 0.101 more → 3 OMR cashback",
+            "ok": true,
+            "detail": ""
+        },
+        {
+            "name": "[minicart] ladder printed exactly once",
+            "ok": true,
+            "detail": ""
+        },
+        {
+            "name": "[minicart] three picks after the items, inside the list",
+            "ok": true,
+            "detail": ""
+        },
+        {
+            "name": "[minicart] simple pick uses WooCommerce AJAX add (product 102)",
+            "ok": true,
+            "detail": ""
+        },
+        {
+            "name": "[minicart] pick rows are not counted as cart items",
+            "ok": true,
+            "detail": ""
+        },
+        {
+            "name": "[minicart] progress bar is accessible",
+            "ok": true,
+            "detail": ""
+        },
+        {
+            "name": "[minicart] honest note: payment first, next-order credit",
+            "ok": true,
+            "detail": ""
+        },
+        {
+            "name": "[minicart] real items carry the \"In your cart\" divider (1.18.7)",
+            "ok": true,
+            "detail": ""
+        },
+        {
+            "name": "[minicart] fallback: ladder rendered with the picks when the top hook is missing",
+            "ok": true,
+            "detail": ""
+        },
+        {
+            "name": "[minicart] variable pick carries a Quick View record (id, name, url, variable, price)",
+            "ok": true,
+            "detail": ""
+        },
+        {
+            "name": "[minicart_ar] Arabic drawer block is RTL and not machine-translated",
+            "ok": true,
+            "detail": ""
+        },
+        {
+            "name": "[minicart_ar] Arabic message, cashback amount in the Western digits of the prices beside it",
+            "ok": true,
+            "detail": ""
+        },
+        {
+            "name": "[lang_ajax:/ar/] fragment language: https://qimia.om/ar/ header=none → ar",
+            "ok": true,
+            "detail": ""
+        },
+        {
+            "name": "[lang_ajax:/ar/cart/] fragment language: https://qimia.om/ar/cart/ header=none → ar",
+            "ok": true,
+            "detail": ""
+        },
+        {
+            "name": "[lang_ajax:/] fragment language: https://qimia.om/ header=none → en",
+            "ok": true,
+            "detail": ""
+        },
+        {
+            "name": "[lang_ajax:/arabic-oils/] fragment language: https://qimia.om/arabic-oils/ header=none → en",
+            "ok": true,
+            "detail": ""
+        },
+        {
+            "name": "[lang_ajax:/ar/:en] fragment language: https://qimia.om/ar/ header=en → en",
+            "ok": true,
+            "detail": ""
+        },
+        {
+            "name": "[lang_ajax:/:ar] fragment language: https://qimia.om/ header=ar → ar",
+            "ok": true,
+            "detail": ""
+        },
+        {
+            "name": "[cartpage] totals panel: full ladder with six steps, current step marked",
+            "ok": true,
+            "detail": ""
+        },
+        {
+            "name": "[cartpage] panel shows 3 products that reach the next band",
+            "ok": true,
+            "detail": ""
+        },
+        {
+            "name": "[cartpage] Complete your stack: 2–4 complements",
+            "ok": true,
+            "detail": ""
+        },
+        {
+            "name": "[cartpage] no product is shown twice on the cart page (hook-order safe)",
+            "ok": true,
+            "detail": ""
+        },
+        {
+            "name": "[cartpage] band title names the paired role (Creatine)",
+            "ok": true,
+            "detail": ""
+        },
+        {
+            "name": "[cartpage] band is the theme card shelf: full records for the shared renderer, in the listed order",
+            "ok": true,
+            "detail": ""
+        },
+        {
+            "name": "[cartpage] each card is labelled: what it pairs with, or the cashback it unlocks",
+            "ok": true,
+            "detail": ""
+        },
+        {
+            "name": "[cartpage] panel is printed once per request",
+            "ok": true,
+            "detail": ""
+        },
+        {
+            "name": "[fragments] cart page refresh includes the ladder panel fragment",
+            "ok": true,
+            "detail": ""
+        },
+        {
+            "name": "[fragments] Arabic cart page too",
+            "ok": true,
+            "detail": ""
+        },
+        {
+            "name": "[fragments] other pages pay nothing (no panel fragment)",
+            "ok": true,
+            "detail": ""
+        },
+        {
+            "name": "[flash] candidates are real reductions only (13): no <5%, no image-less, no sold-out",
+            "ok": true,
+            "detail": ""
+        },
+        {
+            "name": "[flash] percent is computed from WooCommerce prices (201: 30.000 → 22.500 = 25%)",
+            "ok": true,
+            "detail": ""
+        },
+        {
+            "name": "[flash] mixed variations are \"up to\" (216: up to 25%)",
+            "ok": true,
+            "detail": ""
+        },
+        {
+            "name": "[flash] real stock from managed quantity (201: 10; 216: 4+3)",
+            "ok": true,
+            "detail": ""
+        },
+        {
+            "name": "[flash] a variable product names its lowest option (216: only 3 left in Chocolate)",
+            "ok": true,
+            "detail": ""
+        },
+        {
+            "name": "[flash] simple products carry no option line",
+            "ok": true,
+            "detail": ""
+        },
+        {
+            "name": "[flash] real sale end only where one exists (201 in ~30h, 202 none)",
+            "ok": true,
+            "detail": ""
+        },
+        {
+            "name": "[flash] 72-hour window aligned to the Oman anchor",
+            "ok": true,
+            "detail": ""
+        },
+        {
+            "name": "[flash] drop has 10 distinct eligible products",
+            "ok": true,
+            "detail": ""
+        },
+        {
+            "name": "[flash] rotation is scheduled for the real end of the drop",
+            "ok": true,
+            "detail": ""
+        },
+        {
+            "name": "[flash] selection is stable within the window",
+            "ok": true,
+            "detail": ""
+        },
+        {
+            "name": "[flash] payload: 10 card records in drop order with facts",
+            "ok": true,
+            "detail": ""
+        },
+        {
+            "name": "[flash] section: FLASH SALE — 72 HOURS, live clock to the window end",
+            "ok": true,
+            "detail": ""
+        },
+        {
+            "name": "[flash] section: Ask Qimia AI boots the assistant",
+            "ok": true,
+            "detail": ""
+        },
+        {
+            "name": "[flash] the section carries its own drop data (no AJAX, no separate page data)",
+            "ok": true,
+            "detail": ""
+        },
+        {
+            "name": "[flash] flash data is not duplicated into the page data any more",
+            "ok": true,
+            "detail": ""
+        },
+        {
+            "name": "[flash] kicker counts the products that are almost gone",
+            "ok": true,
+            "detail": ""
+        },
+        {
+            "name": "[flash] every record sent with the section is a full record or a catalogue reference",
+            "ok": true,
+            "detail": ""
+        },
+        {
+            "name": "[flash] REST feed: 10 products with Instagram UTM links",
+            "ok": true,
+            "detail": ""
+        },
+        {
+            "name": "[flash] REST feed carries real regular price and percent",
+            "ok": true,
+            "detail": ""
+        },
+        {
+            "name": "[flash] Instagram caption lists every product",
+            "ok": true,
+            "detail": ""
+        },
+        {
+            "name": "[flash] Qimia AI context lists the drop",
+            "ok": true,
+            "detail": ""
+        },
+        {
+            "name": "[flash] size is limited to 8–12",
+            "ok": true,
+            "detail": ""
+        },
+        {
+            "name": "[flash_contended] first-ever scan still running elsewhere: no section, and this page is kept out of the page cache",
+            "ok": true,
+            "detail": ""
+        },
+        {
+            "name": "[flash_contended] the waiting request gave up after ~3 s (bounded)",
+            "ok": true,
+            "detail": ""
+        },
+        {
+            "name": "[flash_contended] an empty drop caused by the contention is never cached",
+            "ok": true,
+            "detail": ""
+        },
+        {
+            "name": "[flash_last_scan] while another worker rescans, the last complete scan answers (never \"no flash sale\")",
+            "ok": true,
+            "detail": ""
+        },
+        {
+            "name": "[flash_last_scan] the homepage still shows the drop",
+            "ok": true,
+            "detail": ""
+        },
+        {
+            "name": "[flash_budget] the drop re-reads its own products even with the scan budget spent (216 stays)",
+            "ok": true,
+            "detail": ""
+        },
+        {
+            "name": "[flash_budget] the drop keeps its size",
+            "ok": true,
+            "detail": ""
+        },
+        {
+            "name": "[flash_stock_purge] with the flash section on, a stock change elsewhere also queues the homepage purge",
+            "ok": true,
+            "detail": ""
+        },
+        {
+            "name": "[flash_stock_purge] a drop product's stock change queues one homepage purge (WP-Cron, now)",
+            "ok": true,
+            "detail": ""
+        },
+        {
+            "name": "[flash_stock_purge] the purge refreshes exactly the two homepages",
+            "ok": true,
+            "detail": ""
+        },
+        {
+            "name": "[flash_stock_purge] a variation of a drop product counts; a burst waits five minutes after the last purge",
+            "ok": true,
+            "detail": ""
+        },
+        {
+            "name": "[upgrade_purge] first request after an upgrade queues a purge of the cached homepages",
+            "ok": true,
+            "detail": ""
+        },
+        {
+            "name": "[upgrade_purge] only once per version",
+            "ok": true,
+            "detail": ""
+        },
+        {
+            "name": "[flash_rotation] a new window leads with products not in the previous drop",
+            "ok": true,
+            "detail": ""
+        },
+        {
+            "name": "[flash_rotation] still 10 products (previous ones only fill the rest)",
+            "ok": true,
+            "detail": ""
+        },
+        {
+            "name": "[flash_rotation] rotation purges exactly the two cached homepages",
+            "ok": true,
+            "detail": ""
+        },
+        {
+            "name": "[flash_rotation] saving an unrelated setting never reshuffles a live drop",
+            "ok": true,
+            "detail": ""
+        },
+        {
+            "name": "[flash_rotation] changing a flash setting re-chooses the drop",
+            "ok": true,
+            "detail": ""
+        },
+        {
+            "name": "[flash_soldout] a product that sells out leaves the drop and is replaced",
+            "ok": true,
+            "detail": ""
+        },
+        {
+            "name": "[flash_topup] a render replaces sold-out drop products without scanning the flash category",
+            "ok": true,
+            "detail": ""
+        },
+        {
+            "name": "[flash_topup] the sold-out product and the one taken out of the flash sale leave the drop",
+            "ok": true,
+            "detail": ""
+        },
+        {
+            "name": "[flash_topup] a product in a flash sub-category stays",
+            "ok": true,
+            "detail": ""
+        },
+        {
+            "name": "[flash_topup] replacements are re-read live (one that sold out since the scan is skipped)",
+            "ok": true,
+            "detail": ""
+        },
+        {
+            "name": "[flash_topup] replacements carry live facts",
+            "ok": true,
+            "detail": ""
+        },
+        {
+            "name": "[pool_rebuild] the pool is built once and stored under one entry per market and language",
+            "ok": true,
+            "detail": ""
+        },
+        {
+            "name": "[pool_rebuild] while another worker rebuilds, the cart gets the last list at once (no wait, never empty)",
+            "ok": true,
+            "detail": ""
+        },
+        {
+            "name": "[pool_rebuild] a new product version rebuilds the list (sold-out product gone)",
+            "ok": true,
+            "detail": ""
+        },
+        {
+            "name": "[pool_rebuild] the rebuild overwrites the same entry: no trail of old copies",
+            "ok": true,
+            "detail": ""
+        },
+        {
+            "name": "[shortcodes] without the card renderer the shortcodes print nothing (no unstyled, never-filled section)",
+            "ok": true,
+            "detail": ""
+        },
+        {
+            "name": "[shortcodes] with it, each shortcode is the homepage section inside its own Qimia shell",
+            "ok": true,
+            "detail": ""
+        },
+        {
+            "name": "[member_wallet] wallet reads only this account's unused, unexpired cashback (soonest expiry first)",
+            "ok": true,
+            "detail": ""
+        },
+        {
+            "name": "[member_wallet] wallet: 3 coupons, total 9 OMR, use 4 OMR first (expires in 5 days)",
+            "ok": true,
+            "detail": ""
+        },
+        {
+            "name": "[member_wallet] coupon codes never leave the server",
+            "ok": true,
+            "detail": ""
+        },
+        {
+            "name": "[member_wallet] each credit is listed for its own order: amount + days left, soonest first",
+            "ok": true,
+            "detail": ""
+        },
+        {
+            "name": "[member_wallet] strict mode can be configured",
+            "ok": true,
+            "detail": ""
+        },
+        {
+            "name": "[member_wallet] an issuer list can never expose another customer's coupon",
+            "ok": true,
+            "detail": ""
+        },
+        {
+            "name": "[member_wallet] guests have no wallet",
+            "ok": true,
+            "detail": ""
+        },
+        {
+            "name": "[member_wallet_strict] strict mode: only coupons the cashback issuer marked (shape alone is not enough)",
+            "ok": true,
+            "detail": ""
+        },
+        {
+            "name": "[member_apply] a bad nonce is refused",
+            "ok": true,
+            "detail": ""
+        },
+        {
+            "name": "[member_apply] another customer's coupon is refused",
+            "ok": true,
+            "detail": ""
+        },
+        {
+            "name": "[member_apply] empty cart: cashback is saved as pending",
+            "ok": true,
+            "detail": ""
+        },
+        {
+            "name": "[member_apply] first product added: pending cashback is applied automatically",
+            "ok": true,
+            "detail": ""
+        },
+        {
+            "name": "[member_apply] cart total now 5.980 − 4 = 1.980",
+            "ok": true,
+            "detail": ""
+        },
+        {
+            "name": "[member_apply] below the coupon minimum: pending with the minimum stated",
+            "ok": true,
+            "detail": ""
+        },
+        {
+            "name": "[member_apply] minimum reached: applied automatically",
+            "ok": true,
+            "detail": ""
+        },
+        {
+            "name": "[member_apply] non-empty cart: applied at once, with fragments",
+            "ok": true,
+            "detail": ""
+        },
+        {
+            "name": "[member_apply] the shopper's earlier notices are kept",
+            "ok": true,
+            "detail": ""
+        },
+        {
+            "name": "[member_running] Running low lists the multivitamin (runs out now) then the pre-workout (in ~4 days)",
+            "ok": true,
+            "detail": ""
+        },
+        {
+            "name": "[member_running] estimate uses label servings × quantity ÷ per day (pre-workout 30 servings, 5/week)",
+            "ok": true,
+            "detail": ""
+        },
+        {
+            "name": "[member_running] exact previous selection (flavour) and variation id",
+            "ok": true,
+            "detail": ""
+        },
+        {
+            "name": "[member_running] products without a verified serving count are never estimated (whey)",
+            "ok": true,
+            "detail": ""
+        },
+        {
+            "name": "[member_running] products not due yet are not shown (creatine, magnesium)",
+            "ok": true,
+            "detail": ""
+        },
+        {
+            "name": "[member_running] a product already in the cart is not suggested again",
+            "ok": true,
+            "detail": ""
+        },
+        {
+            "name": "[member_ajax] guest: no private data",
+            "ok": true,
+            "detail": ""
+        },
+        {
+            "name": "[member_ajax] signed in: wallet, running low and nonces in one response",
+            "ok": true,
+            "detail": ""
+        },
+        {
+            "name": "[member_ajax] best ways to use it: compared + viewed products first, unknown ids dropped",
+            "ok": true,
+            "detail": ""
+        },
+        {
+            "name": "[member_ajax] reasons are labelled",
+            "ok": true,
+            "detail": ""
+        },
+        {
+            "name": "[member_ajax] requests without the storefront marker are refused",
+            "ok": true,
+            "detail": ""
+        },
+        {
+            "name": "[stacks] in-stock stacks from the stack category (sold-out one excluded)",
+            "ok": true,
+            "detail": ""
+        },
+        {
+            "name": "[stacks] Muscle Starter: Whey + Creatine read from the bundle plugin",
+            "ok": true,
+            "detail": ""
+        },
+        {
+            "name": "[stacks] Recovery Pack: contents from the Growth map, separately 12.660",
+            "ok": true,
+            "detail": ""
+        },
+        {
+            "name": "[stacks] Daily Essentials: no known contents → no \"separately\"; real sale shown as \"was\"",
+            "ok": true,
+            "detail": ""
+        },
+        {
+            "name": "[stacks] cashback tier from the issuer: 24.9 → 3, 11.9 → 2, 34.9 → 4 OMR",
+            "ok": true,
+            "detail": ""
+        },
+        {
+            "name": "[stacks] section sends the theme card records for the shared renderer",
+            "ok": true,
+            "detail": ""
+        },
+        {
+            "name": "[stacks] Muscle Starter facts: inside, separately, saving and cashback",
+            "ok": true,
+            "detail": ""
+        },
+        {
+            "name": "[stacks] Daily Essentials: no \"separately\"; saving from its real sale (36.000 → 34.900)",
+            "ok": true,
+            "detail": ""
+        },
+        {
+            "name": "[stacks] simple stacks add in one tap (the theme card's AJAX add)",
+            "ok": true,
+            "detail": ""
+        },
+        {
+            "name": "[admin] Growth tab renders settings, flash preview, captions and stack assistant",
+            "ok": true,
+            "detail": ""
+        },
+        {
+            "name": "[admin] issuer bands are listed (≤20 → 2 … >60 → 8)",
+            "ok": true,
+            "detail": ""
+        },
+        {
+            "name": "[admin] price points 24.9–64.9 with their cashback",
+            "ok": true,
+            "detail": ""
+        },
+        {
+            "name": "[admin] non-admins see nothing",
+            "ok": true,
+            "detail": ""
+        },
+        {
+            "name": "[xss] no product name can inject markup into any new surface",
+            "ok": true,
+            "detail": ""
+        },
+        {
+            "name": "[xss] the product itself is still shown (tags stripped, text kept)",
+            "ok": true,
+            "detail": ""
+        },
+        {
+            "name": "[xss_json] embedded JSON can never close its script tag or open markup",
+            "ok": true,
+            "detail": ""
+        },
+        {
+            "name": "[xss_json] the data still decodes to the real text",
+            "ok": true,
+            "detail": ""
+        },
+        {
+            "name": "[disabled] QIL_BOOST_DISABLE: mini cart is exactly WooCommerce's",
+            "ok": true,
+            "detail": ""
+        },
+        {
+            "name": "[disabled] QIL_BOOST_DISABLE: no flash section, no member hub, no stacks",
+            "ok": true,
+            "detail": ""
+        },
+        {
+            "name": "[perf] pool is bounded (≤ 280 rows)",
+            "ok": true,
+            "detail": ""
+        },
+        {
+            "name": "[perf] warm mini-cart render with ladder + picks stays well under 10 ms",
+            "ok": true,
+            "detail": ""
+        },
+        {
+            "name": "[refill_create] pre-workout is refillable: 30 label servings ÷ 5 a week = 42 days",
+            "ok": true,
+            "detail": ""
+        },
+        {
+            "name": "[refill_create] whey has no verified servings: still refillable (protein), 30 days, no estimate shown",
+            "ok": true,
+            "detail": ""
+        },
+        {
+            "name": "[refill_create] a shaker bottle (accessory) is not refillable",
+            "ok": true,
+            "detail": ""
+        },
+        {
+            "name": "[refill_create] plan created from the exact order line",
+            "ok": true,
+            "detail": ""
+        },
+        {
+            "name": "[refill_create] runs low = payment + 2 days delivery + interval",
+            "ok": true,
+            "detail": ""
+        },
+        {
+            "name": "[refill_create] the job index holds the reminder time (run-out − 4 days)",
+            "ok": true,
+            "detail": ""
+        },
+        {
+            "name": "[refill_create] interval is clamped to 7–120 days",
+            "ok": true,
+            "detail": ""
+        },
+        {
+            "name": "[refill_create] someone else's order cannot start a plan",
+            "ok": true,
+            "detail": ""
+        },
+        {
+            "name": "[refill_create] an item from another order is refused",
+            "ok": true,
+            "detail": ""
+        },
+        {
+            "name": "[refill_create] a cancelled order cannot start a plan",
+            "ok": true,
+            "detail": ""
+        },
+        {
+            "name": "[refill_create] at most 12 plans per account",
+            "ok": true,
+            "detail": ""
+        },
+        {
+            "name": "[refill_create] an existing plan can still be restarted at the limit",
+            "ok": true,
+            "detail": ""
+        },
+        {
+            "name": "[refill_change] interval change: runs low = last order + 2 + new interval",
+            "ok": true,
+            "detail": ""
+        },
+        {
+            "name": "[refill_change] interval outside 7–120 is refused",
+            "ok": true,
+            "detail": ""
+        },
+        {
+            "name": "[refill_change] skip moves the next run-out one interval later",
+            "ok": true,
+            "detail": ""
+        },
+        {
+            "name": "[refill_change] pause: no reminders (out of the job index)",
+            "ok": true,
+            "detail": ""
+        },
+        {
+            "name": "[refill_change] resume after a break: the next run-out is one interval from today",
+            "ok": true,
+            "detail": ""
+        },
+        {
+            "name": "[refill_change] unknown plan or action is refused",
+            "ok": true,
+            "detail": ""
+        },
+        {
+            "name": "[refill_change] remove deletes the plan and the account leaves the job index",
+            "ok": true,
+            "detail": ""
+        },
+        {
+            "name": "[refill_tick] a plan started today gets no email on day one",
+            "ok": true,
+            "detail": ""
+        },
+        {
+            "name": "[refill_tick] one email, only for what is due (pre-workout, not creatine)",
+            "ok": true,
+            "detail": ""
+        },
+        {
+            "name": "[refill_tick] sent through WooCommerce's mailer to the account email",
+            "ok": true,
+            "detail": ""
+        },
+        {
+            "name": "[refill_tick] subject names the product",
+            "ok": true,
+            "detail": ""
+        },
+        {
+            "name": "[refill_tick] email shows the exact flavour, quantity, today's price and the run-out date",
+            "ok": true,
+            "detail": ""
+        },
+        {
+            "name": "[refill_tick] price text has no stray entities",
+            "ok": true,
+            "detail": ""
+        },
+        {
+            "name": "[refill_tick] the button is a signed link for this account and plan",
+            "ok": true,
+            "detail": ""
+        },
+        {
+            "name": "[refill_tick] the email says nothing is charged automatically and links to manage",
+            "ok": true,
+            "detail": ""
+        },
+        {
+            "name": "[refill_tick] reminded once: the job index moves to the follow-up (run-out + 5 days)",
+            "ok": true,
+            "detail": ""
+        },
+        {
+            "name": "[refill_tick] the next run sends nothing more",
+            "ok": true,
+            "detail": ""
+        },
+        {
+            "name": "[refill_tick] one follow-up five days after the run-out",
+            "ok": true,
+            "detail": ""
+        },
+        {
+            "name": "[refill_tick] no third email in the same cycle",
+            "ok": true,
+            "detail": ""
+        },
+        {
+            "name": "[refill_tick] 14 days after the run-out the cycle moves on (one miss counted)",
+            "ok": true,
+            "detail": ""
+        },
+        {
+            "name": "[refill_tick] three unanswered cycles pause the plan",
+            "ok": true,
+            "detail": ""
+        },
+        {
+            "name": "[refill_tick] out of stock: no email, try again tomorrow",
+            "ok": true,
+            "detail": ""
+        },
+        {
+            "name": "[refill_tick] mail failure: nothing marked as sent, retried in six hours",
+            "ok": true,
+            "detail": ""
+        },
+        {
+            "name": "[refill_tick] reminders are scheduled hourly on the live store",
+            "ok": true,
+            "detail": ""
+        },
+        {
+            "name": "[refill_ar] a plan started today gets no email on day one",
+            "ok": true,
+            "detail": ""
+        },
+        {
+            "name": "[refill_ar] one email, only for what is due (pre-workout, not creatine)",
+            "ok": true,
+            "detail": ""
+        },
+        {
+            "name": "[refill_ar] sent through WooCommerce's mailer to the account email",
+            "ok": true,
+            "detail": ""
+        },
+        {
+            "name": "[refill_ar] Arabic plan → Arabic email, right to left",
+            "ok": true,
+            "detail": ""
+        },
+        {
+            "name": "[refill_staging] staging site address: no reminder emails, no schedule",
+            "ok": true,
+            "detail": ""
+        },
+        {
+            "name": "[refill_disabled] QIL_REFILL_DISABLE: no plans, no menu, no account page, no emails",
+            "ok": true,
+            "detail": ""
+        },
+        {
+            "name": "[refill_disabled] QIL_REFILL_DISABLE: no endpoint and no stylesheet",
+            "ok": true,
+            "detail": ""
+        },
+        {
+            "name": "[refill_link] link goes through wc-ajax (never page-cached)",
+            "ok": true,
+            "detail": ""
+        },
+        {
+            "name": "[refill_link] tampered, expired or malformed links are refused",
+            "ok": true,
+            "detail": ""
+        },
+        {
+            "name": "[refill_link] signed out: the exact selections go into this cart (variation, quantity 2 for magnesium), then checkout",
+            "ok": true,
+            "detail": ""
+        },
+        {
+            "name": "[refill_link] the success notice names the products",
+            "ok": true,
+            "detail": ""
+        },
+        {
+            "name": "[refill_link] the session remembers the refill for attribution",
+            "ok": true,
+            "detail": ""
+        },
+        {
+            "name": "[refill_link] opening the email again never doubles the cart",
+            "ok": true,
+            "detail": ""
+        },
+        {
+            "name": "[refill_link] signed in as someone else: nothing added, sent to their own Refills page",
+            "ok": true,
+            "detail": ""
+        },
+        {
+            "name": "[refill_link] already reordered after the email: nothing added",
+            "ok": true,
+            "detail": ""
+        },
+        {
+            "name": "[refill_link] out of stock: nothing added, honest notice, back to Refills",
+            "ok": true,
+            "detail": ""
+        },
+        {
+            "name": "[refill_link] a broken link explains itself and goes to Refills",
+            "ok": true,
+            "detail": ""
+        },
+        {
+            "name": "[refill_paid] checkout marks an order placed from a refill",
+            "ok": true,
+            "detail": ""
+        },
+        {
+            "name": "[refill_paid] the refill flag is cleared after checkout",
+            "ok": true,
+            "detail": ""
+        },
+        {
+            "name": "[refill_paid] a paid order restarts the cycle from its payment date",
+            "ok": true,
+            "detail": ""
+        },
+        {
+            "name": "[refill_paid] the new order line becomes the source (quantity 2)",
+            "ok": true,
+            "detail": ""
+        },
+        {
+            "name": "[refill_paid] counted as a refill, with its revenue",
+            "ok": true,
+            "detail": ""
+        },
+        {
+            "name": "[refill_paid] processing → completed counts once",
+            "ok": true,
+            "detail": ""
+        },
+        {
+            "name": "[refill_paid] an ordinary order of the product also restarts the cycle, without counting a refill",
+            "ok": true,
+            "detail": ""
+        },
+        {
+            "name": "[refill_paid] signed-out refill with another billing email does not touch the account",
+            "ok": true,
+            "detail": ""
+        },
+        {
+            "name": "[refill_paid] signed-out refill with the account's email counts for the account",
+            "ok": true,
+            "detail": ""
+        },
+        {
+            "name": "[refill_account] My Account menu: Refills right after Orders",
+            "ok": true,
+            "detail": ""
+        },
+        {
+            "name": "[refill_account] endpoint registered with WooCommerce",
+            "ok": true,
+            "detail": ""
+        },
+        {
+            "name": "[refill_account] empty account: suggestions from real orders (pre-workout with its label estimate)",
+            "ok": true,
+            "detail": ""
+        },
+        {
+            "name": "[refill_account] no accessories suggested",
+            "ok": true,
+            "detail": ""
+        },
+        {
+            "name": "[refill_account] every form carries the account nonce",
+            "ok": true,
+            "detail": ""
+        },
+        {
+            "name": "[refill_account] interval choices are labelled for screen readers",
+            "ok": true,
+            "detail": ""
+        },
+        {
+            "name": "[refill_account] plans listed with run-out date, today's price and actions",
+            "ok": true,
+            "detail": ""
+        },
+        {
+            "name": "[refill_account] the pre-workout is due: highlighted with Refill now as the primary action",
+            "ok": true,
+            "detail": ""
+        },
+        {
+            "name": "[refill_account] learned rhythm: \"You usually reorder every 35 days\" for creatine (interval 60)",
+            "ok": true,
+            "detail": ""
+        },
+        {
+            "name": "[refill_account] suggestions skip products that already have a plan",
+            "ok": true,
+            "detail": ""
+        },
+        {
+            "name": "[refill_account] product names cannot inject markup",
+            "ok": true,
+            "detail": ""
+        },
+        {
+            "name": "[refill_account] signed out: the account page prints nothing",
+            "ok": true,
+            "detail": ""
+        },
+        {
+            "name": "[refill_account] stylesheet only on account and order received pages",
+            "ok": true,
+            "detail": ""
+        },
+        {
+            "name": "[refill_handle] form: start a plan with the chosen interval, back to the page with a notice",
+            "ok": true,
+            "detail": ""
+        },
+        {
+            "name": "[refill_handle] form: a forged nonce changes nothing",
+            "ok": true,
+            "detail": ""
+        },
+        {
+            "name": "[refill_handle] form: interval and pause",
+            "ok": true,
+            "detail": ""
+        },
+        {
+            "name": "[refill_handle] form: Refill now fills the cart and opens checkout",
+            "ok": true,
+            "detail": ""
+        },
+        {
+            "name": "[refill_handle] form: Refill all due → both in the cart, cart page when chosen in settings",
+            "ok": true,
+            "detail": ""
+        },
+        {
+            "name": "[refill_handle] form: remove",
+            "ok": true,
+            "detail": ""
+        },
+        {
+            "name": "[refill_handle] form: plan ids are validated",
+            "ok": true,
+            "detail": ""
+        },
+        {
+            "name": "[refill_handle] form: signed out → ignored",
+            "ok": true,
+            "detail": ""
+        },
+        {
+            "name": "[refill_thankyou] order received: invites a reminder for each consumable in the order",
+            "ok": true,
+            "detail": ""
+        },
+        {
+            "name": "[refill_thankyou] honest promise: no subscription, nothing charged automatically",
+            "ok": true,
+            "detail": ""
+        },
+        {
+            "name": "[refill_thankyou] a product with a plan shows its reminder instead of the form",
+            "ok": true,
+            "detail": ""
+        },
+        {
+            "name": "[refill_thankyou] someone else's order shows nothing",
+            "ok": true,
+            "detail": ""
+        },
+        {
+            "name": "[refill_thankyou] switched off on the Refills tab: nothing",
+            "ok": true,
+            "detail": ""
+        },
+        {
+            "name": "[refill_admin] Refills tab: counts and settings",
+            "ok": true,
+            "detail": ""
+        },
+        {
+            "name": "[refill_admin] settings are clamped and typed",
+            "ok": true,
+            "detail": ""
+        },
+        {
+            "name": "[refill_admin] non-admins see nothing",
+            "ok": true,
+            "detail": ""
+        },
+        {
+            "name": "[refill_admin] after an in-place update the new endpoint flushes rewrite rules once",
+            "ok": true,
+            "detail": ""
+        }
+    ],
+    "metrics": {
+        "perf": {
+            "pool_rows": 280,
+            "pool_cold_build_ms": 13.5,
+            "mini_cart_render_ms_avg": 0.07
+        }
+    }
+}
