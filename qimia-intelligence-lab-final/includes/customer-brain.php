@@ -3,7 +3,7 @@
 defined('ABSPATH') || exit;
 add_filter('qimia_customer_source_projection_v2',static function(array $context):array {
     $context['intelligence_lab']=['version'=>QIL_VERSION,'contract'=>'qimia-intelligence-signals/2','source'=>'existing_event_ledger','enabled'=>true];
-    if(empty($context['permissions']['activity_history'])||empty($context['interests'])||!is_array($context['interests']))return $context;
+    if(empty($context['permissions']['activity_history']))return $context;
     foreach($context['interests'] as &$interest){
         $id=(int)($interest['id']??0);if(!$id)continue;
         $interest['categories']=[];$interest['brands']=[];

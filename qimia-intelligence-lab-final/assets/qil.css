@@ -5972,3 +5972,28 @@ body.qil-body #qimia-lab[dir=rtl] .qil-collections-intro h2 {
   letter-spacing:0;
   line-height:1.5;
 }
+
+/* 1.18.14 — Beauty availability only; native card geometry stays shared. */
+:is(#qimia-lab,.qil-shell) [data-qil-beauty-stock] .qil-beauty-stock-badge {
+  position:absolute; z-index:7; bottom:10px; inset-inline-start:10px;
+  display:inline-flex; align-items:center; min-height:23px; max-width:calc(100% - 20px);
+  padding:4px 9px; border:1px solid #e4cbd0; border-radius:var(--qil-pill,999px);
+  background:#fcf2f4; color:#843d4c; font-size:9px; font-weight:800;
+  line-height:1.2; white-space:normal; text-align:start; pointer-events:none;
+}
+:is(#qimia-lab,.qil-shell) [data-qil-beauty-stock] .qil-beauty-stock-badge[hidden] { display:none; }
+:is(#qimia-lab,.qil-shell) [data-qil-beauty-stock] .qil-product-brand > [data-qil-beauty-stock-line] { max-width:none; }
+:is(#qimia-lab,.qil-shell) [data-qil-beauty-stock] [data-qil-beauty-stock-line] i { background:#a65d6b; }
+:is(#qimia-lab,.qil-shell) [data-qil-beauty-stock="instock"] [data-qil-beauty-stock-line] i { background:#42bd8e; }
+:is(#qimia-lab,.qil-shell) [data-qil-beauty-stock="onbackorder"] [data-qil-beauty-stock-line] i { background:#b67b29; }
+:is(#qimia-lab,.qil-shell) [data-qil-beauty-stock="unknown"] [data-qil-beauty-stock-line] i { background:#7c868b; }
+:is(#qimia-lab,.qil-shell) [data-qil-beauty-stock="onbackorder"] .qil-beauty-stock-badge { background:#fff7e8; color:#855416; border-color:#ecd9b7; }
+:is(#qimia-lab,.qil-shell) [data-qil-beauty-stock="unknown"] .qil-beauty-stock-badge { background:#f3f5f5; color:#53636a; border-color:#d7dfe1; }
+/* A stale arrival label cannot visually contradict an unavailable product. */
+:is(#qimia-lab,.qil-shell) [data-qil-beauty-stock]:not([data-qil-beauty-stock="instock"]) .qil-inventory-labels { display:none; }
+@media(max-width:760px) {
+  :is(#qimia-lab,.qil-shell) [data-qil-beauty-stock] .qil-beauty-stock-badge {
+    bottom:7px; inset-inline-start:7px; max-width:calc(100% - 14px);
+    min-height:21px; padding:3px 6px; font-size:8.5px;
+  }
+}

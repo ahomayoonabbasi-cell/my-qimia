@@ -2,11 +2,77 @@
 Contributors: qimia
 Requires at least: 6.2
 Requires PHP: 8.1
-Stable tag: 1.18.4
+Stable tag: 1.18.15
 License: GPL-2.0-or-later
 
 Bilingual Qimia storefront, separated from the My Qimia workspace.
 Full replacement of the supplied Lab plugin, not a second Lab installation.
+
+== Release 1.18.15 ==
+Beauty card stock indicators and image badges agree with current WooCommerce
+availability, including out-of-stock and backorder states in English and Arabic.
+Existing inventory refresh updates native cards and home Beauty promo labels
+without extra requests or timers, preserving newer server-rendered stock.
+Supplement markup, card dimensions and native purchase controls remain unchanged.
+
+== Release 1.18.13 ==
+Beauty cards use the shared native product renderer and reserve its secondary
+price row without displaying oral supplement information. Native supplement
+markup, commerce actions and price calculation remain unchanged.
+
+== Release 1.18.11 ==
+Based on the supplied 1.18.9 package. Mini-cart recommendations use a dedicated
+image/name row and a separate price/action row, so narrow mobile and desktop
+drawers do not squeeze product names between images and buttons. The circular
+cashback coin is restored alongside the large current reward. The native mini-cart
+free-shipping band has one dark skin on home and inner pages. Actual cart items,
+Added labels, full-cart layout, currency/pricing logic and all JavaScript are
+unchanged. Source/minified CSS are generated and checked through a CSS parser.
+See RELEASE-1.18.11.md and docs/VERIFICATION-1.18.11.md.
+
+== Release 1.18.9 ==
+Mini-cart current cashback emphasis. The current order's reward is now the large
+high-contrast amount in the flush rectangular header. The gap and next reward sit
+below it, with smaller text and a static progress bar. Copy states payment is
+required and the reward is credit for a future order, not an issued balance.
+Amounts still come from the existing issuer-backed ladder and currency formatter.
+No new JavaScript, polling or network requests. The inherited Added badge moves
+into the quantity row so it no longer overlaps Remove. Full cart panel,
+recommendations, homepage, checkout and cashback calculation are unchanged.
+See RELEASE-1.18.9.md and docs/VERIFICATION-1.18.9.md.
+
+== Release 1.18.8 ==
+Mini-cart clarity polish only. The compact cashback ladder now sits flush under
+the cart title as a full-width rectangular smart header. The real cart items
+below are made more obvious with a clearer section label, stronger item cards
+and an Added badge on each mini-cart line, so items already in the cart do not
+get mixed up with the recommendation area below. Logic and pricing are unchanged.
+See RELEASE-1.18.8.md.
+
+== Release 1.18.7 ==
+Mini-cart presentation polish only. The compact cashback ladder now sits first
+as a tighter, smarter mini-cart header with less empty space. The shopper's real
+mini-cart items gain a clear “In your cart” divider and a quiet card treatment,
+while the recommendation block below stays in its separate Tiffany helper panel,
+so added items and suggested items are easier to distinguish. Cart logic, prices,
+stock, cashback rules and other surfaces are unchanged. See RELEASE-1.18.7.md.
+
+== Release 1.18.6 ==
+Cart-surface polish only. In the mini cart, the upsell strip starting with
+"Reach X cashback with one of these" now sits inside its own soft Tiffany helper
+panel, with a Tiffany title and white product cards, so it reads clearly as a
+separate recommendation area and not as part of the shopper's basket. On the
+cart page, the cashback ladder block moved below the order summary and checkout
+CTA, so the totals and checkout path stay first. Prices, cashback logic, stock,
+AI and other surfaces are unchanged. See RELEASE-1.18.6.md.
+
+== Release 1.18.5 ==
+Targeted layout/cart fix. The home flash sale renders once after the goal results
+and Show more, before the personal shelves. A static white-to-ice fade removes the
+hard background seam; the dark stage and the 4/2-card rails are unchanged.
+Successful adds on the cart page stay inline, without an automatic sidebar or an
+orphaned dark backdrop. WooCommerce still owns cart/totals/fragment updates.
+Other pages keep their existing mini-cart behaviour. See RELEASE-1.18.5.md.
 
 == Release 1.18.4 ==
 Shopper-experience pass. On phones the cart shows the cashback ladder, totals and

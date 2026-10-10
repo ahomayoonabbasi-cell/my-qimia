@@ -1,0 +1,7110 @@
+{
+  "count": 1776,
+  "passed": 1776,
+  "checks": [
+    {
+      "name": "OMR-en-2/0 calculation unchanged",
+      "pass": true
+    },
+    {
+      "name": "OMR-en-2/0 full cart markup unchanged",
+      "pass": true
+    },
+    {
+      "name": "OMR-en-2/0 absent state has no promise",
+      "pass": true
+    },
+    {
+      "name": "OMR-en-2/0.1 calculation unchanged",
+      "pass": true
+    },
+    {
+      "name": "OMR-en-2/0.1 full cart markup unchanged",
+      "pass": true
+    },
+    {
+      "name": "OMR-en-2/0.1 current amount precedes next message",
+      "pass": true
+    },
+    {
+      "name": "OMR-en-2/0.1 current amount equals issuer formatter",
+      "pass": true
+    },
+    {
+      "name": "OMR-en-2/0.1 payment qualifier visible",
+      "pass": true
+    },
+    {
+      "name": "OMR-en-2/0.1 next target only if next band",
+      "pass": true
+    },
+    {
+      "name": "OMR-en-2/0.1 valid progress",
+      "pass": true
+    },
+    {
+      "name": "OMR-en-2/14.49 calculation unchanged",
+      "pass": true
+    },
+    {
+      "name": "OMR-en-2/14.49 full cart markup unchanged",
+      "pass": true
+    },
+    {
+      "name": "OMR-en-2/14.49 current amount precedes next message",
+      "pass": true
+    },
+    {
+      "name": "OMR-en-2/14.49 current amount equals issuer formatter",
+      "pass": true
+    },
+    {
+      "name": "OMR-en-2/14.49 payment qualifier visible",
+      "pass": true
+    },
+    {
+      "name": "OMR-en-2/14.49 next target only if next band",
+      "pass": true
+    },
+    {
+      "name": "OMR-en-2/14.49 valid progress",
+      "pass": true
+    },
+    {
+      "name": "OMR-en-2/20 calculation unchanged",
+      "pass": true
+    },
+    {
+      "name": "OMR-en-2/20 full cart markup unchanged",
+      "pass": true
+    },
+    {
+      "name": "OMR-en-2/20 current amount precedes next message",
+      "pass": true
+    },
+    {
+      "name": "OMR-en-2/20 current amount equals issuer formatter",
+      "pass": true
+    },
+    {
+      "name": "OMR-en-2/20 payment qualifier visible",
+      "pass": true
+    },
+    {
+      "name": "OMR-en-2/20 next target only if next band",
+      "pass": true
+    },
+    {
+      "name": "OMR-en-2/20 valid progress",
+      "pass": true
+    },
+    {
+      "name": "OMR-en-2/20.001 calculation unchanged",
+      "pass": true
+    },
+    {
+      "name": "OMR-en-2/20.001 full cart markup unchanged",
+      "pass": true
+    },
+    {
+      "name": "OMR-en-2/20.001 current amount precedes next message",
+      "pass": true
+    },
+    {
+      "name": "OMR-en-2/20.001 current amount equals issuer formatter",
+      "pass": true
+    },
+    {
+      "name": "OMR-en-2/20.001 payment qualifier visible",
+      "pass": true
+    },
+    {
+      "name": "OMR-en-2/20.001 next target only if next band",
+      "pass": true
+    },
+    {
+      "name": "OMR-en-2/20.001 valid progress",
+      "pass": true
+    },
+    {
+      "name": "OMR-en-2/20.01 calculation unchanged",
+      "pass": true
+    },
+    {
+      "name": "OMR-en-2/20.01 full cart markup unchanged",
+      "pass": true
+    },
+    {
+      "name": "OMR-en-2/20.01 current amount precedes next message",
+      "pass": true
+    },
+    {
+      "name": "OMR-en-2/20.01 current amount equals issuer formatter",
+      "pass": true
+    },
+    {
+      "name": "OMR-en-2/20.01 payment qualifier visible",
+      "pass": true
+    },
+    {
+      "name": "OMR-en-2/20.01 next target only if next band",
+      "pass": true
+    },
+    {
+      "name": "OMR-en-2/20.01 valid progress",
+      "pass": true
+    },
+    {
+      "name": "OMR-en-2/30 calculation unchanged",
+      "pass": true
+    },
+    {
+      "name": "OMR-en-2/30 full cart markup unchanged",
+      "pass": true
+    },
+    {
+      "name": "OMR-en-2/30 current amount precedes next message",
+      "pass": true
+    },
+    {
+      "name": "OMR-en-2/30 current amount equals issuer formatter",
+      "pass": true
+    },
+    {
+      "name": "OMR-en-2/30 payment qualifier visible",
+      "pass": true
+    },
+    {
+      "name": "OMR-en-2/30 next target only if next band",
+      "pass": true
+    },
+    {
+      "name": "OMR-en-2/30 valid progress",
+      "pass": true
+    },
+    {
+      "name": "OMR-en-2/30.001 calculation unchanged",
+      "pass": true
+    },
+    {
+      "name": "OMR-en-2/30.001 full cart markup unchanged",
+      "pass": true
+    },
+    {
+      "name": "OMR-en-2/30.001 current amount precedes next message",
+      "pass": true
+    },
+    {
+      "name": "OMR-en-2/30.001 current amount equals issuer formatter",
+      "pass": true
+    },
+    {
+      "name": "OMR-en-2/30.001 payment qualifier visible",
+      "pass": true
+    },
+    {
+      "name": "OMR-en-2/30.001 next target only if next band",
+      "pass": true
+    },
+    {
+      "name": "OMR-en-2/30.001 valid progress",
+      "pass": true
+    },
+    {
+      "name": "OMR-en-2/40 calculation unchanged",
+      "pass": true
+    },
+    {
+      "name": "OMR-en-2/40 full cart markup unchanged",
+      "pass": true
+    },
+    {
+      "name": "OMR-en-2/40 current amount precedes next message",
+      "pass": true
+    },
+    {
+      "name": "OMR-en-2/40 current amount equals issuer formatter",
+      "pass": true
+    },
+    {
+      "name": "OMR-en-2/40 payment qualifier visible",
+      "pass": true
+    },
+    {
+      "name": "OMR-en-2/40 next target only if next band",
+      "pass": true
+    },
+    {
+      "name": "OMR-en-2/40 valid progress",
+      "pass": true
+    },
+    {
+      "name": "OMR-en-2/40.001 calculation unchanged",
+      "pass": true
+    },
+    {
+      "name": "OMR-en-2/40.001 full cart markup unchanged",
+      "pass": true
+    },
+    {
+      "name": "OMR-en-2/40.001 current amount precedes next message",
+      "pass": true
+    },
+    {
+      "name": "OMR-en-2/40.001 current amount equals issuer formatter",
+      "pass": true
+    },
+    {
+      "name": "OMR-en-2/40.001 payment qualifier visible",
+      "pass": true
+    },
+    {
+      "name": "OMR-en-2/40.001 next target only if next band",
+      "pass": true
+    },
+    {
+      "name": "OMR-en-2/40.001 valid progress",
+      "pass": true
+    },
+    {
+      "name": "OMR-en-2/43.31 calculation unchanged",
+      "pass": true
+    },
+    {
+      "name": "OMR-en-2/43.31 full cart markup unchanged",
+      "pass": true
+    },
+    {
+      "name": "OMR-en-2/43.31 current amount precedes next message",
+      "pass": true
+    },
+    {
+      "name": "OMR-en-2/43.31 current amount equals issuer formatter",
+      "pass": true
+    },
+    {
+      "name": "OMR-en-2/43.31 payment qualifier visible",
+      "pass": true
+    },
+    {
+      "name": "OMR-en-2/43.31 next target only if next band",
+      "pass": true
+    },
+    {
+      "name": "OMR-en-2/43.31 valid progress",
+      "pass": true
+    },
+    {
+      "name": "OMR-en-2/50 calculation unchanged",
+      "pass": true
+    },
+    {
+      "name": "OMR-en-2/50 full cart markup unchanged",
+      "pass": true
+    },
+    {
+      "name": "OMR-en-2/50 current amount precedes next message",
+      "pass": true
+    },
+    {
+      "name": "OMR-en-2/50 current amount equals issuer formatter",
+      "pass": true
+    },
+    {
+      "name": "OMR-en-2/50 payment qualifier visible",
+      "pass": true
+    },
+    {
+      "name": "OMR-en-2/50 next target only if next band",
+      "pass": true
+    },
+    {
+      "name": "OMR-en-2/50 valid progress",
+      "pass": true
+    },
+    {
+      "name": "OMR-en-2/50.001 calculation unchanged",
+      "pass": true
+    },
+    {
+      "name": "OMR-en-2/50.001 full cart markup unchanged",
+      "pass": true
+    },
+    {
+      "name": "OMR-en-2/50.001 current amount precedes next message",
+      "pass": true
+    },
+    {
+      "name": "OMR-en-2/50.001 current amount equals issuer formatter",
+      "pass": true
+    },
+    {
+      "name": "OMR-en-2/50.001 payment qualifier visible",
+      "pass": true
+    },
+    {
+      "name": "OMR-en-2/50.001 next target only if next band",
+      "pass": true
+    },
+    {
+      "name": "OMR-en-2/50.001 valid progress",
+      "pass": true
+    },
+    {
+      "name": "OMR-en-2/60 calculation unchanged",
+      "pass": true
+    },
+    {
+      "name": "OMR-en-2/60 full cart markup unchanged",
+      "pass": true
+    },
+    {
+      "name": "OMR-en-2/60 current amount precedes next message",
+      "pass": true
+    },
+    {
+      "name": "OMR-en-2/60 current amount equals issuer formatter",
+      "pass": true
+    },
+    {
+      "name": "OMR-en-2/60 payment qualifier visible",
+      "pass": true
+    },
+    {
+      "name": "OMR-en-2/60 next target only if next band",
+      "pass": true
+    },
+    {
+      "name": "OMR-en-2/60 valid progress",
+      "pass": true
+    },
+    {
+      "name": "OMR-en-2/60.001 calculation unchanged",
+      "pass": true
+    },
+    {
+      "name": "OMR-en-2/60.001 full cart markup unchanged",
+      "pass": true
+    },
+    {
+      "name": "OMR-en-2/60.001 current amount precedes next message",
+      "pass": true
+    },
+    {
+      "name": "OMR-en-2/60.001 current amount equals issuer formatter",
+      "pass": true
+    },
+    {
+      "name": "OMR-en-2/60.001 payment qualifier visible",
+      "pass": true
+    },
+    {
+      "name": "OMR-en-2/60.001 next target only if next band",
+      "pass": true
+    },
+    {
+      "name": "OMR-en-2/60.001 valid progress",
+      "pass": true
+    },
+    {
+      "name": "OMR-en-2/60.01 calculation unchanged",
+      "pass": true
+    },
+    {
+      "name": "OMR-en-2/60.01 full cart markup unchanged",
+      "pass": true
+    },
+    {
+      "name": "OMR-en-2/60.01 current amount precedes next message",
+      "pass": true
+    },
+    {
+      "name": "OMR-en-2/60.01 current amount equals issuer formatter",
+      "pass": true
+    },
+    {
+      "name": "OMR-en-2/60.01 payment qualifier visible",
+      "pass": true
+    },
+    {
+      "name": "OMR-en-2/60.01 next target only if next band",
+      "pass": true
+    },
+    {
+      "name": "OMR-en-2/60.01 valid progress",
+      "pass": true
+    },
+    {
+      "name": "OMR-en-2/100 calculation unchanged",
+      "pass": true
+    },
+    {
+      "name": "OMR-en-2/100 full cart markup unchanged",
+      "pass": true
+    },
+    {
+      "name": "OMR-en-2/100 current amount precedes next message",
+      "pass": true
+    },
+    {
+      "name": "OMR-en-2/100 current amount equals issuer formatter",
+      "pass": true
+    },
+    {
+      "name": "OMR-en-2/100 payment qualifier visible",
+      "pass": true
+    },
+    {
+      "name": "OMR-en-2/100 next target only if next band",
+      "pass": true
+    },
+    {
+      "name": "OMR-en-2/100 valid progress",
+      "pass": true
+    },
+    {
+      "name": "OMR-en-2 empty cart no reward",
+      "pass": true
+    },
+    {
+      "name": "OMR-en-2 hooks unchanged",
+      "pass": true
+    },
+    {
+      "name": "OMR-en-2 recommendation markup unchanged",
+      "pass": true
+    },
+    {
+      "name": "OMR-en-2 real-cart label unchanged",
+      "pass": true
+    },
+    {
+      "name": "OMR-en-3/0 calculation unchanged",
+      "pass": true
+    },
+    {
+      "name": "OMR-en-3/0 full cart markup unchanged",
+      "pass": true
+    },
+    {
+      "name": "OMR-en-3/0 absent state has no promise",
+      "pass": true
+    },
+    {
+      "name": "OMR-en-3/0.1 calculation unchanged",
+      "pass": true
+    },
+    {
+      "name": "OMR-en-3/0.1 full cart markup unchanged",
+      "pass": true
+    },
+    {
+      "name": "OMR-en-3/0.1 current amount precedes next message",
+      "pass": true
+    },
+    {
+      "name": "OMR-en-3/0.1 current amount equals issuer formatter",
+      "pass": true
+    },
+    {
+      "name": "OMR-en-3/0.1 payment qualifier visible",
+      "pass": true
+    },
+    {
+      "name": "OMR-en-3/0.1 next target only if next band",
+      "pass": true
+    },
+    {
+      "name": "OMR-en-3/0.1 valid progress",
+      "pass": true
+    },
+    {
+      "name": "OMR-en-3/14.49 calculation unchanged",
+      "pass": true
+    },
+    {
+      "name": "OMR-en-3/14.49 full cart markup unchanged",
+      "pass": true
+    },
+    {
+      "name": "OMR-en-3/14.49 current amount precedes next message",
+      "pass": true
+    },
+    {
+      "name": "OMR-en-3/14.49 current amount equals issuer formatter",
+      "pass": true
+    },
+    {
+      "name": "OMR-en-3/14.49 payment qualifier visible",
+      "pass": true
+    },
+    {
+      "name": "OMR-en-3/14.49 next target only if next band",
+      "pass": true
+    },
+    {
+      "name": "OMR-en-3/14.49 valid progress",
+      "pass": true
+    },
+    {
+      "name": "OMR-en-3/20 calculation unchanged",
+      "pass": true
+    },
+    {
+      "name": "OMR-en-3/20 full cart markup unchanged",
+      "pass": true
+    },
+    {
+      "name": "OMR-en-3/20 current amount precedes next message",
+      "pass": true
+    },
+    {
+      "name": "OMR-en-3/20 current amount equals issuer formatter",
+      "pass": true
+    },
+    {
+      "name": "OMR-en-3/20 payment qualifier visible",
+      "pass": true
+    },
+    {
+      "name": "OMR-en-3/20 next target only if next band",
+      "pass": true
+    },
+    {
+      "name": "OMR-en-3/20 valid progress",
+      "pass": true
+    },
+    {
+      "name": "OMR-en-3/20.001 calculation unchanged",
+      "pass": true
+    },
+    {
+      "name": "OMR-en-3/20.001 full cart markup unchanged",
+      "pass": true
+    },
+    {
+      "name": "OMR-en-3/20.001 current amount precedes next message",
+      "pass": true
+    },
+    {
+      "name": "OMR-en-3/20.001 current amount equals issuer formatter",
+      "pass": true
+    },
+    {
+      "name": "OMR-en-3/20.001 payment qualifier visible",
+      "pass": true
+    },
+    {
+      "name": "OMR-en-3/20.001 next target only if next band",
+      "pass": true
+    },
+    {
+      "name": "OMR-en-3/20.001 valid progress",
+      "pass": true
+    },
+    {
+      "name": "OMR-en-3/20.01 calculation unchanged",
+      "pass": true
+    },
+    {
+      "name": "OMR-en-3/20.01 full cart markup unchanged",
+      "pass": true
+    },
+    {
+      "name": "OMR-en-3/20.01 current amount precedes next message",
+      "pass": true
+    },
+    {
+      "name": "OMR-en-3/20.01 current amount equals issuer formatter",
+      "pass": true
+    },
+    {
+      "name": "OMR-en-3/20.01 payment qualifier visible",
+      "pass": true
+    },
+    {
+      "name": "OMR-en-3/20.01 next target only if next band",
+      "pass": true
+    },
+    {
+      "name": "OMR-en-3/20.01 valid progress",
+      "pass": true
+    },
+    {
+      "name": "OMR-en-3/30 calculation unchanged",
+      "pass": true
+    },
+    {
+      "name": "OMR-en-3/30 full cart markup unchanged",
+      "pass": true
+    },
+    {
+      "name": "OMR-en-3/30 current amount precedes next message",
+      "pass": true
+    },
+    {
+      "name": "OMR-en-3/30 current amount equals issuer formatter",
+      "pass": true
+    },
+    {
+      "name": "OMR-en-3/30 payment qualifier visible",
+      "pass": true
+    },
+    {
+      "name": "OMR-en-3/30 next target only if next band",
+      "pass": true
+    },
+    {
+      "name": "OMR-en-3/30 valid progress",
+      "pass": true
+    },
+    {
+      "name": "OMR-en-3/30.001 calculation unchanged",
+      "pass": true
+    },
+    {
+      "name": "OMR-en-3/30.001 full cart markup unchanged",
+      "pass": true
+    },
+    {
+      "name": "OMR-en-3/30.001 current amount precedes next message",
+      "pass": true
+    },
+    {
+      "name": "OMR-en-3/30.001 current amount equals issuer formatter",
+      "pass": true
+    },
+    {
+      "name": "OMR-en-3/30.001 payment qualifier visible",
+      "pass": true
+    },
+    {
+      "name": "OMR-en-3/30.001 next target only if next band",
+      "pass": true
+    },
+    {
+      "name": "OMR-en-3/30.001 valid progress",
+      "pass": true
+    },
+    {
+      "name": "OMR-en-3/40 calculation unchanged",
+      "pass": true
+    },
+    {
+      "name": "OMR-en-3/40 full cart markup unchanged",
+      "pass": true
+    },
+    {
+      "name": "OMR-en-3/40 current amount precedes next message",
+      "pass": true
+    },
+    {
+      "name": "OMR-en-3/40 current amount equals issuer formatter",
+      "pass": true
+    },
+    {
+      "name": "OMR-en-3/40 payment qualifier visible",
+      "pass": true
+    },
+    {
+      "name": "OMR-en-3/40 next target only if next band",
+      "pass": true
+    },
+    {
+      "name": "OMR-en-3/40 valid progress",
+      "pass": true
+    },
+    {
+      "name": "OMR-en-3/40.001 calculation unchanged",
+      "pass": true
+    },
+    {
+      "name": "OMR-en-3/40.001 full cart markup unchanged",
+      "pass": true
+    },
+    {
+      "name": "OMR-en-3/40.001 current amount precedes next message",
+      "pass": true
+    },
+    {
+      "name": "OMR-en-3/40.001 current amount equals issuer formatter",
+      "pass": true
+    },
+    {
+      "name": "OMR-en-3/40.001 payment qualifier visible",
+      "pass": true
+    },
+    {
+      "name": "OMR-en-3/40.001 next target only if next band",
+      "pass": true
+    },
+    {
+      "name": "OMR-en-3/40.001 valid progress",
+      "pass": true
+    },
+    {
+      "name": "OMR-en-3/43.31 calculation unchanged",
+      "pass": true
+    },
+    {
+      "name": "OMR-en-3/43.31 full cart markup unchanged",
+      "pass": true
+    },
+    {
+      "name": "OMR-en-3/43.31 current amount precedes next message",
+      "pass": true
+    },
+    {
+      "name": "OMR-en-3/43.31 current amount equals issuer formatter",
+      "pass": true
+    },
+    {
+      "name": "OMR-en-3/43.31 payment qualifier visible",
+      "pass": true
+    },
+    {
+      "name": "OMR-en-3/43.31 next target only if next band",
+      "pass": true
+    },
+    {
+      "name": "OMR-en-3/43.31 valid progress",
+      "pass": true
+    },
+    {
+      "name": "OMR-en-3/50 calculation unchanged",
+      "pass": true
+    },
+    {
+      "name": "OMR-en-3/50 full cart markup unchanged",
+      "pass": true
+    },
+    {
+      "name": "OMR-en-3/50 current amount precedes next message",
+      "pass": true
+    },
+    {
+      "name": "OMR-en-3/50 current amount equals issuer formatter",
+      "pass": true
+    },
+    {
+      "name": "OMR-en-3/50 payment qualifier visible",
+      "pass": true
+    },
+    {
+      "name": "OMR-en-3/50 next target only if next band",
+      "pass": true
+    },
+    {
+      "name": "OMR-en-3/50 valid progress",
+      "pass": true
+    },
+    {
+      "name": "OMR-en-3/50.001 calculation unchanged",
+      "pass": true
+    },
+    {
+      "name": "OMR-en-3/50.001 full cart markup unchanged",
+      "pass": true
+    },
+    {
+      "name": "OMR-en-3/50.001 current amount precedes next message",
+      "pass": true
+    },
+    {
+      "name": "OMR-en-3/50.001 current amount equals issuer formatter",
+      "pass": true
+    },
+    {
+      "name": "OMR-en-3/50.001 payment qualifier visible",
+      "pass": true
+    },
+    {
+      "name": "OMR-en-3/50.001 next target only if next band",
+      "pass": true
+    },
+    {
+      "name": "OMR-en-3/50.001 valid progress",
+      "pass": true
+    },
+    {
+      "name": "OMR-en-3/60 calculation unchanged",
+      "pass": true
+    },
+    {
+      "name": "OMR-en-3/60 full cart markup unchanged",
+      "pass": true
+    },
+    {
+      "name": "OMR-en-3/60 current amount precedes next message",
+      "pass": true
+    },
+    {
+      "name": "OMR-en-3/60 current amount equals issuer formatter",
+      "pass": true
+    },
+    {
+      "name": "OMR-en-3/60 payment qualifier visible",
+      "pass": true
+    },
+    {
+      "name": "OMR-en-3/60 next target only if next band",
+      "pass": true
+    },
+    {
+      "name": "OMR-en-3/60 valid progress",
+      "pass": true
+    },
+    {
+      "name": "OMR-en-3/60.001 calculation unchanged",
+      "pass": true
+    },
+    {
+      "name": "OMR-en-3/60.001 full cart markup unchanged",
+      "pass": true
+    },
+    {
+      "name": "OMR-en-3/60.001 current amount precedes next message",
+      "pass": true
+    },
+    {
+      "name": "OMR-en-3/60.001 current amount equals issuer formatter",
+      "pass": true
+    },
+    {
+      "name": "OMR-en-3/60.001 payment qualifier visible",
+      "pass": true
+    },
+    {
+      "name": "OMR-en-3/60.001 next target only if next band",
+      "pass": true
+    },
+    {
+      "name": "OMR-en-3/60.001 valid progress",
+      "pass": true
+    },
+    {
+      "name": "OMR-en-3/60.01 calculation unchanged",
+      "pass": true
+    },
+    {
+      "name": "OMR-en-3/60.01 full cart markup unchanged",
+      "pass": true
+    },
+    {
+      "name": "OMR-en-3/60.01 current amount precedes next message",
+      "pass": true
+    },
+    {
+      "name": "OMR-en-3/60.01 current amount equals issuer formatter",
+      "pass": true
+    },
+    {
+      "name": "OMR-en-3/60.01 payment qualifier visible",
+      "pass": true
+    },
+    {
+      "name": "OMR-en-3/60.01 next target only if next band",
+      "pass": true
+    },
+    {
+      "name": "OMR-en-3/60.01 valid progress",
+      "pass": true
+    },
+    {
+      "name": "OMR-en-3/100 calculation unchanged",
+      "pass": true
+    },
+    {
+      "name": "OMR-en-3/100 full cart markup unchanged",
+      "pass": true
+    },
+    {
+      "name": "OMR-en-3/100 current amount precedes next message",
+      "pass": true
+    },
+    {
+      "name": "OMR-en-3/100 current amount equals issuer formatter",
+      "pass": true
+    },
+    {
+      "name": "OMR-en-3/100 payment qualifier visible",
+      "pass": true
+    },
+    {
+      "name": "OMR-en-3/100 next target only if next band",
+      "pass": true
+    },
+    {
+      "name": "OMR-en-3/100 valid progress",
+      "pass": true
+    },
+    {
+      "name": "OMR-en-3 empty cart no reward",
+      "pass": true
+    },
+    {
+      "name": "OMR-en-3 hooks unchanged",
+      "pass": true
+    },
+    {
+      "name": "OMR-en-3 recommendation markup unchanged",
+      "pass": true
+    },
+    {
+      "name": "OMR-en-3 real-cart label unchanged",
+      "pass": true
+    },
+    {
+      "name": "OMR-ar-2/0 calculation unchanged",
+      "pass": true
+    },
+    {
+      "name": "OMR-ar-2/0 full cart markup unchanged",
+      "pass": true
+    },
+    {
+      "name": "OMR-ar-2/0 absent state has no promise",
+      "pass": true
+    },
+    {
+      "name": "OMR-ar-2/0.1 calculation unchanged",
+      "pass": true
+    },
+    {
+      "name": "OMR-ar-2/0.1 full cart markup unchanged",
+      "pass": true
+    },
+    {
+      "name": "OMR-ar-2/0.1 current amount precedes next message",
+      "pass": true
+    },
+    {
+      "name": "OMR-ar-2/0.1 current amount equals issuer formatter",
+      "pass": true
+    },
+    {
+      "name": "OMR-ar-2/0.1 payment qualifier visible",
+      "pass": true
+    },
+    {
+      "name": "OMR-ar-2/0.1 next target only if next band",
+      "pass": true
+    },
+    {
+      "name": "OMR-ar-2/0.1 valid progress",
+      "pass": true
+    },
+    {
+      "name": "OMR-ar-2/14.49 calculation unchanged",
+      "pass": true
+    },
+    {
+      "name": "OMR-ar-2/14.49 full cart markup unchanged",
+      "pass": true
+    },
+    {
+      "name": "OMR-ar-2/14.49 current amount precedes next message",
+      "pass": true
+    },
+    {
+      "name": "OMR-ar-2/14.49 current amount equals issuer formatter",
+      "pass": true
+    },
+    {
+      "name": "OMR-ar-2/14.49 payment qualifier visible",
+      "pass": true
+    },
+    {
+      "name": "OMR-ar-2/14.49 next target only if next band",
+      "pass": true
+    },
+    {
+      "name": "OMR-ar-2/14.49 valid progress",
+      "pass": true
+    },
+    {
+      "name": "OMR-ar-2/20 calculation unchanged",
+      "pass": true
+    },
+    {
+      "name": "OMR-ar-2/20 full cart markup unchanged",
+      "pass": true
+    },
+    {
+      "name": "OMR-ar-2/20 current amount precedes next message",
+      "pass": true
+    },
+    {
+      "name": "OMR-ar-2/20 current amount equals issuer formatter",
+      "pass": true
+    },
+    {
+      "name": "OMR-ar-2/20 payment qualifier visible",
+      "pass": true
+    },
+    {
+      "name": "OMR-ar-2/20 next target only if next band",
+      "pass": true
+    },
+    {
+      "name": "OMR-ar-2/20 valid progress",
+      "pass": true
+    },
+    {
+      "name": "OMR-ar-2/20.001 calculation unchanged",
+      "pass": true
+    },
+    {
+      "name": "OMR-ar-2/20.001 full cart markup unchanged",
+      "pass": true
+    },
+    {
+      "name": "OMR-ar-2/20.001 current amount precedes next message",
+      "pass": true
+    },
+    {
+      "name": "OMR-ar-2/20.001 current amount equals issuer formatter",
+      "pass": true
+    },
+    {
+      "name": "OMR-ar-2/20.001 payment qualifier visible",
+      "pass": true
+    },
+    {
+      "name": "OMR-ar-2/20.001 next target only if next band",
+      "pass": true
+    },
+    {
+      "name": "OMR-ar-2/20.001 valid progress",
+      "pass": true
+    },
+    {
+      "name": "OMR-ar-2/20.01 calculation unchanged",
+      "pass": true
+    },
+    {
+      "name": "OMR-ar-2/20.01 full cart markup unchanged",
+      "pass": true
+    },
+    {
+      "name": "OMR-ar-2/20.01 current amount precedes next message",
+      "pass": true
+    },
+    {
+      "name": "OMR-ar-2/20.01 current amount equals issuer formatter",
+      "pass": true
+    },
+    {
+      "name": "OMR-ar-2/20.01 payment qualifier visible",
+      "pass": true
+    },
+    {
+      "name": "OMR-ar-2/20.01 next target only if next band",
+      "pass": true
+    },
+    {
+      "name": "OMR-ar-2/20.01 valid progress",
+      "pass": true
+    },
+    {
+      "name": "OMR-ar-2/30 calculation unchanged",
+      "pass": true
+    },
+    {
+      "name": "OMR-ar-2/30 full cart markup unchanged",
+      "pass": true
+    },
+    {
+      "name": "OMR-ar-2/30 current amount precedes next message",
+      "pass": true
+    },
+    {
+      "name": "OMR-ar-2/30 current amount equals issuer formatter",
+      "pass": true
+    },
+    {
+      "name": "OMR-ar-2/30 payment qualifier visible",
+      "pass": true
+    },
+    {
+      "name": "OMR-ar-2/30 next target only if next band",
+      "pass": true
+    },
+    {
+      "name": "OMR-ar-2/30 valid progress",
+      "pass": true
+    },
+    {
+      "name": "OMR-ar-2/30.001 calculation unchanged",
+      "pass": true
+    },
+    {
+      "name": "OMR-ar-2/30.001 full cart markup unchanged",
+      "pass": true
+    },
+    {
+      "name": "OMR-ar-2/30.001 current amount precedes next message",
+      "pass": true
+    },
+    {
+      "name": "OMR-ar-2/30.001 current amount equals issuer formatter",
+      "pass": true
+    },
+    {
+      "name": "OMR-ar-2/30.001 payment qualifier visible",
+      "pass": true
+    },
+    {
+      "name": "OMR-ar-2/30.001 next target only if next band",
+      "pass": true
+    },
+    {
+      "name": "OMR-ar-2/30.001 valid progress",
+      "pass": true
+    },
+    {
+      "name": "OMR-ar-2/40 calculation unchanged",
+      "pass": true
+    },
+    {
+      "name": "OMR-ar-2/40 full cart markup unchanged",
+      "pass": true
+    },
+    {
+      "name": "OMR-ar-2/40 current amount precedes next message",
+      "pass": true
+    },
+    {
+      "name": "OMR-ar-2/40 current amount equals issuer formatter",
+      "pass": true
+    },
+    {
+      "name": "OMR-ar-2/40 payment qualifier visible",
+      "pass": true
+    },
+    {
+      "name": "OMR-ar-2/40 next target only if next band",
+      "pass": true
+    },
+    {
+      "name": "OMR-ar-2/40 valid progress",
+      "pass": true
+    },
+    {
+      "name": "OMR-ar-2/40.001 calculation unchanged",
+      "pass": true
+    },
+    {
+      "name": "OMR-ar-2/40.001 full cart markup unchanged",
+      "pass": true
+    },
+    {
+      "name": "OMR-ar-2/40.001 current amount precedes next message",
+      "pass": true
+    },
+    {
+      "name": "OMR-ar-2/40.001 current amount equals issuer formatter",
+      "pass": true
+    },
+    {
+      "name": "OMR-ar-2/40.001 payment qualifier visible",
+      "pass": true
+    },
+    {
+      "name": "OMR-ar-2/40.001 next target only if next band",
+      "pass": true
+    },
+    {
+      "name": "OMR-ar-2/40.001 valid progress",
+      "pass": true
+    },
+    {
+      "name": "OMR-ar-2/43.31 calculation unchanged",
+      "pass": true
+    },
+    {
+      "name": "OMR-ar-2/43.31 full cart markup unchanged",
+      "pass": true
+    },
+    {
+      "name": "OMR-ar-2/43.31 current amount precedes next message",
+      "pass": true
+    },
+    {
+      "name": "OMR-ar-2/43.31 current amount equals issuer formatter",
+      "pass": true
+    },
+    {
+      "name": "OMR-ar-2/43.31 payment qualifier visible",
+      "pass": true
+    },
+    {
+      "name": "OMR-ar-2/43.31 next target only if next band",
+      "pass": true
+    },
+    {
+      "name": "OMR-ar-2/43.31 valid progress",
+      "pass": true
+    },
+    {
+      "name": "OMR-ar-2/50 calculation unchanged",
+      "pass": true
+    },
+    {
+      "name": "OMR-ar-2/50 full cart markup unchanged",
+      "pass": true
+    },
+    {
+      "name": "OMR-ar-2/50 current amount precedes next message",
+      "pass": true
+    },
+    {
+      "name": "OMR-ar-2/50 current amount equals issuer formatter",
+      "pass": true
+    },
+    {
+      "name": "OMR-ar-2/50 payment qualifier visible",
+      "pass": true
+    },
+    {
+      "name": "OMR-ar-2/50 next target only if next band",
+      "pass": true
+    },
+    {
+      "name": "OMR-ar-2/50 valid progress",
+      "pass": true
+    },
+    {
+      "name": "OMR-ar-2/50.001 calculation unchanged",
+      "pass": true
+    },
+    {
+      "name": "OMR-ar-2/50.001 full cart markup unchanged",
+      "pass": true
+    },
+    {
+      "name": "OMR-ar-2/50.001 current amount precedes next message",
+      "pass": true
+    },
+    {
+      "name": "OMR-ar-2/50.001 current amount equals issuer formatter",
+      "pass": true
+    },
+    {
+      "name": "OMR-ar-2/50.001 payment qualifier visible",
+      "pass": true
+    },
+    {
+      "name": "OMR-ar-2/50.001 next target only if next band",
+      "pass": true
+    },
+    {
+      "name": "OMR-ar-2/50.001 valid progress",
+      "pass": true
+    },
+    {
+      "name": "OMR-ar-2/60 calculation unchanged",
+      "pass": true
+    },
+    {
+      "name": "OMR-ar-2/60 full cart markup unchanged",
+      "pass": true
+    },
+    {
+      "name": "OMR-ar-2/60 current amount precedes next message",
+      "pass": true
+    },
+    {
+      "name": "OMR-ar-2/60 current amount equals issuer formatter",
+      "pass": true
+    },
+    {
+      "name": "OMR-ar-2/60 payment qualifier visible",
+      "pass": true
+    },
+    {
+      "name": "OMR-ar-2/60 next target only if next band",
+      "pass": true
+    },
+    {
+      "name": "OMR-ar-2/60 valid progress",
+      "pass": true
+    },
+    {
+      "name": "OMR-ar-2/60.001 calculation unchanged",
+      "pass": true
+    },
+    {
+      "name": "OMR-ar-2/60.001 full cart markup unchanged",
+      "pass": true
+    },
+    {
+      "name": "OMR-ar-2/60.001 current amount precedes next message",
+      "pass": true
+    },
+    {
+      "name": "OMR-ar-2/60.001 current amount equals issuer formatter",
+      "pass": true
+    },
+    {
+      "name": "OMR-ar-2/60.001 payment qualifier visible",
+      "pass": true
+    },
+    {
+      "name": "OMR-ar-2/60.001 next target only if next band",
+      "pass": true
+    },
+    {
+      "name": "OMR-ar-2/60.001 valid progress",
+      "pass": true
+    },
+    {
+      "name": "OMR-ar-2/60.01 calculation unchanged",
+      "pass": true
+    },
+    {
+      "name": "OMR-ar-2/60.01 full cart markup unchanged",
+      "pass": true
+    },
+    {
+      "name": "OMR-ar-2/60.01 current amount precedes next message",
+      "pass": true
+    },
+    {
+      "name": "OMR-ar-2/60.01 current amount equals issuer formatter",
+      "pass": true
+    },
+    {
+      "name": "OMR-ar-2/60.01 payment qualifier visible",
+      "pass": true
+    },
+    {
+      "name": "OMR-ar-2/60.01 next target only if next band",
+      "pass": true
+    },
+    {
+      "name": "OMR-ar-2/60.01 valid progress",
+      "pass": true
+    },
+    {
+      "name": "OMR-ar-2/100 calculation unchanged",
+      "pass": true
+    },
+    {
+      "name": "OMR-ar-2/100 full cart markup unchanged",
+      "pass": true
+    },
+    {
+      "name": "OMR-ar-2/100 current amount precedes next message",
+      "pass": true
+    },
+    {
+      "name": "OMR-ar-2/100 current amount equals issuer formatter",
+      "pass": true
+    },
+    {
+      "name": "OMR-ar-2/100 payment qualifier visible",
+      "pass": true
+    },
+    {
+      "name": "OMR-ar-2/100 next target only if next band",
+      "pass": true
+    },
+    {
+      "name": "OMR-ar-2/100 valid progress",
+      "pass": true
+    },
+    {
+      "name": "OMR-ar-2 empty cart no reward",
+      "pass": true
+    },
+    {
+      "name": "OMR-ar-2 hooks unchanged",
+      "pass": true
+    },
+    {
+      "name": "OMR-ar-2 recommendation markup unchanged",
+      "pass": true
+    },
+    {
+      "name": "OMR-ar-2 real-cart label unchanged",
+      "pass": true
+    },
+    {
+      "name": "OMR-ar-3/0 calculation unchanged",
+      "pass": true
+    },
+    {
+      "name": "OMR-ar-3/0 full cart markup unchanged",
+      "pass": true
+    },
+    {
+      "name": "OMR-ar-3/0 absent state has no promise",
+      "pass": true
+    },
+    {
+      "name": "OMR-ar-3/0.1 calculation unchanged",
+      "pass": true
+    },
+    {
+      "name": "OMR-ar-3/0.1 full cart markup unchanged",
+      "pass": true
+    },
+    {
+      "name": "OMR-ar-3/0.1 current amount precedes next message",
+      "pass": true
+    },
+    {
+      "name": "OMR-ar-3/0.1 current amount equals issuer formatter",
+      "pass": true
+    },
+    {
+      "name": "OMR-ar-3/0.1 payment qualifier visible",
+      "pass": true
+    },
+    {
+      "name": "OMR-ar-3/0.1 next target only if next band",
+      "pass": true
+    },
+    {
+      "name": "OMR-ar-3/0.1 valid progress",
+      "pass": true
+    },
+    {
+      "name": "OMR-ar-3/14.49 calculation unchanged",
+      "pass": true
+    },
+    {
+      "name": "OMR-ar-3/14.49 full cart markup unchanged",
+      "pass": true
+    },
+    {
+      "name": "OMR-ar-3/14.49 current amount precedes next message",
+      "pass": true
+    },
+    {
+      "name": "OMR-ar-3/14.49 current amount equals issuer formatter",
+      "pass": true
+    },
+    {
+      "name": "OMR-ar-3/14.49 payment qualifier visible",
+      "pass": true
+    },
+    {
+      "name": "OMR-ar-3/14.49 next target only if next band",
+      "pass": true
+    },
+    {
+      "name": "OMR-ar-3/14.49 valid progress",
+      "pass": true
+    },
+    {
+      "name": "OMR-ar-3/20 calculation unchanged",
+      "pass": true
+    },
+    {
+      "name": "OMR-ar-3/20 full cart markup unchanged",
+      "pass": true
+    },
+    {
+      "name": "OMR-ar-3/20 current amount precedes next message",
+      "pass": true
+    },
+    {
+      "name": "OMR-ar-3/20 current amount equals issuer formatter",
+      "pass": true
+    },
+    {
+      "name": "OMR-ar-3/20 payment qualifier visible",
+      "pass": true
+    },
+    {
+      "name": "OMR-ar-3/20 next target only if next band",
+      "pass": true
+    },
+    {
+      "name": "OMR-ar-3/20 valid progress",
+      "pass": true
+    },
+    {
+      "name": "OMR-ar-3/20.001 calculation unchanged",
+      "pass": true
+    },
+    {
+      "name": "OMR-ar-3/20.001 full cart markup unchanged",
+      "pass": true
+    },
+    {
+      "name": "OMR-ar-3/20.001 current amount precedes next message",
+      "pass": true
+    },
+    {
+      "name": "OMR-ar-3/20.001 current amount equals issuer formatter",
+      "pass": true
+    },
+    {
+      "name": "OMR-ar-3/20.001 payment qualifier visible",
+      "pass": true
+    },
+    {
+      "name": "OMR-ar-3/20.001 next target only if next band",
+      "pass": true
+    },
+    {
+      "name": "OMR-ar-3/20.001 valid progress",
+      "pass": true
+    },
+    {
+      "name": "OMR-ar-3/20.01 calculation unchanged",
+      "pass": true
+    },
+    {
+      "name": "OMR-ar-3/20.01 full cart markup unchanged",
+      "pass": true
+    },
+    {
+      "name": "OMR-ar-3/20.01 current amount precedes next message",
+      "pass": true
+    },
+    {
+      "name": "OMR-ar-3/20.01 current amount equals issuer formatter",
+      "pass": true
+    },
+    {
+      "name": "OMR-ar-3/20.01 payment qualifier visible",
+      "pass": true
+    },
+    {
+      "name": "OMR-ar-3/20.01 next target only if next band",
+      "pass": true
+    },
+    {
+      "name": "OMR-ar-3/20.01 valid progress",
+      "pass": true
+    },
+    {
+      "name": "OMR-ar-3/30 calculation unchanged",
+      "pass": true
+    },
+    {
+      "name": "OMR-ar-3/30 full cart markup unchanged",
+      "pass": true
+    },
+    {
+      "name": "OMR-ar-3/30 current amount precedes next message",
+      "pass": true
+    },
+    {
+      "name": "OMR-ar-3/30 current amount equals issuer formatter",
+      "pass": true
+    },
+    {
+      "name": "OMR-ar-3/30 payment qualifier visible",
+      "pass": true
+    },
+    {
+      "name": "OMR-ar-3/30 next target only if next band",
+      "pass": true
+    },
+    {
+      "name": "OMR-ar-3/30 valid progress",
+      "pass": true
+    },
+    {
+      "name": "OMR-ar-3/30.001 calculation unchanged",
+      "pass": true
+    },
+    {
+      "name": "OMR-ar-3/30.001 full cart markup unchanged",
+      "pass": true
+    },
+    {
+      "name": "OMR-ar-3/30.001 current amount precedes next message",
+      "pass": true
+    },
+    {
+      "name": "OMR-ar-3/30.001 current amount equals issuer formatter",
+      "pass": true
+    },
+    {
+      "name": "OMR-ar-3/30.001 payment qualifier visible",
+      "pass": true
+    },
+    {
+      "name": "OMR-ar-3/30.001 next target only if next band",
+      "pass": true
+    },
+    {
+      "name": "OMR-ar-3/30.001 valid progress",
+      "pass": true
+    },
+    {
+      "name": "OMR-ar-3/40 calculation unchanged",
+      "pass": true
+    },
+    {
+      "name": "OMR-ar-3/40 full cart markup unchanged",
+      "pass": true
+    },
+    {
+      "name": "OMR-ar-3/40 current amount precedes next message",
+      "pass": true
+    },
+    {
+      "name": "OMR-ar-3/40 current amount equals issuer formatter",
+      "pass": true
+    },
+    {
+      "name": "OMR-ar-3/40 payment qualifier visible",
+      "pass": true
+    },
+    {
+      "name": "OMR-ar-3/40 next target only if next band",
+      "pass": true
+    },
+    {
+      "name": "OMR-ar-3/40 valid progress",
+      "pass": true
+    },
+    {
+      "name": "OMR-ar-3/40.001 calculation unchanged",
+      "pass": true
+    },
+    {
+      "name": "OMR-ar-3/40.001 full cart markup unchanged",
+      "pass": true
+    },
+    {
+      "name": "OMR-ar-3/40.001 current amount precedes next message",
+      "pass": true
+    },
+    {
+      "name": "OMR-ar-3/40.001 current amount equals issuer formatter",
+      "pass": true
+    },
+    {
+      "name": "OMR-ar-3/40.001 payment qualifier visible",
+      "pass": true
+    },
+    {
+      "name": "OMR-ar-3/40.001 next target only if next band",
+      "pass": true
+    },
+    {
+      "name": "OMR-ar-3/40.001 valid progress",
+      "pass": true
+    },
+    {
+      "name": "OMR-ar-3/43.31 calculation unchanged",
+      "pass": true
+    },
+    {
+      "name": "OMR-ar-3/43.31 full cart markup unchanged",
+      "pass": true
+    },
+    {
+      "name": "OMR-ar-3/43.31 current amount precedes next message",
+      "pass": true
+    },
+    {
+      "name": "OMR-ar-3/43.31 current amount equals issuer formatter",
+      "pass": true
+    },
+    {
+      "name": "OMR-ar-3/43.31 payment qualifier visible",
+      "pass": true
+    },
+    {
+      "name": "OMR-ar-3/43.31 next target only if next band",
+      "pass": true
+    },
+    {
+      "name": "OMR-ar-3/43.31 valid progress",
+      "pass": true
+    },
+    {
+      "name": "OMR-ar-3/50 calculation unchanged",
+      "pass": true
+    },
+    {
+      "name": "OMR-ar-3/50 full cart markup unchanged",
+      "pass": true
+    },
+    {
+      "name": "OMR-ar-3/50 current amount precedes next message",
+      "pass": true
+    },
+    {
+      "name": "OMR-ar-3/50 current amount equals issuer formatter",
+      "pass": true
+    },
+    {
+      "name": "OMR-ar-3/50 payment qualifier visible",
+      "pass": true
+    },
+    {
+      "name": "OMR-ar-3/50 next target only if next band",
+      "pass": true
+    },
+    {
+      "name": "OMR-ar-3/50 valid progress",
+      "pass": true
+    },
+    {
+      "name": "OMR-ar-3/50.001 calculation unchanged",
+      "pass": true
+    },
+    {
+      "name": "OMR-ar-3/50.001 full cart markup unchanged",
+      "pass": true
+    },
+    {
+      "name": "OMR-ar-3/50.001 current amount precedes next message",
+      "pass": true
+    },
+    {
+      "name": "OMR-ar-3/50.001 current amount equals issuer formatter",
+      "pass": true
+    },
+    {
+      "name": "OMR-ar-3/50.001 payment qualifier visible",
+      "pass": true
+    },
+    {
+      "name": "OMR-ar-3/50.001 next target only if next band",
+      "pass": true
+    },
+    {
+      "name": "OMR-ar-3/50.001 valid progress",
+      "pass": true
+    },
+    {
+      "name": "OMR-ar-3/60 calculation unchanged",
+      "pass": true
+    },
+    {
+      "name": "OMR-ar-3/60 full cart markup unchanged",
+      "pass": true
+    },
+    {
+      "name": "OMR-ar-3/60 current amount precedes next message",
+      "pass": true
+    },
+    {
+      "name": "OMR-ar-3/60 current amount equals issuer formatter",
+      "pass": true
+    },
+    {
+      "name": "OMR-ar-3/60 payment qualifier visible",
+      "pass": true
+    },
+    {
+      "name": "OMR-ar-3/60 next target only if next band",
+      "pass": true
+    },
+    {
+      "name": "OMR-ar-3/60 valid progress",
+      "pass": true
+    },
+    {
+      "name": "OMR-ar-3/60.001 calculation unchanged",
+      "pass": true
+    },
+    {
+      "name": "OMR-ar-3/60.001 full cart markup unchanged",
+      "pass": true
+    },
+    {
+      "name": "OMR-ar-3/60.001 current amount precedes next message",
+      "pass": true
+    },
+    {
+      "name": "OMR-ar-3/60.001 current amount equals issuer formatter",
+      "pass": true
+    },
+    {
+      "name": "OMR-ar-3/60.001 payment qualifier visible",
+      "pass": true
+    },
+    {
+      "name": "OMR-ar-3/60.001 next target only if next band",
+      "pass": true
+    },
+    {
+      "name": "OMR-ar-3/60.001 valid progress",
+      "pass": true
+    },
+    {
+      "name": "OMR-ar-3/60.01 calculation unchanged",
+      "pass": true
+    },
+    {
+      "name": "OMR-ar-3/60.01 full cart markup unchanged",
+      "pass": true
+    },
+    {
+      "name": "OMR-ar-3/60.01 current amount precedes next message",
+      "pass": true
+    },
+    {
+      "name": "OMR-ar-3/60.01 current amount equals issuer formatter",
+      "pass": true
+    },
+    {
+      "name": "OMR-ar-3/60.01 payment qualifier visible",
+      "pass": true
+    },
+    {
+      "name": "OMR-ar-3/60.01 next target only if next band",
+      "pass": true
+    },
+    {
+      "name": "OMR-ar-3/60.01 valid progress",
+      "pass": true
+    },
+    {
+      "name": "OMR-ar-3/100 calculation unchanged",
+      "pass": true
+    },
+    {
+      "name": "OMR-ar-3/100 full cart markup unchanged",
+      "pass": true
+    },
+    {
+      "name": "OMR-ar-3/100 current amount precedes next message",
+      "pass": true
+    },
+    {
+      "name": "OMR-ar-3/100 current amount equals issuer formatter",
+      "pass": true
+    },
+    {
+      "name": "OMR-ar-3/100 payment qualifier visible",
+      "pass": true
+    },
+    {
+      "name": "OMR-ar-3/100 next target only if next band",
+      "pass": true
+    },
+    {
+      "name": "OMR-ar-3/100 valid progress",
+      "pass": true
+    },
+    {
+      "name": "OMR-ar-3 empty cart no reward",
+      "pass": true
+    },
+    {
+      "name": "OMR-ar-3 hooks unchanged",
+      "pass": true
+    },
+    {
+      "name": "OMR-ar-3 recommendation markup unchanged",
+      "pass": true
+    },
+    {
+      "name": "OMR-ar-3 real-cart label unchanged",
+      "pass": true
+    },
+    {
+      "name": "SAR-en-2/0 calculation unchanged",
+      "pass": true
+    },
+    {
+      "name": "SAR-en-2/0 full cart markup unchanged",
+      "pass": true
+    },
+    {
+      "name": "SAR-en-2/0 absent state has no promise",
+      "pass": true
+    },
+    {
+      "name": "SAR-en-2/0.1 calculation unchanged",
+      "pass": true
+    },
+    {
+      "name": "SAR-en-2/0.1 full cart markup unchanged",
+      "pass": true
+    },
+    {
+      "name": "SAR-en-2/0.1 current amount precedes next message",
+      "pass": true
+    },
+    {
+      "name": "SAR-en-2/0.1 current amount equals issuer formatter",
+      "pass": true
+    },
+    {
+      "name": "SAR-en-2/0.1 payment qualifier visible",
+      "pass": true
+    },
+    {
+      "name": "SAR-en-2/0.1 next target only if next band",
+      "pass": true
+    },
+    {
+      "name": "SAR-en-2/0.1 valid progress",
+      "pass": true
+    },
+    {
+      "name": "SAR-en-2/14.49 calculation unchanged",
+      "pass": true
+    },
+    {
+      "name": "SAR-en-2/14.49 full cart markup unchanged",
+      "pass": true
+    },
+    {
+      "name": "SAR-en-2/14.49 current amount precedes next message",
+      "pass": true
+    },
+    {
+      "name": "SAR-en-2/14.49 current amount equals issuer formatter",
+      "pass": true
+    },
+    {
+      "name": "SAR-en-2/14.49 payment qualifier visible",
+      "pass": true
+    },
+    {
+      "name": "SAR-en-2/14.49 next target only if next band",
+      "pass": true
+    },
+    {
+      "name": "SAR-en-2/14.49 valid progress",
+      "pass": true
+    },
+    {
+      "name": "SAR-en-2/20 calculation unchanged",
+      "pass": true
+    },
+    {
+      "name": "SAR-en-2/20 full cart markup unchanged",
+      "pass": true
+    },
+    {
+      "name": "SAR-en-2/20 current amount precedes next message",
+      "pass": true
+    },
+    {
+      "name": "SAR-en-2/20 current amount equals issuer formatter",
+      "pass": true
+    },
+    {
+      "name": "SAR-en-2/20 payment qualifier visible",
+      "pass": true
+    },
+    {
+      "name": "SAR-en-2/20 next target only if next band",
+      "pass": true
+    },
+    {
+      "name": "SAR-en-2/20 valid progress",
+      "pass": true
+    },
+    {
+      "name": "SAR-en-2/20.001 calculation unchanged",
+      "pass": true
+    },
+    {
+      "name": "SAR-en-2/20.001 full cart markup unchanged",
+      "pass": true
+    },
+    {
+      "name": "SAR-en-2/20.001 current amount precedes next message",
+      "pass": true
+    },
+    {
+      "name": "SAR-en-2/20.001 current amount equals issuer formatter",
+      "pass": true
+    },
+    {
+      "name": "SAR-en-2/20.001 payment qualifier visible",
+      "pass": true
+    },
+    {
+      "name": "SAR-en-2/20.001 next target only if next band",
+      "pass": true
+    },
+    {
+      "name": "SAR-en-2/20.001 valid progress",
+      "pass": true
+    },
+    {
+      "name": "SAR-en-2/20.01 calculation unchanged",
+      "pass": true
+    },
+    {
+      "name": "SAR-en-2/20.01 full cart markup unchanged",
+      "pass": true
+    },
+    {
+      "name": "SAR-en-2/20.01 current amount precedes next message",
+      "pass": true
+    },
+    {
+      "name": "SAR-en-2/20.01 current amount equals issuer formatter",
+      "pass": true
+    },
+    {
+      "name": "SAR-en-2/20.01 payment qualifier visible",
+      "pass": true
+    },
+    {
+      "name": "SAR-en-2/20.01 next target only if next band",
+      "pass": true
+    },
+    {
+      "name": "SAR-en-2/20.01 valid progress",
+      "pass": true
+    },
+    {
+      "name": "SAR-en-2/30 calculation unchanged",
+      "pass": true
+    },
+    {
+      "name": "SAR-en-2/30 full cart markup unchanged",
+      "pass": true
+    },
+    {
+      "name": "SAR-en-2/30 current amount precedes next message",
+      "pass": true
+    },
+    {
+      "name": "SAR-en-2/30 current amount equals issuer formatter",
+      "pass": true
+    },
+    {
+      "name": "SAR-en-2/30 payment qualifier visible",
+      "pass": true
+    },
+    {
+      "name": "SAR-en-2/30 next target only if next band",
+      "pass": true
+    },
+    {
+      "name": "SAR-en-2/30 valid progress",
+      "pass": true
+    },
+    {
+      "name": "SAR-en-2/30.001 calculation unchanged",
+      "pass": true
+    },
+    {
+      "name": "SAR-en-2/30.001 full cart markup unchanged",
+      "pass": true
+    },
+    {
+      "name": "SAR-en-2/30.001 current amount precedes next message",
+      "pass": true
+    },
+    {
+      "name": "SAR-en-2/30.001 current amount equals issuer formatter",
+      "pass": true
+    },
+    {
+      "name": "SAR-en-2/30.001 payment qualifier visible",
+      "pass": true
+    },
+    {
+      "name": "SAR-en-2/30.001 next target only if next band",
+      "pass": true
+    },
+    {
+      "name": "SAR-en-2/30.001 valid progress",
+      "pass": true
+    },
+    {
+      "name": "SAR-en-2/40 calculation unchanged",
+      "pass": true
+    },
+    {
+      "name": "SAR-en-2/40 full cart markup unchanged",
+      "pass": true
+    },
+    {
+      "name": "SAR-en-2/40 current amount precedes next message",
+      "pass": true
+    },
+    {
+      "name": "SAR-en-2/40 current amount equals issuer formatter",
+      "pass": true
+    },
+    {
+      "name": "SAR-en-2/40 payment qualifier visible",
+      "pass": true
+    },
+    {
+      "name": "SAR-en-2/40 next target only if next band",
+      "pass": true
+    },
+    {
+      "name": "SAR-en-2/40 valid progress",
+      "pass": true
+    },
+    {
+      "name": "SAR-en-2/40.001 calculation unchanged",
+      "pass": true
+    },
+    {
+      "name": "SAR-en-2/40.001 full cart markup unchanged",
+      "pass": true
+    },
+    {
+      "name": "SAR-en-2/40.001 current amount precedes next message",
+      "pass": true
+    },
+    {
+      "name": "SAR-en-2/40.001 current amount equals issuer formatter",
+      "pass": true
+    },
+    {
+      "name": "SAR-en-2/40.001 payment qualifier visible",
+      "pass": true
+    },
+    {
+      "name": "SAR-en-2/40.001 next target only if next band",
+      "pass": true
+    },
+    {
+      "name": "SAR-en-2/40.001 valid progress",
+      "pass": true
+    },
+    {
+      "name": "SAR-en-2/43.31 calculation unchanged",
+      "pass": true
+    },
+    {
+      "name": "SAR-en-2/43.31 full cart markup unchanged",
+      "pass": true
+    },
+    {
+      "name": "SAR-en-2/43.31 current amount precedes next message",
+      "pass": true
+    },
+    {
+      "name": "SAR-en-2/43.31 current amount equals issuer formatter",
+      "pass": true
+    },
+    {
+      "name": "SAR-en-2/43.31 payment qualifier visible",
+      "pass": true
+    },
+    {
+      "name": "SAR-en-2/43.31 next target only if next band",
+      "pass": true
+    },
+    {
+      "name": "SAR-en-2/43.31 valid progress",
+      "pass": true
+    },
+    {
+      "name": "SAR-en-2/50 calculation unchanged",
+      "pass": true
+    },
+    {
+      "name": "SAR-en-2/50 full cart markup unchanged",
+      "pass": true
+    },
+    {
+      "name": "SAR-en-2/50 current amount precedes next message",
+      "pass": true
+    },
+    {
+      "name": "SAR-en-2/50 current amount equals issuer formatter",
+      "pass": true
+    },
+    {
+      "name": "SAR-en-2/50 payment qualifier visible",
+      "pass": true
+    },
+    {
+      "name": "SAR-en-2/50 next target only if next band",
+      "pass": true
+    },
+    {
+      "name": "SAR-en-2/50 valid progress",
+      "pass": true
+    },
+    {
+      "name": "SAR-en-2/50.001 calculation unchanged",
+      "pass": true
+    },
+    {
+      "name": "SAR-en-2/50.001 full cart markup unchanged",
+      "pass": true
+    },
+    {
+      "name": "SAR-en-2/50.001 current amount precedes next message",
+      "pass": true
+    },
+    {
+      "name": "SAR-en-2/50.001 current amount equals issuer formatter",
+      "pass": true
+    },
+    {
+      "name": "SAR-en-2/50.001 payment qualifier visible",
+      "pass": true
+    },
+    {
+      "name": "SAR-en-2/50.001 next target only if next band",
+      "pass": true
+    },
+    {
+      "name": "SAR-en-2/50.001 valid progress",
+      "pass": true
+    },
+    {
+      "name": "SAR-en-2/60 calculation unchanged",
+      "pass": true
+    },
+    {
+      "name": "SAR-en-2/60 full cart markup unchanged",
+      "pass": true
+    },
+    {
+      "name": "SAR-en-2/60 current amount precedes next message",
+      "pass": true
+    },
+    {
+      "name": "SAR-en-2/60 current amount equals issuer formatter",
+      "pass": true
+    },
+    {
+      "name": "SAR-en-2/60 payment qualifier visible",
+      "pass": true
+    },
+    {
+      "name": "SAR-en-2/60 next target only if next band",
+      "pass": true
+    },
+    {
+      "name": "SAR-en-2/60 valid progress",
+      "pass": true
+    },
+    {
+      "name": "SAR-en-2/60.001 calculation unchanged",
+      "pass": true
+    },
+    {
+      "name": "SAR-en-2/60.001 full cart markup unchanged",
+      "pass": true
+    },
+    {
+      "name": "SAR-en-2/60.001 current amount precedes next message",
+      "pass": true
+    },
+    {
+      "name": "SAR-en-2/60.001 current amount equals issuer formatter",
+      "pass": true
+    },
+    {
+      "name": "SAR-en-2/60.001 payment qualifier visible",
+      "pass": true
+    },
+    {
+      "name": "SAR-en-2/60.001 next target only if next band",
+      "pass": true
+    },
+    {
+      "name": "SAR-en-2/60.001 valid progress",
+      "pass": true
+    },
+    {
+      "name": "SAR-en-2/60.01 calculation unchanged",
+      "pass": true
+    },
+    {
+      "name": "SAR-en-2/60.01 full cart markup unchanged",
+      "pass": true
+    },
+    {
+      "name": "SAR-en-2/60.01 current amount precedes next message",
+      "pass": true
+    },
+    {
+      "name": "SAR-en-2/60.01 current amount equals issuer formatter",
+      "pass": true
+    },
+    {
+      "name": "SAR-en-2/60.01 payment qualifier visible",
+      "pass": true
+    },
+    {
+      "name": "SAR-en-2/60.01 next target only if next band",
+      "pass": true
+    },
+    {
+      "name": "SAR-en-2/60.01 valid progress",
+      "pass": true
+    },
+    {
+      "name": "SAR-en-2/100 calculation unchanged",
+      "pass": true
+    },
+    {
+      "name": "SAR-en-2/100 full cart markup unchanged",
+      "pass": true
+    },
+    {
+      "name": "SAR-en-2/100 current amount precedes next message",
+      "pass": true
+    },
+    {
+      "name": "SAR-en-2/100 current amount equals issuer formatter",
+      "pass": true
+    },
+    {
+      "name": "SAR-en-2/100 payment qualifier visible",
+      "pass": true
+    },
+    {
+      "name": "SAR-en-2/100 next target only if next band",
+      "pass": true
+    },
+    {
+      "name": "SAR-en-2/100 valid progress",
+      "pass": true
+    },
+    {
+      "name": "SAR-en-2 empty cart no reward",
+      "pass": true
+    },
+    {
+      "name": "SAR-en-2 hooks unchanged",
+      "pass": true
+    },
+    {
+      "name": "SAR-en-2 recommendation markup unchanged",
+      "pass": true
+    },
+    {
+      "name": "SAR-en-2 real-cart label unchanged",
+      "pass": true
+    },
+    {
+      "name": "SAR-ar-2/0 calculation unchanged",
+      "pass": true
+    },
+    {
+      "name": "SAR-ar-2/0 full cart markup unchanged",
+      "pass": true
+    },
+    {
+      "name": "SAR-ar-2/0 absent state has no promise",
+      "pass": true
+    },
+    {
+      "name": "SAR-ar-2/0.1 calculation unchanged",
+      "pass": true
+    },
+    {
+      "name": "SAR-ar-2/0.1 full cart markup unchanged",
+      "pass": true
+    },
+    {
+      "name": "SAR-ar-2/0.1 current amount precedes next message",
+      "pass": true
+    },
+    {
+      "name": "SAR-ar-2/0.1 current amount equals issuer formatter",
+      "pass": true
+    },
+    {
+      "name": "SAR-ar-2/0.1 payment qualifier visible",
+      "pass": true
+    },
+    {
+      "name": "SAR-ar-2/0.1 next target only if next band",
+      "pass": true
+    },
+    {
+      "name": "SAR-ar-2/0.1 valid progress",
+      "pass": true
+    },
+    {
+      "name": "SAR-ar-2/14.49 calculation unchanged",
+      "pass": true
+    },
+    {
+      "name": "SAR-ar-2/14.49 full cart markup unchanged",
+      "pass": true
+    },
+    {
+      "name": "SAR-ar-2/14.49 current amount precedes next message",
+      "pass": true
+    },
+    {
+      "name": "SAR-ar-2/14.49 current amount equals issuer formatter",
+      "pass": true
+    },
+    {
+      "name": "SAR-ar-2/14.49 payment qualifier visible",
+      "pass": true
+    },
+    {
+      "name": "SAR-ar-2/14.49 next target only if next band",
+      "pass": true
+    },
+    {
+      "name": "SAR-ar-2/14.49 valid progress",
+      "pass": true
+    },
+    {
+      "name": "SAR-ar-2/20 calculation unchanged",
+      "pass": true
+    },
+    {
+      "name": "SAR-ar-2/20 full cart markup unchanged",
+      "pass": true
+    },
+    {
+      "name": "SAR-ar-2/20 current amount precedes next message",
+      "pass": true
+    },
+    {
+      "name": "SAR-ar-2/20 current amount equals issuer formatter",
+      "pass": true
+    },
+    {
+      "name": "SAR-ar-2/20 payment qualifier visible",
+      "pass": true
+    },
+    {
+      "name": "SAR-ar-2/20 next target only if next band",
+      "pass": true
+    },
+    {
+      "name": "SAR-ar-2/20 valid progress",
+      "pass": true
+    },
+    {
+      "name": "SAR-ar-2/20.001 calculation unchanged",
+      "pass": true
+    },
+    {
+      "name": "SAR-ar-2/20.001 full cart markup unchanged",
+      "pass": true
+    },
+    {
+      "name": "SAR-ar-2/20.001 current amount precedes next message",
+      "pass": true
+    },
+    {
+      "name": "SAR-ar-2/20.001 current amount equals issuer formatter",
+      "pass": true
+    },
+    {
+      "name": "SAR-ar-2/20.001 payment qualifier visible",
+      "pass": true
+    },
+    {
+      "name": "SAR-ar-2/20.001 next target only if next band",
+      "pass": true
+    },
+    {
+      "name": "SAR-ar-2/20.001 valid progress",
+      "pass": true
+    },
+    {
+      "name": "SAR-ar-2/20.01 calculation unchanged",
+      "pass": true
+    },
+    {
+      "name": "SAR-ar-2/20.01 full cart markup unchanged",
+      "pass": true
+    },
+    {
+      "name": "SAR-ar-2/20.01 current amount precedes next message",
+      "pass": true
+    },
+    {
+      "name": "SAR-ar-2/20.01 current amount equals issuer formatter",
+      "pass": true
+    },
+    {
+      "name": "SAR-ar-2/20.01 payment qualifier visible",
+      "pass": true
+    },
+    {
+      "name": "SAR-ar-2/20.01 next target only if next band",
+      "pass": true
+    },
+    {
+      "name": "SAR-ar-2/20.01 valid progress",
+      "pass": true
+    },
+    {
+      "name": "SAR-ar-2/30 calculation unchanged",
+      "pass": true
+    },
+    {
+      "name": "SAR-ar-2/30 full cart markup unchanged",
+      "pass": true
+    },
+    {
+      "name": "SAR-ar-2/30 current amount precedes next message",
+      "pass": true
+    },
+    {
+      "name": "SAR-ar-2/30 current amount equals issuer formatter",
+      "pass": true
+    },
+    {
+      "name": "SAR-ar-2/30 payment qualifier visible",
+      "pass": true
+    },
+    {
+      "name": "SAR-ar-2/30 next target only if next band",
+      "pass": true
+    },
+    {
+      "name": "SAR-ar-2/30 valid progress",
+      "pass": true
+    },
+    {
+      "name": "SAR-ar-2/30.001 calculation unchanged",
+      "pass": true
+    },
+    {
+      "name": "SAR-ar-2/30.001 full cart markup unchanged",
+      "pass": true
+    },
+    {
+      "name": "SAR-ar-2/30.001 current amount precedes next message",
+      "pass": true
+    },
+    {
+      "name": "SAR-ar-2/30.001 current amount equals issuer formatter",
+      "pass": true
+    },
+    {
+      "name": "SAR-ar-2/30.001 payment qualifier visible",
+      "pass": true
+    },
+    {
+      "name": "SAR-ar-2/30.001 next target only if next band",
+      "pass": true
+    },
+    {
+      "name": "SAR-ar-2/30.001 valid progress",
+      "pass": true
+    },
+    {
+      "name": "SAR-ar-2/40 calculation unchanged",
+      "pass": true
+    },
+    {
+      "name": "SAR-ar-2/40 full cart markup unchanged",
+      "pass": true
+    },
+    {
+      "name": "SAR-ar-2/40 current amount precedes next message",
+      "pass": true
+    },
+    {
+      "name": "SAR-ar-2/40 current amount equals issuer formatter",
+      "pass": true
+    },
+    {
+      "name": "SAR-ar-2/40 payment qualifier visible",
+      "pass": true
+    },
+    {
+      "name": "SAR-ar-2/40 next target only if next band",
+      "pass": true
+    },
+    {
+      "name": "SAR-ar-2/40 valid progress",
+      "pass": true
+    },
+    {
+      "name": "SAR-ar-2/40.001 calculation unchanged",
+      "pass": true
+    },
+    {
+      "name": "SAR-ar-2/40.001 full cart markup unchanged",
+      "pass": true
+    },
+    {
+      "name": "SAR-ar-2/40.001 current amount precedes next message",
+      "pass": true
+    },
+    {
+      "name": "SAR-ar-2/40.001 current amount equals issuer formatter",
+      "pass": true
+    },
+    {
+      "name": "SAR-ar-2/40.001 payment qualifier visible",
+      "pass": true
+    },
+    {
+      "name": "SAR-ar-2/40.001 next target only if next band",
+      "pass": true
+    },
+    {
+      "name": "SAR-ar-2/40.001 valid progress",
+      "pass": true
+    },
+    {
+      "name": "SAR-ar-2/43.31 calculation unchanged",
+      "pass": true
+    },
+    {
+      "name": "SAR-ar-2/43.31 full cart markup unchanged",
+      "pass": true
+    },
+    {
+      "name": "SAR-ar-2/43.31 current amount precedes next message",
+      "pass": true
+    },
+    {
+      "name": "SAR-ar-2/43.31 current amount equals issuer formatter",
+      "pass": true
+    },
+    {
+      "name": "SAR-ar-2/43.31 payment qualifier visible",
+      "pass": true
+    },
+    {
+      "name": "SAR-ar-2/43.31 next target only if next band",
+      "pass": true
+    },
+    {
+      "name": "SAR-ar-2/43.31 valid progress",
+      "pass": true
+    },
+    {
+      "name": "SAR-ar-2/50 calculation unchanged",
+      "pass": true
+    },
+    {
+      "name": "SAR-ar-2/50 full cart markup unchanged",
+      "pass": true
+    },
+    {
+      "name": "SAR-ar-2/50 current amount precedes next message",
+      "pass": true
+    },
+    {
+      "name": "SAR-ar-2/50 current amount equals issuer formatter",
+      "pass": true
+    },
+    {
+      "name": "SAR-ar-2/50 payment qualifier visible",
+      "pass": true
+    },
+    {
+      "name": "SAR-ar-2/50 next target only if next band",
+      "pass": true
+    },
+    {
+      "name": "SAR-ar-2/50 valid progress",
+      "pass": true
+    },
+    {
+      "name": "SAR-ar-2/50.001 calculation unchanged",
+      "pass": true
+    },
+    {
+      "name": "SAR-ar-2/50.001 full cart markup unchanged",
+      "pass": true
+    },
+    {
+      "name": "SAR-ar-2/50.001 current amount precedes next message",
+      "pass": true
+    },
+    {
+      "name": "SAR-ar-2/50.001 current amount equals issuer formatter",
+      "pass": true
+    },
+    {
+      "name": "SAR-ar-2/50.001 payment qualifier visible",
+      "pass": true
+    },
+    {
+      "name": "SAR-ar-2/50.001 next target only if next band",
+      "pass": true
+    },
+    {
+      "name": "SAR-ar-2/50.001 valid progress",
+      "pass": true
+    },
+    {
+      "name": "SAR-ar-2/60 calculation unchanged",
+      "pass": true
+    },
+    {
+      "name": "SAR-ar-2/60 full cart markup unchanged",
+      "pass": true
+    },
+    {
+      "name": "SAR-ar-2/60 current amount precedes next message",
+      "pass": true
+    },
+    {
+      "name": "SAR-ar-2/60 current amount equals issuer formatter",
+      "pass": true
+    },
+    {
+      "name": "SAR-ar-2/60 payment qualifier visible",
+      "pass": true
+    },
+    {
+      "name": "SAR-ar-2/60 next target only if next band",
+      "pass": true
+    },
+    {
+      "name": "SAR-ar-2/60 valid progress",
+      "pass": true
+    },
+    {
+      "name": "SAR-ar-2/60.001 calculation unchanged",
+      "pass": true
+    },
+    {
+      "name": "SAR-ar-2/60.001 full cart markup unchanged",
+      "pass": true
+    },
+    {
+      "name": "SAR-ar-2/60.001 current amount precedes next message",
+      "pass": true
+    },
+    {
+      "name": "SAR-ar-2/60.001 current amount equals issuer formatter",
+      "pass": true
+    },
+    {
+      "name": "SAR-ar-2/60.001 payment qualifier visible",
+      "pass": true
+    },
+    {
+      "name": "SAR-ar-2/60.001 next target only if next band",
+      "pass": true
+    },
+    {
+      "name": "SAR-ar-2/60.001 valid progress",
+      "pass": true
+    },
+    {
+      "name": "SAR-ar-2/60.01 calculation unchanged",
+      "pass": true
+    },
+    {
+      "name": "SAR-ar-2/60.01 full cart markup unchanged",
+      "pass": true
+    },
+    {
+      "name": "SAR-ar-2/60.01 current amount precedes next message",
+      "pass": true
+    },
+    {
+      "name": "SAR-ar-2/60.01 current amount equals issuer formatter",
+      "pass": true
+    },
+    {
+      "name": "SAR-ar-2/60.01 payment qualifier visible",
+      "pass": true
+    },
+    {
+      "name": "SAR-ar-2/60.01 next target only if next band",
+      "pass": true
+    },
+    {
+      "name": "SAR-ar-2/60.01 valid progress",
+      "pass": true
+    },
+    {
+      "name": "SAR-ar-2/100 calculation unchanged",
+      "pass": true
+    },
+    {
+      "name": "SAR-ar-2/100 full cart markup unchanged",
+      "pass": true
+    },
+    {
+      "name": "SAR-ar-2/100 current amount precedes next message",
+      "pass": true
+    },
+    {
+      "name": "SAR-ar-2/100 current amount equals issuer formatter",
+      "pass": true
+    },
+    {
+      "name": "SAR-ar-2/100 payment qualifier visible",
+      "pass": true
+    },
+    {
+      "name": "SAR-ar-2/100 next target only if next band",
+      "pass": true
+    },
+    {
+      "name": "SAR-ar-2/100 valid progress",
+      "pass": true
+    },
+    {
+      "name": "SAR-ar-2 empty cart no reward",
+      "pass": true
+    },
+    {
+      "name": "SAR-ar-2 hooks unchanged",
+      "pass": true
+    },
+    {
+      "name": "SAR-ar-2 recommendation markup unchanged",
+      "pass": true
+    },
+    {
+      "name": "SAR-ar-2 real-cart label unchanged",
+      "pass": true
+    },
+    {
+      "name": "AED-en-2/0 calculation unchanged",
+      "pass": true
+    },
+    {
+      "name": "AED-en-2/0 full cart markup unchanged",
+      "pass": true
+    },
+    {
+      "name": "AED-en-2/0 absent state has no promise",
+      "pass": true
+    },
+    {
+      "name": "AED-en-2/0.1 calculation unchanged",
+      "pass": true
+    },
+    {
+      "name": "AED-en-2/0.1 full cart markup unchanged",
+      "pass": true
+    },
+    {
+      "name": "AED-en-2/0.1 current amount precedes next message",
+      "pass": true
+    },
+    {
+      "name": "AED-en-2/0.1 current amount equals issuer formatter",
+      "pass": true
+    },
+    {
+      "name": "AED-en-2/0.1 payment qualifier visible",
+      "pass": true
+    },
+    {
+      "name": "AED-en-2/0.1 next target only if next band",
+      "pass": true
+    },
+    {
+      "name": "AED-en-2/0.1 valid progress",
+      "pass": true
+    },
+    {
+      "name": "AED-en-2/14.49 calculation unchanged",
+      "pass": true
+    },
+    {
+      "name": "AED-en-2/14.49 full cart markup unchanged",
+      "pass": true
+    },
+    {
+      "name": "AED-en-2/14.49 current amount precedes next message",
+      "pass": true
+    },
+    {
+      "name": "AED-en-2/14.49 current amount equals issuer formatter",
+      "pass": true
+    },
+    {
+      "name": "AED-en-2/14.49 payment qualifier visible",
+      "pass": true
+    },
+    {
+      "name": "AED-en-2/14.49 next target only if next band",
+      "pass": true
+    },
+    {
+      "name": "AED-en-2/14.49 valid progress",
+      "pass": true
+    },
+    {
+      "name": "AED-en-2/20 calculation unchanged",
+      "pass": true
+    },
+    {
+      "name": "AED-en-2/20 full cart markup unchanged",
+      "pass": true
+    },
+    {
+      "name": "AED-en-2/20 current amount precedes next message",
+      "pass": true
+    },
+    {
+      "name": "AED-en-2/20 current amount equals issuer formatter",
+      "pass": true
+    },
+    {
+      "name": "AED-en-2/20 payment qualifier visible",
+      "pass": true
+    },
+    {
+      "name": "AED-en-2/20 next target only if next band",
+      "pass": true
+    },
+    {
+      "name": "AED-en-2/20 valid progress",
+      "pass": true
+    },
+    {
+      "name": "AED-en-2/20.001 calculation unchanged",
+      "pass": true
+    },
+    {
+      "name": "AED-en-2/20.001 full cart markup unchanged",
+      "pass": true
+    },
+    {
+      "name": "AED-en-2/20.001 current amount precedes next message",
+      "pass": true
+    },
+    {
+      "name": "AED-en-2/20.001 current amount equals issuer formatter",
+      "pass": true
+    },
+    {
+      "name": "AED-en-2/20.001 payment qualifier visible",
+      "pass": true
+    },
+    {
+      "name": "AED-en-2/20.001 next target only if next band",
+      "pass": true
+    },
+    {
+      "name": "AED-en-2/20.001 valid progress",
+      "pass": true
+    },
+    {
+      "name": "AED-en-2/20.01 calculation unchanged",
+      "pass": true
+    },
+    {
+      "name": "AED-en-2/20.01 full cart markup unchanged",
+      "pass": true
+    },
+    {
+      "name": "AED-en-2/20.01 current amount precedes next message",
+      "pass": true
+    },
+    {
+      "name": "AED-en-2/20.01 current amount equals issuer formatter",
+      "pass": true
+    },
+    {
+      "name": "AED-en-2/20.01 payment qualifier visible",
+      "pass": true
+    },
+    {
+      "name": "AED-en-2/20.01 next target only if next band",
+      "pass": true
+    },
+    {
+      "name": "AED-en-2/20.01 valid progress",
+      "pass": true
+    },
+    {
+      "name": "AED-en-2/30 calculation unchanged",
+      "pass": true
+    },
+    {
+      "name": "AED-en-2/30 full cart markup unchanged",
+      "pass": true
+    },
+    {
+      "name": "AED-en-2/30 current amount precedes next message",
+      "pass": true
+    },
+    {
+      "name": "AED-en-2/30 current amount equals issuer formatter",
+      "pass": true
+    },
+    {
+      "name": "AED-en-2/30 payment qualifier visible",
+      "pass": true
+    },
+    {
+      "name": "AED-en-2/30 next target only if next band",
+      "pass": true
+    },
+    {
+      "name": "AED-en-2/30 valid progress",
+      "pass": true
+    },
+    {
+      "name": "AED-en-2/30.001 calculation unchanged",
+      "pass": true
+    },
+    {
+      "name": "AED-en-2/30.001 full cart markup unchanged",
+      "pass": true
+    },
+    {
+      "name": "AED-en-2/30.001 current amount precedes next message",
+      "pass": true
+    },
+    {
+      "name": "AED-en-2/30.001 current amount equals issuer formatter",
+      "pass": true
+    },
+    {
+      "name": "AED-en-2/30.001 payment qualifier visible",
+      "pass": true
+    },
+    {
+      "name": "AED-en-2/30.001 next target only if next band",
+      "pass": true
+    },
+    {
+      "name": "AED-en-2/30.001 valid progress",
+      "pass": true
+    },
+    {
+      "name": "AED-en-2/40 calculation unchanged",
+      "pass": true
+    },
+    {
+      "name": "AED-en-2/40 full cart markup unchanged",
+      "pass": true
+    },
+    {
+      "name": "AED-en-2/40 current amount precedes next message",
+      "pass": true
+    },
+    {
+      "name": "AED-en-2/40 current amount equals issuer formatter",
+      "pass": true
+    },
+    {
+      "name": "AED-en-2/40 payment qualifier visible",
+      "pass": true
+    },
+    {
+      "name": "AED-en-2/40 next target only if next band",
+      "pass": true
+    },
+    {
+      "name": "AED-en-2/40 valid progress",
+      "pass": true
+    },
+    {
+      "name": "AED-en-2/40.001 calculation unchanged",
+      "pass": true
+    },
+    {
+      "name": "AED-en-2/40.001 full cart markup unchanged",
+      "pass": true
+    },
+    {
+      "name": "AED-en-2/40.001 current amount precedes next message",
+      "pass": true
+    },
+    {
+      "name": "AED-en-2/40.001 current amount equals issuer formatter",
+      "pass": true
+    },
+    {
+      "name": "AED-en-2/40.001 payment qualifier visible",
+      "pass": true
+    },
+    {
+      "name": "AED-en-2/40.001 next target only if next band",
+      "pass": true
+    },
+    {
+      "name": "AED-en-2/40.001 valid progress",
+      "pass": true
+    },
+    {
+      "name": "AED-en-2/43.31 calculation unchanged",
+      "pass": true
+    },
+    {
+      "name": "AED-en-2/43.31 full cart markup unchanged",
+      "pass": true
+    },
+    {
+      "name": "AED-en-2/43.31 current amount precedes next message",
+      "pass": true
+    },
+    {
+      "name": "AED-en-2/43.31 current amount equals issuer formatter",
+      "pass": true
+    },
+    {
+      "name": "AED-en-2/43.31 payment qualifier visible",
+      "pass": true
+    },
+    {
+      "name": "AED-en-2/43.31 next target only if next band",
+      "pass": true
+    },
+    {
+      "name": "AED-en-2/43.31 valid progress",
+      "pass": true
+    },
+    {
+      "name": "AED-en-2/50 calculation unchanged",
+      "pass": true
+    },
+    {
+      "name": "AED-en-2/50 full cart markup unchanged",
+      "pass": true
+    },
+    {
+      "name": "AED-en-2/50 current amount precedes next message",
+      "pass": true
+    },
+    {
+      "name": "AED-en-2/50 current amount equals issuer formatter",
+      "pass": true
+    },
+    {
+      "name": "AED-en-2/50 payment qualifier visible",
+      "pass": true
+    },
+    {
+      "name": "AED-en-2/50 next target only if next band",
+      "pass": true
+    },
+    {
+      "name": "AED-en-2/50 valid progress",
+      "pass": true
+    },
+    {
+      "name": "AED-en-2/50.001 calculation unchanged",
+      "pass": true
+    },
+    {
+      "name": "AED-en-2/50.001 full cart markup unchanged",
+      "pass": true
+    },
+    {
+      "name": "AED-en-2/50.001 current amount precedes next message",
+      "pass": true
+    },
+    {
+      "name": "AED-en-2/50.001 current amount equals issuer formatter",
+      "pass": true
+    },
+    {
+      "name": "AED-en-2/50.001 payment qualifier visible",
+      "pass": true
+    },
+    {
+      "name": "AED-en-2/50.001 next target only if next band",
+      "pass": true
+    },
+    {
+      "name": "AED-en-2/50.001 valid progress",
+      "pass": true
+    },
+    {
+      "name": "AED-en-2/60 calculation unchanged",
+      "pass": true
+    },
+    {
+      "name": "AED-en-2/60 full cart markup unchanged",
+      "pass": true
+    },
+    {
+      "name": "AED-en-2/60 current amount precedes next message",
+      "pass": true
+    },
+    {
+      "name": "AED-en-2/60 current amount equals issuer formatter",
+      "pass": true
+    },
+    {
+      "name": "AED-en-2/60 payment qualifier visible",
+      "pass": true
+    },
+    {
+      "name": "AED-en-2/60 next target only if next band",
+      "pass": true
+    },
+    {
+      "name": "AED-en-2/60 valid progress",
+      "pass": true
+    },
+    {
+      "name": "AED-en-2/60.001 calculation unchanged",
+      "pass": true
+    },
+    {
+      "name": "AED-en-2/60.001 full cart markup unchanged",
+      "pass": true
+    },
+    {
+      "name": "AED-en-2/60.001 current amount precedes next message",
+      "pass": true
+    },
+    {
+      "name": "AED-en-2/60.001 current amount equals issuer formatter",
+      "pass": true
+    },
+    {
+      "name": "AED-en-2/60.001 payment qualifier visible",
+      "pass": true
+    },
+    {
+      "name": "AED-en-2/60.001 next target only if next band",
+      "pass": true
+    },
+    {
+      "name": "AED-en-2/60.001 valid progress",
+      "pass": true
+    },
+    {
+      "name": "AED-en-2/60.01 calculation unchanged",
+      "pass": true
+    },
+    {
+      "name": "AED-en-2/60.01 full cart markup unchanged",
+      "pass": true
+    },
+    {
+      "name": "AED-en-2/60.01 current amount precedes next message",
+      "pass": true
+    },
+    {
+      "name": "AED-en-2/60.01 current amount equals issuer formatter",
+      "pass": true
+    },
+    {
+      "name": "AED-en-2/60.01 payment qualifier visible",
+      "pass": true
+    },
+    {
+      "name": "AED-en-2/60.01 next target only if next band",
+      "pass": true
+    },
+    {
+      "name": "AED-en-2/60.01 valid progress",
+      "pass": true
+    },
+    {
+      "name": "AED-en-2/100 calculation unchanged",
+      "pass": true
+    },
+    {
+      "name": "AED-en-2/100 full cart markup unchanged",
+      "pass": true
+    },
+    {
+      "name": "AED-en-2/100 current amount precedes next message",
+      "pass": true
+    },
+    {
+      "name": "AED-en-2/100 current amount equals issuer formatter",
+      "pass": true
+    },
+    {
+      "name": "AED-en-2/100 payment qualifier visible",
+      "pass": true
+    },
+    {
+      "name": "AED-en-2/100 next target only if next band",
+      "pass": true
+    },
+    {
+      "name": "AED-en-2/100 valid progress",
+      "pass": true
+    },
+    {
+      "name": "AED-en-2 empty cart no reward",
+      "pass": true
+    },
+    {
+      "name": "AED-en-2 hooks unchanged",
+      "pass": true
+    },
+    {
+      "name": "AED-en-2 recommendation markup unchanged",
+      "pass": true
+    },
+    {
+      "name": "AED-en-2 real-cart label unchanged",
+      "pass": true
+    },
+    {
+      "name": "AED-ar-2/0 calculation unchanged",
+      "pass": true
+    },
+    {
+      "name": "AED-ar-2/0 full cart markup unchanged",
+      "pass": true
+    },
+    {
+      "name": "AED-ar-2/0 absent state has no promise",
+      "pass": true
+    },
+    {
+      "name": "AED-ar-2/0.1 calculation unchanged",
+      "pass": true
+    },
+    {
+      "name": "AED-ar-2/0.1 full cart markup unchanged",
+      "pass": true
+    },
+    {
+      "name": "AED-ar-2/0.1 current amount precedes next message",
+      "pass": true
+    },
+    {
+      "name": "AED-ar-2/0.1 current amount equals issuer formatter",
+      "pass": true
+    },
+    {
+      "name": "AED-ar-2/0.1 payment qualifier visible",
+      "pass": true
+    },
+    {
+      "name": "AED-ar-2/0.1 next target only if next band",
+      "pass": true
+    },
+    {
+      "name": "AED-ar-2/0.1 valid progress",
+      "pass": true
+    },
+    {
+      "name": "AED-ar-2/14.49 calculation unchanged",
+      "pass": true
+    },
+    {
+      "name": "AED-ar-2/14.49 full cart markup unchanged",
+      "pass": true
+    },
+    {
+      "name": "AED-ar-2/14.49 current amount precedes next message",
+      "pass": true
+    },
+    {
+      "name": "AED-ar-2/14.49 current amount equals issuer formatter",
+      "pass": true
+    },
+    {
+      "name": "AED-ar-2/14.49 payment qualifier visible",
+      "pass": true
+    },
+    {
+      "name": "AED-ar-2/14.49 next target only if next band",
+      "pass": true
+    },
+    {
+      "name": "AED-ar-2/14.49 valid progress",
+      "pass": true
+    },
+    {
+      "name": "AED-ar-2/20 calculation unchanged",
+      "pass": true
+    },
+    {
+      "name": "AED-ar-2/20 full cart markup unchanged",
+      "pass": true
+    },
+    {
+      "name": "AED-ar-2/20 current amount precedes next message",
+      "pass": true
+    },
+    {
+      "name": "AED-ar-2/20 current amount equals issuer formatter",
+      "pass": true
+    },
+    {
+      "name": "AED-ar-2/20 payment qualifier visible",
+      "pass": true
+    },
+    {
+      "name": "AED-ar-2/20 next target only if next band",
+      "pass": true
+    },
+    {
+      "name": "AED-ar-2/20 valid progress",
+      "pass": true
+    },
+    {
+      "name": "AED-ar-2/20.001 calculation unchanged",
+      "pass": true
+    },
+    {
+      "name": "AED-ar-2/20.001 full cart markup unchanged",
+      "pass": true
+    },
+    {
+      "name": "AED-ar-2/20.001 current amount precedes next message",
+      "pass": true
+    },
+    {
+      "name": "AED-ar-2/20.001 current amount equals issuer formatter",
+      "pass": true
+    },
+    {
+      "name": "AED-ar-2/20.001 payment qualifier visible",
+      "pass": true
+    },
+    {
+      "name": "AED-ar-2/20.001 next target only if next band",
+      "pass": true
+    },
+    {
+      "name": "AED-ar-2/20.001 valid progress",
+      "pass": true
+    },
+    {
+      "name": "AED-ar-2/20.01 calculation unchanged",
+      "pass": true
+    },
+    {
+      "name": "AED-ar-2/20.01 full cart markup unchanged",
+      "pass": true
+    },
+    {
+      "name": "AED-ar-2/20.01 current amount precedes next message",
+      "pass": true
+    },
+    {
+      "name": "AED-ar-2/20.01 current amount equals issuer formatter",
+      "pass": true
+    },
+    {
+      "name": "AED-ar-2/20.01 payment qualifier visible",
+      "pass": true
+    },
+    {
+      "name": "AED-ar-2/20.01 next target only if next band",
+      "pass": true
+    },
+    {
+      "name": "AED-ar-2/20.01 valid progress",
+      "pass": true
+    },
+    {
+      "name": "AED-ar-2/30 calculation unchanged",
+      "pass": true
+    },
+    {
+      "name": "AED-ar-2/30 full cart markup unchanged",
+      "pass": true
+    },
+    {
+      "name": "AED-ar-2/30 current amount precedes next message",
+      "pass": true
+    },
+    {
+      "name": "AED-ar-2/30 current amount equals issuer formatter",
+      "pass": true
+    },
+    {
+      "name": "AED-ar-2/30 payment qualifier visible",
+      "pass": true
+    },
+    {
+      "name": "AED-ar-2/30 next target only if next band",
+      "pass": true
+    },
+    {
+      "name": "AED-ar-2/30 valid progress",
+      "pass": true
+    },
+    {
+      "name": "AED-ar-2/30.001 calculation unchanged",
+      "pass": true
+    },
+    {
+      "name": "AED-ar-2/30.001 full cart markup unchanged",
+      "pass": true
+    },
+    {
+      "name": "AED-ar-2/30.001 current amount precedes next message",
+      "pass": true
+    },
+    {
+      "name": "AED-ar-2/30.001 current amount equals issuer formatter",
+      "pass": true
+    },
+    {
+      "name": "AED-ar-2/30.001 payment qualifier visible",
+      "pass": true
+    },
+    {
+      "name": "AED-ar-2/30.001 next target only if next band",
+      "pass": true
+    },
+    {
+      "name": "AED-ar-2/30.001 valid progress",
+      "pass": true
+    },
+    {
+      "name": "AED-ar-2/40 calculation unchanged",
+      "pass": true
+    },
+    {
+      "name": "AED-ar-2/40 full cart markup unchanged",
+      "pass": true
+    },
+    {
+      "name": "AED-ar-2/40 current amount precedes next message",
+      "pass": true
+    },
+    {
+      "name": "AED-ar-2/40 current amount equals issuer formatter",
+      "pass": true
+    },
+    {
+      "name": "AED-ar-2/40 payment qualifier visible",
+      "pass": true
+    },
+    {
+      "name": "AED-ar-2/40 next target only if next band",
+      "pass": true
+    },
+    {
+      "name": "AED-ar-2/40 valid progress",
+      "pass": true
+    },
+    {
+      "name": "AED-ar-2/40.001 calculation unchanged",
+      "pass": true
+    },
+    {
+      "name": "AED-ar-2/40.001 full cart markup unchanged",
+      "pass": true
+    },
+    {
+      "name": "AED-ar-2/40.001 current amount precedes next message",
+      "pass": true
+    },
+    {
+      "name": "AED-ar-2/40.001 current amount equals issuer formatter",
+      "pass": true
+    },
+    {
+      "name": "AED-ar-2/40.001 payment qualifier visible",
+      "pass": true
+    },
+    {
+      "name": "AED-ar-2/40.001 next target only if next band",
+      "pass": true
+    },
+    {
+      "name": "AED-ar-2/40.001 valid progress",
+      "pass": true
+    },
+    {
+      "name": "AED-ar-2/43.31 calculation unchanged",
+      "pass": true
+    },
+    {
+      "name": "AED-ar-2/43.31 full cart markup unchanged",
+      "pass": true
+    },
+    {
+      "name": "AED-ar-2/43.31 current amount precedes next message",
+      "pass": true
+    },
+    {
+      "name": "AED-ar-2/43.31 current amount equals issuer formatter",
+      "pass": true
+    },
+    {
+      "name": "AED-ar-2/43.31 payment qualifier visible",
+      "pass": true
+    },
+    {
+      "name": "AED-ar-2/43.31 next target only if next band",
+      "pass": true
+    },
+    {
+      "name": "AED-ar-2/43.31 valid progress",
+      "pass": true
+    },
+    {
+      "name": "AED-ar-2/50 calculation unchanged",
+      "pass": true
+    },
+    {
+      "name": "AED-ar-2/50 full cart markup unchanged",
+      "pass": true
+    },
+    {
+      "name": "AED-ar-2/50 current amount precedes next message",
+      "pass": true
+    },
+    {
+      "name": "AED-ar-2/50 current amount equals issuer formatter",
+      "pass": true
+    },
+    {
+      "name": "AED-ar-2/50 payment qualifier visible",
+      "pass": true
+    },
+    {
+      "name": "AED-ar-2/50 next target only if next band",
+      "pass": true
+    },
+    {
+      "name": "AED-ar-2/50 valid progress",
+      "pass": true
+    },
+    {
+      "name": "AED-ar-2/50.001 calculation unchanged",
+      "pass": true
+    },
+    {
+      "name": "AED-ar-2/50.001 full cart markup unchanged",
+      "pass": true
+    },
+    {
+      "name": "AED-ar-2/50.001 current amount precedes next message",
+      "pass": true
+    },
+    {
+      "name": "AED-ar-2/50.001 current amount equals issuer formatter",
+      "pass": true
+    },
+    {
+      "name": "AED-ar-2/50.001 payment qualifier visible",
+      "pass": true
+    },
+    {
+      "name": "AED-ar-2/50.001 next target only if next band",
+      "pass": true
+    },
+    {
+      "name": "AED-ar-2/50.001 valid progress",
+      "pass": true
+    },
+    {
+      "name": "AED-ar-2/60 calculation unchanged",
+      "pass": true
+    },
+    {
+      "name": "AED-ar-2/60 full cart markup unchanged",
+      "pass": true
+    },
+    {
+      "name": "AED-ar-2/60 current amount precedes next message",
+      "pass": true
+    },
+    {
+      "name": "AED-ar-2/60 current amount equals issuer formatter",
+      "pass": true
+    },
+    {
+      "name": "AED-ar-2/60 payment qualifier visible",
+      "pass": true
+    },
+    {
+      "name": "AED-ar-2/60 next target only if next band",
+      "pass": true
+    },
+    {
+      "name": "AED-ar-2/60 valid progress",
+      "pass": true
+    },
+    {
+      "name": "AED-ar-2/60.001 calculation unchanged",
+      "pass": true
+    },
+    {
+      "name": "AED-ar-2/60.001 full cart markup unchanged",
+      "pass": true
+    },
+    {
+      "name": "AED-ar-2/60.001 current amount precedes next message",
+      "pass": true
+    },
+    {
+      "name": "AED-ar-2/60.001 current amount equals issuer formatter",
+      "pass": true
+    },
+    {
+      "name": "AED-ar-2/60.001 payment qualifier visible",
+      "pass": true
+    },
+    {
+      "name": "AED-ar-2/60.001 next target only if next band",
+      "pass": true
+    },
+    {
+      "name": "AED-ar-2/60.001 valid progress",
+      "pass": true
+    },
+    {
+      "name": "AED-ar-2/60.01 calculation unchanged",
+      "pass": true
+    },
+    {
+      "name": "AED-ar-2/60.01 full cart markup unchanged",
+      "pass": true
+    },
+    {
+      "name": "AED-ar-2/60.01 current amount precedes next message",
+      "pass": true
+    },
+    {
+      "name": "AED-ar-2/60.01 current amount equals issuer formatter",
+      "pass": true
+    },
+    {
+      "name": "AED-ar-2/60.01 payment qualifier visible",
+      "pass": true
+    },
+    {
+      "name": "AED-ar-2/60.01 next target only if next band",
+      "pass": true
+    },
+    {
+      "name": "AED-ar-2/60.01 valid progress",
+      "pass": true
+    },
+    {
+      "name": "AED-ar-2/100 calculation unchanged",
+      "pass": true
+    },
+    {
+      "name": "AED-ar-2/100 full cart markup unchanged",
+      "pass": true
+    },
+    {
+      "name": "AED-ar-2/100 current amount precedes next message",
+      "pass": true
+    },
+    {
+      "name": "AED-ar-2/100 current amount equals issuer formatter",
+      "pass": true
+    },
+    {
+      "name": "AED-ar-2/100 payment qualifier visible",
+      "pass": true
+    },
+    {
+      "name": "AED-ar-2/100 next target only if next band",
+      "pass": true
+    },
+    {
+      "name": "AED-ar-2/100 valid progress",
+      "pass": true
+    },
+    {
+      "name": "AED-ar-2 empty cart no reward",
+      "pass": true
+    },
+    {
+      "name": "AED-ar-2 hooks unchanged",
+      "pass": true
+    },
+    {
+      "name": "AED-ar-2 recommendation markup unchanged",
+      "pass": true
+    },
+    {
+      "name": "AED-ar-2 real-cart label unchanged",
+      "pass": true
+    },
+    {
+      "name": "QAR-en-2/0 calculation unchanged",
+      "pass": true
+    },
+    {
+      "name": "QAR-en-2/0 full cart markup unchanged",
+      "pass": true
+    },
+    {
+      "name": "QAR-en-2/0 absent state has no promise",
+      "pass": true
+    },
+    {
+      "name": "QAR-en-2/0.1 calculation unchanged",
+      "pass": true
+    },
+    {
+      "name": "QAR-en-2/0.1 full cart markup unchanged",
+      "pass": true
+    },
+    {
+      "name": "QAR-en-2/0.1 current amount precedes next message",
+      "pass": true
+    },
+    {
+      "name": "QAR-en-2/0.1 current amount equals issuer formatter",
+      "pass": true
+    },
+    {
+      "name": "QAR-en-2/0.1 payment qualifier visible",
+      "pass": true
+    },
+    {
+      "name": "QAR-en-2/0.1 next target only if next band",
+      "pass": true
+    },
+    {
+      "name": "QAR-en-2/0.1 valid progress",
+      "pass": true
+    },
+    {
+      "name": "QAR-en-2/14.49 calculation unchanged",
+      "pass": true
+    },
+    {
+      "name": "QAR-en-2/14.49 full cart markup unchanged",
+      "pass": true
+    },
+    {
+      "name": "QAR-en-2/14.49 current amount precedes next message",
+      "pass": true
+    },
+    {
+      "name": "QAR-en-2/14.49 current amount equals issuer formatter",
+      "pass": true
+    },
+    {
+      "name": "QAR-en-2/14.49 payment qualifier visible",
+      "pass": true
+    },
+    {
+      "name": "QAR-en-2/14.49 next target only if next band",
+      "pass": true
+    },
+    {
+      "name": "QAR-en-2/14.49 valid progress",
+      "pass": true
+    },
+    {
+      "name": "QAR-en-2/20 calculation unchanged",
+      "pass": true
+    },
+    {
+      "name": "QAR-en-2/20 full cart markup unchanged",
+      "pass": true
+    },
+    {
+      "name": "QAR-en-2/20 current amount precedes next message",
+      "pass": true
+    },
+    {
+      "name": "QAR-en-2/20 current amount equals issuer formatter",
+      "pass": true
+    },
+    {
+      "name": "QAR-en-2/20 payment qualifier visible",
+      "pass": true
+    },
+    {
+      "name": "QAR-en-2/20 next target only if next band",
+      "pass": true
+    },
+    {
+      "name": "QAR-en-2/20 valid progress",
+      "pass": true
+    },
+    {
+      "name": "QAR-en-2/20.001 calculation unchanged",
+      "pass": true
+    },
+    {
+      "name": "QAR-en-2/20.001 full cart markup unchanged",
+      "pass": true
+    },
+    {
+      "name": "QAR-en-2/20.001 current amount precedes next message",
+      "pass": true
+    },
+    {
+      "name": "QAR-en-2/20.001 current amount equals issuer formatter",
+      "pass": true
+    },
+    {
+      "name": "QAR-en-2/20.001 payment qualifier visible",
+      "pass": true
+    },
+    {
+      "name": "QAR-en-2/20.001 next target only if next band",
+      "pass": true
+    },
+    {
+      "name": "QAR-en-2/20.001 valid progress",
+      "pass": true
+    },
+    {
+      "name": "QAR-en-2/20.01 calculation unchanged",
+      "pass": true
+    },
+    {
+      "name": "QAR-en-2/20.01 full cart markup unchanged",
+      "pass": true
+    },
+    {
+      "name": "QAR-en-2/20.01 current amount precedes next message",
+      "pass": true
+    },
+    {
+      "name": "QAR-en-2/20.01 current amount equals issuer formatter",
+      "pass": true
+    },
+    {
+      "name": "QAR-en-2/20.01 payment qualifier visible",
+      "pass": true
+    },
+    {
+      "name": "QAR-en-2/20.01 next target only if next band",
+      "pass": true
+    },
+    {
+      "name": "QAR-en-2/20.01 valid progress",
+      "pass": true
+    },
+    {
+      "name": "QAR-en-2/30 calculation unchanged",
+      "pass": true
+    },
+    {
+      "name": "QAR-en-2/30 full cart markup unchanged",
+      "pass": true
+    },
+    {
+      "name": "QAR-en-2/30 current amount precedes next message",
+      "pass": true
+    },
+    {
+      "name": "QAR-en-2/30 current amount equals issuer formatter",
+      "pass": true
+    },
+    {
+      "name": "QAR-en-2/30 payment qualifier visible",
+      "pass": true
+    },
+    {
+      "name": "QAR-en-2/30 next target only if next band",
+      "pass": true
+    },
+    {
+      "name": "QAR-en-2/30 valid progress",
+      "pass": true
+    },
+    {
+      "name": "QAR-en-2/30.001 calculation unchanged",
+      "pass": true
+    },
+    {
+      "name": "QAR-en-2/30.001 full cart markup unchanged",
+      "pass": true
+    },
+    {
+      "name": "QAR-en-2/30.001 current amount precedes next message",
+      "pass": true
+    },
+    {
+      "name": "QAR-en-2/30.001 current amount equals issuer formatter",
+      "pass": true
+    },
+    {
+      "name": "QAR-en-2/30.001 payment qualifier visible",
+      "pass": true
+    },
+    {
+      "name": "QAR-en-2/30.001 next target only if next band",
+      "pass": true
+    },
+    {
+      "name": "QAR-en-2/30.001 valid progress",
+      "pass": true
+    },
+    {
+      "name": "QAR-en-2/40 calculation unchanged",
+      "pass": true
+    },
+    {
+      "name": "QAR-en-2/40 full cart markup unchanged",
+      "pass": true
+    },
+    {
+      "name": "QAR-en-2/40 current amount precedes next message",
+      "pass": true
+    },
+    {
+      "name": "QAR-en-2/40 current amount equals issuer formatter",
+      "pass": true
+    },
+    {
+      "name": "QAR-en-2/40 payment qualifier visible",
+      "pass": true
+    },
+    {
+      "name": "QAR-en-2/40 next target only if next band",
+      "pass": true
+    },
+    {
+      "name": "QAR-en-2/40 valid progress",
+      "pass": true
+    },
+    {
+      "name": "QAR-en-2/40.001 calculation unchanged",
+      "pass": true
+    },
+    {
+      "name": "QAR-en-2/40.001 full cart markup unchanged",
+      "pass": true
+    },
+    {
+      "name": "QAR-en-2/40.001 current amount precedes next message",
+      "pass": true
+    },
+    {
+      "name": "QAR-en-2/40.001 current amount equals issuer formatter",
+      "pass": true
+    },
+    {
+      "name": "QAR-en-2/40.001 payment qualifier visible",
+      "pass": true
+    },
+    {
+      "name": "QAR-en-2/40.001 next target only if next band",
+      "pass": true
+    },
+    {
+      "name": "QAR-en-2/40.001 valid progress",
+      "pass": true
+    },
+    {
+      "name": "QAR-en-2/43.31 calculation unchanged",
+      "pass": true
+    },
+    {
+      "name": "QAR-en-2/43.31 full cart markup unchanged",
+      "pass": true
+    },
+    {
+      "name": "QAR-en-2/43.31 current amount precedes next message",
+      "pass": true
+    },
+    {
+      "name": "QAR-en-2/43.31 current amount equals issuer formatter",
+      "pass": true
+    },
+    {
+      "name": "QAR-en-2/43.31 payment qualifier visible",
+      "pass": true
+    },
+    {
+      "name": "QAR-en-2/43.31 next target only if next band",
+      "pass": true
+    },
+    {
+      "name": "QAR-en-2/43.31 valid progress",
+      "pass": true
+    },
+    {
+      "name": "QAR-en-2/50 calculation unchanged",
+      "pass": true
+    },
+    {
+      "name": "QAR-en-2/50 full cart markup unchanged",
+      "pass": true
+    },
+    {
+      "name": "QAR-en-2/50 current amount precedes next message",
+      "pass": true
+    },
+    {
+      "name": "QAR-en-2/50 current amount equals issuer formatter",
+      "pass": true
+    },
+    {
+      "name": "QAR-en-2/50 payment qualifier visible",
+      "pass": true
+    },
+    {
+      "name": "QAR-en-2/50 next target only if next band",
+      "pass": true
+    },
+    {
+      "name": "QAR-en-2/50 valid progress",
+      "pass": true
+    },
+    {
+      "name": "QAR-en-2/50.001 calculation unchanged",
+      "pass": true
+    },
+    {
+      "name": "QAR-en-2/50.001 full cart markup unchanged",
+      "pass": true
+    },
+    {
+      "name": "QAR-en-2/50.001 current amount precedes next message",
+      "pass": true
+    },
+    {
+      "name": "QAR-en-2/50.001 current amount equals issuer formatter",
+      "pass": true
+    },
+    {
+      "name": "QAR-en-2/50.001 payment qualifier visible",
+      "pass": true
+    },
+    {
+      "name": "QAR-en-2/50.001 next target only if next band",
+      "pass": true
+    },
+    {
+      "name": "QAR-en-2/50.001 valid progress",
+      "pass": true
+    },
+    {
+      "name": "QAR-en-2/60 calculation unchanged",
+      "pass": true
+    },
+    {
+      "name": "QAR-en-2/60 full cart markup unchanged",
+      "pass": true
+    },
+    {
+      "name": "QAR-en-2/60 current amount precedes next message",
+      "pass": true
+    },
+    {
+      "name": "QAR-en-2/60 current amount equals issuer formatter",
+      "pass": true
+    },
+    {
+      "name": "QAR-en-2/60 payment qualifier visible",
+      "pass": true
+    },
+    {
+      "name": "QAR-en-2/60 next target only if next band",
+      "pass": true
+    },
+    {
+      "name": "QAR-en-2/60 valid progress",
+      "pass": true
+    },
+    {
+      "name": "QAR-en-2/60.001 calculation unchanged",
+      "pass": true
+    },
+    {
+      "name": "QAR-en-2/60.001 full cart markup unchanged",
+      "pass": true
+    },
+    {
+      "name": "QAR-en-2/60.001 current amount precedes next message",
+      "pass": true
+    },
+    {
+      "name": "QAR-en-2/60.001 current amount equals issuer formatter",
+      "pass": true
+    },
+    {
+      "name": "QAR-en-2/60.001 payment qualifier visible",
+      "pass": true
+    },
+    {
+      "name": "QAR-en-2/60.001 next target only if next band",
+      "pass": true
+    },
+    {
+      "name": "QAR-en-2/60.001 valid progress",
+      "pass": true
+    },
+    {
+      "name": "QAR-en-2/60.01 calculation unchanged",
+      "pass": true
+    },
+    {
+      "name": "QAR-en-2/60.01 full cart markup unchanged",
+      "pass": true
+    },
+    {
+      "name": "QAR-en-2/60.01 current amount precedes next message",
+      "pass": true
+    },
+    {
+      "name": "QAR-en-2/60.01 current amount equals issuer formatter",
+      "pass": true
+    },
+    {
+      "name": "QAR-en-2/60.01 payment qualifier visible",
+      "pass": true
+    },
+    {
+      "name": "QAR-en-2/60.01 next target only if next band",
+      "pass": true
+    },
+    {
+      "name": "QAR-en-2/60.01 valid progress",
+      "pass": true
+    },
+    {
+      "name": "QAR-en-2/100 calculation unchanged",
+      "pass": true
+    },
+    {
+      "name": "QAR-en-2/100 full cart markup unchanged",
+      "pass": true
+    },
+    {
+      "name": "QAR-en-2/100 current amount precedes next message",
+      "pass": true
+    },
+    {
+      "name": "QAR-en-2/100 current amount equals issuer formatter",
+      "pass": true
+    },
+    {
+      "name": "QAR-en-2/100 payment qualifier visible",
+      "pass": true
+    },
+    {
+      "name": "QAR-en-2/100 next target only if next band",
+      "pass": true
+    },
+    {
+      "name": "QAR-en-2/100 valid progress",
+      "pass": true
+    },
+    {
+      "name": "QAR-en-2 empty cart no reward",
+      "pass": true
+    },
+    {
+      "name": "QAR-en-2 hooks unchanged",
+      "pass": true
+    },
+    {
+      "name": "QAR-en-2 recommendation markup unchanged",
+      "pass": true
+    },
+    {
+      "name": "QAR-en-2 real-cart label unchanged",
+      "pass": true
+    },
+    {
+      "name": "QAR-ar-2/0 calculation unchanged",
+      "pass": true
+    },
+    {
+      "name": "QAR-ar-2/0 full cart markup unchanged",
+      "pass": true
+    },
+    {
+      "name": "QAR-ar-2/0 absent state has no promise",
+      "pass": true
+    },
+    {
+      "name": "QAR-ar-2/0.1 calculation unchanged",
+      "pass": true
+    },
+    {
+      "name": "QAR-ar-2/0.1 full cart markup unchanged",
+      "pass": true
+    },
+    {
+      "name": "QAR-ar-2/0.1 current amount precedes next message",
+      "pass": true
+    },
+    {
+      "name": "QAR-ar-2/0.1 current amount equals issuer formatter",
+      "pass": true
+    },
+    {
+      "name": "QAR-ar-2/0.1 payment qualifier visible",
+      "pass": true
+    },
+    {
+      "name": "QAR-ar-2/0.1 next target only if next band",
+      "pass": true
+    },
+    {
+      "name": "QAR-ar-2/0.1 valid progress",
+      "pass": true
+    },
+    {
+      "name": "QAR-ar-2/14.49 calculation unchanged",
+      "pass": true
+    },
+    {
+      "name": "QAR-ar-2/14.49 full cart markup unchanged",
+      "pass": true
+    },
+    {
+      "name": "QAR-ar-2/14.49 current amount precedes next message",
+      "pass": true
+    },
+    {
+      "name": "QAR-ar-2/14.49 current amount equals issuer formatter",
+      "pass": true
+    },
+    {
+      "name": "QAR-ar-2/14.49 payment qualifier visible",
+      "pass": true
+    },
+    {
+      "name": "QAR-ar-2/14.49 next target only if next band",
+      "pass": true
+    },
+    {
+      "name": "QAR-ar-2/14.49 valid progress",
+      "pass": true
+    },
+    {
+      "name": "QAR-ar-2/20 calculation unchanged",
+      "pass": true
+    },
+    {
+      "name": "QAR-ar-2/20 full cart markup unchanged",
+      "pass": true
+    },
+    {
+      "name": "QAR-ar-2/20 current amount precedes next message",
+      "pass": true
+    },
+    {
+      "name": "QAR-ar-2/20 current amount equals issuer formatter",
+      "pass": true
+    },
+    {
+      "name": "QAR-ar-2/20 payment qualifier visible",
+      "pass": true
+    },
+    {
+      "name": "QAR-ar-2/20 next target only if next band",
+      "pass": true
+    },
+    {
+      "name": "QAR-ar-2/20 valid progress",
+      "pass": true
+    },
+    {
+      "name": "QAR-ar-2/20.001 calculation unchanged",
+      "pass": true
+    },
+    {
+      "name": "QAR-ar-2/20.001 full cart markup unchanged",
+      "pass": true
+    },
+    {
+      "name": "QAR-ar-2/20.001 current amount precedes next message",
+      "pass": true
+    },
+    {
+      "name": "QAR-ar-2/20.001 current amount equals issuer formatter",
+      "pass": true
+    },
+    {
+      "name": "QAR-ar-2/20.001 payment qualifier visible",
+      "pass": true
+    },
+    {
+      "name": "QAR-ar-2/20.001 next target only if next band",
+      "pass": true
+    },
+    {
+      "name": "QAR-ar-2/20.001 valid progress",
+      "pass": true
+    },
+    {
+      "name": "QAR-ar-2/20.01 calculation unchanged",
+      "pass": true
+    },
+    {
+      "name": "QAR-ar-2/20.01 full cart markup unchanged",
+      "pass": true
+    },
+    {
+      "name": "QAR-ar-2/20.01 current amount precedes next message",
+      "pass": true
+    },
+    {
+      "name": "QAR-ar-2/20.01 current amount equals issuer formatter",
+      "pass": true
+    },
+    {
+      "name": "QAR-ar-2/20.01 payment qualifier visible",
+      "pass": true
+    },
+    {
+      "name": "QAR-ar-2/20.01 next target only if next band",
+      "pass": true
+    },
+    {
+      "name": "QAR-ar-2/20.01 valid progress",
+      "pass": true
+    },
+    {
+      "name": "QAR-ar-2/30 calculation unchanged",
+      "pass": true
+    },
+    {
+      "name": "QAR-ar-2/30 full cart markup unchanged",
+      "pass": true
+    },
+    {
+      "name": "QAR-ar-2/30 current amount precedes next message",
+      "pass": true
+    },
+    {
+      "name": "QAR-ar-2/30 current amount equals issuer formatter",
+      "pass": true
+    },
+    {
+      "name": "QAR-ar-2/30 payment qualifier visible",
+      "pass": true
+    },
+    {
+      "name": "QAR-ar-2/30 next target only if next band",
+      "pass": true
+    },
+    {
+      "name": "QAR-ar-2/30 valid progress",
+      "pass": true
+    },
+    {
+      "name": "QAR-ar-2/30.001 calculation unchanged",
+      "pass": true
+    },
+    {
+      "name": "QAR-ar-2/30.001 full cart markup unchanged",
+      "pass": true
+    },
+    {
+      "name": "QAR-ar-2/30.001 current amount precedes next message",
+      "pass": true
+    },
+    {
+      "name": "QAR-ar-2/30.001 current amount equals issuer formatter",
+      "pass": true
+    },
+    {
+      "name": "QAR-ar-2/30.001 payment qualifier visible",
+      "pass": true
+    },
+    {
+      "name": "QAR-ar-2/30.001 next target only if next band",
+      "pass": true
+    },
+    {
+      "name": "QAR-ar-2/30.001 valid progress",
+      "pass": true
+    },
+    {
+      "name": "QAR-ar-2/40 calculation unchanged",
+      "pass": true
+    },
+    {
+      "name": "QAR-ar-2/40 full cart markup unchanged",
+      "pass": true
+    },
+    {
+      "name": "QAR-ar-2/40 current amount precedes next message",
+      "pass": true
+    },
+    {
+      "name": "QAR-ar-2/40 current amount equals issuer formatter",
+      "pass": true
+    },
+    {
+      "name": "QAR-ar-2/40 payment qualifier visible",
+      "pass": true
+    },
+    {
+      "name": "QAR-ar-2/40 next target only if next band",
+      "pass": true
+    },
+    {
+      "name": "QAR-ar-2/40 valid progress",
+      "pass": true
+    },
+    {
+      "name": "QAR-ar-2/40.001 calculation unchanged",
+      "pass": true
+    },
+    {
+      "name": "QAR-ar-2/40.001 full cart markup unchanged",
+      "pass": true
+    },
+    {
+      "name": "QAR-ar-2/40.001 current amount precedes next message",
+      "pass": true
+    },
+    {
+      "name": "QAR-ar-2/40.001 current amount equals issuer formatter",
+      "pass": true
+    },
+    {
+      "name": "QAR-ar-2/40.001 payment qualifier visible",
+      "pass": true
+    },
+    {
+      "name": "QAR-ar-2/40.001 next target only if next band",
+      "pass": true
+    },
+    {
+      "name": "QAR-ar-2/40.001 valid progress",
+      "pass": true
+    },
+    {
+      "name": "QAR-ar-2/43.31 calculation unchanged",
+      "pass": true
+    },
+    {
+      "name": "QAR-ar-2/43.31 full cart markup unchanged",
+      "pass": true
+    },
+    {
+      "name": "QAR-ar-2/43.31 current amount precedes next message",
+      "pass": true
+    },
+    {
+      "name": "QAR-ar-2/43.31 current amount equals issuer formatter",
+      "pass": true
+    },
+    {
+      "name": "QAR-ar-2/43.31 payment qualifier visible",
+      "pass": true
+    },
+    {
+      "name": "QAR-ar-2/43.31 next target only if next band",
+      "pass": true
+    },
+    {
+      "name": "QAR-ar-2/43.31 valid progress",
+      "pass": true
+    },
+    {
+      "name": "QAR-ar-2/50 calculation unchanged",
+      "pass": true
+    },
+    {
+      "name": "QAR-ar-2/50 full cart markup unchanged",
+      "pass": true
+    },
+    {
+      "name": "QAR-ar-2/50 current amount precedes next message",
+      "pass": true
+    },
+    {
+      "name": "QAR-ar-2/50 current amount equals issuer formatter",
+      "pass": true
+    },
+    {
+      "name": "QAR-ar-2/50 payment qualifier visible",
+      "pass": true
+    },
+    {
+      "name": "QAR-ar-2/50 next target only if next band",
+      "pass": true
+    },
+    {
+      "name": "QAR-ar-2/50 valid progress",
+      "pass": true
+    },
+    {
+      "name": "QAR-ar-2/50.001 calculation unchanged",
+      "pass": true
+    },
+    {
+      "name": "QAR-ar-2/50.001 full cart markup unchanged",
+      "pass": true
+    },
+    {
+      "name": "QAR-ar-2/50.001 current amount precedes next message",
+      "pass": true
+    },
+    {
+      "name": "QAR-ar-2/50.001 current amount equals issuer formatter",
+      "pass": true
+    },
+    {
+      "name": "QAR-ar-2/50.001 payment qualifier visible",
+      "pass": true
+    },
+    {
+      "name": "QAR-ar-2/50.001 next target only if next band",
+      "pass": true
+    },
+    {
+      "name": "QAR-ar-2/50.001 valid progress",
+      "pass": true
+    },
+    {
+      "name": "QAR-ar-2/60 calculation unchanged",
+      "pass": true
+    },
+    {
+      "name": "QAR-ar-2/60 full cart markup unchanged",
+      "pass": true
+    },
+    {
+      "name": "QAR-ar-2/60 current amount precedes next message",
+      "pass": true
+    },
+    {
+      "name": "QAR-ar-2/60 current amount equals issuer formatter",
+      "pass": true
+    },
+    {
+      "name": "QAR-ar-2/60 payment qualifier visible",
+      "pass": true
+    },
+    {
+      "name": "QAR-ar-2/60 next target only if next band",
+      "pass": true
+    },
+    {
+      "name": "QAR-ar-2/60 valid progress",
+      "pass": true
+    },
+    {
+      "name": "QAR-ar-2/60.001 calculation unchanged",
+      "pass": true
+    },
+    {
+      "name": "QAR-ar-2/60.001 full cart markup unchanged",
+      "pass": true
+    },
+    {
+      "name": "QAR-ar-2/60.001 current amount precedes next message",
+      "pass": true
+    },
+    {
+      "name": "QAR-ar-2/60.001 current amount equals issuer formatter",
+      "pass": true
+    },
+    {
+      "name": "QAR-ar-2/60.001 payment qualifier visible",
+      "pass": true
+    },
+    {
+      "name": "QAR-ar-2/60.001 next target only if next band",
+      "pass": true
+    },
+    {
+      "name": "QAR-ar-2/60.001 valid progress",
+      "pass": true
+    },
+    {
+      "name": "QAR-ar-2/60.01 calculation unchanged",
+      "pass": true
+    },
+    {
+      "name": "QAR-ar-2/60.01 full cart markup unchanged",
+      "pass": true
+    },
+    {
+      "name": "QAR-ar-2/60.01 current amount precedes next message",
+      "pass": true
+    },
+    {
+      "name": "QAR-ar-2/60.01 current amount equals issuer formatter",
+      "pass": true
+    },
+    {
+      "name": "QAR-ar-2/60.01 payment qualifier visible",
+      "pass": true
+    },
+    {
+      "name": "QAR-ar-2/60.01 next target only if next band",
+      "pass": true
+    },
+    {
+      "name": "QAR-ar-2/60.01 valid progress",
+      "pass": true
+    },
+    {
+      "name": "QAR-ar-2/100 calculation unchanged",
+      "pass": true
+    },
+    {
+      "name": "QAR-ar-2/100 full cart markup unchanged",
+      "pass": true
+    },
+    {
+      "name": "QAR-ar-2/100 current amount precedes next message",
+      "pass": true
+    },
+    {
+      "name": "QAR-ar-2/100 current amount equals issuer formatter",
+      "pass": true
+    },
+    {
+      "name": "QAR-ar-2/100 payment qualifier visible",
+      "pass": true
+    },
+    {
+      "name": "QAR-ar-2/100 next target only if next band",
+      "pass": true
+    },
+    {
+      "name": "QAR-ar-2/100 valid progress",
+      "pass": true
+    },
+    {
+      "name": "QAR-ar-2 empty cart no reward",
+      "pass": true
+    },
+    {
+      "name": "QAR-ar-2 hooks unchanged",
+      "pass": true
+    },
+    {
+      "name": "QAR-ar-2 recommendation markup unchanged",
+      "pass": true
+    },
+    {
+      "name": "QAR-ar-2 real-cart label unchanged",
+      "pass": true
+    },
+    {
+      "name": "KWD-en-2/0 calculation unchanged",
+      "pass": true
+    },
+    {
+      "name": "KWD-en-2/0 full cart markup unchanged",
+      "pass": true
+    },
+    {
+      "name": "KWD-en-2/0 absent state has no promise",
+      "pass": true
+    },
+    {
+      "name": "KWD-en-2/0.1 calculation unchanged",
+      "pass": true
+    },
+    {
+      "name": "KWD-en-2/0.1 full cart markup unchanged",
+      "pass": true
+    },
+    {
+      "name": "KWD-en-2/0.1 current amount precedes next message",
+      "pass": true
+    },
+    {
+      "name": "KWD-en-2/0.1 current amount equals issuer formatter",
+      "pass": true
+    },
+    {
+      "name": "KWD-en-2/0.1 payment qualifier visible",
+      "pass": true
+    },
+    {
+      "name": "KWD-en-2/0.1 next target only if next band",
+      "pass": true
+    },
+    {
+      "name": "KWD-en-2/0.1 valid progress",
+      "pass": true
+    },
+    {
+      "name": "KWD-en-2/14.49 calculation unchanged",
+      "pass": true
+    },
+    {
+      "name": "KWD-en-2/14.49 full cart markup unchanged",
+      "pass": true
+    },
+    {
+      "name": "KWD-en-2/14.49 current amount precedes next message",
+      "pass": true
+    },
+    {
+      "name": "KWD-en-2/14.49 current amount equals issuer formatter",
+      "pass": true
+    },
+    {
+      "name": "KWD-en-2/14.49 payment qualifier visible",
+      "pass": true
+    },
+    {
+      "name": "KWD-en-2/14.49 next target only if next band",
+      "pass": true
+    },
+    {
+      "name": "KWD-en-2/14.49 valid progress",
+      "pass": true
+    },
+    {
+      "name": "KWD-en-2/20 calculation unchanged",
+      "pass": true
+    },
+    {
+      "name": "KWD-en-2/20 full cart markup unchanged",
+      "pass": true
+    },
+    {
+      "name": "KWD-en-2/20 current amount precedes next message",
+      "pass": true
+    },
+    {
+      "name": "KWD-en-2/20 current amount equals issuer formatter",
+      "pass": true
+    },
+    {
+      "name": "KWD-en-2/20 payment qualifier visible",
+      "pass": true
+    },
+    {
+      "name": "KWD-en-2/20 next target only if next band",
+      "pass": true
+    },
+    {
+      "name": "KWD-en-2/20 valid progress",
+      "pass": true
+    },
+    {
+      "name": "KWD-en-2/20.001 calculation unchanged",
+      "pass": true
+    },
+    {
+      "name": "KWD-en-2/20.001 full cart markup unchanged",
+      "pass": true
+    },
+    {
+      "name": "KWD-en-2/20.001 current amount precedes next message",
+      "pass": true
+    },
+    {
+      "name": "KWD-en-2/20.001 current amount equals issuer formatter",
+      "pass": true
+    },
+    {
+      "name": "KWD-en-2/20.001 payment qualifier visible",
+      "pass": true
+    },
+    {
+      "name": "KWD-en-2/20.001 next target only if next band",
+      "pass": true
+    },
+    {
+      "name": "KWD-en-2/20.001 valid progress",
+      "pass": true
+    },
+    {
+      "name": "KWD-en-2/20.01 calculation unchanged",
+      "pass": true
+    },
+    {
+      "name": "KWD-en-2/20.01 full cart markup unchanged",
+      "pass": true
+    },
+    {
+      "name": "KWD-en-2/20.01 current amount precedes next message",
+      "pass": true
+    },
+    {
+      "name": "KWD-en-2/20.01 current amount equals issuer formatter",
+      "pass": true
+    },
+    {
+      "name": "KWD-en-2/20.01 payment qualifier visible",
+      "pass": true
+    },
+    {
+      "name": "KWD-en-2/20.01 next target only if next band",
+      "pass": true
+    },
+    {
+      "name": "KWD-en-2/20.01 valid progress",
+      "pass": true
+    },
+    {
+      "name": "KWD-en-2/30 calculation unchanged",
+      "pass": true
+    },
+    {
+      "name": "KWD-en-2/30 full cart markup unchanged",
+      "pass": true
+    },
+    {
+      "name": "KWD-en-2/30 current amount precedes next message",
+      "pass": true
+    },
+    {
+      "name": "KWD-en-2/30 current amount equals issuer formatter",
+      "pass": true
+    },
+    {
+      "name": "KWD-en-2/30 payment qualifier visible",
+      "pass": true
+    },
+    {
+      "name": "KWD-en-2/30 next target only if next band",
+      "pass": true
+    },
+    {
+      "name": "KWD-en-2/30 valid progress",
+      "pass": true
+    },
+    {
+      "name": "KWD-en-2/30.001 calculation unchanged",
+      "pass": true
+    },
+    {
+      "name": "KWD-en-2/30.001 full cart markup unchanged",
+      "pass": true
+    },
+    {
+      "name": "KWD-en-2/30.001 current amount precedes next message",
+      "pass": true
+    },
+    {
+      "name": "KWD-en-2/30.001 current amount equals issuer formatter",
+      "pass": true
+    },
+    {
+      "name": "KWD-en-2/30.001 payment qualifier visible",
+      "pass": true
+    },
+    {
+      "name": "KWD-en-2/30.001 next target only if next band",
+      "pass": true
+    },
+    {
+      "name": "KWD-en-2/30.001 valid progress",
+      "pass": true
+    },
+    {
+      "name": "KWD-en-2/40 calculation unchanged",
+      "pass": true
+    },
+    {
+      "name": "KWD-en-2/40 full cart markup unchanged",
+      "pass": true
+    },
+    {
+      "name": "KWD-en-2/40 current amount precedes next message",
+      "pass": true
+    },
+    {
+      "name": "KWD-en-2/40 current amount equals issuer formatter",
+      "pass": true
+    },
+    {
+      "name": "KWD-en-2/40 payment qualifier visible",
+      "pass": true
+    },
+    {
+      "name": "KWD-en-2/40 next target only if next band",
+      "pass": true
+    },
+    {
+      "name": "KWD-en-2/40 valid progress",
+      "pass": true
+    },
+    {
+      "name": "KWD-en-2/40.001 calculation unchanged",
+      "pass": true
+    },
+    {
+      "name": "KWD-en-2/40.001 full cart markup unchanged",
+      "pass": true
+    },
+    {
+      "name": "KWD-en-2/40.001 current amount precedes next message",
+      "pass": true
+    },
+    {
+      "name": "KWD-en-2/40.001 current amount equals issuer formatter",
+      "pass": true
+    },
+    {
+      "name": "KWD-en-2/40.001 payment qualifier visible",
+      "pass": true
+    },
+    {
+      "name": "KWD-en-2/40.001 next target only if next band",
+      "pass": true
+    },
+    {
+      "name": "KWD-en-2/40.001 valid progress",
+      "pass": true
+    },
+    {
+      "name": "KWD-en-2/43.31 calculation unchanged",
+      "pass": true
+    },
+    {
+      "name": "KWD-en-2/43.31 full cart markup unchanged",
+      "pass": true
+    },
+    {
+      "name": "KWD-en-2/43.31 current amount precedes next message",
+      "pass": true
+    },
+    {
+      "name": "KWD-en-2/43.31 current amount equals issuer formatter",
+      "pass": true
+    },
+    {
+      "name": "KWD-en-2/43.31 payment qualifier visible",
+      "pass": true
+    },
+    {
+      "name": "KWD-en-2/43.31 next target only if next band",
+      "pass": true
+    },
+    {
+      "name": "KWD-en-2/43.31 valid progress",
+      "pass": true
+    },
+    {
+      "name": "KWD-en-2/50 calculation unchanged",
+      "pass": true
+    },
+    {
+      "name": "KWD-en-2/50 full cart markup unchanged",
+      "pass": true
+    },
+    {
+      "name": "KWD-en-2/50 current amount precedes next message",
+      "pass": true
+    },
+    {
+      "name": "KWD-en-2/50 current amount equals issuer formatter",
+      "pass": true
+    },
+    {
+      "name": "KWD-en-2/50 payment qualifier visible",
+      "pass": true
+    },
+    {
+      "name": "KWD-en-2/50 next target only if next band",
+      "pass": true
+    },
+    {
+      "name": "KWD-en-2/50 valid progress",
+      "pass": true
+    },
+    {
+      "name": "KWD-en-2/50.001 calculation unchanged",
+      "pass": true
+    },
+    {
+      "name": "KWD-en-2/50.001 full cart markup unchanged",
+      "pass": true
+    },
+    {
+      "name": "KWD-en-2/50.001 current amount precedes next message",
+      "pass": true
+    },
+    {
+      "name": "KWD-en-2/50.001 current amount equals issuer formatter",
+      "pass": true
+    },
+    {
+      "name": "KWD-en-2/50.001 payment qualifier visible",
+      "pass": true
+    },
+    {
+      "name": "KWD-en-2/50.001 next target only if next band",
+      "pass": true
+    },
+    {
+      "name": "KWD-en-2/50.001 valid progress",
+      "pass": true
+    },
+    {
+      "name": "KWD-en-2/60 calculation unchanged",
+      "pass": true
+    },
+    {
+      "name": "KWD-en-2/60 full cart markup unchanged",
+      "pass": true
+    },
+    {
+      "name": "KWD-en-2/60 current amount precedes next message",
+      "pass": true
+    },
+    {
+      "name": "KWD-en-2/60 current amount equals issuer formatter",
+      "pass": true
+    },
+    {
+      "name": "KWD-en-2/60 payment qualifier visible",
+      "pass": true
+    },
+    {
+      "name": "KWD-en-2/60 next target only if next band",
+      "pass": true
+    },
+    {
+      "name": "KWD-en-2/60 valid progress",
+      "pass": true
+    },
+    {
+      "name": "KWD-en-2/60.001 calculation unchanged",
+      "pass": true
+    },
+    {
+      "name": "KWD-en-2/60.001 full cart markup unchanged",
+      "pass": true
+    },
+    {
+      "name": "KWD-en-2/60.001 current amount precedes next message",
+      "pass": true
+    },
+    {
+      "name": "KWD-en-2/60.001 current amount equals issuer formatter",
+      "pass": true
+    },
+    {
+      "name": "KWD-en-2/60.001 payment qualifier visible",
+      "pass": true
+    },
+    {
+      "name": "KWD-en-2/60.001 next target only if next band",
+      "pass": true
+    },
+    {
+      "name": "KWD-en-2/60.001 valid progress",
+      "pass": true
+    },
+    {
+      "name": "KWD-en-2/60.01 calculation unchanged",
+      "pass": true
+    },
+    {
+      "name": "KWD-en-2/60.01 full cart markup unchanged",
+      "pass": true
+    },
+    {
+      "name": "KWD-en-2/60.01 current amount precedes next message",
+      "pass": true
+    },
+    {
+      "name": "KWD-en-2/60.01 current amount equals issuer formatter",
+      "pass": true
+    },
+    {
+      "name": "KWD-en-2/60.01 payment qualifier visible",
+      "pass": true
+    },
+    {
+      "name": "KWD-en-2/60.01 next target only if next band",
+      "pass": true
+    },
+    {
+      "name": "KWD-en-2/60.01 valid progress",
+      "pass": true
+    },
+    {
+      "name": "KWD-en-2/100 calculation unchanged",
+      "pass": true
+    },
+    {
+      "name": "KWD-en-2/100 full cart markup unchanged",
+      "pass": true
+    },
+    {
+      "name": "KWD-en-2/100 current amount precedes next message",
+      "pass": true
+    },
+    {
+      "name": "KWD-en-2/100 current amount equals issuer formatter",
+      "pass": true
+    },
+    {
+      "name": "KWD-en-2/100 payment qualifier visible",
+      "pass": true
+    },
+    {
+      "name": "KWD-en-2/100 next target only if next band",
+      "pass": true
+    },
+    {
+      "name": "KWD-en-2/100 valid progress",
+      "pass": true
+    },
+    {
+      "name": "KWD-en-2 empty cart no reward",
+      "pass": true
+    },
+    {
+      "name": "KWD-en-2 hooks unchanged",
+      "pass": true
+    },
+    {
+      "name": "KWD-en-2 recommendation markup unchanged",
+      "pass": true
+    },
+    {
+      "name": "KWD-en-2 real-cart label unchanged",
+      "pass": true
+    },
+    {
+      "name": "KWD-ar-2/0 calculation unchanged",
+      "pass": true
+    },
+    {
+      "name": "KWD-ar-2/0 full cart markup unchanged",
+      "pass": true
+    },
+    {
+      "name": "KWD-ar-2/0 absent state has no promise",
+      "pass": true
+    },
+    {
+      "name": "KWD-ar-2/0.1 calculation unchanged",
+      "pass": true
+    },
+    {
+      "name": "KWD-ar-2/0.1 full cart markup unchanged",
+      "pass": true
+    },
+    {
+      "name": "KWD-ar-2/0.1 current amount precedes next message",
+      "pass": true
+    },
+    {
+      "name": "KWD-ar-2/0.1 current amount equals issuer formatter",
+      "pass": true
+    },
+    {
+      "name": "KWD-ar-2/0.1 payment qualifier visible",
+      "pass": true
+    },
+    {
+      "name": "KWD-ar-2/0.1 next target only if next band",
+      "pass": true
+    },
+    {
+      "name": "KWD-ar-2/0.1 valid progress",
+      "pass": true
+    },
+    {
+      "name": "KWD-ar-2/14.49 calculation unchanged",
+      "pass": true
+    },
+    {
+      "name": "KWD-ar-2/14.49 full cart markup unchanged",
+      "pass": true
+    },
+    {
+      "name": "KWD-ar-2/14.49 current amount precedes next message",
+      "pass": true
+    },
+    {
+      "name": "KWD-ar-2/14.49 current amount equals issuer formatter",
+      "pass": true
+    },
+    {
+      "name": "KWD-ar-2/14.49 payment qualifier visible",
+      "pass": true
+    },
+    {
+      "name": "KWD-ar-2/14.49 next target only if next band",
+      "pass": true
+    },
+    {
+      "name": "KWD-ar-2/14.49 valid progress",
+      "pass": true
+    },
+    {
+      "name": "KWD-ar-2/20 calculation unchanged",
+      "pass": true
+    },
+    {
+      "name": "KWD-ar-2/20 full cart markup unchanged",
+      "pass": true
+    },
+    {
+      "name": "KWD-ar-2/20 current amount precedes next message",
+      "pass": true
+    },
+    {
+      "name": "KWD-ar-2/20 current amount equals issuer formatter",
+      "pass": true
+    },
+    {
+      "name": "KWD-ar-2/20 payment qualifier visible",
+      "pass": true
+    },
+    {
+      "name": "KWD-ar-2/20 next target only if next band",
+      "pass": true
+    },
+    {
+      "name": "KWD-ar-2/20 valid progress",
+      "pass": true
+    },
+    {
+      "name": "KWD-ar-2/20.001 calculation unchanged",
+      "pass": true
+    },
+    {
+      "name": "KWD-ar-2/20.001 full cart markup unchanged",
+      "pass": true
+    },
+    {
+      "name": "KWD-ar-2/20.001 current amount precedes next message",
+      "pass": true
+    },
+    {
+      "name": "KWD-ar-2/20.001 current amount equals issuer formatter",
+      "pass": true
+    },
+    {
+      "name": "KWD-ar-2/20.001 payment qualifier visible",
+      "pass": true
+    },
+    {
+      "name": "KWD-ar-2/20.001 next target only if next band",
+      "pass": true
+    },
+    {
+      "name": "KWD-ar-2/20.001 valid progress",
+      "pass": true
+    },
+    {
+      "name": "KWD-ar-2/20.01 calculation unchanged",
+      "pass": true
+    },
+    {
+      "name": "KWD-ar-2/20.01 full cart markup unchanged",
+      "pass": true
+    },
+    {
+      "name": "KWD-ar-2/20.01 current amount precedes next message",
+      "pass": true
+    },
+    {
+      "name": "KWD-ar-2/20.01 current amount equals issuer formatter",
+      "pass": true
+    },
+    {
+      "name": "KWD-ar-2/20.01 payment qualifier visible",
+      "pass": true
+    },
+    {
+      "name": "KWD-ar-2/20.01 next target only if next band",
+      "pass": true
+    },
+    {
+      "name": "KWD-ar-2/20.01 valid progress",
+      "pass": true
+    },
+    {
+      "name": "KWD-ar-2/30 calculation unchanged",
+      "pass": true
+    },
+    {
+      "name": "KWD-ar-2/30 full cart markup unchanged",
+      "pass": true
+    },
+    {
+      "name": "KWD-ar-2/30 current amount precedes next message",
+      "pass": true
+    },
+    {
+      "name": "KWD-ar-2/30 current amount equals issuer formatter",
+      "pass": true
+    },
+    {
+      "name": "KWD-ar-2/30 payment qualifier visible",
+      "pass": true
+    },
+    {
+      "name": "KWD-ar-2/30 next target only if next band",
+      "pass": true
+    },
+    {
+      "name": "KWD-ar-2/30 valid progress",
+      "pass": true
+    },
+    {
+      "name": "KWD-ar-2/30.001 calculation unchanged",
+      "pass": true
+    },
+    {
+      "name": "KWD-ar-2/30.001 full cart markup unchanged",
+      "pass": true
+    },
+    {
+      "name": "KWD-ar-2/30.001 current amount precedes next message",
+      "pass": true
+    },
+    {
+      "name": "KWD-ar-2/30.001 current amount equals issuer formatter",
+      "pass": true
+    },
+    {
+      "name": "KWD-ar-2/30.001 payment qualifier visible",
+      "pass": true
+    },
+    {
+      "name": "KWD-ar-2/30.001 next target only if next band",
+      "pass": true
+    },
+    {
+      "name": "KWD-ar-2/30.001 valid progress",
+      "pass": true
+    },
+    {
+      "name": "KWD-ar-2/40 calculation unchanged",
+      "pass": true
+    },
+    {
+      "name": "KWD-ar-2/40 full cart markup unchanged",
+      "pass": true
+    },
+    {
+      "name": "KWD-ar-2/40 current amount precedes next message",
+      "pass": true
+    },
+    {
+      "name": "KWD-ar-2/40 current amount equals issuer formatter",
+      "pass": true
+    },
+    {
+      "name": "KWD-ar-2/40 payment qualifier visible",
+      "pass": true
+    },
+    {
+      "name": "KWD-ar-2/40 next target only if next band",
+      "pass": true
+    },
+    {
+      "name": "KWD-ar-2/40 valid progress",
+      "pass": true
+    },
+    {
+      "name": "KWD-ar-2/40.001 calculation unchanged",
+      "pass": true
+    },
+    {
+      "name": "KWD-ar-2/40.001 full cart markup unchanged",
+      "pass": true
+    },
+    {
+      "name": "KWD-ar-2/40.001 current amount precedes next message",
+      "pass": true
+    },
+    {
+      "name": "KWD-ar-2/40.001 current amount equals issuer formatter",
+      "pass": true
+    },
+    {
+      "name": "KWD-ar-2/40.001 payment qualifier visible",
+      "pass": true
+    },
+    {
+      "name": "KWD-ar-2/40.001 next target only if next band",
+      "pass": true
+    },
+    {
+      "name": "KWD-ar-2/40.001 valid progress",
+      "pass": true
+    },
+    {
+      "name": "KWD-ar-2/43.31 calculation unchanged",
+      "pass": true
+    },
+    {
+      "name": "KWD-ar-2/43.31 full cart markup unchanged",
+      "pass": true
+    },
+    {
+      "name": "KWD-ar-2/43.31 current amount precedes next message",
+      "pass": true
+    },
+    {
+      "name": "KWD-ar-2/43.31 current amount equals issuer formatter",
+      "pass": true
+    },
+    {
+      "name": "KWD-ar-2/43.31 payment qualifier visible",
+      "pass": true
+    },
+    {
+      "name": "KWD-ar-2/43.31 next target only if next band",
+      "pass": true
+    },
+    {
+      "name": "KWD-ar-2/43.31 valid progress",
+      "pass": true
+    },
+    {
+      "name": "KWD-ar-2/50 calculation unchanged",
+      "pass": true
+    },
+    {
+      "name": "KWD-ar-2/50 full cart markup unchanged",
+      "pass": true
+    },
+    {
+      "name": "KWD-ar-2/50 current amount precedes next message",
+      "pass": true
+    },
+    {
+      "name": "KWD-ar-2/50 current amount equals issuer formatter",
+      "pass": true
+    },
+    {
+      "name": "KWD-ar-2/50 payment qualifier visible",
+      "pass": true
+    },
+    {
+      "name": "KWD-ar-2/50 next target only if next band",
+      "pass": true
+    },
+    {
+      "name": "KWD-ar-2/50 valid progress",
+      "pass": true
+    },
+    {
+      "name": "KWD-ar-2/50.001 calculation unchanged",
+      "pass": true
+    },
+    {
+      "name": "KWD-ar-2/50.001 full cart markup unchanged",
+      "pass": true
+    },
+    {
+      "name": "KWD-ar-2/50.001 current amount precedes next message",
+      "pass": true
+    },
+    {
+      "name": "KWD-ar-2/50.001 current amount equals issuer formatter",
+      "pass": true
+    },
+    {
+      "name": "KWD-ar-2/50.001 payment qualifier visible",
+      "pass": true
+    },
+    {
+      "name": "KWD-ar-2/50.001 next target only if next band",
+      "pass": true
+    },
+    {
+      "name": "KWD-ar-2/50.001 valid progress",
+      "pass": true
+    },
+    {
+      "name": "KWD-ar-2/60 calculation unchanged",
+      "pass": true
+    },
+    {
+      "name": "KWD-ar-2/60 full cart markup unchanged",
+      "pass": true
+    },
+    {
+      "name": "KWD-ar-2/60 current amount precedes next message",
+      "pass": true
+    },
+    {
+      "name": "KWD-ar-2/60 current amount equals issuer formatter",
+      "pass": true
+    },
+    {
+      "name": "KWD-ar-2/60 payment qualifier visible",
+      "pass": true
+    },
+    {
+      "name": "KWD-ar-2/60 next target only if next band",
+      "pass": true
+    },
+    {
+      "name": "KWD-ar-2/60 valid progress",
+      "pass": true
+    },
+    {
+      "name": "KWD-ar-2/60.001 calculation unchanged",
+      "pass": true
+    },
+    {
+      "name": "KWD-ar-2/60.001 full cart markup unchanged",
+      "pass": true
+    },
+    {
+      "name": "KWD-ar-2/60.001 current amount precedes next message",
+      "pass": true
+    },
+    {
+      "name": "KWD-ar-2/60.001 current amount equals issuer formatter",
+      "pass": true
+    },
+    {
+      "name": "KWD-ar-2/60.001 payment qualifier visible",
+      "pass": true
+    },
+    {
+      "name": "KWD-ar-2/60.001 next target only if next band",
+      "pass": true
+    },
+    {
+      "name": "KWD-ar-2/60.001 valid progress",
+      "pass": true
+    },
+    {
+      "name": "KWD-ar-2/60.01 calculation unchanged",
+      "pass": true
+    },
+    {
+      "name": "KWD-ar-2/60.01 full cart markup unchanged",
+      "pass": true
+    },
+    {
+      "name": "KWD-ar-2/60.01 current amount precedes next message",
+      "pass": true
+    },
+    {
+      "name": "KWD-ar-2/60.01 current amount equals issuer formatter",
+      "pass": true
+    },
+    {
+      "name": "KWD-ar-2/60.01 payment qualifier visible",
+      "pass": true
+    },
+    {
+      "name": "KWD-ar-2/60.01 next target only if next band",
+      "pass": true
+    },
+    {
+      "name": "KWD-ar-2/60.01 valid progress",
+      "pass": true
+    },
+    {
+      "name": "KWD-ar-2/100 calculation unchanged",
+      "pass": true
+    },
+    {
+      "name": "KWD-ar-2/100 full cart markup unchanged",
+      "pass": true
+    },
+    {
+      "name": "KWD-ar-2/100 current amount precedes next message",
+      "pass": true
+    },
+    {
+      "name": "KWD-ar-2/100 current amount equals issuer formatter",
+      "pass": true
+    },
+    {
+      "name": "KWD-ar-2/100 payment qualifier visible",
+      "pass": true
+    },
+    {
+      "name": "KWD-ar-2/100 next target only if next band",
+      "pass": true
+    },
+    {
+      "name": "KWD-ar-2/100 valid progress",
+      "pass": true
+    },
+    {
+      "name": "KWD-ar-2 empty cart no reward",
+      "pass": true
+    },
+    {
+      "name": "KWD-ar-2 hooks unchanged",
+      "pass": true
+    },
+    {
+      "name": "KWD-ar-2 recommendation markup unchanged",
+      "pass": true
+    },
+    {
+      "name": "KWD-ar-2 real-cart label unchanged",
+      "pass": true
+    },
+    {
+      "name": "BHD-en-2/0 calculation unchanged",
+      "pass": true
+    },
+    {
+      "name": "BHD-en-2/0 full cart markup unchanged",
+      "pass": true
+    },
+    {
+      "name": "BHD-en-2/0 absent state has no promise",
+      "pass": true
+    },
+    {
+      "name": "BHD-en-2/0.1 calculation unchanged",
+      "pass": true
+    },
+    {
+      "name": "BHD-en-2/0.1 full cart markup unchanged",
+      "pass": true
+    },
+    {
+      "name": "BHD-en-2/0.1 current amount precedes next message",
+      "pass": true
+    },
+    {
+      "name": "BHD-en-2/0.1 current amount equals issuer formatter",
+      "pass": true
+    },
+    {
+      "name": "BHD-en-2/0.1 payment qualifier visible",
+      "pass": true
+    },
+    {
+      "name": "BHD-en-2/0.1 next target only if next band",
+      "pass": true
+    },
+    {
+      "name": "BHD-en-2/0.1 valid progress",
+      "pass": true
+    },
+    {
+      "name": "BHD-en-2/14.49 calculation unchanged",
+      "pass": true
+    },
+    {
+      "name": "BHD-en-2/14.49 full cart markup unchanged",
+      "pass": true
+    },
+    {
+      "name": "BHD-en-2/14.49 current amount precedes next message",
+      "pass": true
+    },
+    {
+      "name": "BHD-en-2/14.49 current amount equals issuer formatter",
+      "pass": true
+    },
+    {
+      "name": "BHD-en-2/14.49 payment qualifier visible",
+      "pass": true
+    },
+    {
+      "name": "BHD-en-2/14.49 next target only if next band",
+      "pass": true
+    },
+    {
+      "name": "BHD-en-2/14.49 valid progress",
+      "pass": true
+    },
+    {
+      "name": "BHD-en-2/20 calculation unchanged",
+      "pass": true
+    },
+    {
+      "name": "BHD-en-2/20 full cart markup unchanged",
+      "pass": true
+    },
+    {
+      "name": "BHD-en-2/20 current amount precedes next message",
+      "pass": true
+    },
+    {
+      "name": "BHD-en-2/20 current amount equals issuer formatter",
+      "pass": true
+    },
+    {
+      "name": "BHD-en-2/20 payment qualifier visible",
+      "pass": true
+    },
+    {
+      "name": "BHD-en-2/20 next target only if next band",
+      "pass": true
+    },
+    {
+      "name": "BHD-en-2/20 valid progress",
+      "pass": true
+    },
+    {
+      "name": "BHD-en-2/20.001 calculation unchanged",
+      "pass": true
+    },
+    {
+      "name": "BHD-en-2/20.001 full cart markup unchanged",
+      "pass": true
+    },
+    {
+      "name": "BHD-en-2/20.001 current amount precedes next message",
+      "pass": true
+    },
+    {
+      "name": "BHD-en-2/20.001 current amount equals issuer formatter",
+      "pass": true
+    },
+    {
+      "name": "BHD-en-2/20.001 payment qualifier visible",
+      "pass": true
+    },
+    {
+      "name": "BHD-en-2/20.001 next target only if next band",
+      "pass": true
+    },
+    {
+      "name": "BHD-en-2/20.001 valid progress",
+      "pass": true
+    },
+    {
+      "name": "BHD-en-2/20.01 calculation unchanged",
+      "pass": true
+    },
+    {
+      "name": "BHD-en-2/20.01 full cart markup unchanged",
+      "pass": true
+    },
+    {
+      "name": "BHD-en-2/20.01 current amount precedes next message",
+      "pass": true
+    },
+    {
+      "name": "BHD-en-2/20.01 current amount equals issuer formatter",
+      "pass": true
+    },
+    {
+      "name": "BHD-en-2/20.01 payment qualifier visible",
+      "pass": true
+    },
+    {
+      "name": "BHD-en-2/20.01 next target only if next band",
+      "pass": true
+    },
+    {
+      "name": "BHD-en-2/20.01 valid progress",
+      "pass": true
+    },
+    {
+      "name": "BHD-en-2/30 calculation unchanged",
+      "pass": true
+    },
+    {
+      "name": "BHD-en-2/30 full cart markup unchanged",
+      "pass": true
+    },
+    {
+      "name": "BHD-en-2/30 current amount precedes next message",
+      "pass": true
+    },
+    {
+      "name": "BHD-en-2/30 current amount equals issuer formatter",
+      "pass": true
+    },
+    {
+      "name": "BHD-en-2/30 payment qualifier visible",
+      "pass": true
+    },
+    {
+      "name": "BHD-en-2/30 next target only if next band",
+      "pass": true
+    },
+    {
+      "name": "BHD-en-2/30 valid progress",
+      "pass": true
+    },
+    {
+      "name": "BHD-en-2/30.001 calculation unchanged",
+      "pass": true
+    },
+    {
+      "name": "BHD-en-2/30.001 full cart markup unchanged",
+      "pass": true
+    },
+    {
+      "name": "BHD-en-2/30.001 current amount precedes next message",
+      "pass": true
+    },
+    {
+      "name": "BHD-en-2/30.001 current amount equals issuer formatter",
+      "pass": true
+    },
+    {
+      "name": "BHD-en-2/30.001 payment qualifier visible",
+      "pass": true
+    },
+    {
+      "name": "BHD-en-2/30.001 next target only if next band",
+      "pass": true
+    },
+    {
+      "name": "BHD-en-2/30.001 valid progress",
+      "pass": true
+    },
+    {
+      "name": "BHD-en-2/40 calculation unchanged",
+      "pass": true
+    },
+    {
+      "name": "BHD-en-2/40 full cart markup unchanged",
+      "pass": true
+    },
+    {
+      "name": "BHD-en-2/40 current amount precedes next message",
+      "pass": true
+    },
+    {
+      "name": "BHD-en-2/40 current amount equals issuer formatter",
+      "pass": true
+    },
+    {
+      "name": "BHD-en-2/40 payment qualifier visible",
+      "pass": true
+    },
+    {
+      "name": "BHD-en-2/40 next target only if next band",
+      "pass": true
+    },
+    {
+      "name": "BHD-en-2/40 valid progress",
+      "pass": true
+    },
+    {
+      "name": "BHD-en-2/40.001 calculation unchanged",
+      "pass": true
+    },
+    {
+      "name": "BHD-en-2/40.001 full cart markup unchanged",
+      "pass": true
+    },
+    {
+      "name": "BHD-en-2/40.001 current amount precedes next message",
+      "pass": true
+    },
+    {
+      "name": "BHD-en-2/40.001 current amount equals issuer formatter",
+      "pass": true
+    },
+    {
+      "name": "BHD-en-2/40.001 payment qualifier visible",
+      "pass": true
+    },
+    {
+      "name": "BHD-en-2/40.001 next target only if next band",
+      "pass": true
+    },
+    {
+      "name": "BHD-en-2/40.001 valid progress",
+      "pass": true
+    },
+    {
+      "name": "BHD-en-2/43.31 calculation unchanged",
+      "pass": true
+    },
+    {
+      "name": "BHD-en-2/43.31 full cart markup unchanged",
+      "pass": true
+    },
+    {
+      "name": "BHD-en-2/43.31 current amount precedes next message",
+      "pass": true
+    },
+    {
+      "name": "BHD-en-2/43.31 current amount equals issuer formatter",
+      "pass": true
+    },
+    {
+      "name": "BHD-en-2/43.31 payment qualifier visible",
+      "pass": true
+    },
+    {
+      "name": "BHD-en-2/43.31 next target only if next band",
+      "pass": true
+    },
+    {
+      "name": "BHD-en-2/43.31 valid progress",
+      "pass": true
+    },
+    {
+      "name": "BHD-en-2/50 calculation unchanged",
+      "pass": true
+    },
+    {
+      "name": "BHD-en-2/50 full cart markup unchanged",
+      "pass": true
+    },
+    {
+      "name": "BHD-en-2/50 current amount precedes next message",
+      "pass": true
+    },
+    {
+      "name": "BHD-en-2/50 current amount equals issuer formatter",
+      "pass": true
+    },
+    {
+      "name": "BHD-en-2/50 payment qualifier visible",
+      "pass": true
+    },
+    {
+      "name": "BHD-en-2/50 next target only if next band",
+      "pass": true
+    },
+    {
+      "name": "BHD-en-2/50 valid progress",
+      "pass": true
+    },
+    {
+      "name": "BHD-en-2/50.001 calculation unchanged",
+      "pass": true
+    },
+    {
+      "name": "BHD-en-2/50.001 full cart markup unchanged",
+      "pass": true
+    },
+    {
+      "name": "BHD-en-2/50.001 current amount precedes next message",
+      "pass": true
+    },
+    {
+      "name": "BHD-en-2/50.001 current amount equals issuer formatter",
+      "pass": true
+    },
+    {
+      "name": "BHD-en-2/50.001 payment qualifier visible",
+      "pass": true
+    },
+    {
+      "name": "BHD-en-2/50.001 next target only if next band",
+      "pass": true
+    },
+    {
+      "name": "BHD-en-2/50.001 valid progress",
+      "pass": true
+    },
+    {
+      "name": "BHD-en-2/60 calculation unchanged",
+      "pass": true
+    },
+    {
+      "name": "BHD-en-2/60 full cart markup unchanged",
+      "pass": true
+    },
+    {
+      "name": "BHD-en-2/60 current amount precedes next message",
+      "pass": true
+    },
+    {
+      "name": "BHD-en-2/60 current amount equals issuer formatter",
+      "pass": true
+    },
+    {
+      "name": "BHD-en-2/60 payment qualifier visible",
+      "pass": true
+    },
+    {
+      "name": "BHD-en-2/60 next target only if next band",
+      "pass": true
+    },
+    {
+      "name": "BHD-en-2/60 valid progress",
+      "pass": true
+    },
+    {
+      "name": "BHD-en-2/60.001 calculation unchanged",
+      "pass": true
+    },
+    {
+      "name": "BHD-en-2/60.001 full cart markup unchanged",
+      "pass": true
+    },
+    {
+      "name": "BHD-en-2/60.001 current amount precedes next message",
+      "pass": true
+    },
+    {
+      "name": "BHD-en-2/60.001 current amount equals issuer formatter",
+      "pass": true
+    },
+    {
+      "name": "BHD-en-2/60.001 payment qualifier visible",
+      "pass": true
+    },
+    {
+      "name": "BHD-en-2/60.001 next target only if next band",
+      "pass": true
+    },
+    {
+      "name": "BHD-en-2/60.001 valid progress",
+      "pass": true
+    },
+    {
+      "name": "BHD-en-2/60.01 calculation unchanged",
+      "pass": true
+    },
+    {
+      "name": "BHD-en-2/60.01 full cart markup unchanged",
+      "pass": true
+    },
+    {
+      "name": "BHD-en-2/60.01 current amount precedes next message",
+      "pass": true
+    },
+    {
+      "name": "BHD-en-2/60.01 current amount equals issuer formatter",
+      "pass": true
+    },
+    {
+      "name": "BHD-en-2/60.01 payment qualifier visible",
+      "pass": true
+    },
+    {
+      "name": "BHD-en-2/60.01 next target only if next band",
+      "pass": true
+    },
+    {
+      "name": "BHD-en-2/60.01 valid progress",
+      "pass": true
+    },
+    {
+      "name": "BHD-en-2/100 calculation unchanged",
+      "pass": true
+    },
+    {
+      "name": "BHD-en-2/100 full cart markup unchanged",
+      "pass": true
+    },
+    {
+      "name": "BHD-en-2/100 current amount precedes next message",
+      "pass": true
+    },
+    {
+      "name": "BHD-en-2/100 current amount equals issuer formatter",
+      "pass": true
+    },
+    {
+      "name": "BHD-en-2/100 payment qualifier visible",
+      "pass": true
+    },
+    {
+      "name": "BHD-en-2/100 next target only if next band",
+      "pass": true
+    },
+    {
+      "name": "BHD-en-2/100 valid progress",
+      "pass": true
+    },
+    {
+      "name": "BHD-en-2 empty cart no reward",
+      "pass": true
+    },
+    {
+      "name": "BHD-en-2 hooks unchanged",
+      "pass": true
+    },
+    {
+      "name": "BHD-en-2 recommendation markup unchanged",
+      "pass": true
+    },
+    {
+      "name": "BHD-en-2 real-cart label unchanged",
+      "pass": true
+    },
+    {
+      "name": "BHD-ar-2/0 calculation unchanged",
+      "pass": true
+    },
+    {
+      "name": "BHD-ar-2/0 full cart markup unchanged",
+      "pass": true
+    },
+    {
+      "name": "BHD-ar-2/0 absent state has no promise",
+      "pass": true
+    },
+    {
+      "name": "BHD-ar-2/0.1 calculation unchanged",
+      "pass": true
+    },
+    {
+      "name": "BHD-ar-2/0.1 full cart markup unchanged",
+      "pass": true
+    },
+    {
+      "name": "BHD-ar-2/0.1 current amount precedes next message",
+      "pass": true
+    },
+    {
+      "name": "BHD-ar-2/0.1 current amount equals issuer formatter",
+      "pass": true
+    },
+    {
+      "name": "BHD-ar-2/0.1 payment qualifier visible",
+      "pass": true
+    },
+    {
+      "name": "BHD-ar-2/0.1 next target only if next band",
+      "pass": true
+    },
+    {
+      "name": "BHD-ar-2/0.1 valid progress",
+      "pass": true
+    },
+    {
+      "name": "BHD-ar-2/14.49 calculation unchanged",
+      "pass": true
+    },
+    {
+      "name": "BHD-ar-2/14.49 full cart markup unchanged",
+      "pass": true
+    },
+    {
+      "name": "BHD-ar-2/14.49 current amount precedes next message",
+      "pass": true
+    },
+    {
+      "name": "BHD-ar-2/14.49 current amount equals issuer formatter",
+      "pass": true
+    },
+    {
+      "name": "BHD-ar-2/14.49 payment qualifier visible",
+      "pass": true
+    },
+    {
+      "name": "BHD-ar-2/14.49 next target only if next band",
+      "pass": true
+    },
+    {
+      "name": "BHD-ar-2/14.49 valid progress",
+      "pass": true
+    },
+    {
+      "name": "BHD-ar-2/20 calculation unchanged",
+      "pass": true
+    },
+    {
+      "name": "BHD-ar-2/20 full cart markup unchanged",
+      "pass": true
+    },
+    {
+      "name": "BHD-ar-2/20 current amount precedes next message",
+      "pass": true
+    },
+    {
+      "name": "BHD-ar-2/20 current amount equals issuer formatter",
+      "pass": true
+    },
+    {
+      "name": "BHD-ar-2/20 payment qualifier visible",
+      "pass": true
+    },
+    {
+      "name": "BHD-ar-2/20 next target only if next band",
+      "pass": true
+    },
+    {
+      "name": "BHD-ar-2/20 valid progress",
+      "pass": true
+    },
+    {
+      "name": "BHD-ar-2/20.001 calculation unchanged",
+      "pass": true
+    },
+    {
+      "name": "BHD-ar-2/20.001 full cart markup unchanged",
+      "pass": true
+    },
+    {
+      "name": "BHD-ar-2/20.001 current amount precedes next message",
+      "pass": true
+    },
+    {
+      "name": "BHD-ar-2/20.001 current amount equals issuer formatter",
+      "pass": true
+    },
+    {
+      "name": "BHD-ar-2/20.001 payment qualifier visible",
+      "pass": true
+    },
+    {
+      "name": "BHD-ar-2/20.001 next target only if next band",
+      "pass": true
+    },
+    {
+      "name": "BHD-ar-2/20.001 valid progress",
+      "pass": true
+    },
+    {
+      "name": "BHD-ar-2/20.01 calculation unchanged",
+      "pass": true
+    },
+    {
+      "name": "BHD-ar-2/20.01 full cart markup unchanged",
+      "pass": true
+    },
+    {
+      "name": "BHD-ar-2/20.01 current amount precedes next message",
+      "pass": true
+    },
+    {
+      "name": "BHD-ar-2/20.01 current amount equals issuer formatter",
+      "pass": true
+    },
+    {
+      "name": "BHD-ar-2/20.01 payment qualifier visible",
+      "pass": true
+    },
+    {
+      "name": "BHD-ar-2/20.01 next target only if next band",
+      "pass": true
+    },
+    {
+      "name": "BHD-ar-2/20.01 valid progress",
+      "pass": true
+    },
+    {
+      "name": "BHD-ar-2/30 calculation unchanged",
+      "pass": true
+    },
+    {
+      "name": "BHD-ar-2/30 full cart markup unchanged",
+      "pass": true
+    },
+    {
+      "name": "BHD-ar-2/30 current amount precedes next message",
+      "pass": true
+    },
+    {
+      "name": "BHD-ar-2/30 current amount equals issuer formatter",
+      "pass": true
+    },
+    {
+      "name": "BHD-ar-2/30 payment qualifier visible",
+      "pass": true
+    },
+    {
+      "name": "BHD-ar-2/30 next target only if next band",
+      "pass": true
+    },
+    {
+      "name": "BHD-ar-2/30 valid progress",
+      "pass": true
+    },
+    {
+      "name": "BHD-ar-2/30.001 calculation unchanged",
+      "pass": true
+    },
+    {
+      "name": "BHD-ar-2/30.001 full cart markup unchanged",
+      "pass": true
+    },
+    {
+      "name": "BHD-ar-2/30.001 current amount precedes next message",
+      "pass": true
+    },
+    {
+      "name": "BHD-ar-2/30.001 current amount equals issuer formatter",
+      "pass": true
+    },
+    {
+      "name": "BHD-ar-2/30.001 payment qualifier visible",
+      "pass": true
+    },
+    {
+      "name": "BHD-ar-2/30.001 next target only if next band",
+      "pass": true
+    },
+    {
+      "name": "BHD-ar-2/30.001 valid progress",
+      "pass": true
+    },
+    {
+      "name": "BHD-ar-2/40 calculation unchanged",
+      "pass": true
+    },
+    {
+      "name": "BHD-ar-2/40 full cart markup unchanged",
+      "pass": true
+    },
+    {
+      "name": "BHD-ar-2/40 current amount precedes next message",
+      "pass": true
+    },
+    {
+      "name": "BHD-ar-2/40 current amount equals issuer formatter",
+      "pass": true
+    },
+    {
+      "name": "BHD-ar-2/40 payment qualifier visible",
+      "pass": true
+    },
+    {
+      "name": "BHD-ar-2/40 next target only if next band",
+      "pass": true
+    },
+    {
+      "name": "BHD-ar-2/40 valid progress",
+      "pass": true
+    },
+    {
+      "name": "BHD-ar-2/40.001 calculation unchanged",
+      "pass": true
+    },
+    {
+      "name": "BHD-ar-2/40.001 full cart markup unchanged",
+      "pass": true
+    },
+    {
+      "name": "BHD-ar-2/40.001 current amount precedes next message",
+      "pass": true
+    },
+    {
+      "name": "BHD-ar-2/40.001 current amount equals issuer formatter",
+      "pass": true
+    },
+    {
+      "name": "BHD-ar-2/40.001 payment qualifier visible",
+      "pass": true
+    },
+    {
+      "name": "BHD-ar-2/40.001 next target only if next band",
+      "pass": true
+    },
+    {
+      "name": "BHD-ar-2/40.001 valid progress",
+      "pass": true
+    },
+    {
+      "name": "BHD-ar-2/43.31 calculation unchanged",
+      "pass": true
+    },
+    {
+      "name": "BHD-ar-2/43.31 full cart markup unchanged",
+      "pass": true
+    },
+    {
+      "name": "BHD-ar-2/43.31 current amount precedes next message",
+      "pass": true
+    },
+    {
+      "name": "BHD-ar-2/43.31 current amount equals issuer formatter",
+      "pass": true
+    },
+    {
+      "name": "BHD-ar-2/43.31 payment qualifier visible",
+      "pass": true
+    },
+    {
+      "name": "BHD-ar-2/43.31 next target only if next band",
+      "pass": true
+    },
+    {
+      "name": "BHD-ar-2/43.31 valid progress",
+      "pass": true
+    },
+    {
+      "name": "BHD-ar-2/50 calculation unchanged",
+      "pass": true
+    },
+    {
+      "name": "BHD-ar-2/50 full cart markup unchanged",
+      "pass": true
+    },
+    {
+      "name": "BHD-ar-2/50 current amount precedes next message",
+      "pass": true
+    },
+    {
+      "name": "BHD-ar-2/50 current amount equals issuer formatter",
+      "pass": true
+    },
+    {
+      "name": "BHD-ar-2/50 payment qualifier visible",
+      "pass": true
+    },
+    {
+      "name": "BHD-ar-2/50 next target only if next band",
+      "pass": true
+    },
+    {
+      "name": "BHD-ar-2/50 valid progress",
+      "pass": true
+    },
+    {
+      "name": "BHD-ar-2/50.001 calculation unchanged",
+      "pass": true
+    },
+    {
+      "name": "BHD-ar-2/50.001 full cart markup unchanged",
+      "pass": true
+    },
+    {
+      "name": "BHD-ar-2/50.001 current amount precedes next message",
+      "pass": true
+    },
+    {
+      "name": "BHD-ar-2/50.001 current amount equals issuer formatter",
+      "pass": true
+    },
+    {
+      "name": "BHD-ar-2/50.001 payment qualifier visible",
+      "pass": true
+    },
+    {
+      "name": "BHD-ar-2/50.001 next target only if next band",
+      "pass": true
+    },
+    {
+      "name": "BHD-ar-2/50.001 valid progress",
+      "pass": true
+    },
+    {
+      "name": "BHD-ar-2/60 calculation unchanged",
+      "pass": true
+    },
+    {
+      "name": "BHD-ar-2/60 full cart markup unchanged",
+      "pass": true
+    },
+    {
+      "name": "BHD-ar-2/60 current amount precedes next message",
+      "pass": true
+    },
+    {
+      "name": "BHD-ar-2/60 current amount equals issuer formatter",
+      "pass": true
+    },
+    {
+      "name": "BHD-ar-2/60 payment qualifier visible",
+      "pass": true
+    },
+    {
+      "name": "BHD-ar-2/60 next target only if next band",
+      "pass": true
+    },
+    {
+      "name": "BHD-ar-2/60 valid progress",
+      "pass": true
+    },
+    {
+      "name": "BHD-ar-2/60.001 calculation unchanged",
+      "pass": true
+    },
+    {
+      "name": "BHD-ar-2/60.001 full cart markup unchanged",
+      "pass": true
+    },
+    {
+      "name": "BHD-ar-2/60.001 current amount precedes next message",
+      "pass": true
+    },
+    {
+      "name": "BHD-ar-2/60.001 current amount equals issuer formatter",
+      "pass": true
+    },
+    {
+      "name": "BHD-ar-2/60.001 payment qualifier visible",
+      "pass": true
+    },
+    {
+      "name": "BHD-ar-2/60.001 next target only if next band",
+      "pass": true
+    },
+    {
+      "name": "BHD-ar-2/60.001 valid progress",
+      "pass": true
+    },
+    {
+      "name": "BHD-ar-2/60.01 calculation unchanged",
+      "pass": true
+    },
+    {
+      "name": "BHD-ar-2/60.01 full cart markup unchanged",
+      "pass": true
+    },
+    {
+      "name": "BHD-ar-2/60.01 current amount precedes next message",
+      "pass": true
+    },
+    {
+      "name": "BHD-ar-2/60.01 current amount equals issuer formatter",
+      "pass": true
+    },
+    {
+      "name": "BHD-ar-2/60.01 payment qualifier visible",
+      "pass": true
+    },
+    {
+      "name": "BHD-ar-2/60.01 next target only if next band",
+      "pass": true
+    },
+    {
+      "name": "BHD-ar-2/60.01 valid progress",
+      "pass": true
+    },
+    {
+      "name": "BHD-ar-2/100 calculation unchanged",
+      "pass": true
+    },
+    {
+      "name": "BHD-ar-2/100 full cart markup unchanged",
+      "pass": true
+    },
+    {
+      "name": "BHD-ar-2/100 current amount precedes next message",
+      "pass": true
+    },
+    {
+      "name": "BHD-ar-2/100 current amount equals issuer formatter",
+      "pass": true
+    },
+    {
+      "name": "BHD-ar-2/100 payment qualifier visible",
+      "pass": true
+    },
+    {
+      "name": "BHD-ar-2/100 next target only if next band",
+      "pass": true
+    },
+    {
+      "name": "BHD-ar-2/100 valid progress",
+      "pass": true
+    },
+    {
+      "name": "BHD-ar-2 empty cart no reward",
+      "pass": true
+    },
+    {
+      "name": "BHD-ar-2 hooks unchanged",
+      "pass": true
+    },
+    {
+      "name": "BHD-ar-2 recommendation markup unchanged",
+      "pass": true
+    },
+    {
+      "name": "BHD-ar-2 real-cart label unchanged",
+      "pass": true
+    },
+    {
+      "name": "XYZ-en-2/0 calculation unchanged",
+      "pass": true
+    },
+    {
+      "name": "XYZ-en-2/0 full cart markup unchanged",
+      "pass": true
+    },
+    {
+      "name": "XYZ-en-2/0 absent state has no promise",
+      "pass": true
+    },
+    {
+      "name": "XYZ-en-2/0.1 calculation unchanged",
+      "pass": true
+    },
+    {
+      "name": "XYZ-en-2/0.1 full cart markup unchanged",
+      "pass": true
+    },
+    {
+      "name": "XYZ-en-2/0.1 absent state has no promise",
+      "pass": true
+    },
+    {
+      "name": "XYZ-en-2/14.49 calculation unchanged",
+      "pass": true
+    },
+    {
+      "name": "XYZ-en-2/14.49 full cart markup unchanged",
+      "pass": true
+    },
+    {
+      "name": "XYZ-en-2/14.49 absent state has no promise",
+      "pass": true
+    },
+    {
+      "name": "XYZ-en-2/20 calculation unchanged",
+      "pass": true
+    },
+    {
+      "name": "XYZ-en-2/20 full cart markup unchanged",
+      "pass": true
+    },
+    {
+      "name": "XYZ-en-2/20 absent state has no promise",
+      "pass": true
+    },
+    {
+      "name": "XYZ-en-2/20.001 calculation unchanged",
+      "pass": true
+    },
+    {
+      "name": "XYZ-en-2/20.001 full cart markup unchanged",
+      "pass": true
+    },
+    {
+      "name": "XYZ-en-2/20.001 absent state has no promise",
+      "pass": true
+    },
+    {
+      "name": "XYZ-en-2/20.01 calculation unchanged",
+      "pass": true
+    },
+    {
+      "name": "XYZ-en-2/20.01 full cart markup unchanged",
+      "pass": true
+    },
+    {
+      "name": "XYZ-en-2/20.01 absent state has no promise",
+      "pass": true
+    },
+    {
+      "name": "XYZ-en-2/30 calculation unchanged",
+      "pass": true
+    },
+    {
+      "name": "XYZ-en-2/30 full cart markup unchanged",
+      "pass": true
+    },
+    {
+      "name": "XYZ-en-2/30 absent state has no promise",
+      "pass": true
+    },
+    {
+      "name": "XYZ-en-2/30.001 calculation unchanged",
+      "pass": true
+    },
+    {
+      "name": "XYZ-en-2/30.001 full cart markup unchanged",
+      "pass": true
+    },
+    {
+      "name": "XYZ-en-2/30.001 absent state has no promise",
+      "pass": true
+    },
+    {
+      "name": "XYZ-en-2/40 calculation unchanged",
+      "pass": true
+    },
+    {
+      "name": "XYZ-en-2/40 full cart markup unchanged",
+      "pass": true
+    },
+    {
+      "name": "XYZ-en-2/40 absent state has no promise",
+      "pass": true
+    },
+    {
+      "name": "XYZ-en-2/40.001 calculation unchanged",
+      "pass": true
+    },
+    {
+      "name": "XYZ-en-2/40.001 full cart markup unchanged",
+      "pass": true
+    },
+    {
+      "name": "XYZ-en-2/40.001 absent state has no promise",
+      "pass": true
+    },
+    {
+      "name": "XYZ-en-2/43.31 calculation unchanged",
+      "pass": true
+    },
+    {
+      "name": "XYZ-en-2/43.31 full cart markup unchanged",
+      "pass": true
+    },
+    {
+      "name": "XYZ-en-2/43.31 absent state has no promise",
+      "pass": true
+    },
+    {
+      "name": "XYZ-en-2/50 calculation unchanged",
+      "pass": true
+    },
+    {
+      "name": "XYZ-en-2/50 full cart markup unchanged",
+      "pass": true
+    },
+    {
+      "name": "XYZ-en-2/50 absent state has no promise",
+      "pass": true
+    },
+    {
+      "name": "XYZ-en-2/50.001 calculation unchanged",
+      "pass": true
+    },
+    {
+      "name": "XYZ-en-2/50.001 full cart markup unchanged",
+      "pass": true
+    },
+    {
+      "name": "XYZ-en-2/50.001 absent state has no promise",
+      "pass": true
+    },
+    {
+      "name": "XYZ-en-2/60 calculation unchanged",
+      "pass": true
+    },
+    {
+      "name": "XYZ-en-2/60 full cart markup unchanged",
+      "pass": true
+    },
+    {
+      "name": "XYZ-en-2/60 absent state has no promise",
+      "pass": true
+    },
+    {
+      "name": "XYZ-en-2/60.001 calculation unchanged",
+      "pass": true
+    },
+    {
+      "name": "XYZ-en-2/60.001 full cart markup unchanged",
+      "pass": true
+    },
+    {
+      "name": "XYZ-en-2/60.001 absent state has no promise",
+      "pass": true
+    },
+    {
+      "name": "XYZ-en-2/60.01 calculation unchanged",
+      "pass": true
+    },
+    {
+      "name": "XYZ-en-2/60.01 full cart markup unchanged",
+      "pass": true
+    },
+    {
+      "name": "XYZ-en-2/60.01 absent state has no promise",
+      "pass": true
+    },
+    {
+      "name": "XYZ-en-2/100 calculation unchanged",
+      "pass": true
+    },
+    {
+      "name": "XYZ-en-2/100 full cart markup unchanged",
+      "pass": true
+    },
+    {
+      "name": "XYZ-en-2/100 absent state has no promise",
+      "pass": true
+    },
+    {
+      "name": "XYZ-en-2 empty cart no reward",
+      "pass": true
+    },
+    {
+      "name": "XYZ-en-2 hooks unchanged",
+      "pass": true
+    },
+    {
+      "name": "XYZ-en-2 recommendation markup unchanged",
+      "pass": true
+    },
+    {
+      "name": "XYZ-en-2 real-cart label unchanged",
+      "pass": true
+    },
+    {
+      "name": "XYZ-ar-2/0 calculation unchanged",
+      "pass": true
+    },
+    {
+      "name": "XYZ-ar-2/0 full cart markup unchanged",
+      "pass": true
+    },
+    {
+      "name": "XYZ-ar-2/0 absent state has no promise",
+      "pass": true
+    },
+    {
+      "name": "XYZ-ar-2/0.1 calculation unchanged",
+      "pass": true
+    },
+    {
+      "name": "XYZ-ar-2/0.1 full cart markup unchanged",
+      "pass": true
+    },
+    {
+      "name": "XYZ-ar-2/0.1 absent state has no promise",
+      "pass": true
+    },
+    {
+      "name": "XYZ-ar-2/14.49 calculation unchanged",
+      "pass": true
+    },
+    {
+      "name": "XYZ-ar-2/14.49 full cart markup unchanged",
+      "pass": true
+    },
+    {
+      "name": "XYZ-ar-2/14.49 absent state has no promise",
+      "pass": true
+    },
+    {
+      "name": "XYZ-ar-2/20 calculation unchanged",
+      "pass": true
+    },
+    {
+      "name": "XYZ-ar-2/20 full cart markup unchanged",
+      "pass": true
+    },
+    {
+      "name": "XYZ-ar-2/20 absent state has no promise",
+      "pass": true
+    },
+    {
+      "name": "XYZ-ar-2/20.001 calculation unchanged",
+      "pass": true
+    },
+    {
+      "name": "XYZ-ar-2/20.001 full cart markup unchanged",
+      "pass": true
+    },
+    {
+      "name": "XYZ-ar-2/20.001 absent state has no promise",
+      "pass": true
+    },
+    {
+      "name": "XYZ-ar-2/20.01 calculation unchanged",
+      "pass": true
+    },
+    {
+      "name": "XYZ-ar-2/20.01 full cart markup unchanged",
+      "pass": true
+    },
+    {
+      "name": "XYZ-ar-2/20.01 absent state has no promise",
+      "pass": true
+    },
+    {
+      "name": "XYZ-ar-2/30 calculation unchanged",
+      "pass": true
+    },
+    {
+      "name": "XYZ-ar-2/30 full cart markup unchanged",
+      "pass": true
+    },
+    {
+      "name": "XYZ-ar-2/30 absent state has no promise",
+      "pass": true
+    },
+    {
+      "name": "XYZ-ar-2/30.001 calculation unchanged",
+      "pass": true
+    },
+    {
+      "name": "XYZ-ar-2/30.001 full cart markup unchanged",
+      "pass": true
+    },
+    {
+      "name": "XYZ-ar-2/30.001 absent state has no promise",
+      "pass": true
+    },
+    {
+      "name": "XYZ-ar-2/40 calculation unchanged",
+      "pass": true
+    },
+    {
+      "name": "XYZ-ar-2/40 full cart markup unchanged",
+      "pass": true
+    },
+    {
+      "name": "XYZ-ar-2/40 absent state has no promise",
+      "pass": true
+    },
+    {
+      "name": "XYZ-ar-2/40.001 calculation unchanged",
+      "pass": true
+    },
+    {
+      "name": "XYZ-ar-2/40.001 full cart markup unchanged",
+      "pass": true
+    },
+    {
+      "name": "XYZ-ar-2/40.001 absent state has no promise",
+      "pass": true
+    },
+    {
+      "name": "XYZ-ar-2/43.31 calculation unchanged",
+      "pass": true
+    },
+    {
+      "name": "XYZ-ar-2/43.31 full cart markup unchanged",
+      "pass": true
+    },
+    {
+      "name": "XYZ-ar-2/43.31 absent state has no promise",
+      "pass": true
+    },
+    {
+      "name": "XYZ-ar-2/50 calculation unchanged",
+      "pass": true
+    },
+    {
+      "name": "XYZ-ar-2/50 full cart markup unchanged",
+      "pass": true
+    },
+    {
+      "name": "XYZ-ar-2/50 absent state has no promise",
+      "pass": true
+    },
+    {
+      "name": "XYZ-ar-2/50.001 calculation unchanged",
+      "pass": true
+    },
+    {
+      "name": "XYZ-ar-2/50.001 full cart markup unchanged",
+      "pass": true
+    },
+    {
+      "name": "XYZ-ar-2/50.001 absent state has no promise",
+      "pass": true
+    },
+    {
+      "name": "XYZ-ar-2/60 calculation unchanged",
+      "pass": true
+    },
+    {
+      "name": "XYZ-ar-2/60 full cart markup unchanged",
+      "pass": true
+    },
+    {
+      "name": "XYZ-ar-2/60 absent state has no promise",
+      "pass": true
+    },
+    {
+      "name": "XYZ-ar-2/60.001 calculation unchanged",
+      "pass": true
+    },
+    {
+      "name": "XYZ-ar-2/60.001 full cart markup unchanged",
+      "pass": true
+    },
+    {
+      "name": "XYZ-ar-2/60.001 absent state has no promise",
+      "pass": true
+    },
+    {
+      "name": "XYZ-ar-2/60.01 calculation unchanged",
+      "pass": true
+    },
+    {
+      "name": "XYZ-ar-2/60.01 full cart markup unchanged",
+      "pass": true
+    },
+    {
+      "name": "XYZ-ar-2/60.01 absent state has no promise",
+      "pass": true
+    },
+    {
+      "name": "XYZ-ar-2/100 calculation unchanged",
+      "pass": true
+    },
+    {
+      "name": "XYZ-ar-2/100 full cart markup unchanged",
+      "pass": true
+    },
+    {
+      "name": "XYZ-ar-2/100 absent state has no promise",
+      "pass": true
+    },
+    {
+      "name": "XYZ-ar-2 empty cart no reward",
+      "pass": true
+    },
+    {
+      "name": "XYZ-ar-2 hooks unchanged",
+      "pass": true
+    },
+    {
+      "name": "XYZ-ar-2 recommendation markup unchanged",
+      "pass": true
+    },
+    {
+      "name": "XYZ-ar-2 real-cart label unchanged",
+      "pass": true
+    }
+  ]
+}

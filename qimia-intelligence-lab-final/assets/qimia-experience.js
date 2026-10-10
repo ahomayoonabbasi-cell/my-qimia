@@ -17,39 +17,9 @@
       mobileProps.forEach(name => grid.style.removeProperty(name));
       return;
     }
-    const orb = grid.querySelector('[data-qil-hero-orb]');
-    const avatar = visual.querySelector('[data-qil-hero-avatar]');
-    const rail = visual.querySelector('.qil-hero-weekly');
-    // On a short landscape viewport, keep the form after the complete rail
-    // without resizing the couple or the product cards.
-    const tail = window.matchMedia('(max-width:760px)').matches ? 20 : 24;
-    setPx(grid, mobileProps[3], Math.max(tail, rail ? rail.offsetTop + rail.offsetHeight - visual.offsetHeight + tail : tail));
-    if (orb && avatar) {
-      // offset geometry ignores the existing float animations. object-fit:contain
-      // with left/bottom alignment leaves unused height INSIDE the image element;
-      // anchor above the painted picture, not the top of that empty rectangle.
-      const nw = avatar.naturalWidth || Number(avatar.getAttribute('width'));
-      const nh = avatar.naturalHeight || Number(avatar.getAttribute('height'));
-      const size = orb.offsetWidth;
-      if (nw > 0 && nh > 0 && size > 0 && avatar.offsetWidth > 0 && avatar.offsetHeight > 0) {
-        const scale = Math.min(avatar.offsetWidth / nw, avatar.offsetHeight / nh);
-        const paintedWidth = nw * scale, paintedHeight = nh * scale;
-        const paintedTop = avatar.offsetTop + avatar.offsetHeight - paintedHeight;
-        const clearance = 34; // Includes the existing 8px scene / 9px avatar float.
-        const room = Math.max(0, Math.ceil(size + clearance + 12 - paintedTop));
-        const top = room + paintedTop - size - clearance;
-        const wantedLeft = avatar.offsetLeft + paintedWidth / 2 - size / 2;
-        // The product rail stays on the physical right in both languages.
-        const railLimit = rail && rail.offsetWidth ? rail.offsetLeft - size - 24 : grid.clientWidth - size - 8;
-        const maxLeft = Math.max(8, Math.min(grid.clientWidth - size - 8, railLimit));
-        const left = Math.max(8, Math.min(wantedLeft, maxLeft));
-        setPx(grid, mobileProps[0], room);
-        setPx(grid, mobileProps[1], left);
-        setPx(grid, mobileProps[2], top);
-      }
-    } else {
-      mobileProps.slice(0, 3).forEach(name => grid.style.removeProperty(name));
-    }
+    // Mobile scene and its three-card shelf now use normal flow in CSS.
+    // Remove obsolete offsets instead of reserving room for a vertical rail.
+    mobileProps.forEach(name => grid.style.removeProperty(name));
     const h = hero.getBoundingClientRect(), t = title.getBoundingClientRect(), v = visual.getBoundingClientRect();
     // Art begins at the headline; the gradient remains light behind actual copy.
     const top = Math.max(0, Math.round(t.top - h.top - 36));

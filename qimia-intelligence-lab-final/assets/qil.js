@@ -9,6 +9,7 @@
 
 	const config = window.QIMIA_LAB || {};
 	const useNativeWoodmartCart = config.woodmartCart === true;
+	const isCartPage = config.isCart === true || document.body.classList.contains('woocommerce-cart') || !!document.querySelector('.wp-block-woocommerce-cart');
 	const products = Array.isArray(config.products) ? config.products : [];
 	const productIndex = new Map(products.map(product => [String(product?.id || ''), product]).filter(([id]) => id));
 	const remoteSearchRanks = new Map();
@@ -206,6 +207,8 @@
 		return `<span class="qil-compare-price-value" dir="ltr">${prefix}<strong class="qil-compare-current-price" aria-label="${escapeHtml(`${t('price')}: ${spokenPrice(current, product)}`)}"><span aria-hidden="true">${priceEntryHtml(current, product)}</span></strong></span>`;
 	}
 	function perServingMarkup(product) {
+		// Reserve the native secondary-price slot without displaying an oral fact.
+		if (isBeautyProduct(product)) return '<span class="qil-per-serving" aria-hidden="true">&nbsp;</span>';
 		const price = product?.price || {};
 		const value = plain(price.perServingHtml || price.perServingFormatted || product?.perServing);
 		if (!value || price.perServingVerified !== true) return '';
@@ -349,7 +352,8 @@
 		if (!shell) return 0;
 		const header = shell.querySelector('.qil-header');
 		const topbar = shell.querySelector('.qil-topbar');
-		const headerHeight = header ? header.getBoundingClientRect().height : 0;
+		const headerStyle = header ? getComputedStyle(header) : null;
+		const headerHeight = header ? header.getBoundingClientRect().height + (parseFloat(headerStyle.marginTop) || 0) + (parseFloat(headerStyle.marginBottom) || 0) : 0;
 		// scrollHeight ignores the max-height the collapse animates.
 		const topbarHeight = topbar ? topbar.scrollHeight : 0;
 		const height = Math.round(headerHeight + topbarHeight);
@@ -364,10 +368,10 @@
 	function setupChromeOffset() {
 		const shell = document.querySelector('[data-qil-chrome]');
 		syncAdminBarOffset();
-		if (!shell) return;
-		syncChromeOffset();
 		window.addEventListener('resize', () => { syncAdminBarOffset(); syncChromeOffset(); }, {passive: true});
 		window.addEventListener('orientationchange', () => window.setTimeout(() => { syncAdminBarOffset(); syncChromeOffset(); }, 250), {passive: true});
+		if (!shell) return;
+		syncChromeOffset();
 		window.setTimeout(() => { syncAdminBarOffset(); syncChromeOffset(); }, 900);
 		// Past the first screenful the promo bar steps aside and only the
 		// navigation stays. Nothing is remeasured: the reserved height already
@@ -1024,7 +1028,19 @@
 		return primaryActiveValue(product, preferredActives, !strictTypedPurpose) || (!strictTypedPurpose ? factValue(product, ['primaryActive']) : '');
 	}
 
+	function isBeautyProduct(product) {
+		return product?.beauty?.schema === 1 && ['beauty','accessory'].includes(product?.productClass);
+	}
+	function beautyCategory(product) {
+		return plain(product?.beauty?.category?.[state.lang] || (state.lang === 'ar' ? 'الجمال والعناية' : 'Beauty & care'));
+	}
 	function cardFacts(product) {
+		if (isBeautyProduct(product)) {
+			const rows = Array.isArray(product.beauty.facts?.[state.lang]) ? product.beauty.facts[state.lang] : [];
+			const facts = rows.slice(0, 2).map(row => ({label:plain(row?.label).slice(0,64), value:plain(row?.value).slice(0,180)})).filter(row=>row.label && row.value);
+			while (facts.length < 2) facts.push({label:state.lang === 'ar' ? 'تفاصيل المنتج' : 'Product detail',value:t('notListed')});
+			return facts;
+		}
 		const purpose = productPurposeKey(product), facts = [];
 		const servings = factValue(product, ['servingsPerContainer','servings']) || plain(product.servings);
 		const servingSize = factValue(product, ['servingSize']);
@@ -1063,6 +1079,45 @@
 		if (state.lang !== 'ar' && plain(product?.stock?.label)) return plain(product.stock.label);
 		if (product?.stock?.status === 'outofstock' || product?.inStock === false) return t('outOfStock');
 		return t('inStock');
+	}
+
+	// Cosmetic availability uses the same Woo inventory already delivered to the
+	// native renderer. Never infer availability from price or purchasability.
+	function beautyStockState(product, inventory) {
+		const known = value => ['instock','outofstock','onbackorder'].includes(value);
+		const live = plain(inventory?.stockStatus), stored = plain(product?.stock?.status);
+		if (known(live)) return live === 'instock' && inventory.inStock === false ? 'outofstock' : live;
+		if (typeof inventory?.inStock === 'boolean') return inventory.inStock ? 'instock' : 'outofstock';
+		if (known(stored)) return stored === 'instock' && product.stock.inStock === false ? 'outofstock' : stored;
+		const available = product?.stock?.inStock ?? product?.inStock;
+		return typeof available === 'boolean' ? (available ? 'instock' : 'outofstock') : 'unknown';
+	}
+	function beautyStockLabel(status) {
+		if (status === 'outofstock') return t('outOfStock');
+		if (status === 'instock') return t('inStock');
+		if (status === 'onbackorder') return state.lang === 'ar' ? 'متاح بالطلب المسبق' : 'On backorder';
+		return state.lang === 'ar' ? 'تحقق من التوفر' : 'Check availability';
+	}
+	function beautyStockBadge(status) {
+		return `<span class="qil-beauty-stock-badge" data-qil-beauty-stock-badge${status === 'instock' ? ' hidden' : ''}>${escapeHtml(beautyStockLabel(status))}</span>`;
+	}
+	function beautyStockLine(status) {
+		const label = escapeHtml(beautyStockLabel(status));
+		return `<span data-qil-beauty-stock-line title="${label}"><i aria-hidden="true"></i><span data-qil-beauty-stock-label>${label}</span></span>`;
+	}
+	function repaintBeautyStock(card, product, inventory) {
+		if (!isBeautyProduct(product) || !card.hasAttribute('data-qil-beauty-stock')) return;
+		const status = beautyStockState(product, inventory), label = beautyStockLabel(status);
+		card.dataset.qilBeautyStock = status;
+		const line = card.querySelector('[data-qil-beauty-stock-line]');
+		const text = card.querySelector('[data-qil-beauty-stock-label]');
+		const badge = card.querySelector('[data-qil-beauty-stock-badge]');
+		if (line && line.title !== label) line.title = label;
+		if (text && text.textContent !== label) text.textContent = label;
+		if (badge) {
+			if (badge.textContent !== label) badge.textContent = label;
+			badge.hidden = status === 'instock';
+		}
 	}
 
 	/* Exact-item repurchase. Private data stays in memory, never localStorage,
@@ -1135,7 +1190,7 @@
 		setupRails(); observeReveals();
 	}
 	function repeatVisibleIds(onlyUnseen = false) {
-		const ids = [...document.querySelectorAll('.qil-product-card[data-product-id],[data-qil-native-inventory]')].map(n => Number(n.dataset.productId || n.dataset.qilNativeInventory));
+		const ids = [...document.querySelectorAll('.qil-product-card[data-product-id],[data-qil-native-inventory],[data-qil-beauty-stock-product]')].map(n => Number(n.dataset.productId || n.dataset.qilNativeInventory || n.dataset.qilBeautyStockProduct));
 		// A loop template can omit the badge hook. Its native purchase button still supplies a real ID.
 		document.querySelectorAll('.wd-product a[data-product_id],li.product a[data-product_id]').forEach(n => ids.push(Number(n.dataset.product_id)));
 		return [...new Set(ids)].filter(id => Number.isSafeInteger(id) && id > 0 && (!onlyUnseen || !inventorySeen.has(String(id)))).slice(0, 64);
@@ -1172,10 +1227,26 @@
 		document.querySelectorAll('.qil-product-card[data-product-id]').forEach(card => {
 			const id = String(card.dataset.productId), row = repeatRow(card.dataset.qilRepeatKey);
 			const data = row?.canAdd ? newestInventory(row.variationId || row.productId, row.inventory) : newestInventory(id, productIndex.get(id)?.inventory);
+			repaintBeautyStock(card, actionProduct(id), data);
 			const holder = card.querySelector('[data-qil-inventory-labels]');
 			if (holder && data) {
 				const html = inventoryMarkup(data); if (holder.innerHTML !== html) holder.innerHTML = html;
 			}
+		});
+
+		// Compact home Beauty edits share this repaint; no separate controller or
+		// request. Preserve fresh server-rendered text until native inventory exists.
+		document.querySelectorAll('[data-qil-beauty-stock-product]').forEach(holder => {
+			const id = Number(holder.dataset.qilBeautyStockProduct);
+			if (!Number.isSafeInteger(id) || id <= 0) return;
+			const data = newestInventory(id, actionProduct(id)?.inventory);
+			if (!data || (!['instock','outofstock','onbackorder'].includes(data.stockStatus) && typeof data.inStock !== 'boolean')) return;
+			const checked = Number(holder.dataset.qilBeautyStockCheckedAt || 0);
+			if (checked > 0 && !(Number(data.checkedAt) >= checked)) return;
+			const status = beautyStockState(null, data), label = beautyStockLabel(status);
+			holder.dataset.stock = status;
+			if (holder.textContent !== label) holder.textContent = label;
+			if (Number(data.checkedAt) > 0) holder.dataset.qilBeautyStockCheckedAt = String(Number(data.checkedAt));
 		});
 		document.querySelectorAll('[data-qil-native-inventory]').forEach(holder => {
 			// Native-loop labels always describe the public product, not an account's flavour.
@@ -1194,6 +1265,7 @@
 			inventoryExpiryTimer = window.setTimeout(renderLiveInventory, Math.min(2147480000, Math.max(100, next * 1000 - Date.now() - inventoryClockOffset + 50)));
 		}
 		positionNativeInventory();
+		if (document.querySelector('[data-qil-home-shelves] [data-qil-home-discover]')) document.dispatchEvent(new CustomEvent('qil:home-inventory-painted'));
 	}
 	function positionNativeInventory() {
 		// The Woo hook can sit outside a theme's thumbnail wrapper. Anchor ONLY
@@ -1412,6 +1484,8 @@
         if (collectionKey === 'protein') role = t('proteinPick');
 		if (collectionKey === 'creatine') role = t('creatinePick');
 		if ((collectionKey === 'best-sellers' || collectionKey === 'weekly-best-sellers') && Number(product?.salesCount || 0) > 0) role = t('bestSeller');
+		if (isBeautyProduct(product)) role = beautyCategory(product);
+		const beautyStock = isBeautyProduct(product) ? beautyStockState(product, repeat ? product.inventory : newestInventory(product.id, product.inventory)) : '';
 		const facts = cardFacts(product), salePercent = Number(product?.price?.savingsPct || 0), promotion = product?.promotion || {}, verifiedBadges = [];
 		const promotionKind = promotion.isFlash === true ? 'flash' : (hasVisibleSale(product) ? 'sale' : 'none');
 		const percentMark = state.lang === 'ar' ? '٪' : '%';
@@ -1419,11 +1493,11 @@
 			? `<span class="qil-sale-badge qil-flash-sale-badge" data-qil-sale-badge="flash">${escapeHtml(t('flashSale'))}${Number(promotion.discountPct || 0) > 0 ? ` · −${Math.round(Number(promotion.discountPct))}${percentMark}` : ''}</span>`
 			: (hasVisibleSale(product) && salePercent > 0 ? `<span class="qil-sale-badge" data-qil-sale-badge="sale">−${Math.round(salePercent)}${percentMark}</span>` : '');
 		const labelStack = `<span class="qil-label-stack${saleBadge ? ' has-multiple' : ''}"><span class="qil-product-badge">${escapeHtml(role)}</span>${saleBadge}</span>`;
-		if (product?.dietary?.vegan === true) verifiedBadges.push(state.lang === 'ar' ? 'نباتي' : 'Vegan');
-		if (product?.dietary?.halal === true) verifiedBadges.push(state.lang === 'ar' ? 'حلال' : 'Halal');
-		return `<article class="qil-product-card qil-reveal" data-product-id="${escapeHtml(product.id)}" data-qil-promotion="${promotionKind}"${repeat ? ` data-qil-repeat-rail-card data-qil-repeat-key="${escapeHtml(repeatKey)}"` : ''}>
-			<a class="qil-product-image" href="${escapeHtml(safeUrl(product.url))}" aria-label="${escapeHtml(product.name)}">${imageMarkup(product)}${labelStack}<span class="qil-inventory-labels" data-qil-inventory-labels>${inventoryMarkup(repeat ? product.inventory : newestInventory(product.id, product.inventory))}</span>${verifiedBadges.length ? `<span class="qil-verified-badge"><svg><use href="#qil-i-check"/></svg>${escapeHtml(verifiedBadges[0])}</span>` : ''}</a>
-			<div class="qil-product-info"><div class="qil-product-brand"><span>${escapeHtml(brandName(product))}</span><span><i></i>${escapeHtml(stockLabel(product))}</span></div><h3><a href="${escapeHtml(safeUrl(product.url))}">${escapeHtml(product.name || '')}</a></h3><div class="qil-card-price">${priceMarkup(product)}${perServingMarkup(product)}</div><div class="qil-facts">${facts.map(item => `<div class="qil-fact"><small class="qil-fact-label">${escapeHtml(item.label)}</small><strong class="qil-fact-value" dir="auto" title="${escapeHtml(item.value)}">${escapeHtml(item.value)}</strong></div>`).join('')}</div>${repeat ? repeatNote(product, repeatKey) : ''}<div class="qil-card-actions">${repeat ? repeatButton(product, repeatKey) : purchaseButton(product)}<button class="qil-compare-add${selected ? ' is-active' : ''}" type="button" data-compare-id="${escapeHtml(product.id)}" aria-pressed="${selected ? 'true' : 'false'}" aria-label="${escapeHtml(selected ? t('removeCompare') : t('addCompare'))}" title="${escapeHtml(selected ? t('removeCompare') : t('addCompare'))}"><svg class="qil-compare-icon" aria-hidden="true"><use href="#qil-i-compare"/></svg><span>${escapeHtml(selected ? t('selected') : t('addCompare'))}</span></button></div><button class="qil-ask-product" type="button" data-qimia-ai-open data-qil-ai-intent="product" data-qimia-product-id="${escapeHtml(product.id)}" data-qimia-product-name="${escapeHtml(product.name)}"><svg><use href="#qil-i-spark"/></svg><span>${escapeHtml(t('askAbout'))}</span><svg><use href="#qil-i-arrow"/></svg></button></div>
+		if (!isBeautyProduct(product) && product?.dietary?.vegan === true) verifiedBadges.push(state.lang === 'ar' ? 'نباتي' : 'Vegan');
+		if (!isBeautyProduct(product) && product?.dietary?.halal === true) verifiedBadges.push(state.lang === 'ar' ? 'حلال' : 'Halal');
+		return `<article class="qil-product-card qil-reveal" data-product-id="${escapeHtml(product.id)}" data-qil-promotion="${promotionKind}"${isBeautyProduct(product) ? ` data-qil-product-class="${escapeHtml(product.productClass)}" data-qil-beauty-stock="${beautyStock}"` : ''}${repeat ? ` data-qil-repeat-rail-card data-qil-repeat-key="${escapeHtml(repeatKey)}"` : ''}>
+			<a class="qil-product-image" href="${escapeHtml(safeUrl(product.url))}" aria-label="${escapeHtml(product.name)}">${imageMarkup(product)}${labelStack}${beautyStock ? beautyStockBadge(beautyStock) : ''}<span class="qil-inventory-labels" data-qil-inventory-labels>${inventoryMarkup(repeat ? product.inventory : newestInventory(product.id, product.inventory))}</span>${verifiedBadges.length ? `<span class="qil-verified-badge"><svg><use href="#qil-i-check"/></svg>${escapeHtml(verifiedBadges[0])}</span>` : ''}</a>
+			<div class="qil-product-info"><div class="qil-product-brand"><span>${escapeHtml(brandName(product))}</span>${beautyStock ? beautyStockLine(beautyStock) : `<span><i></i>${escapeHtml(stockLabel(product))}</span>`}</div><h3><a href="${escapeHtml(safeUrl(product.url))}">${escapeHtml(product.name || '')}</a></h3><div class="qil-card-price">${priceMarkup(product)}${perServingMarkup(product)}</div><div class="qil-facts">${facts.map(item => `<div class="qil-fact"><small class="qil-fact-label">${escapeHtml(item.label)}</small><strong class="qil-fact-value" dir="auto" title="${escapeHtml(item.value)}">${escapeHtml(item.value)}</strong></div>`).join('')}</div>${repeat ? repeatNote(product, repeatKey) : ''}<div class="qil-card-actions">${repeat ? repeatButton(product, repeatKey) : purchaseButton(product)}<button class="qil-compare-add${selected ? ' is-active' : ''}" type="button" data-compare-id="${escapeHtml(product.id)}" aria-pressed="${selected ? 'true' : 'false'}" aria-label="${escapeHtml(selected ? t('removeCompare') : t('addCompare'))}" title="${escapeHtml(selected ? t('removeCompare') : t('addCompare'))}"><svg class="qil-compare-icon" aria-hidden="true"><use href="#qil-i-compare"/></svg><span>${escapeHtml(selected ? t('selected') : t('addCompare'))}</span></button></div><button class="qil-ask-product" type="button" data-qimia-ai-open data-qil-ai-intent="product" data-qimia-product-id="${escapeHtml(product.id)}" data-qimia-product-name="${escapeHtml(product.name)}"><svg><use href="#qil-i-spark"/></svg><span>${escapeHtml(t('askAbout'))}</span><svg><use href="#qil-i-arrow"/></svg></button></div>
 		</article>`;
 	}
 
@@ -1815,12 +1889,12 @@
 		}
 	}
 
-	function closeQuickView(modal = $('[data-qil-quick-view-modal]')) {
+	function closeQuickView(modal = $('[data-qil-quick-view-modal]'), restoreFocus = true) {
 		window.clearTimeout(variationTimer);
 		quickViewController?.abort();
 		variationController?.abort();
 		activeQuickView = null;
-		closeModal(modal);
+		closeModal(modal, restoreFocus);
 	}
 
 	function renderProducts() {
@@ -2001,6 +2075,11 @@
 		const count = $('[data-qil-compare-count]'); if (count) count.textContent = `${state.compare.length}/2`;
 		const thumbs = $('[data-qil-compare-thumbs]'); if (thumbs) thumbs.innerHTML = state.compare.map(product => { const image = primaryImages(product)[0]; return `<span class="qil-compare-thumb">${image ? `<img src="${escapeHtml(safeUrl(image.src || image.url))}" alt="">` : 'Q'}</span>`; }).join('');
 		const target = $('[data-qil-compare-table]'); if (!target) return;
+		// Beauty uses the existing live assistant table, never the oral fallback rows.
+		if (state.compare.some(isBeautyProduct)) {
+			target.innerHTML = `<div class="qil-compare-ai-action"><button class="qil-button qil-button-primary" type="button" data-qimia-ai-open data-qil-ai-intent="compare-selected">${escapeHtml(t('askAICompare'))}</button></div>`;
+			return;
+		}
 		if (state.compare.length < 2) { target.innerHTML = `<div class="qil-compare-empty">${escapeHtml(t('comparisonEmpty'))}</div>`; return; }
 		const heads = state.compare.map(product => { const image = primaryImages(product)[0]; return `<th scope='col'>${image ? `<img src='${escapeHtml(safeUrl(image.src || image.url))}' alt=''>` : ''}<span>${escapeHtml(product.name)}</span></th>`; }).join('');
 		const row = (label, key, dir = '') => `<tr><th scope='row'>${escapeHtml(label)}</th>${state.compare.map(product => `<td${dir ? ` dir='${dir}'` : ''}>${escapeHtml(compareFact(product,key) || t('notListed'))}</td>`).join('')}</tr>`;
@@ -2014,6 +2093,12 @@
 	function aiPrompt(intent, product = null) {
 		const name = plain(product?.name || '');
 		const id = Math.max(0, Number(product?.id || 0));
+		if (intent === 'product' && isBeautyProduct(product)) {
+			const tool = product.productClass === 'accessory';
+			return state.lang === 'ar'
+				? `ساعدني في فهم هذا ${tool ? 'المنتج من أدوات الجمال' : 'المنتج من مستحضرات الجمال'} من كيميا (رقم المنتج ${id}): ${name}. تحقق من السعر والمخزون وخيارات الشراء الحالية. ${tool ? 'اشرح الخامة والأبعاد والعناية المسجلة فقط.' : 'اشرح المكونات وطريقة الاستخدام والدرجة والحجم المسجلة فقط، ولا تفترض نسب المكونات أو ملاءمة غير موثقة.'} اسألني عن احتياجي. هذا ليس مكملاً غذائياً ولا يستخدم بالفم.`
+				: `Help me understand this exact Qimia ${tool ? 'beauty tool' : 'beauty product'} (product ID ${id}): ${name}. Verify its live price, stock and purchase options. ${tool ? 'Explain only its recorded material, dimensions and care.' : 'Explain only its recorded ingredients, directions, shade and size; do not infer ingredient percentages or suitability.'} Ask about my needs. This is not an oral supplement.`;
+		}
 		if (state.lang === 'ar') {
 			if (intent === 'product') return `أريد مناقشة هذا المنتج المحدد من متجر كيميا (رقم المنتج ${id}): ${name}. تحقّق أولاً من سجل ووكومرس المباشر وحقائق المكمّل الموثّقة قبل الإجابة.`;
 			if (intent === 'protein') return 'ساعدني في اختيار بروتين مناسب لبناء عضلات صافية من كتالوج كيميا المباشر. ابدأ بسؤال واحد مختصر عن احتياجي اليومي من البروتين ونظامي الغذائي وميزانيتي، واستخدم المخزون والأسعار الحالية فقط.';
@@ -2065,6 +2150,14 @@
 		trigger.dataset.qilAiBusy = '1';
 		showToast(t('aiConnecting'));
 		try {
+			if (intent === 'compare-selected' && state.compare.some(isBeautyProduct)) {
+				if (state.compare.length !== 2 || typeof window.QimiaAIEntry?.compare !== 'function') throw new Error('compare_unavailable');
+				await window.QimiaAIEntry.open();
+				window.QimiaBeautyCompare?.attach();
+				window.AmirAIChat?.setLanguage?.(state.lang, false);
+				await window.QimiaAIEntry.compare(state.compare.map(product=>Number(product.id)));
+				return;
+			}
 			const requireStore = intent === 'product' || intent === 'compare-product' || intent === 'compare-selected' || intent === 'compare-picker';
 			const chat = await waitForQimiaAI(requireStore);
 			chat.open?.();
@@ -2072,12 +2165,17 @@
 
 			if (intent === 'product') {
 				const id = Math.max(0, Number(trigger.dataset.qimiaProductId || trigger.dataset.qilProductId || config.productId || 0));
-				const product = products.find(item => Number(item?.id || 0) === id);
+				const product = actionProduct(String(id));
 				if (!product) throw new Error('missing_product');
 				trackSessionIntent('product', id);
+				if (isBeautyProduct(product) && plain(chat.input.value || chat.state?.draft)) {
+					showToast(state.lang === 'ar' ? 'مسودتك الحالية محفوظة. أرسلها أو امسحها قبل بدء سؤال جديد.' : 'Your current draft is preserved. Send or clear it before starting a new question.');
+					try { chat.input.focus({preventScroll:true}); } catch (_) { chat.input.focus?.(); }
+					return;
+				}
 				let prompt = aiPrompt('product', product);
 				const questions = state.lang === 'ar' ? {ingredients:'اشرح المكونات والكميات المدرجة، ووضّح المعلومات غير المتاحة.', usage:'اشرح تعليمات الاستخدام المكتوبة على الملصق فقط؛ لا تفترض جرعة.', suitability:'اسألني عما تحتاج معرفته لتقييم ملاءمة المنتج لهدفي؛ لا تقدّم تشخيصاً.', alternatives:'ابحث عن بدائل متوفرة من نفس فئة الاستخدام وقارن السعر لكل حصة عندما يكون معلوماً.'} : {ingredients:'Explain the listed ingredients and quantities, marking any missing information.', usage:'Explain only the label directions; do not invent a dose.', suitability:'Ask what you need to assess fit for my goal, without diagnosis.', alternatives:'Find in-stock alternatives with the same purpose and compare cost per serving only where known.'};
-				if (questions[trigger.dataset.qilProductQuestion]) prompt += ' ' + questions[trigger.dataset.qilProductQuestion];
+				if (!isBeautyProduct(product) && questions[trigger.dataset.qilProductQuestion]) prompt += ' ' + questions[trigger.dataset.qilProductQuestion];
 				const form = [...document.querySelectorAll('form.variations_form')].find(f => Number(f.dataset.product_id) === id);
 				const variationId = Number(form?.querySelector('[name="variation_id"]')?.value || 0);
 				const options = [...(form?.querySelectorAll('select[name^="attribute_"]') || [])].filter(f=>f.value).map(f=>f.options[f.selectedIndex]?.text || f.value).join(' · ');
@@ -2132,7 +2230,7 @@
 			await chat.send(prompt, labels[intent] || prompt, {languageOverride:state.lang, source:`qimia-home-${intent}`});
 		} catch (_) {
 			// Keep selected products usable if the assistant is temporarily offline.
-			if (intent === 'compare-selected') { renderCompare(); openModal($('[data-qil-compare-modal]')); }
+			if (intent === 'compare-selected' && !state.compare.some(isBeautyProduct)) { renderCompare(); openModal($('[data-qil-compare-modal]')); }
 			showToast(t('aiUnavailable'));
 		} finally {
 			window.setTimeout(() => { delete trigger.dataset.qilAiBusy; }, 900);
@@ -2542,9 +2640,17 @@
 		return $$('a[href],button:not([disabled]),input:not([disabled]),select:not([disabled]),textarea:not([disabled]),[tabindex]:not([tabindex="-1"])', modal)
 			.filter(node => !node.hidden && node.getClientRects().length > 0);
 	}
+	const modalStates = new Map();
+	function announceOverlay(source) {
+		document.dispatchEvent(new CustomEvent('qimia:overlay-open', {detail:{source}}));
+	}
 	function openModal(modal) {
 		if (!modal) return;
-		state.lastFocus = document.activeElement;
+		if (modalStates.has(modal)) return;
+		announceOverlay('modal');
+		for (const other of modalStates.keys()) closeModal(other, false);
+		const owned = {focus:document.activeElement, overflow:document.documentElement.style.overflow, inert:[]};
+		modalStates.set(modal, owned);
 		// Inert siblings along the modal's own ancestor chain. A PDP dialog is
 		// outside the header shell; inverting the whole content made it inert too.
 		let branch = modal;
@@ -2552,6 +2658,7 @@
 			for (const sibling of branch.parentElement.children) {
 				if (sibling === branch || ['SCRIPT','STYLE','LINK','TEMPLATE'].includes(sibling.tagName) || sibling.inert) continue;
 				sibling.inert = true; sibling.dataset.qilBodyModalInert = '1';
+				owned.inert.push(sibling);
 			}
 			branch = branch.parentElement;
 		}
@@ -2559,17 +2666,19 @@
 		modal.setAttribute('aria-hidden', 'false');
 		document.documentElement.style.overflow = 'hidden';
 		syncAILauncherOffset();
-		setTimeout(() => modalFocusables(modal)[0]?.focus(), 20);
+		setTimeout(() => { if (!modal.hidden && modalStates.has(modal)) modalFocusables(modal)[0]?.focus(); }, 20);
 	}
-	function closeModal(modal) {
+	function closeModal(modal, restoreFocus = true) {
 		if (!modal) return;
+		const owned = modalStates.get(modal);
 		modal.hidden = true;
 		modal.setAttribute('aria-hidden', 'true');
-		$$('[data-qil-modal-inert]', root).forEach(child => { child.inert = false; delete child.dataset.qilModalInert; });
-		document.querySelectorAll('[data-qil-body-modal-inert]').forEach(child => { child.inert = false; delete child.dataset.qilBodyModalInert; });
-		document.documentElement.style.overflow = '';
+		if (!owned) return;
+		owned.inert.forEach(child => { child.inert = false; delete child.dataset.qilBodyModalInert; });
+		modalStates.delete(modal);
+		document.documentElement.style.overflow = owned.overflow;
 		syncAILauncherOffset();
-		if (state.lastFocus instanceof HTMLElement) state.lastFocus.focus();
+		if (restoreFocus && owned.focus instanceof HTMLElement && owned.focus.isConnected && !owned.focus.closest('[inert]')) owned.focus.focus({preventScroll:true});
 	}
 	function parsedCartCount(value) {
 		if (typeof value === 'number' && Number.isFinite(value)) return Math.max(0, Math.floor(value));
@@ -2706,7 +2815,11 @@
 	}
 	document.addEventListener('click', event => {
 		if (event.button > 0 || event.metaKey || event.ctrlKey || event.shiftKey || event.altKey) return;
-		if (event.target instanceof Element && event.target.closest('.cart-widget-opener > a, .qil-bag > a')) refreshCartOnOpen();
+		if (event.target instanceof Element && event.target.closest('.cart-widget-opener > a, .qil-bag > a')) {
+			// An explicit bag click is not the add-to-cart auto-open we suppress.
+			stopCartPageDrawerGuard();
+			refreshCartOnOpen();
+		}
 	}, {capture:true, passive:true});
 	window.addEventListener('pageshow', event => {
 		if (!event.persisted) return;
@@ -2813,12 +2926,54 @@
 			row?.classList.remove('is-removing');
 		}
 	}
+	// Full cart pages stay inline after a successful add. Woo's added_to_cart
+	// event MUST still bubble: it updates the table, totals, fragments and any
+	// third-party listeners. Never stop it or add a second cart-refresh request.
+	// A theme/combine-cache may independently load its after-add module. Watch
+	// only the existing drawer/backdrop class attributes, for at most 1.5s, to
+	// undo that automatic open before paint (including delayed theme callbacks).
+	// Do not hide a shared backdrop used by another open menu/login/search panel.
+	let cartPageDrawerObserver = null, cartPageDrawerTimer = 0;
+	function stopCartPageDrawerGuard() {
+		cartPageDrawerObserver?.disconnect();
+		cartPageDrawerObserver = null;
+		window.clearTimeout(cartPageDrawerTimer);
+		cartPageDrawerTimer = 0;
+	}
+	function keepCartPageInline() {
+		if (!isCartPage) return;
+		stopCartPageDrawerGuard();
+		const clean = () => {
+			document.querySelectorAll('.cart-widget-side.wd-opened').forEach(panel => {
+				if (window.jQuery) window.jQuery(panel).trigger('wdCloseSide');
+				panel.classList.remove('wd-opened');
+			});
+			const otherPanel = document.querySelector('.wd-side-hidden.wd-opened:not(.cart-widget-side), .mobile-nav.wd-opened, .login-form-side.wd-opened, .wd-search-full-screen.wd-opened, .wd-fs-menu.wd-opened');
+			if (otherPanel) return;
+			document.querySelectorAll('.wd-close-side.wd-close-side-opened').forEach(overlay => overlay.classList.remove('wd-close-side-opened'));
+		};
+		clean();
+		if (typeof window.MutationObserver === 'function') {
+			cartPageDrawerObserver = new MutationObserver(clean);
+			document.querySelectorAll('.cart-widget-side, .wd-close-side').forEach(node => {
+				cartPageDrawerObserver.observe(node, {attributes: true, attributeFilter: ['class']});
+			});
+		}
+		cartPageDrawerTimer = window.setTimeout(() => { clean(); stopCartPageDrawerGuard(); }, 1500);
+	}
+	window.addEventListener('pagehide', stopCartPageDrawerGuard);
+
 	/* Opening the drawer means adding the one class WoodMart itself adds, and
 	   nothing else. Everything this used to set — inert, aria-hidden, its own
 	   expanded/collapsed states — was this plugin second-guessing the theme. */
 	function openWoodmartCart(expand = true, focusDetails = false) {
+		if (isCartPage && !focusDetails) return;
 		const panel = document.querySelector('.cart-widget-side');
-		if (!panel) return;
+		// A theme can omit or hide its sidebar on the cart page. An invisible
+		// panel must never acquire the shared dark backdrop on its own.
+		if (!panel || panel.hidden || window.getComputedStyle(panel).display === 'none') return;
+		announceOverlay('cart');
+		if (window.jQuery && !panel.classList.contains('wd-opened')) window.jQuery(panel).trigger('wdOpenSide');
 		panel.classList.add('wd-opened');
 		document.querySelector('.wd-close-side')?.classList.add('wd-close-side-opened');
 		syncAILauncherOffset();
@@ -2832,8 +2987,11 @@
 	function closeFallbackCart() {
 		const panel = document.querySelector('.cart-widget-side');
 		if (!panel) return;
+		const otherPanel = document.querySelector('.wd-side-hidden.wd-opened:not(.cart-widget-side), .wd-fs-menu.wd-opened, .wd-search-full-screen.wd-opened');
+		// WoodMart releases its document focus trap through this event, not CSS.
+		if (window.jQuery && (panel.classList.contains('wd-opened') || !otherPanel)) window.jQuery(panel).trigger('wdCloseSide');
 		panel.classList.remove('wd-opened');
-		document.querySelector('.wd-close-side')?.classList.remove('wd-close-side-opened');
+		if (!otherPanel) document.querySelector('.wd-close-side')?.classList.remove('wd-close-side-opened');
 		syncAILauncherOffset();
 	}
 	/* The drawer's accessibility state is WoodMart's own; setting inert here
@@ -2863,13 +3021,14 @@
 		window.setTimeout(syncCartCount, 0);
 		stabilizeAddedToCartButton(buttonReference || button);
 		$$('.qil-buy.loading').forEach(button => button.classList.remove('loading'));
+		if (isCartPage) keepCartPageInline();
 		if (useNativeWoodmartCart) return;
 		if (!receivedFragments) requestCartRefresh();
 		const now = Date.now();
 		if (now - state.lastCartEvent < 700) return;
 		state.lastCartEvent = now;
 		showCartConfirmation(product);
-		window.setTimeout(openWoodmartCart, 80);
+		if (!isCartPage) window.setTimeout(openWoodmartCart, 80);
 	}
 	function registerCartUpdate(event, fragments) {
 		if (!useNativeWoodmartCart) applyWooFragments(fragments);
@@ -3028,12 +3187,15 @@
 		if (modal) { refreshQuickViewOptions(modal, select.dataset.attributeKey); resetQuickViewVariation(modal); scheduleVariationCheck(modal); }
 	});
 
-	const searchbar = $('[data-qil-searchbar]'), searchInput = $('[data-qil-search]');
-	if (searchInput) {
+	let searchbar = $('[data-qil-searchbar]'), searchInput = $('[data-qil-search]');
+	function bindStoreSearch() {
+		searchbar = $('[data-qil-searchbar]'); searchInput = $('[data-qil-search]');
+		if (!searchInput || searchInput.dataset.qilSearchReady === '1') return;
+		searchInput.dataset.qilSearchReady = '1';
 		// QIL owns this one search field end-to-end. Remove WoodMart's duplicate
 		// clear control and detach a pre-existing autocomplete instance if a
 		// global theme bundle initialized it before the staging page script.
-		$('.wd-clear-search')?.remove();
+		$('.wd-clear-search', searchbar || searchInput.closest('form') || root)?.remove();
 		searchInput.closest('form')?.classList.remove('woodmart-ajax-search');
 		searchInput.classList.remove('wd-search-inited');
 		if (window.jQuery && typeof window.jQuery.fn?.devbridgeAutocomplete === 'function') {
@@ -3047,11 +3209,37 @@
 			searchInput.setAttribute('aria-controls', searchResults.id);
 			searchInput.setAttribute('aria-expanded', searchResults.classList.contains('wd-opened') ? 'true' : 'false');
 		}
-		searchInput.addEventListener('input', event => {
-			event.stopImmediatePropagation();
-			scheduleStoreSearch(event.target.value);
-		}, true);
 	}
+	bindStoreSearch();
+	// Fragment replacement can replace the field. Delegate rather than retain
+	// a listener on a detached input; composition events cover non-Latin input.
+	document.addEventListener('input', event => {
+		if (!(event.target instanceof Element) || !event.target.matches('[data-qil-search]')) return;
+		bindStoreSearch();
+		event.stopImmediatePropagation();
+		if (!event.isComposing) scheduleStoreSearch(event.target.value);
+	}, true);
+	document.addEventListener('compositionend', event => {
+		if (event.target instanceof Element && event.target.matches('[data-qil-search]')) { bindStoreSearch(); scheduleStoreSearch(event.target.value); }
+	});
+	function closeStoreSearch() {
+		bindStoreSearch();
+		cancelStoreSearch(); state.searchPending = false; state.search = ''; remoteSearchRanks.clear();
+		if (searchInput) searchInput.value = '';
+		clearFallbackSearch(true);
+		if (searchbar) searchbar.hidden = true;
+		$('[data-qil-search-toggle]')?.setAttribute('aria-expanded', 'false');
+	}
+	document.addEventListener('qimia:overlay-open', event => {
+		const source = event.detail?.source;
+		if (!['menu','search','modal','cart','ai'].includes(source)) return;
+		if (source !== 'search') closeStoreSearch();
+		if (source !== 'cart') closeFallbackCart();
+		if (source !== 'modal') for (const modal of modalStates.keys()) {
+			if (modal.matches('[data-qil-quick-view-modal]')) closeQuickView(modal, false);
+			else closeModal(modal, false);
+		}
+	});
 	
 	$('[data-qil-show-more]')?.addEventListener('click', () => {
 		if (goalError) { void loadGoalPage(goalRetryPage || 1); return; }
@@ -3080,10 +3268,15 @@
 
 	delegate.addEventListener('click', event => {
 		const target = event.target instanceof Element ? event.target.closest('[data-qil-menu-open], [data-qil-search-toggle], [data-qil-search-close]') : null;
-		if (!target || !root.contains(target)) return;
+		if (!target || !target.closest('#qimia-lab,.qil-shell,[data-qil-shell]')) return;
 		event.preventDefault(); event.stopPropagation();
 		if (target.matches('[data-qil-menu-open]')) { const nativeMenuTrigger = document.querySelector('.asmm-trigger'); if (nativeMenuTrigger) nativeMenuTrigger.click(); return; }
-		if (target.matches('[data-qil-search-toggle]')) { searchbar.hidden = false; searchInput?.focus(); return; }
+		bindStoreSearch();
+		if (target.matches('[data-qil-search-toggle]')) {
+			if (!searchbar || !searchInput) return;
+			announceOverlay('search'); searchbar.hidden = false;
+			target.setAttribute('aria-expanded', 'true'); searchInput.focus({preventScroll:true}); return;
+		}
 		const closeSearch = target.matches('[data-qil-search-close]');
 		cancelStoreSearch();
 		state.searchPending = false;
@@ -3094,7 +3287,7 @@
 			searchInput.dispatchEvent(new Event('input', {bubbles:true}));
 		}
 		clearFallbackSearch(true);
-		if (closeSearch) searchbar.hidden = true;
+		if (closeSearch) closeStoreSearch();
 		else searchInput?.focus();
 	}, true);
 
@@ -3182,6 +3375,8 @@
 	}, {passive:true});
 	if (window.jQuery) {
 		window.jQuery(document.body)
+			.on('wdOpenSide.qil', '.cart-widget-side', () => announceOverlay('cart'))
+			.on('wc_fragments_refreshed.qilSearch wc_fragments_loaded.qilSearch added_to_cart.qilSearch', bindStoreSearch)
 			.on('added_to_cart', registerCartSuccess)
 			.on('removed_from_cart', registerCartUpdate)
 			.on('wc_fragments_refreshed wc_fragments_loaded', handleCartFragmentsHydrated)
@@ -3202,11 +3397,14 @@
     // qil-personalization.js keeps its own personalizationEnabled guard.
     window.QILCards = Object.freeze({
         version: 2,
+        beautySchema: 1,
         render: productCard,
         // Public catalogue records delivered with a section join the page index,
         // so Quick View, Compare and Qimia AI resolve them like any other card.
         upsert: records => upsertProducts(Array.isArray(records) ? records.slice(0, 48) : []),
         product: id => actionProduct(String(id)) || null,
+        inventory: id => newestInventory(String(id), actionProduct(String(id))?.inventory),
+        inventoryNow,
         // Reuse public catalogue records already delivered for this page.
         // Never read purchase history or fetch another catalogue for guests.
         publicSelections(excluded = []) {

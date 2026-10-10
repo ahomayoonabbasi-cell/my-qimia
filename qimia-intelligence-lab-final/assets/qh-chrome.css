@@ -1,4 +1,14 @@
 /* Site navigation only. Retains the store's fonts, colours and catalog menu. */
+/* Shared chrome belongs to Lab, so departments can be enabled independently. */
+:is(#qimia-lab,.qil-shell) .qil-header{margin:8px 12px;border:1px solid #d5e6df;border-radius:22px;background:rgba(250,254,252,.98)!important;box-shadow:0 10px 32px -24px #124a48}
+:is(#qimia-lab,.qil-shell).qil-chrome-shell{background:transparent!important}
+/* The sticky homepage header also needs the measured WordPress toolbar offset. */
+body.admin-bar :is(#qimia-lab,.qil-shell):not(.qil-chrome-shell) .qil-header{top:var(--qil-admin-bar-h,32px)}
+@media(max-width:782px){body.admin-bar{--qil-admin-bar-h:46px}}
+@media(max-width:600px){
+ :is(#qimia-lab,.qil-shell) .qil-header{margin:6px 4px;border-radius:17px}
+ body.admin-bar :is(#qimia-lab,.qil-shell):not(.qil-chrome-shell) .qil-header{top:0}
+}
 .qil-pages{display:none;position:relative;flex:0 0 auto}
 .qil-pages>summary{list-style:none;display:grid;place-items:center;width:42px;height:42px;border:1px solid #d1e8e9;border-radius:14px;background:#fff;color:#087983;cursor:pointer}
 .qil-pages>summary::-webkit-details-marker{display:none}.qil-pages>summary svg{width:21px;height:21px;fill:none;stroke:currentColor;stroke-width:1.7}

@@ -97,9 +97,7 @@ function qil_storefront_currency_codes() {
 		$key = Qimia_Unlimited_Geo_Currency::OPTION_KEY;
 		$settings = get_option($key,array());
 		if ( is_array($settings) && !empty($settings['enabled']) ) {
-			// The owner may store rates as a JSON string or an already-decoded array (see cashback.php).
-			$currencies = $settings['currencies_json'] ?? array();
-			if ( is_string( $currencies ) ) { $currencies = json_decode( $currencies, true ); }
+			$currencies = json_decode( $settings['currencies_json'] ?? '{}', true );
 			foreach ( is_array($currencies) ? $currencies : array() as $code=>$row ) {
 				if ( preg_match('/^[A-Z]{3}$/',(string)$code) && is_array($row) && isset($row['rate']) && is_numeric($row['rate']) && (float)$row['rate']>0 ) { $codes[]=$code; }
 			}

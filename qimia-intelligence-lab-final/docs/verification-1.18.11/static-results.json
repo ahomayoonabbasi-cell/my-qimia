@@ -1,0 +1,226 @@
+{
+  "php_files": 26,
+  "javascript_files": 16,
+  "php": [
+    {
+      "file": "qimia-intelligence-lab.php",
+      "ok": true,
+      "output": "No syntax errors detected in /mnt/data/qil-1.18.11/build/qimia-intelligence-lab-final/qimia-intelligence-lab.php\n"
+    },
+    {
+      "file": "templates/cashback.php",
+      "ok": true,
+      "output": "No syntax errors detected in /mnt/data/qil-1.18.11/build/qimia-intelligence-lab-final/templates/cashback.php\n"
+    },
+    {
+      "file": "templates/home.php",
+      "ok": true,
+      "output": "No syntax errors detected in /mnt/data/qil-1.18.11/build/qimia-intelligence-lab-final/templates/home.php\n"
+    },
+    {
+      "file": "includes/commerce-continuity.php",
+      "ok": true,
+      "output": "No syntax errors detected in /mnt/data/qil-1.18.11/build/qimia-intelligence-lab-final/includes/commerce-continuity.php\n"
+    },
+    {
+      "file": "includes/cashback-stacks.php",
+      "ok": true,
+      "output": "No syntax errors detected in /mnt/data/qil-1.18.11/build/qimia-intelligence-lab-final/includes/cashback-stacks.php\n"
+    },
+    {
+      "file": "includes/customer-brain.php",
+      "ok": true,
+      "output": "No syntax errors detected in /mnt/data/qil-1.18.11/build/qimia-intelligence-lab-final/includes/customer-brain.php\n"
+    },
+    {
+      "file": "includes/class-qil-admin.php",
+      "ok": true,
+      "output": "No syntax errors detected in /mnt/data/qil-1.18.11/build/qimia-intelligence-lab-final/includes/class-qil-admin.php\n"
+    },
+    {
+      "file": "includes/site-chrome.php",
+      "ok": true,
+      "output": "No syntax errors detected in /mnt/data/qil-1.18.11/build/qimia-intelligence-lab-final/includes/site-chrome.php\n"
+    },
+    {
+      "file": "includes/product-integration.php",
+      "ok": true,
+      "output": "No syntax errors detected in /mnt/data/qil-1.18.11/build/qimia-intelligence-lab-final/includes/product-integration.php\n"
+    },
+    {
+      "file": "includes/storefront.php",
+      "ok": true,
+      "output": "No syntax errors detected in /mnt/data/qil-1.18.11/build/qimia-intelligence-lab-final/includes/storefront.php\n"
+    },
+    {
+      "file": "includes/hero-studio.php",
+      "ok": true,
+      "output": "No syntax errors detected in /mnt/data/qil-1.18.11/build/qimia-intelligence-lab-final/includes/hero-studio.php\n"
+    },
+    {
+      "file": "includes/product.php",
+      "ok": true,
+      "output": "No syntax errors detected in /mnt/data/qil-1.18.11/build/qimia-intelligence-lab-final/includes/product.php\n"
+    },
+    {
+      "file": "includes/cashback.php",
+      "ok": true,
+      "output": "No syntax errors detected in /mnt/data/qil-1.18.11/build/qimia-intelligence-lab-final/includes/cashback.php\n"
+    },
+    {
+      "file": "includes/elementor.php",
+      "ok": true,
+      "output": "No syntax errors detected in /mnt/data/qil-1.18.11/build/qimia-intelligence-lab-final/includes/elementor.php\n"
+    },
+    {
+      "file": "includes/personalization.php",
+      "ok": true,
+      "output": "No syntax errors detected in /mnt/data/qil-1.18.11/build/qimia-intelligence-lab-final/includes/personalization.php\n"
+    },
+    {
+      "file": "includes/promotions.php",
+      "ok": true,
+      "output": "No syntax errors detected in /mnt/data/qil-1.18.11/build/qimia-intelligence-lab-final/includes/promotions.php\n"
+    },
+    {
+      "file": "includes/commerce-boost.php",
+      "ok": true,
+      "output": "No syntax errors detected in /mnt/data/qil-1.18.11/build/qimia-intelligence-lab-final/includes/commerce-boost.php\n"
+    },
+    {
+      "file": "includes/navigation.php",
+      "ok": true,
+      "output": "No syntax errors detected in /mnt/data/qil-1.18.11/build/qimia-intelligence-lab-final/includes/navigation.php\n"
+    },
+    {
+      "file": "includes/performance.php",
+      "ok": true,
+      "output": "No syntax errors detected in /mnt/data/qil-1.18.11/build/qimia-intelligence-lab-final/includes/performance.php\n"
+    },
+    {
+      "file": "includes/product-knowledge.php",
+      "ok": true,
+      "output": "No syntax errors detected in /mnt/data/qil-1.18.11/build/qimia-intelligence-lab-final/includes/product-knowledge.php\n"
+    },
+    {
+      "file": "includes/member-hub.php",
+      "ok": true,
+      "output": "No syntax errors detected in /mnt/data/qil-1.18.11/build/qimia-intelligence-lab-final/includes/member-hub.php\n"
+    },
+    {
+      "file": "includes/goal-engine.php",
+      "ok": true,
+      "output": "No syntax errors detected in /mnt/data/qil-1.18.11/build/qimia-intelligence-lab-final/includes/goal-engine.php\n"
+    },
+    {
+      "file": "includes/verified-filters.php",
+      "ok": true,
+      "output": "No syntax errors detected in /mnt/data/qil-1.18.11/build/qimia-intelligence-lab-final/includes/verified-filters.php\n"
+    },
+    {
+      "file": "includes/customer-experience.php",
+      "ok": true,
+      "output": "No syntax errors detected in /mnt/data/qil-1.18.11/build/qimia-intelligence-lab-final/includes/customer-experience.php\n"
+    },
+    {
+      "file": "includes/sections.php",
+      "ok": true,
+      "output": "No syntax errors detected in /mnt/data/qil-1.18.11/build/qimia-intelligence-lab-final/includes/sections.php\n"
+    },
+    {
+      "file": "includes/flash-drop.php",
+      "ok": true,
+      "output": "No syntax errors detected in /mnt/data/qil-1.18.11/build/qimia-intelligence-lab-final/includes/flash-drop.php\n"
+    }
+  ],
+  "javascript": [
+    {
+      "file": "assets/qil-personalization.js",
+      "ok": true,
+      "output": ""
+    },
+    {
+      "file": "assets/qil-boost.min.js",
+      "ok": true,
+      "output": ""
+    },
+    {
+      "file": "assets/qil-navigation.min.js",
+      "ok": true,
+      "output": ""
+    },
+    {
+      "file": "assets/qimia-experience.js",
+      "ok": true,
+      "output": ""
+    },
+    {
+      "file": "assets/qil.min.js",
+      "ok": true,
+      "output": ""
+    },
+    {
+      "file": "assets/qil.js",
+      "ok": true,
+      "output": ""
+    },
+    {
+      "file": "assets/qil-shopping-context-fallback.js",
+      "ok": true,
+      "output": ""
+    },
+    {
+      "file": "assets/qil-hero-admin.js",
+      "ok": true,
+      "output": ""
+    },
+    {
+      "file": "assets/qil-brain-signals.js",
+      "ok": true,
+      "output": ""
+    },
+    {
+      "file": "assets/qil-boost.js",
+      "ok": true,
+      "output": ""
+    },
+    {
+      "file": "assets/qil-storefront.min.js",
+      "ok": true,
+      "output": ""
+    },
+    {
+      "file": "assets/qil-navigation.js",
+      "ok": true,
+      "output": ""
+    },
+    {
+      "file": "assets/qimia-shopping-context.js",
+      "ok": true,
+      "output": ""
+    },
+    {
+      "file": "assets/qil-personalization.min.js",
+      "ok": true,
+      "output": ""
+    },
+    {
+      "file": "assets/qh-chrome.js",
+      "ok": true,
+      "output": ""
+    },
+    {
+      "file": "assets/qil-storefront.js",
+      "ok": true,
+      "output": ""
+    }
+  ],
+  "changed_runtime_files": [
+    "qimia-intelligence-lab.php",
+    "assets/qil-boost.min.css",
+    "assets/qil-boost.css",
+    "includes/commerce-boost.php"
+  ],
+  "all_js_unchanged": true,
+  "all_other_runtime_files_unchanged": true
+}

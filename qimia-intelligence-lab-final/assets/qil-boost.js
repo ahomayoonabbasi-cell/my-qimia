@@ -187,7 +187,7 @@
 
 	// Quantity is the point of a flash drop: one stock line under the product
 	// name on every card (so every card in the rail keeps the same shape).
-	function flashStockRow(meta, fresh, dropEnd) {
+	function flashStockRow(meta, fresh, dropEnd, showCountdown = true) {
 		const low = meta?.low, stock = meta?.stock;
 		let text = t('In stock', 'متوفر'), tone = 'ok', level = null;
 		if (low && Number(low.qty) > 0 && String(low.option || '')) {
@@ -201,7 +201,7 @@
 		}
 		const ends = Number(meta?.endsAt || 0);
 		// A product's own sale end, only when it comes before the drop's end.
-		const endsLine = ends > now() && ends - now() < 7 * 86400 && !(dropEnd > 0 && ends >= dropEnd - 60)
+		const endsLine = showCountdown && ends > now() && ends - now() < 7 * 86400 && !(dropEnd > 0 && ends >= dropEnd - 60)
 			? `<small>${esc(t('Sale ends in', 'ينتهي الخصم بعد'))} <b dir="${lang() === 'ar' ? 'rtl' : 'ltr'}" data-qil-flash-card-end="${ends}">${esc(shortClock(ends - now()))}</b></small>` : '';
 		return `<div class="qil-flash-stock is-${tone}" data-qil-flash-stock><b title="${esc(text)}">${esc(text)}</b><span class="qil-flash-bar" aria-hidden="true">${level !== null ? `<i style="width:${level}%"></i>` : ''}</span>${endsLine}</div>`;
 	}
@@ -223,11 +223,11 @@
 			else { fresh.push(item); records.push(item); }
 		});
 		if (fresh.length) api.upsert(fresh);
-		if (records.length < 4) { section.hidden = true; return false; }
+		if (records.length < (flash.evergreen ? 1 : 4)) { section.hidden = true; return false; }
 		// Counts are exact while the page is recent; stock changes purge the cached page.
 		const recent = now() - Number(flash.generatedAt || 0) < 12 * 3600;
 		const dropEnd = Number(section.dataset.qilFlashEnd || flash.end || 0);
-		const order = records.map((product, index) => ({product, index, urgency: flashUrgency(flash.meta?.[String(product.id)])}))
+		const order = flash.evergreen ? records : records.map((product, index) => ({product, index, urgency: flashUrgency(flash.meta?.[String(product.id)])}))
 			.sort((a, b) => a.urgency - b.urgency || a.index - b.index).map(row => row.product);
 		grid.innerHTML = order.map((product, index) => api.render(product, index, 'flash-drop')).join('');
 		$$('.qil-product-card', grid).forEach(card => {
@@ -238,7 +238,7 @@
 			if (!$('[data-qil-sale-badge]', card) && Number(meta.pct) > 0) {
 				$('.qil-label-stack', card)?.insertAdjacentHTML('beforeend', `<span class="qil-sale-badge qil-flash-sale-badge" data-qil-sale-badge="flash">${esc((meta.upTo ? t('Up to ', 'حتى ') : '') + '−' + num(Math.round(meta.pct)) + (lang() === 'ar' ? '٪' : '%'))}</span>`);
 			}
-			$('.qil-product-info h3', card)?.insertAdjacentHTML('afterend', flashStockRow(meta, recent, dropEnd));
+			$('.qil-product-info h3', card)?.insertAdjacentHTML('afterend', flashStockRow(meta, recent, dropEnd, !flash.evergreen));
 		});
 		api.refresh?.();
 		return true;
@@ -314,11 +314,14 @@
 				chat.qimiaRecommendationContext = context;
 				if (typeof chat.setRecommendationContext === 'function') chat.setRecommendationContext(context);
 				if (chat.state) chat.state.currentProductIds = [...ids];
-				const prompt = t(
+				const prompt = flash.evergreen ? t(
+					`Help me choose from Qimia’s best-selling flash-sale offers. Use these product IDs in sales order: ${ids.join(', ')}. Verify each live price, regular price, real discount and stock. This homepage selection has no countdown or shared end date. Then help me choose what fits my goal and budget.`,
+					`ساعدني في الاختيار من عروض كيميا الأكثر مبيعاً. استخدم أرقام المنتجات هذه بترتيب المبيعات: ${ids.join('، ')}. تحقق من السعر الحالي والسعر السابق والخصم والمخزون. ليس لهذه المجموعة عدّاد أو موعد انتهاء مشترك. ثم ساعدني في الاختيار حسب هدفي وميزانيتي.`
+				) : t(
 					`Show me the current Qimia flash drop. Use only these live product IDs: ${ids.join(', ')}. For each one, verify the live price, the previous (regular) price, the real discount and stock before answering. The drop ends ${endsText}. Then help me choose what fits my goal and budget.`,
 					`اعرض لي مجموعة كيميا السريعة الحالية. استخدم فقط أرقام المنتجات المباشرة هذه: ${ids.join('، ')}. تحقّق لكل منتج من السعر الحالي والسعر السابق ونسبة الخصم الحقيقية والمخزون قبل الإجابة. تنتهي المجموعة ${endsText}. ثم ساعدني في اختيار ما يناسب هدفي وميزانيتي.`
 				);
-				await chat.send(prompt.slice(0, 1800), t('Today’s flash drop', 'المجموعة السريعة اليوم'), {languageOverride: lang(), source: 'qimia-flash-drop'});
+				await chat.send(prompt.slice(0, 1800), flash.evergreen ? t('Best-selling flash offers', 'العروض الأكثر مبيعاً') : t('Today’s flash drop', 'المجموعة السريعة اليوم'), {languageOverride: lang(), source: 'qimia-flash-drop'});
 			} catch (_) {
 				const note = $('.qil-flash-truth span', section);
 				if (note) note.textContent = t('Qimia AI is not available right now. Every product here is still live.', 'ذكاء كيميا غير متاح الآن. كل المنتجات هنا ما زالت متاحة.');
@@ -329,11 +332,14 @@
 	const flashSection = $('[data-qil-flash-drop]');
 	if (flashSection) {
 		const flash = sectionData(flashSection, 'script[data-qil-flash-data]');
-		if (!flash || !Array.isArray(flash.records) || flash.records.length < 4) flashSection.hidden = true;
+		if (!flash || !Array.isArray(flash.records) || flash.records.length < (flash.evergreen ? 1 : 4)) flashSection.hidden = true;
 		else whenCards(() => {
 			// A cached page can outlive its drop; the clock then says so honestly.
 			const end = Number(flashSection.dataset.qilFlashEnd || flash.end || 0);
-			if (renderFlash(flashSection, flash)) { setupFlashClock(flashSection, end); setupFlashAI(flashSection, flash); }
+			if (renderFlash(flashSection, flash)) {
+				if (!flash.evergreen) setupFlashClock(flashSection, end);
+				setupFlashAI(flashSection, flash);
+			}
 		});
 	}
 
