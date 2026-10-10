@@ -93,6 +93,7 @@ function do_action( $tag, ...$args ) {
 function did_action( $tag ) { return (int) ( $GLOBALS['qt']['done'][ $tag ] ?? 0 ); }
 function doing_action( $tag = null ) { return false; }
 function register_activation_hook( $file, $cb ) {}
+function register_deactivation_hook( $file, $cb ) { $GLOBALS['qt']['deactivate'][] = $cb; }
 function add_shortcode( $tag, $cb ) { $GLOBALS['qt']['shortcodes'][ $tag ] = $cb; }
 function has_shortcode( $content, $tag ) { return false !== strpos( (string) $content, '[' . $tag ); }
 
@@ -195,14 +196,15 @@ function is_product() { return false; }
 function is_shop() { return false; }
 function is_product_taxonomy() { return false; }
 function is_product_category( $t = '' ) { return false; }
-function is_account_page() { return false; }
+function is_account_page() { return ! empty( $GLOBALS['qt']['is_account'] ); }
+function is_order_received_page() { return ! empty( $GLOBALS['qt']['is_received'] ); }
 function is_ssl() { return true; }
 function wp_get_referer() { return $GLOBALS['qt']['referer'] ?: false; }
 function wp_get_theme() { return new class { public function get( $k ) { return 'Test'; } }; }
 function get_theme_mod( $k, $d = false ) { return $d; }
 
 /* -------------------------------------------------------------- URLs */
-function home_url( $path = '/' ) { return 'https://qimia.om' . ( '/' === substr( (string) $path, 0, 1 ) ? $path : '/' . $path ); }
+function home_url( $path = '/' ) { return untrailingslashit( (string) ( $GLOBALS['qt']['options']['home'] ?? 'https://qimia.om' ) ) . ( '/' === substr( (string) $path, 0, 1 ) ? $path : '/' . $path ); }
 function site_url( $path = '' ) { return home_url( $path ); }
 function admin_url( $path = '' ) { return 'https://qimia.om/wp-admin/' . ltrim( $path, '/' ); }
 function rest_url( $path = '' ) { return 'https://qimia.om/wp-json/' . ltrim( $path, '/' ); }
@@ -211,7 +213,9 @@ function plugin_dir_url( $f ) { return 'https://qimia.om/wp-content/plugins/' . 
 function get_permalink( $id = 0 ) { return 'https://qimia.om/product/p-' . (int) ( is_object( $id ) ? $id->ID : $id ) . '/'; }
 function get_edit_post_link( $id ) { return admin_url( 'post.php?post=' . (int) $id . '&action=edit' ); }
 function get_term_link( $term, $tax = '' ) { $t = is_object( $term ) ? $term : get_term( $term, $tax ); return $t ? 'https://qimia.om/product-category/' . $t->slug . '/' : new WP_Error( 'x' ); }
-function wp_safe_redirect( $u ) { return true; }
+/** Redirect double: records the target; scenarios that need to stop at the redirect set qt[throw_redirect]. */
+class QT_Redirect extends Exception { public $url; public function __construct( $url ) { parent::__construct( 'redirect' ); $this->url = $url; } }
+function wp_safe_redirect( $u ) { $GLOBALS['qt']['redirect'] = $u; if ( ! empty( $GLOBALS['qt']['throw_redirect'] ) ) { throw new QT_Redirect( $u ); } if ( ! empty( $GLOBALS['qt']['real_redirect'] ) && ! headers_sent() ) { header( 'Location: ' . str_replace( 'https://qimia.om', $GLOBALS['qt']['origin'] ?? 'https://qimia.om', $u ), true, 302 ); } return true; }
 
 /* --------------------------------------------------------- users */
 class WP_User { public $ID; public $roles = array( 'customer' ); public $user_email; public function __construct( $id = 0, $email = '' ) { $this->ID = $id; $this->user_email = $email; } }
@@ -221,6 +225,24 @@ function wp_get_current_user() { $id = get_current_user_id(); return $id ? ( $GL
 function get_userdata( $id ) { return $GLOBALS['qt']['users'][ $id ] ?? false; }
 function get_user_meta( $id, $key = '', $single = false ) { $v = $GLOBALS['qt']['usermeta'][ $id ][ $key ] ?? ''; return $single ? $v : array( $v ); }
 function update_user_meta( $id, $key, $v ) { $GLOBALS['qt']['usermeta'][ $id ][ $key ] = $v; return true; }
+function delete_user_meta( $id, $key ) { unset( $GLOBALS['qt']['usermeta'][ $id ][ $key ] ); return true; }
+/** get_users double: meta_key (+ numeric meta_value / meta_compare), orderby meta_value_num, number, fields => ID. */
+function get_users( $args = array() ) {
+	$key = $args['meta_key'] ?? ''; $rows = array();
+	foreach ( $GLOBALS['qt']['usermeta'] ?? array() as $id => $meta ) {
+		if ( '' === $key || ! array_key_exists( $key, $meta ) || '' === $meta[ $key ] ) { if ( '' !== $key ) { continue; } }
+		if ( isset( $args['meta_value'] ) ) {
+			$v = (float) ( $meta[ $key ] ?? 0 ); $want = (float) $args['meta_value'];
+			$ok = array( '<=' => $v <= $want, '<' => $v < $want, '>=' => $v >= $want, '>' => $v > $want, '=' => $v == $want )[ $args['meta_compare'] ?? '=' ] ?? false;
+			if ( ! $ok ) { continue; }
+		}
+		$rows[ $id ] = (float) ( $meta[ $key ] ?? 0 );
+	}
+	if ( 'meta_value_num' === ( $args['orderby'] ?? '' ) ) { 'DESC' === ( $args['order'] ?? 'ASC' ) ? arsort( $rows ) : asort( $rows ); }
+	$ids = array_keys( $rows );
+	if ( isset( $args['number'] ) && $args['number'] > 0 ) { $ids = array_slice( $ids, 0, (int) $args['number'] ); }
+	return array_map( 'intval', $ids );
+}
 function wp_get_session_token() { return 'session-token-' . get_current_user_id(); }
 function current_user_can( $cap ) { return ! empty( $GLOBALS['qt']['admin_user'] ); }
 function wp_create_nonce( $action = -1 ) { return substr( md5( $action . '|' . get_current_user_id() ), 0, 10 ); }
@@ -266,6 +288,9 @@ function wp_localize_script( ...$a ) { return true; }
 function wp_next_scheduled( $hook ) { return $GLOBALS['qt']['cron'][ $hook ] ?? false; }
 function wp_schedule_single_event( $ts, $hook, $args = array() ) { $GLOBALS['qt']['cron'][ $hook ] = $ts; return true; }
 function wp_clear_scheduled_hook( $hook ) { unset( $GLOBALS['qt']['cron'][ $hook ] ); return 1; }
+function wp_schedule_event( $ts, $recurrence, $hook, $args = array() ) { $GLOBALS['qt']['cron'][ $hook ] = $ts; $GLOBALS['qt']['cron_recurrence'][ $hook ] = $recurrence; return true; }
+function flush_rewrite_rules( $hard = true ) { $GLOBALS['qt']['flushed'] = ( $GLOBALS['qt']['flushed'] ?? 0 ) + 1; }
+function wp_mail( $to, $subject, $message, $headers = '' ) { $GLOBALS['qt']['mail'][] = array( 'to' => $to, 'subject' => $subject, 'message' => $message, 'via' => 'wp_mail' ); return empty( $GLOBALS['qt']['mail_fails'] ); }
 
 /* --------------------------------------------------------- admin forms */
 function settings_fields( $g ) { echo '<input type="hidden" name="option_page" value="' . esc_attr( $g ) . '">'; }
@@ -313,7 +338,7 @@ function wp_get_attachment_image_src( $id, $size = 'thumbnail' ) {
 	$w = $dims[ is_string( $size ) ? $size : 'full' ] ?? 300;
 	return array( 'https://qimia.om/wp-content/uploads/p' . (int) $id . '-' . $w . '.webp', $w, $w, true );
 }
-function wp_get_attachment_image( $id, $size = 'full', $icon = false, $attr = array() ) { return ''; }
+function wp_get_attachment_image( $id, $size = 'full', $icon = false, $attr = array() ) { $src = $id ? wp_get_attachment_image_src( $id, $size ) : false; return $src ? '<img src="' . esc_url( $src[0] ) . '" width="' . (int) $src[1] . '" height="' . (int) $src[2] . '" alt="' . esc_attr( $attr['alt'] ?? '' ) . '" loading="lazy">' : ''; }
 function wp_get_attachment_metadata( $id ) { return array(); }
 function get_the_ID() { return 0; }
 
