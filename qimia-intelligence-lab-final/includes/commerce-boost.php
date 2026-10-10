@@ -1099,7 +1099,8 @@ final class QIL_Boost {
 
 	/** Small divider label for the shopper's real mini-cart items. */
 	public static function mini_items_intro() {
-		if ( ! self::cart_ready() ) {
+		// Same switch as the picks it separates the items from: off (or QIL_BOOST_DISABLE) leaves WooCommerce's list untouched.
+		if ( ! self::cart_ready() || ( ! self::on( 'ladder' ) && ! self::on( 'stack' ) ) ) {
 			return;
 		}
 		$count = function_exists( 'WC' ) && WC()->cart ? (int) WC()->cart->get_cart_contents_count() : 0;
