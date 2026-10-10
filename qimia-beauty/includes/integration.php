@@ -93,7 +93,7 @@ add_filter('rest_request_after_callbacks',static function($response,$handler,$re
 },100,3);
 add_action('pre_get_posts',static function($query){
     if(is_admin() || wp_doing_ajax() || (defined('REST_REQUEST') && REST_REQUEST) || !$query->is_main_query()){return;}
-    $existing_tax=(array)$query->get('tax_query');$tax=array('relation'=>'AND');if($existing_tax){$tax[]=$existing_tax;}
+    $existing_tax=$query->get('tax_query');$tax=array('relation'=>'AND');if(is_array($existing_tax) && $existing_tax){$tax[]=$existing_tax;}$scoped=count($tax);
     if($query->is_search() && $query->get('s')){
         $scope=qby_search_scope((string)$query->get('s'));
         if($scope && $scope['exclusive']){$query->set('qby_original_search',(string)$query->get('s'));$tax[]=array('taxonomy'=>'product_cat','field'=>'slug','terms'=>array($scope['category']));$query->set('post_type','product');$query->set('s',trim(preg_replace('/\b(?:hair|care|for|and|the)\b|للشعر/u','',$scope['remainder'])));}
@@ -106,7 +106,7 @@ add_action('pre_get_posts',static function($query){
         $terms=$kind==='supplements'?array_merge(qby_groups()['sports'][2],qby_groups()['wellness'][2],qby_groups()['inside'][2]):array($kind);$tax[]=array('taxonomy'=>'product_cat','field'=>'slug','terms'=>$terms);
         if($kind==='supplements'){$tax[]=array('taxonomy'=>'product_cat','field'=>'slug','terms'=>array('beauty'),'operator'=>'NOT IN');}
     }
-    if(count($tax)>1){$query->set('tax_query',$tax);}
+    if(count($tax)>$scoped){$query->set('tax_query',$tax);}
 },1000);
 function qby_brand_nav() {
     static $done=false;if($done || !is_tax('product_brand')){return '';}$term=get_queried_object();$base=get_term_link($term);if(is_wp_error($base)){return '';}$base=function_exists('qil_localized_url')?qil_localized_url($base,qby_ar()):$base;
@@ -120,4 +120,4 @@ add_action('woocommerce_before_shop_loop',static function(){echo qby_brand_nav()
 add_filter('elementor/widget/render_content',static function($html){return is_tax('product_brand') && strpos($html,'wd-products')!==false && strpos($html,'product-grid-item')!==false ? qby_brand_nav().$html : $html;},100);
 add_filter('woocommerce_product_loop_start',static function($html){return is_tax('product_brand')?qby_brand_nav().$html:$html;},20);
 add_filter('woocommerce_rest_prepare_product_object',static function($response,$product){$data=$response->get_data();$class=qby_resolved_class($product->get_id());if($class){$data['qimia_product_class']=$class;$response->set_data($data);}return $response;},20,2);
-add_filter('qimia_ai_instruction_parts_v1',static function($parts){$parts['stable'].="\nQimia Beauty includes makeup, skin care, hair care, fragrance, bath/body and beauty tools. Respect the explicit product class and exact product type: cosmetics are topical; tools are accessories. Never ingest either. Do not infer oral dosing from legacy supplement categories. Do not give oral dosing, servings, Supplement Facts, nutrient totals or supplement-plan actions for these items. Collagen and hair/skin/nails vitamins remain supplements. Use only the exact product label for ingredients and directions; do not infer certifications, PAO, availability or treatment claims.";return $parts;},30);
+add_filter('qimia_ai_instruction_parts_v1',static function($parts){if(!is_array($parts)){return $parts;}$parts['stable']=(is_string($parts['stable']??null)?$parts['stable']:'')."\nQimia Beauty includes makeup, skin care, hair care, fragrance, bath/body and beauty tools. Respect the explicit product class and exact product type: cosmetics are topical; tools are accessories. Never ingest either. Do not infer oral dosing from legacy supplement categories. Do not give oral dosing, servings, Supplement Facts, nutrient totals or supplement-plan actions for these items. Collagen and hair/skin/nails vitamins remain supplements. Use only the exact product label for ingredients and directions; do not infer certifications, PAO, availability or treatment claims.";return $parts;},30);

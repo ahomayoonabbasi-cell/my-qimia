@@ -38,6 +38,6 @@ Review mode ends at a draft with field-level source evidence. Apply mode require
 
 ## Build and rollback
 
-Run `npm run build:beauty`, `php tests/php/beauty.php` and `node tests/n8n/beauty.mjs` in a development environment. Runtime does not require Node.
+Run `npm run build:beauty`, `php tests/php/beauty.php`, `php tests/php/beauty-integration.php` (card, compare, AI and search contracts) and `node tests/n8n/beauty.mjs` in a development environment. Runtime does not require Node.
 
 Replace the existing plugin using the provided ZIP. To reverse the presentation release, upload the original supplied 2.2.5 plugin ZIP. No database migration was run, so rollback does not require changing product data. Do not deploy the retired `qimia-beauty-studio` plugin.

@@ -12,6 +12,6 @@
     "test:php": "php tests/php/run.php",
     "test:browser": "node tests/browser/run.mjs",
     "build:beauty": "node tools/build-beauty.mjs",
-    "test:beauty": "php tests/php/beauty.php"
+    "test:beauty": "php tests/php/beauty.php && php tests/php/beauty-integration.php"
   }
 }
