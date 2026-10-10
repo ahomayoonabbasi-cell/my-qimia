@@ -4,8 +4,9 @@
   "description": "Build and verification tooling for Qimia Intelligence Lab (not shipped with the plugin).",
   "type": "module",
   "devDependencies": {
+    "esbuild": "0.25.10",
     "jquery": "3.7.1",
-    "esbuild": "0.25.10"
+    "terser": "5.51.2"
   },
   "scripts": {
     "build": "node tools/build-assets.mjs",
