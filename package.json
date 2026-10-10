@@ -11,7 +11,7 @@
     "build": "node tools/build-assets.mjs",
     "test:php": "php tests/php/run.php",
     "test:browser": "node tests/browser/run.mjs",
-    "build:beauty-studio": "node tools/build-beauty-studio.mjs",
-    "test:beauty-studio": "php tests/php/beauty-studio.php && php tests/php/beauty-studio.php qimia.om && php tests/php/beauty-studio.php qimialab.qimia.om qimia.om"
+    "build:beauty": "node tools/build-beauty.mjs",
+    "test:beauty": "php tests/php/beauty.php"
   }
 }

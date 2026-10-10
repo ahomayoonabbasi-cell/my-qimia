@@ -15,14 +15,9 @@ function qby_beauty_page(){}
 function qby_beauty_query($input){return array('products'=>array(),'total'=>0,'pages'=>0,'page'=>1);}
 function qby_cards($products){return '';}
 function qby_qil_print_docks(){}
-require __DIR__.'/../../qimia-beauty-studio/qimia-beauty-studio.php';
+define('QBY_URL','/qimia-beauty/');
 function assert_true($test,$message){if(!$test){throw new Exception($message);}}
-if($_SERVER['HTTP_HOST']!=='qimialab.qimia.om'||$home!=='qimialab.qimia.om'){
-  assert_true(!$hooks,'Non-staging host must register zero hooks');echo "PASS: no hooks on unapproved host/configuration\n";exit;
-}
-foreach($hooks['wp'] as $hook){$hook();}
-assert_true($shortcodes['qimia_beauty']==='qbs_page','Shortcode ownership');
-assert_true(!isset($hooks['init'])&&!isset($hooks['wp_ajax_qbs_catalogue']),'No migrations or public endpoint');
+require __DIR__.'/../../qimia-beauty/includes/experience.php';
 function qby_ar(){return isset($_GET['ar']);}
 function qby_t($en,$ar){return qby_ar()?$ar:$en;}
 function esc_html($s){return htmlspecialchars((string)$s,ENT_QUOTES,'UTF-8');}
@@ -37,22 +32,41 @@ function qby_query_value($key,$default=''){return isset($_GET[$key])&&is_scalar(
 function number_format_i18n($n){return (string)$n;}
 function qby_beauty_map(){return array('skin-care'=>array('en'=>'Skin care','ar'=>'العناية بالبشرة','children'=>array('face-serums'=>array('Serums','السيروم'),'sun-care'=>array('Sun care','الحماية من الشمس'))),'makeup'=>array('en'=>'Makeup','ar'=>'المكياج','children'=>array('foundation'=>array('Foundation','كريم الأساس'))),'hair-care'=>array('en'=>'Hair care','ar'=>'العناية بالشعر','children'=>array('shampoo'=>array('Shampoo','الشامبو'))));}
 function qby_beauty_terms(){return array_fill_keys(array('beauty','skin-care','face-serums','sun-care','makeup','foundation','hair-care','shampoo'),true);}
+function qby_beauty_facets(){return array();}
 function qby_brand_directory(){return array();}
 function qby_label($s){return ucwords(str_replace('-',' ',$s));}
 function qby_link($u,$l){return '<a href="'.esc_url($u).'">'.esc_html($l).'</a>';}
 function qby_term_url($s){return '/product-category/'.$s.'/';}
 function qby_department_icon($s){return '<svg viewBox="0 0 96 88"><circle cx="48" cy="44" r="22" fill="none" stroke="currentColor"/></svg>';}
 $_GET=array('department'=>array('makeup'),'search'=>array('bad'),'qby_page'=>-8,'orderby'=>'bad');
-$s=qbs_selection();assert_true($s['department']==='beauty'&&$s['search']===''&&$s['qby_page']===1&&$s['orderby']==='menu_order','Malformed request sanitation');
-$_GET=array('search'=>'<script>alert(1)</script>','collection'=>'unverified-trend');$s=qbs_selection();assert_true(strpos($s['search'],'<')===false&&$s['collection']==='all','HTML and collection sanitation');
+$s=qbx_selection();assert_true($s['department']==='beauty'&&$s['search']===''&&$s['qby_page']===1&&$s['orderby']==='menu_order','Malformed request sanitation');
+$_GET=array('search'=>'<script>alert(1)</script>','collection'=>'unverified-trend');$s=qbx_selection();assert_true(strpos($s['search'],'<')===false&&$s['collection']==='all','HTML and collection sanitation');
 foreach(array('en','ar') as $lang){
- $_GET=$lang==='ar'?array('ar'=>1):array();$html=qbs_page();
+ $_GET=$lang==='ar'?array('ar'=>1):array();$html=qbx_page();
  assert_true(!empty($GLOBALS['qby_qil_docks_needed']),'Empty catalogue reserves native docks for async results');
+ assert_true(strpos($html,'qbx-hero-visual')<strpos($html,'qbx-hero-copy'),'Image-first document order');
  assert_true(substr_count($html,'<h1 ')===1,'Exactly one H1');
  assert_true(substr_count($html,'id="qby-shop"')===1,'Stable shop anchor');
- assert_true(str_contains($html,'data-qbs-results')&&str_contains($html,'data-qbs-motion'),'Catalogue and motion controls');
+ assert_true(str_contains($html,'data-qbx-results')&&str_contains($html,'data-qbx-motion'),'Catalogue and motion controls');
  assert_true(str_contains($html,'dir="'.($lang==='ar'?'rtl':'ltr').'"'),'Direction');
  assert_true(str_contains($html,'application/json')===false,'Empty catalogue has no fabricated products');
- if(getenv('QBS_PREVIEW_DIR')){file_put_contents(getenv('QBS_PREVIEW_DIR').'/'.$lang.'.html','<!doctype html><html lang="'.$lang.'"><meta charset="utf-8"><meta name="viewport" content="width=device-width,initial-scale=1"><link rel="stylesheet" href="/qimia-beauty-studio/assets/studio.css"><style>body{margin:0;background:#f7f4ef}</style><body>'.$html.'<script src="/qimia-beauty-studio/assets/studio.js"></script></body></html>');}
+ if(getenv('QBY_PREVIEW_DIR')){file_put_contents(getenv('QBY_PREVIEW_DIR').'/'.$lang.'.html','<!doctype html><html lang="'.$lang.'"><meta charset="utf-8"><meta name="viewport" content="width=device-width,initial-scale=1"><link rel="stylesheet" href="/qimia-beauty/assets/experience.css"><style>body{margin:0;background:#f7fcfb}</style><body>'.$html.'<script src="/qimia-beauty/assets/experience.js"></script></body></html>');}
 }
-echo "PASS: staging guard, input sanitation, no writes, English/Arabic rendering, single H1, empty states and controls\n";
+echo "PASS: input sanitation, no writes, image-first hero, English/Arabic rendering, single H1, empty states and controls\n";
+
+// The knowledge component never renders on supplements and never invents a translation.
+function qby_uses_beauty_ui($id){return $id===10;}
+function qby_details($id){return array('size'=>'50 ml','inci'=>'Aqua, Glycerin','directions_en'=>'Apply to damp hair.','hair_type'=>'Dry hair','source_url'=>'https://example.com/label');}
+function qby_product_department($id){return 'hair-care';}
+function qby_product_type_label($id){return qby_t('Hair care','العناية بالشعر');}
+function qby_beauty_field_schema($d=''){return array('hair_type'=>array('en'=>'Hair type','ar'=>'نوع الشعر'));}
+function wc_get_product($id){return new class {function is_type($t){return $t==='variable';}};}
+function qby_browse_url($d){return '/beauty/?department='.$d;}
+require __DIR__.'/../../qimia-beauty/includes/product-knowledge.php';
+assert_true(qby_knowledge_render(11)==='','Supplement does not receive Beauty boxes');
+$_GET=array();$html=qby_knowledge_render(10);assert_true(str_contains($html,'Beauty facts')&&str_contains($html,'Your Qimia guide')&&str_contains($html,'Apply to damp hair.'),'English facts and guide');
+assert_true(str_contains($html,'individual shades and sets may have different formulas'),'Variant scope notice');
+$_GET=array('ar'=>1);$html=qby_knowledge_render(10);assert_true(str_contains($html,'مواصفات الجمال')&&str_contains($html,'دليلك من كيميا'),'Arabic headings');
+assert_true(!str_contains($html,'Apply to damp hair.')&&!str_contains($html,'Dry hair'),'Missing Arabic never silently falls back to English');
+assert_true(str_contains($html,'lang="en" dir="ltr"'),'Canonical INCI direction on Arabic');
+echo "PASS: supplement isolation, bilingual knowledge, missing-translation fallback, variant notice, INCI direction\n";

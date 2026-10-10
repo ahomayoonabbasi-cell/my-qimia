@@ -1,39 +1,39 @@
 (() => {
   'use strict';
-  const roots = [...document.querySelectorAll('[data-qbs-experience]')];
+  const roots = [...document.querySelectorAll('[data-qbx-experience]')];
   if (!roots.length) return;
   const reduce = matchMedia('(prefers-reduced-motion: reduce)');
   let paused = reduce.matches;
-  const scenes = [...document.querySelectorAll('[data-qbs-parallax]')];
+  const scenes = [...document.querySelectorAll('[data-qbx-parallax]')];
   const visibleScenes = new Set();
   let frame = 0;
   const setMotion = () => {
     roots.forEach(root => {
-      root.classList.toggle('qbs-paused', paused);
-      const button = root.querySelector('[data-qbs-motion]');
+      root.classList.toggle('qbx-paused', paused);
+      const button = root.querySelector('[data-qbx-motion]');
       if (button) {
-        const ar = root.dataset.qbsLanguage === 'ar';
+        const ar = root.dataset.qbxLanguage === 'ar';
         button.setAttribute('aria-pressed', String(paused));
         button.textContent = paused ? (ar ? 'تشغيل الحركة ▷' : 'Play motion ▷') : (ar ? 'إيقاف الحركة Ⅱ' : 'Pause motion Ⅱ');
       }
     });
     if (paused) {
       cancelAnimationFrame(frame); frame = 0;
-      scenes.forEach(scene => scene.style.removeProperty('--qbs-shift'));
-      document.querySelectorAll('.qbs-waiting').forEach(el => el.classList.remove('qbs-waiting'));
+      scenes.forEach(scene => scene.style.removeProperty('--qbx-shift'));
+      document.querySelectorAll('.qbx-waiting').forEach(el => el.classList.remove('qbx-waiting'));
     }
   };
   setMotion();
-  roots.forEach(root => root.querySelector('[data-qbs-motion]')?.addEventListener('click', () => { paused = !paused; setMotion(); }));
+  roots.forEach(root => root.querySelector('[data-qbx-motion]')?.addEventListener('click', () => { paused = !paused; setMotion(); }));
   reduce.addEventListener('change', event => { paused = event.matches; setMotion(); });
   if ('IntersectionObserver' in window) {
     const reveal = new IntersectionObserver(entries => entries.forEach(entry => {
-      if (entry.isIntersecting) { entry.target.classList.remove('qbs-waiting'); reveal.unobserve(entry.target); }
+      if (entry.isIntersecting) { entry.target.classList.remove('qbx-waiting'); reveal.unobserve(entry.target); }
     }), { threshold: .08, rootMargin: '0px 0px 35px 0px' });
     roots.forEach(root => {
-      root.classList.add('qbs-motion-ready');
-      root.querySelectorAll('[data-qbs-reveal]').forEach(el => {
-        if (!paused && el.getBoundingClientRect().top > innerHeight) el.classList.add('qbs-waiting');
+      root.classList.add('qbx-motion-ready');
+      root.querySelectorAll('[data-qbx-reveal]').forEach(el => {
+        if (!paused && el.getBoundingClientRect().top > innerHeight) el.classList.add('qbx-waiting');
         reveal.observe(el);
       });
     });
@@ -47,27 +47,27 @@
       visibleScenes.forEach(scene => {
         const box = scene.getBoundingClientRect();
         const amount = Math.max(-18, Math.min(18, (innerHeight / 2 - box.top - box.height / 2) * .055));
-        scene.style.setProperty('--qbs-shift', `${amount.toFixed(1)}px`);
+        scene.style.setProperty('--qbx-shift', `${amount.toFixed(1)}px`);
       });
     };
     addEventListener('scroll', () => { if (!paused && visibleScenes.size && !frame) frame = requestAnimationFrame(paint); }, { passive: true });
     document.addEventListener('visibilitychange', () => { if(document.hidden) { cancelAnimationFrame(frame); frame=0; } });
   }
   roots.forEach(root => {
-    root.querySelectorAll('[data-qbs-ritual-tab]').forEach(button => button.addEventListener('click', () => {
-      root.querySelectorAll('[data-qbs-ritual-tab]').forEach(tab => tab.setAttribute('aria-pressed', String(tab === button)));
-      root.querySelectorAll('[data-qbs-ritual-path]').forEach(path => { path.hidden = path.dataset.qbsRitualPath !== button.dataset.qbsRitualTab; });
+    root.querySelectorAll('[data-qbx-ritual-tab]').forEach(button => button.addEventListener('click', () => {
+      root.querySelectorAll('[data-qbx-ritual-tab]').forEach(tab => tab.setAttribute('aria-pressed', String(tab === button)));
+      root.querySelectorAll('[data-qbx-ritual-path]').forEach(path => { path.hidden = path.dataset.qbxRitualPath !== button.dataset.qbxRitualTab; });
     }));
   });
 
-  const root = document.querySelector('.qbs-experience');
-  const form = root?.querySelector('[data-qbs-filters]');
-  const results = root?.querySelector('[data-qbs-results]');
+  const root = document.querySelector('.qbx-experience');
+  const form = root?.querySelector('[data-qbx-filters]');
+  const results = root?.querySelector('[data-qbx-results]');
   if (!form || !results || !window.fetch || !window.DOMParser) return;
-  const ar = root.dataset.qbsLanguage === 'ar';
-  const status = root.querySelector('[data-qbs-status]');
+  const ar = root.dataset.qbxLanguage === 'ar';
+  const status = root.querySelector('[data-qbx-status]');
   const shop = root.querySelector('#qby-shop');
-  const fields = ['search','department','brand','orderby','stock','collection','qby_page'];
+  const fields = ['search','department','brand','orderby','stock','collection','qby_page','care','skin_type','hair_type','finish','coverage','shade','concentration'];
   let controller, timer, sequence = 0;
   const sync = url => {
     fields.forEach(key => {
@@ -77,8 +77,8 @@
       else input.value = value;
     });
     const current = url.searchParams.get('collection') || 'all';
-    root.querySelectorAll('[data-qbs-collection]').forEach(link => {
-      if(link.dataset.qbsCollection === current) link.setAttribute('aria-current','true'); else link.removeAttribute('aria-current');
+    root.querySelectorAll('[data-qbx-collection]').forEach(link => {
+      if(link.dataset.qbxCollection === current) link.setAttribute('aria-current','true'); else link.removeAttribute('aria-current');
     });
   };
   const formURL = () => {
@@ -95,18 +95,18 @@
     status.textContent = ar ? 'جارٍ تحديث المنتجات…' : 'Updating products…';
     try {
       // Reuse the native server-rendered page, locale, session and currency. No new public endpoint.
-      const response = await fetch(url.href.split('#')[0], { signal: controller.signal, credentials:'same-origin', headers:{'X-Requested-With':'QimiaBeautyStudio'} });
+      const response = await fetch(url.href.split('#')[0], { signal: controller.signal, credentials:'same-origin', headers:{'X-Requested-With':'QimiaBeauty'} });
       if(!response.ok) throw new Error('Catalogue unavailable');
       const page = new DOMParser().parseFromString(await response.text(),'text/html');
-      const next = page.querySelector('[data-qbs-results]');
+      const next = page.querySelector('[data-qbx-results]');
       if(!next || ownSequence !== sequence) throw new Error('Unexpected catalogue');
       // Native cards are server-rendered. Event owners use delegated handlers; no fetched scripts execute.
       results.replaceChildren(...[...next.childNodes].map(node => document.importNode(node,true)));
       results.querySelectorAll('script:not([type="application/json"])').forEach(script => script.remove());
       sync(url);
-      if(historyMode==='push') history.pushState({qbs:true},'',url);
-      if(historyMode==='replace') history.replaceState({qbs:true},'',url);
-      status.textContent = results.querySelector('#qbs-count')?.textContent || (ar?'تم تحديث المنتجات.':'Products updated.');
+      if(historyMode==='push') history.pushState({qbx:true},'',url);
+      if(historyMode==='replace') history.replaceState({qbx:true},'',url);
+      status.textContent = results.querySelector('#qbx-count')?.textContent || (ar?'تم تحديث المنتجات.':'Products updated.');
       if(scroll) shop.scrollIntoView({behavior:paused?'auto':'smooth',block:'start'});
       document.dispatchEvent(new CustomEvent('qby:shelf-ready'));
     } catch(error) {
@@ -123,12 +123,12 @@
   form.elements.search.addEventListener('input', () => { clearTimeout(timer);timer=setTimeout(() => {form.elements.qby_page.value='1';load(formURL(),{historyMode:'replace'});},400); });
   root.addEventListener('click', event => {
     const target=event.target.closest('a');if(!target || event.metaKey || event.ctrlKey || event.shiftKey || event.altKey || event.button!==0) return;
-    if(target.matches('[data-qbs-collection]')){
-      event.preventDefault();form.elements.collection.value=target.dataset.qbsCollection;form.elements.qby_page.value='1';load(formURL());
-    } else if(target.matches('[data-qbs-department]')){
+    if(target.matches('[data-qbx-collection]')){
+      event.preventDefault();form.elements.collection.value=target.dataset.qbxCollection;form.elements.qby_page.value='1';load(formURL());
+    } else if(target.matches('[data-qbx-department]')){
       event.preventDefault();const url=new URL(target.href);load(url,{scroll:true});
-    } else if(target.matches('[data-qbs-reset],.qbs-pagination a')){
-      event.preventDefault();load(new URL(target.href),{scroll:target.matches('.qbs-pagination a')});
+    } else if(target.matches('[data-qbx-reset],.qbx-pagination a')){
+      event.preventDefault();load(new URL(target.href),{scroll:target.matches('.qbx-pagination a')});
     }
   });
   addEventListener('popstate', () => { sync(new URL(location.href));load(new URL(location.href),{historyMode:'none'}); });
