@@ -48,6 +48,20 @@ check( 'cart totals panel hook registered', has_filter( 'woocommerce_before_cart
 check( 'flash drop REST route registered after rest_api_init', ( do_action( 'rest_api_init' ) || true ) && isset( $GLOBALS['qt']['rest']['qimia-lab/v1/flash-drop'] ) );
 
 /* ------------------------------------------------------------------ */
+section( 'Currency integration' );
+if ( ! class_exists( 'Qimia_Unlimited_Geo_Currency' ) ) {
+	// Stand-in for the owner plugin: only the option key is read.
+	class Qimia_Unlimited_Geo_Currency { const OPTION_KEY = 'qt_ugc'; }
+}
+$qt_rates = array( 'SAR' => array( 'rate' => 9.75 ), 'aed' => array( 'rate' => 9.5 ), 'USD' => array( 'rate' => 0 ) );
+update_option( 'qt_ugc', array( 'enabled' => 1, 'currencies_json' => wp_json_encode( $qt_rates ) ) );
+check( 'currency codes from JSON-string rates', array( 'OMR', 'SAR' ) === qil_storefront_currency_codes(), wp_json_encode( qil_storefront_currency_codes() ) );
+update_option( 'qt_ugc', array( 'enabled' => 1, 'currencies_json' => $qt_rates ) );
+check( 'currency codes from already-decoded rates (no fatal)', array( 'OMR', 'SAR' ) === qil_storefront_currency_codes(), wp_json_encode( qil_storefront_currency_codes() ) );
+update_option( 'qt_ugc', array( 'enabled' => 1, 'currencies_json' => 'not json' ) );
+check( 'malformed rates fall back to the store currency', array( 'OMR' ) === qil_storefront_currency_codes(), wp_json_encode( qil_storefront_currency_codes() ) );
+
+/* ------------------------------------------------------------------ */
 section( 'Scenarios (each in a clean PHP process)' );
 $scenarios = array( 'ladder', 'ladder_sar:SAR:2', 'ladder_property:OMR:3', 'ladder_property:OMR:2', 'ladder_property:SAR:2', 'picks', 'minicart', 'minicart_ar', 'lang_ajax:/ar/', 'lang_ajax:/ar/cart/', 'lang_ajax:/', 'lang_ajax:/arabic-oils/', 'lang_ajax:/ar/:en', 'lang_ajax:/:ar', 'cartpage', 'fragments', 'flash', 'flash_contended', 'flash_last_scan', 'flash_budget', 'flash_stock_purge', 'upgrade_purge', 'flash_rotation', 'flash_soldout', 'flash_topup', 'pool_rebuild', 'shortcodes', 'member_wallet', 'member_wallet_strict', 'member_apply', 'member_running', 'member_ajax', 'stacks', 'admin', 'xss', 'xss_json', 'disabled', 'perf' );
 foreach ( $scenarios as $scenario ) {
