@@ -1,14 +1,20 @@
-# Qimia Beauty 2.3.2 — integrated staging release
+# Qimia Beauty 2.4.0 — integrated staging release
 
 This updates the supplied Qimia Beauty 2.2.5 plugin in place. It replaces the separate Beauty Studio proposal. Deploy only `qimia-beauty/` to `qimialab.qimia.om`; the other plugins in this repository are older reference versions and must not be deployed.
 
-The staging Beauty landing page and home Beauty portal inherit Qimia Intelligence's ink, Tiffany, mint, gradients and typeface. Mobile renders the hero image before its copy. Motion is light CSS/IntersectionObserver animation with a pause control, reduced-motion support and no animation library or autoplay video. Images have responsive WebP sources; new CSS is 28.8 KB and JavaScript 5.5 KB uncompressed/minified.
+The staging Beauty landing page and home Beauty portal inherit Qimia Intelligence's ink, Tiffany, mint, gradients and typeface. Mobile renders the hero image before its copy. Motion is light CSS/IntersectionObserver animation with device reduced-motion support and no animation library or autoplay video. Images have responsive WebP sources; the experience assets are 33.6 KB CSS and 5.2 KB JavaScript minified (7.3 KB and 2.2 KB when gzipped). These are asset sizes, not a measured page-speed score.
 
 The catalogue keeps native Woo products, prices, stock, variations, cart, Qimia comparison and AI owners. It supports department, subcategory, brand, search, sort, actual bestsellers, new arrivals, offers and stock. Existing optional attribute facets appear when populated. Empty results never manufacture products or popularity.
 
 Beauty product pages have two separate components: Beauty Facts (department-specific specifications, full original INCI and provenance) and Your Qimia Guide (verified benefits, directions, care, PAO and product questions). Arabic uses Arabic content, explicit empty states and LTR INCI. Parent records never assert that one shade's formula applies to every variation. The existing six-department / 54-subcategory topology and enrichment field schema are retained. Makeup includes shade, undertone, finish and coverage; skin includes skin type, concern, texture and labelled SPF; hair, body, fragrance and tools have their own fields.
 
 The two supplied product spreadsheets inform navigation and component requirements only. No spreadsheet products, fabricated prices, stock or ingredients were imported. Oral products such as Priorin remain supplements.
+
+## Version 2.4
+
+The supplied 2.2.5 homepage product edit is merged back into the integrated design: three real product cutouts, real stock states and the original six pastel department cards with inline SVG artwork. The edit uses the existing bounded sales-order query; it says best sellers only when all three products have recorded sales, otherwise it remains the Qimia Beauty Edit. Quick links reach best sellers, new arrivals, offers and the routine finder. Arabic product names use the installed Qimia translation memory in one read-only batch, with no translation job or AI call during page rendering.
+
+The visible motion toggle and decorative Unicode glyphs are removed. Original inline SVG marks, a dedicated sun-care illustration and line icons replace them without icon fonts, dependencies or asset requests. Motion remains finite or scroll-driven; device reduced-motion preferences are respected. Beauty Facts and the Qimia Guide now share the menu's Tiffany/mint palette, light surfaces, fine borders and native gradient buttons. Verified multi-line usage instructions render with numbered steps.
 
 ## Automation
 
@@ -27,7 +33,7 @@ Review mode ends at a draft with field-level source evidence. Apply mode require
 - All 20 PHP source files parsed successfully with PHP 8.3 WASM.
 - English/Arabic rendering tests: one H1, image-first markup, input sanitation, empty catalogue, native docks, separate product knowledge, supplement exclusion, missing-translation behavior and INCI direction.
 - 33 n8n fixture tests: exact target, metadata-only writes, evidence/language validation, stale state, idempotency, readback and protected supplement/commerce fields.
-- Staging UI: Beauty/home/EN/AR product detail, 360 px Safari mobile image-first layout; real filter results (10 total, zero actual bestsellers and zero in-stock), reset, package update confirmation.
+- Staging UI: 2.4 package update confirmation; Beauty/home/EN/AR product detail; 360 px Safari mobile image-first layout; routine-finder tabs and empty results; reset to 10 products; serum search returns the one scalp serum; native comparison selects two products and clears correctly. The preceding 2.3 validation also confirmed zero actual bestsellers and zero in-stock products.
 - Full runtime ZIP manifest includes `includes/products.json`; no migration, taxonomy rewrite, product import or checkout occurred.
 
 ## Build and rollback

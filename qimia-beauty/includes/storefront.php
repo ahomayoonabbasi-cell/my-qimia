@@ -43,6 +43,7 @@ function qby_product_type_label($id){
 /** Small original interface illustrations; no icon font or image request. */
 function qby_department_icon($slug){
     $paths=array(
+        'sun-care'=>'<circle cx="48" cy="44" r="17"/><path d="M48 15v7M48 66v7M19 44h7M70 44h7M27 23l5 5M64 60l5 5M27 65l5-5M64 28l5-5"/>',
         'makeup'=>'<path d="M23 40h18v31H23zM26 40V24l12-7v23M21 71h22M56 42h17v29H56zM60 42V29h9v13M58 22h13"/><path d="M27 49h10M60 51h9"/>',
         'skin-care'=>'<path d="M29 34h38v40H29zM37 34V23h22v11M44 23V12h8v11M35 46h26M38 56h20"/><path d="M71 17c9 11 9 16 0 16s-9-5 0-16Z"/>',
         'hair-care'=>'<path d="M20 32h25v43H20zM25 32V20h15v12M29 20v-8h17M25 45h15M57 32h19l-3 43H60zM59 24h15v8M63 44h7"/>',
@@ -53,7 +54,7 @@ function qby_department_icon($slug){
 }
 function qby_department_cards($compact=false){
     $html='<div class="qby-department-grid'.($compact?' qby-department-grid--compact':'').'">';$n=0;
-    foreach(qby_beauty_map() as $slug=>$d){$n++;$html.='<article class="qby-department-card qby-department--'.esc_attr($slug).'"><a class="qby-department-main" href="'.esc_url(qby_browse_url($slug)).'"><span class="qby-category-art">'.qby_department_icon($slug).'</span><span class="qby-department-text"><small>0'.$n.'</small><strong>'.esc_html(qby_t($d['en'],$d['ar'])).'</strong></span><span class="qby-arrow" aria-hidden="true">↗</span></a>';
+    foreach(qby_beauty_map() as $slug=>$d){$n++;$html.='<article class="qby-department-card qby-department--'.esc_attr($slug).'"><a class="qby-department-main" href="'.esc_url(qby_browse_url($slug)).'"><span class="qby-category-art">'.qby_department_icon($slug).'</span><span class="qby-department-text"><small>0'.$n.'</small><strong>'.esc_html(qby_t($d['en'],$d['ar'])).'</strong></span><span class="qby-arrow" aria-hidden="true">'.(function_exists('qbx_icon')?qbx_icon('outward'):'↗').'</span></a>';
         if(!$compact){$html.='<div class="qby-department-links">';foreach(array_slice($d['children'],0,3,true) as $child=>$label){$html.=qby_link(qby_browse_url($child),qby_t($label[0],$label[1]));}$html.='</div>';}$html.='</article>';
     }return $html.'</div>';
 }

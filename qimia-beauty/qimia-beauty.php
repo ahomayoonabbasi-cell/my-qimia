@@ -2,13 +2,13 @@
 /**
  * Plugin Name: Qimia Beauty
  * Description: Beauty department, product facts and native shopping integration for Qimia.
- * Version: 2.3.2
+ * Version: 2.4.0
  * Author: Qimia
  * Requires PHP: 8.1
  * Requires Plugins: woocommerce
  */
 defined('ABSPATH') || exit;
-define('QBY_VERSION', '2.3.2');
+define('QBY_VERSION', '2.4.0');
 define('QBY_DIR', plugin_dir_path(__FILE__));
 define('QBY_URL', plugin_dir_url(__FILE__));
 function qby_stage_allowed() {

@@ -47,7 +47,9 @@ foreach(array('en','ar') as $lang){
  assert_true(strpos($html,'qbx-hero-visual')<strpos($html,'qbx-hero-copy'),'Image-first document order');
  assert_true(substr_count($html,'<h1 ')===1,'Exactly one H1');
  assert_true(substr_count($html,'id="qby-shop"')===1,'Stable shop anchor');
- assert_true(str_contains($html,'data-qbx-results')&&str_contains($html,'data-qbx-motion'),'Catalogue and motion controls');
+ assert_true(str_contains($html,'data-qbx-results')&&!str_contains($html,'data-qbx-motion'),'Catalogue retained and pause control removed');
+ assert_true(!preg_match('/[\x{1F300}-\x{1FAFF}\x{2600}-\x{27BF}]/u',$html),'No emoji or decorative symbol glyphs in Beauty markup');
+ assert_true(str_contains($html,'qbx-icon--bloom')&&str_contains($html,'qbx-icon--formula'),'Inline vector artwork');
  assert_true(str_contains($html,'dir="'.($lang==='ar'?'rtl':'ltr').'"'),'Direction');
  assert_true(str_contains($html,'application/json')===false,'Empty catalogue has no fabricated products');
  if(getenv('QBY_PREVIEW_DIR')){file_put_contents(getenv('QBY_PREVIEW_DIR').'/'.$lang.'.html','<!doctype html><html lang="'.$lang.'"><meta charset="utf-8"><meta name="viewport" content="width=device-width,initial-scale=1"><link rel="stylesheet" href="/qimia-beauty/assets/experience.css"><style>body{margin:0;background:#f7fcfb}</style><body>'.$html.'<script src="/qimia-beauty/assets/experience.js"></script></body></html>');}
@@ -70,3 +72,34 @@ $_GET=array('ar'=>1);$html=qby_knowledge_render(10);assert_true(str_contains($ht
 assert_true(!str_contains($html,'Apply to damp hair.')&&!str_contains($html,'Dry hair'),'Missing Arabic never silently falls back to English');
 assert_true(str_contains($html,'lang="en" dir="ltr"'),'Canonical INCI direction on Arabic');
 echo "PASS: supplement isolation, bilingual knowledge, missing-translation fallback, variant notice, INCI direction\n";
+
+// Home edit uses real product data and the original six-department card renderer.
+class HomeProduct {
+ private $id; private $stock; private $enough;
+ function __construct($id,$stock='outofstock',$enough=true){$this->id=$id;$this->stock=$stock;$this->enough=$enough;}
+ function get_id(){return $this->id;}
+ function get_stock_status(){return $this->stock;}
+ function is_in_stock(){return $this->stock!=='outofstock';}
+ function has_enough_stock($n){return $this->enough;}
+ function get_name(){return 'Real product <'.$this->id.'>';}
+ function get_image($size,$attributes){return '<img src="/product-'.$this->id.'.webp" alt="" loading="'.esc_attr($attributes['loading']).'">';}
+}
+function get_permalink($id){return '/product/'.$id.'/';}
+function qil_localized_url($url,$ar){return ($ar?'/ar':'').$url;}
+function qil_translate_batch($sources,$context,$queue){assert_true($context==='product_title'&&$queue===false&&count($sources)<=3,'Read existing translations in one bounded batch without writes');return array('Real product <101>'=>'منتج حقيقي <101>');}
+$homeEdit=array('products'=>array(new HomeProduct(101),new HomeProduct(102,'instock',false),new HomeProduct(103,'onbackorder')),'bestsellers'=>false);
+function qby_home_beauty_edit(){global $homeEdit;return $homeEdit;}
+function qby_department_cards($compact=false){assert_true($compact,'Reuse original compact department cards');return '<div data-original-department-cards></div>';}
+foreach(array('en','ar') as $lang){
+ $_GET=$lang==='ar'?array('ar'=>1):array();ob_start();qbx_home();$html=ob_get_clean();
+ assert_true(substr_count($html,'class="qby-home-product"')===3,'Three native products in home edit');
+ assert_true(str_contains($html,'data-original-department-cards'),'Original department card component retained');
+ assert_true(str_contains($html,($lang==='ar'?'منتج حقيقي':'Real product').' &lt;101&gt;')&&!str_contains($html,'Real product <101>'),'Native localized product name escaped');
+ assert_true(substr_count($html,'data-stock="outofstock"')===2&&substr_count($html,'data-stock="onbackorder"')===1,'Real stock including insufficient quantity retained');
+ assert_true(!str_contains($html,'THE BEAUTY BEST SELLERS')&&!str_contains($html,'الأكثر مبيعاً في الجمال'),'Unsold edit never makes a bestseller claim');
+ assert_true(str_contains($html,($lang==='ar'?'/ar':'').'/product/101/'),'Localized product destinations');
+ assert_true(str_contains($html,'collection=new')&&str_contains($html,'collection=offers'),'Collection shortcuts retain functional GET destinations');
+}
+$homeEdit['bestsellers']=true;$_GET=array();ob_start();qbx_home();$html=ob_get_clean();assert_true(str_contains($html,'THE BEAUTY BEST SELLERS'),'Verified bestsellers label');
+$homeEdit=array('products'=>array(),'bestsellers'=>false);ob_start();qbx_home();$html=ob_get_clean();assert_true(!str_contains($html,'class="qby-home-product"')&&str_contains($html,'qbx-home-visual'),'Empty edit uses editorial image, no fake products');
+echo "PASS: home reference merge, real product/stock data, honest ranking labels, Arabic links and empty fallback\n";

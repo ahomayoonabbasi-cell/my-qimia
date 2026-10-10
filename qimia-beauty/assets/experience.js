@@ -10,12 +10,7 @@
   const setMotion = () => {
     roots.forEach(root => {
       root.classList.toggle('qbx-paused', paused);
-      const button = root.querySelector('[data-qbx-motion]');
-      if (button) {
-        const ar = root.dataset.qbxLanguage === 'ar';
-        button.setAttribute('aria-pressed', String(paused));
-        button.textContent = paused ? (ar ? 'تشغيل الحركة ▷' : 'Play motion ▷') : (ar ? 'إيقاف الحركة Ⅱ' : 'Pause motion Ⅱ');
-      }
+
     });
     if (paused) {
       cancelAnimationFrame(frame); frame = 0;
@@ -24,7 +19,6 @@
     }
   };
   setMotion();
-  roots.forEach(root => root.querySelector('[data-qbx-motion]')?.addEventListener('click', () => { paused = !paused; setMotion(); }));
   reduce.addEventListener('change', event => { paused = event.matches; setMotion(); });
   if ('IntersectionObserver' in window) {
     const reveal = new IntersectionObserver(entries => entries.forEach(entry => {
