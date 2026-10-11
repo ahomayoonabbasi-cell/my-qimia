@@ -6,11 +6,22 @@
  * the real plugin (over the WordPress/WooCommerce doubles), serves the real
  * CSS/JS and answers the plugin's real wc-ajax endpoints. Cart, applied
  * coupons and the signed-in user persist in cookies between requests.
+ *
+ * A request with the cookie qt_beauty=1 also loads the real Qimia Beauty plugin
+ * on its staging host (see beauty-stage.php), serves Beauty's assets and the
+ * /beauty/ page. Without that cookie nothing below changes.
  */
 $uri  = parse_url( $_SERVER['REQUEST_URI'], PHP_URL_PATH );
 $root = realpath( __DIR__ . '/../../qimia-intelligence-lab-final' );
+$qt_beauty = '1' === ( $_COOKIE['qt_beauty'] ?? '' );
 
 /* ---- static files ---- */
+if ( $qt_beauty && preg_match( '#^/wp-content/plugins/qimia-beauty/(assets/[A-Za-z0-9._-]+)$#', $uri, $m ) && is_file( __DIR__ . '/../../qimia-beauty/' . $m[1] ) ) {
+	$types = array( 'css' => 'text/css', 'js' => 'application/javascript', 'webp' => 'image/webp', 'jpg' => 'image/jpeg', 'png' => 'image/png', 'svg' => 'image/svg+xml', 'json' => 'application/json' );
+	header( 'Content-Type: ' . ( $types[ pathinfo( $m[1], PATHINFO_EXTENSION ) ] ?? 'application/octet-stream' ) );
+	readfile( __DIR__ . '/../../qimia-beauty/' . $m[1] );
+	return true;
+}
 if ( preg_match( '#^/wp-content/plugins/qimia-intelligence-lab-final/(assets/[A-Za-z0-9._-]+)$#', $uri, $m ) && is_file( $root . '/' . $m[1] ) ) {
 	$types = array( 'css' => 'text/css', 'js' => 'application/javascript', 'webp' => 'image/webp', 'jpg' => 'image/jpeg', 'svg' => 'image/svg+xml' );
 	header( 'Content-Type: ' . ( $types[ pathinfo( $m[1], PATHINFO_EXTENSION ) ] ?? 'application/octet-stream' ) );
@@ -69,6 +80,7 @@ if ( $qt_state ) {
 }
 if ( ! empty( $_COOKIE['qt_currency'] ) ) { $GLOBALS['qt']['currency'] = preg_replace( '/[^A-Z]/', '', $_COOKIE['qt_currency'] ); $GLOBALS['qt']['decimals'] = 'OMR' === $GLOBALS['qt']['currency'] ? 3 : 2; }
 $ar = (bool) preg_match( '#^/ar(/|$)#', $uri );
+if ( $qt_beauty ) { require __DIR__ . '/beauty-stage.php'; } // Staging host, Beauty fixtures and doubles.
 
 /* Browser-only template doubles. */
 function language_attributes() { global $ar; echo $ar ? 'dir="rtl" lang="ar"' : 'lang="en"'; }
@@ -112,6 +124,7 @@ function qt_persist_cart() {
 $endpoint = isset( $_GET['wc-ajax'] ) ? preg_replace( '/[^a-z0-9_]/', '', $_GET['wc-ajax'] ) : '';
 if ( $ar ) { $_SERVER['REQUEST_URI'] = '/ar' . ( substr( $uri, 3 ) ?: '/' ); }
 if ( $endpoint ) { $GLOBALS['qt']['render'] = 'none'; }
+elseif ( $qt_beauty && preg_match( '#^(/ar)?/beauty/$#', $uri ) ) { $GLOBALS['qt']['render'] = 'chrome'; $GLOBALS['qt']['is_beauty_page'] = true; }
 elseif ( '/cart/' === $uri || '/ar/cart/' === $uri ) { $GLOBALS['qt']['render'] = 'chrome'; $GLOBALS['qt']['is_cart'] = true; }
 elseif ( preg_match( '#^(/ar)?/my-account/qimia-refills/$#', $uri ) ) { $GLOBALS['qt']['render'] = 'account'; $GLOBALS['qt']['is_account'] = true; }
 elseif ( preg_match( '#^(/ar)?/checkout/order-received/(\d+)/$#', $uri, $received ) ) { $GLOBALS['qt']['render'] = 'received'; $GLOBALS['qt']['is_received'] = true; }
@@ -119,21 +132,22 @@ elseif ( preg_match( '#^(/ar)?/checkout/$#', $uri ) ) { $GLOBALS['qt']['render']
 else { $GLOBALS['qt']['render'] = 'full'; }
 
 require $root . '/qimia-intelligence-lab.php';
+if ( $qt_beauty ) { qtb_load_plugin(); }
 qt_cart_from_cookies();
 do_action( 'template_redirect' );
 do_action( 'rest_api_init' );
 
-ob_start( static function ( $html ) use ( $origin ) { return str_replace( array( 'https://qimia.om', 'https:\/\/qimia.om' ), array( $origin, str_replace( '/', '\/', $origin ) ), $html ); } );
+ob_start( static function ( $html ) use ( $origin, $qt_beauty ) { return str_replace( array( 'https://qimia.om', 'https:\/\/qimia.om' ), array( $origin, str_replace( '/', '\/', $origin ) ), $qt_beauty ? qtb_rewrite_host( $html, $origin ) : $html ); } );
 
 /* REST: the plugin's own routes (quick view, flash feed). */
 if ( preg_match( '#^/wp-json/(qimia-lab/v1/[a-z-]+)(?:/(\d+))?#', $uri, $m ) ) {
 	header( 'Content-Type: application/json' );
 	$route = $GLOBALS['qt']['rest'][ $m[1] . ( isset( $m[2] ) ? '/(?P<id>\d+)' : '' ) ] ?? null;
 	if ( ! $route || ! call_user_func( $route['permission_callback'] ) ) { http_response_code( 404 ); echo '{}'; return true; }
-	$request = new WP_REST_Request();
+	$request = $qt_beauty ? new QTB_REST_Request( 'GET', '/' . $m[1] . ( isset( $m[2] ) ? '/' . $m[2] : '' ) ) : new WP_REST_Request();
 	foreach ( $_GET as $k => $v ) { $request->set_param( $k, $v ); }
 	if ( isset( $m[2] ) ) { $request->set_param( 'id', (int) $m[2] ); }
-	$response = call_user_func( $route['callback'], $request );
+	$response = $qt_beauty ? qtb_rest_dispatch( $route, $request ) : call_user_func( $route['callback'], $request );
 	if ( is_wp_error( $response ) ) { http_response_code( 404 ); echo json_encode( array( 'code' => $response->get_error_code() ) ); return true; }
 	echo json_encode( $response instanceof WP_REST_Response ? $response->get_data() : $response );
 	return true;
@@ -194,6 +208,10 @@ if ( $endpoint ) {
 
 if ( 'full' === $GLOBALS['qt']['render'] ) {
 	include $root . '/templates/home.php';
+	return true;
+}
+if ( $qt_beauty && ! empty( $GLOBALS['qt']['is_beauty_page'] ) ) {
+	qtb_render_beauty_page();
 	return true;
 }
 
