@@ -46,6 +46,9 @@ if ( in_array( $scenario, array( 'minicart_ar' ), true ) ) { $_SERVER['HTTP_X_QI
 if ( 'refill_ar' === $scenario ) { $_SERVER['HTTP_X_QIMIA_LANGUAGE'] = 'ar'; $_GET['wc-ajax'] = 'qil_refill'; }
 if ( 'refill_disabled' === $scenario ) { define( 'QIL_REFILL_DISABLE', true ); }
 if ( 'refill_staging' === $scenario ) { $GLOBALS['qt']['options']['home'] = 'https://qimialab.qimia.om'; }
+// Chrome product page (is_front_page() is false) and the Arabic search results page.
+if ( 'buybar' === $scenario ) { $GLOBALS['qt']['render'] = 'chrome'; $GLOBALS['qt']['is_product'] = true; $_SERVER['REQUEST_URI'] = '/product/p-102/'; }
+if ( 'ar_search' === $scenario ) { $GLOBALS['qt']['render'] = 'chrome'; $GLOBALS['qt']['is_search'] = true; $GLOBALS['qt']['query_vars']['s'] = 'whey'; $_GET['s'] = 'whey'; $_SERVER['REQUEST_URI'] = '/ar/?s=whey'; }
 /** Refill helpers: a plan, aging it, an extra order for user 7. */
 function rf_plan( $id, $user = 7 ) { return QIL_Refill::plans( $user )[ $id ] ?? null; }
 function rf_set( $id, array $changes, $user = 7 ) { $plans = QIL_Refill::plans( $user ); $plans[ $id ] = array_merge( $plans[ $id ], $changes ); update_user_meta( $user, QIL_Refill::META, $plans ); }
@@ -811,6 +814,82 @@ case 'refill_admin':
 	QIL_Refill::ensure_rewrite();
 	QIL_Refill::ensure_rewrite();
 	ok( 'after an in-place update the new endpoint flushes rewrite rules once', 1 === ( $GLOBALS['qt']['flushed'] ?? 0 ) );
+	break;
+
+case 'goal_cache':
+	// Goal membership is a taxonomy scan the doubles cannot run; seed its own cache.
+	set_transient( 'qil_goal_ids_v2_' . md5( 'performance|' . qil_goal_membership_version() ), array( 102, 103, 108 ) );
+	$goal = static function () { $r = new WP_REST_Request(); $r->set_param( 'goal', 'performance' ); $r->set_param( 'qil_locale', 'en' ); return array_map( 'intval', array_column( qil_rest_goal_products( $r )->data['products'] ?? array(), 'id' ) ); };
+	$keys = static function () { return array_values( array_filter( array_keys( $GLOBALS['qt']['transients'] ), static function ( $k ) { return 0 === strpos( $k, 'qil_goal_cards_' ); } ) ); };
+	$plain = $goal();
+	ok( 'goal cards: one cache for the market', $plain && 1 === count( $keys() ), array( $plain, $keys() ) );
+	add_filter( 'qil_cache_market_identity', static function ( $identity ) { $identity['beautyRecordSchema'] = 'qby-test'; return $identity; } );
+	ok( 'a qil_cache_market_identity marker (Beauty\'s record schema) gets its own goal cache', $plain === $goal() && 2 === count( $keys() ), $keys() );
+	$goal();
+	ok( 'the same marker reuses that cache', 2 === count( $keys() ), $keys() );
+	add_filter( 'qil_cache_market_identity', static function ( $identity ) { $identity['user'] = 99; $identity['session'] = 'other'; return $identity; }, 20 );
+	$goal();
+	ok( 'the identity\'s per-user and per-session keys stay out of the goal key', 2 === count( $keys() ), $keys() );
+	break;
+
+case 'buybar':
+	$classes = apply_filters( 'body_class', array() );
+	ok( 'product page: the phone buy bar class comes with the product experience', 'chrome' === qil_render_mode() && in_array( 'qil-product-experience', $classes, true ) && in_array( 'qil-product-buybar', $classes, true ), $classes );
+	// Beauty turns QIL's product intelligence off on its own product pages.
+	add_filter( 'qil_product_intelligence_enabled', static function ( $enabled ) { return is_product() ? false : $enabled; } );
+	$classes = apply_filters( 'body_class', array() );
+	ok( 'product intelligence off: no buy bar class, the product experience class stays', in_array( 'qil-product-experience', $classes, true ) && ! in_array( 'qil-product-buybar', $classes, true ), $classes );
+	ok( 'product intelligence off: the product world (the only buy bar) is not printed either', '' === qil_append_product_intelligence( '' ) );
+	$GLOBALS['qt']['is_product'] = false;
+	ok( 'not a product page: neither class', ! array_intersect( array( 'qil-product-experience', 'qil-product-buybar' ), apply_filters( 'body_class', array() ) ) );
+	foreach ( array( 'qil-storefront.css', 'qil-storefront.min.css' ) as $file ) {
+		$css = (string) file_get_contents( dirname( __DIR__, 2 ) . '/qimia-intelligence-lab-final/assets/' . $file );
+		ok( "$file: the buy bar room and the hidden WoodMart sticky add-to-cart require body.qil-product-buybar", preg_match( '/body\.qil-product-buybar\s*\{\s*--qil-buybar-h:72px;\s*padding-bottom:/', $css ) && preg_match( '/body\.qil-product-buybar \.wd-sticky-btn\s*\{\s*display:\s*none\s*!important/', $css ) && ! preg_match( '/body\.qil-product-experience\s*\{\s*--qil-buybar-h|body\.qil-product-experience \.wd-sticky-btn/', $css ) );
+	}
+	break;
+
+case 'buy_again_veto':
+	$GLOBALS['qt']['user'] = 7;
+	$groups = static function ( array $raw ) { $out = array(); foreach ( QIL_Personalization::payload( QIL_Personalization::context( $raw ) )['groups'] as $g ) { $out[ $g['key'] ] = array_map( 'intval', array_column( $g['items'], 'id' ) ); } return $out; };
+	// The pre-workout parent reads vegan, the flavour that was bought does not: with the
+	// vegan filter it is no Buy again card, so a later view lists it under recent views.
+	$GLOBALS['qt']['products'][103]->name = 'Vegan C4 Pre-Workout';
+	$GLOBALS['qt']['products'][1031]->desc = 'Not vegan: contains milk.';
+	$vegan = $groups( array( 'recent' => array( 103 ), 'filters' => array( 'vegan' ) ) );
+	ok( 'setup: without a veto the viewed purchase is a recent view', in_array( 103, $vegan['recent'] ?? array(), true ), $vegan );
+	// Beauty's veto reads the fourth argument and lets the shopper reorder its own purchases.
+	add_filter( 'qil_personal_product_eligible', static function ( $eligible, $p, $surface = 'home', $repeat = false ) { return $p && ! $repeat && in_array( $p->get_id(), array( 102, 103, 110 ), true ) ? false : $eligible; }, 50, 4 );
+	$home = $groups( array( 'recent' => array( 102 ), 'exclude' => array( 999 ) ) );
+	ok( 'Buy again keeps the shopper\'s own purchases that the recommendation veto removes', array( 101, 103, 102, 105, 104 ) === ( $home['again'] ?? array() ), $home );
+	ok( 'the veto still keeps a never-bought product out of every group', ! in_array( 110, array_merge( ...array_values( $home ) ), true ), $home );
+	$vegan = $groups( array( 'recent' => array( 103 ), 'filters' => array( 'vegan' ), 'exclude' => array( 999 ) ) );
+	ok( 'a vetoed purchase is only ever a reorder: never a recent view or a suggestion', ! in_array( 103, array_merge( array(), ...array_values( $vegan ) ), true ), $vegan );
+	ok( 'eligible(): a veto that reads $repeat removes recommendations and allows the reorder', false === QIL_Personalization::eligible( wc_get_product( 102 ) ) && true === QIL_Personalization::eligible( wc_get_product( 102 ), 'home', true ) && true === QIL_Personalization::eligible( wc_get_product( 101 ) ) );
+	// A restriction plugin with the old two-argument veto still removes Buy again cards too.
+	add_filter( 'qil_personal_product_eligible', static function ( $eligible, $p ) { return $p && 101 === $p->get_id() ? false : $eligible; }, 60, 2 );
+	$home = $groups( array( 'recent' => array( 102 ), 'exclude' => array( 999 ) ) );
+	ok( 'a two-argument restriction veto still keeps its product out of Buy again', ! in_array( 101, $home['again'] ?? array(), true ) && false === QIL_Personalization::eligible( wc_get_product( 101 ), 'home', true ), $home );
+	break;
+
+case 'ar_search':
+	ok( '/ar/?s=whey is the search results page: chrome and the theme template, not the Arabic homepage', 'chrome' === qil_render_mode() && ! qil_should_render() && 'theme.php' === apply_filters( 'template_include', 'theme.php' ) );
+	$GLOBALS['qt']['is_search'] = false;
+	ok( 'a non-empty s query var alone keeps /ar/ off the homepage', ! qil_should_render() );
+	$GLOBALS['qt']['query_vars'] = array(); $GLOBALS['qt']['is_search'] = true; $_SERVER['REQUEST_URI'] = '/ar/?s=';
+	ok( 'an empty search (/ar/?s=) is still a search', ! qil_should_render() );
+	$GLOBALS['qt']['is_search'] = false; $_SERVER['REQUEST_URI'] = '/ar/';
+	ok( 'plain /ar/ still gets the Arabic homepage when it is not the front page', qil_should_render() && 'templates/home.php' === substr( apply_filters( 'template_include', 'theme.php' ), -18 ) );
+	break;
+
+case 'search_order':
+	// "protein" is a curated alias; seed its source in an order popularity never gives.
+	set_transient( 'qil_curated_sources_v4_' . md5( QIL_SCHEMA_VERSION . '|' . WC_Cache_Helper::get_transient_version( 'product' ) ), array( 'protein' => array( 105, 104, 102, 101 ), 'creatine' => array(), 'fat-burner' => array(), 'mass-gainer' => array(), 'best-sellers' => array(), 'weekly-best-sellers' => array() ) );
+	$ids = qil_search_product_ids( 'protein', 8 );
+	$r = new WP_REST_Request(); $r->set_param( 'q', 'protein' ); $r->set_param( 'limit', 8 ); $r->set_param( 'qil_locale', 'en' );
+	$got = array_map( 'intval', array_column( qil_rest_search_products( $r )->data['products'] ?? array(), 'id' ) );
+	ok( 'search payload keeps the strict qil_search_product_ids order', array( 105, 104, 102, 101 ) === $ids && $ids === $got, array( 'ids' => $ids, 'payload' => $got ) );
+	$catalogue = array_map( 'intval', array_column( qil_get_catalogue( array( 'include' => $ids, 'limit' => count( $ids ), 'orderby' => 'include' ) ), 'id' ) );
+	ok( 'qil_get_catalogue itself is unchanged for the other orderby=include callers (popularity order, same records)', $catalogue !== $ids && array() === array_diff( $ids, $catalogue ) && count( $ids ) === count( $catalogue ), $catalogue );
 	break;
 
 default:

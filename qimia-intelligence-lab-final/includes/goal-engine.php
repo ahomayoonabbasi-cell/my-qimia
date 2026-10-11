@@ -410,7 +410,11 @@ function qil_rest_goal_products( WP_REST_Request $request ) {
 	// Do not share personalised prices. Even anonymous Woo sessions get an
 	// isolated key; responses themselves are always private/no-store.
 	$session = function_exists( 'WC' ) && WC()->session ? (string) WC()->session->get_customer_id() : '';
-	$cache_key = 'qil_goal_cards_' . md5( wp_json_encode( array( $version, $goal, $locale, $market['country'], $market['currency'], qil_pricing_cache_context(), get_current_user_id(), $session, in_array( 'value', $filters, true ) ) ) );
+	// Same market identity as every other record cache, so record filters
+	// (qil_cache_market_identity) split this one too.
+	$identity = qil_perf_market_identity();
+	unset( $identity['user'], $identity['session'] );
+	$cache_key = 'qil_goal_cards_' . md5( wp_json_encode( array( $version, $goal, $locale, $market['country'], $market['currency'], qil_pricing_cache_context(), get_current_user_id(), $session, in_array( 'value', $filters, true ), $identity ) ) );
 	$records = get_transient( $cache_key );
 	if ( ! is_array( $records ) ) {
 		$records = array();

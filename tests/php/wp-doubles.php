@@ -189,10 +189,10 @@ function is_singular( $t = '' ) { return false; }
 function is_tax( $t = '' ) { return false; }
 function is_404() { return false; }
 function is_feed() { return false; }
-function is_search() { return false; }
+function is_search() { return ! empty( $GLOBALS['qt']['is_search'] ); }
 function is_cart() { return ! empty( $GLOBALS['qt']['is_cart'] ); }
 function is_checkout() { return false; }
-function is_product() { return false; }
+function is_product() { return ! empty( $GLOBALS['qt']['is_product'] ); }
 function is_shop() { return false; }
 function is_product_taxonomy() { return false; }
 function is_product_category( $t = '' ) { return false; }
@@ -410,7 +410,7 @@ function remove_query_arg( $keys, $url = false ) {
 	foreach ( (array) $keys as $k ) { unset( $q[ $k ] ); }
 	return $parts[0] . ( $q ? '?' . http_build_query( $q ) : '' );
 }
-function get_query_var( $k, $d = '' ) { return $d; }
+function get_query_var( $k, $d = '' ) { return $GLOBALS['qt']['query_vars'][ $k ] ?? $d; }
 function get_queried_object() { return null; }
 function get_queried_object_id() { return 0; }
 function is_page( $p = '' ) { return false; }

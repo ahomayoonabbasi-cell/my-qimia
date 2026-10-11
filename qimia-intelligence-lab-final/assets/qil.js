@@ -1187,7 +1187,7 @@
 			grid.innerHTML = cards.map(({product, key}, index) => productCard(product, index, 'buy-again', key)).join('');
 			section.hidden = cards.length === 0;
 		});
-		setupRails(); observeReveals();
+		setupRails(); observeReveals(); syncMotion();
 	}
 	function repeatVisibleIds(onlyUnseen = false) {
 		const ids = [...document.querySelectorAll('.qil-product-card[data-product-id],[data-qil-native-inventory],[data-qil-beauty-stock-product]')].map(n => Number(n.dataset.productId || n.dataset.qilNativeInventory || n.dataset.qilBeautyStockProduct));
@@ -1555,7 +1555,8 @@
 	}
 	function prefetchQuickViewFromEvent(event) {
 		const element = event.target instanceof Element ? event.target.closest('[data-qil-quick-view-id]') : null;
-		if (element && root.contains(element)) prefetchQuickView(element.dataset.qilQuickViewId);
+		// Beauty shelves and section bands are .qil-shell wrappers outside the root.
+		if (element?.closest('#qimia-lab,.qil-shell,[data-qil-shell]')) prefetchQuickView(element.dataset.qilQuickViewId);
 	}
 
 	function moneyMarkup(value, product = null) {
@@ -1957,6 +1958,7 @@
 		});
 		setupRails();
 		observeReveals();
+		syncMotion();
 	}
 
 	function renderCompareShowcase() {
@@ -3042,51 +3044,62 @@
 		$$('.qil-reveal:not(.is-visible)').forEach(el => revealObserver.observe(el));
 	}
 
+	// Viewport-gated motion lives at module scope, so cards that sections or
+	// Beauty insert outside the boot-time shells are gated like native ones.
+	const motionSelector = '.qil-label-stack.has-multiple,[data-qil-portal],.qil-ai-art,[data-qil-stack-scene],.qil-collection-skeleton';
+	const motionGroups = new Map();
+	const reduceMotion = window.matchMedia('(prefers-reduced-motion: reduce)');
+	const updateMotion = (node, inView) => {
+		const value = inView && !document.hidden && !reduceMotion.matches ? 'running' : 'paused';
+		if (node.dataset.qilMotion !== value) node.dataset.qilMotion = value;
+	};
+	const motionObserver = 'IntersectionObserver' in window ? new IntersectionObserver(entries => {
+		entries.forEach(entry => {
+			if (!motionGroups.has(entry.target)) return;
+			motionGroups.set(entry.target, entry.isIntersecting);
+			updateMotion(entry.target, entry.isIntersecting);
+		});
+	}, {threshold:0}) : null;
+	function registerMotion(node) {
+		if (motionGroups.has(node)) return;
+		// CSS starts at the first paused frame, so deferred/added cards
+		// show a label immediately without briefly animating offscreen.
+		motionGroups.set(node, false);
+		updateMotion(node, false);
+		motionObserver?.observe(node);
+	}
+	function discoverMotion(node) {
+		if (!(node instanceof Element)) return;
+		if (node.matches(motionSelector)) registerMotion(node);
+		node.querySelectorAll(motionSelector).forEach(registerMotion);
+	}
+	function pruneMotion() {
+		motionGroups.forEach((inView, node) => {
+			if (!node.isConnected) { motionObserver?.unobserve(node); motionGroups.delete(node); }
+		});
+	}
+	// Re-scan after cards are inserted anywhere (QILCards.refresh); detached nodes are released.
+	function syncMotion() {
+		pruneMotion();
+		$$(motionSelector).forEach(node => { if (node.closest('#qimia-lab,.qil-shell,[data-qil-shell]')) registerMotion(node); });
+	}
+
 	function setupHeroScrollMotion() {
 		// Floating remains in CSS. No scroll handler publishes inherited
 		// custom properties across the hero on every animation frame.
-		const selector = '.qil-label-stack.has-multiple,[data-qil-portal],.qil-ai-art,[data-qil-stack-scene],.qil-collection-skeleton';
-		const groups = new Map();
-		const reduceMotion = window.matchMedia('(prefers-reduced-motion: reduce)');
-		const update = (node, inView) => {
-			const value = inView && !document.hidden && !reduceMotion.matches ? 'running' : 'paused';
-			if (node.dataset.qilMotion !== value) node.dataset.qilMotion = value;
-		};
-		const observer = 'IntersectionObserver' in window ? new IntersectionObserver(entries => {
-			entries.forEach(entry => {
-				if (!groups.has(entry.target)) return;
-				groups.set(entry.target, entry.isIntersecting);
-				update(entry.target, entry.isIntersecting);
-			});
-		}, {threshold:0}) : null;
-		const register = node => {
-			if (groups.has(node)) return;
-			// CSS starts at the first paused frame, so deferred/added cards
-			// show a label immediately without briefly animating offscreen.
-			groups.set(node, false);
-			update(node, false);
-			observer?.observe(node);
-		};
-		const discover = node => {
-			if (!(node instanceof Element)) return;
-			if (node.matches(selector)) register(node);
-			node.querySelectorAll(selector).forEach(register);
-		};
 		const scopes = shells().filter(shell => !shell.parentElement?.closest('.qil-shell,[data-qil-shell]'));
 		if (!scopes.includes(root) && !root.closest('.qil-shell,[data-qil-shell]')) scopes.push(root);
-		scopes.forEach(discover);
+		scopes.forEach(discoverMotion);
 		const mutations = new MutationObserver(records => {
 			let removed = false;
 			records.forEach(record => {
-				record.addedNodes.forEach(discover);
+				record.addedNodes.forEach(discoverMotion);
 				if (record.removedNodes.length) removed = true;
 			});
-			if (removed) groups.forEach((inView, node) => {
-				if (!node.isConnected) { observer?.unobserve(node); groups.delete(node); }
-			});
+			if (removed) pruneMotion();
 		});
 		scopes.forEach(scope => mutations.observe(scope, {childList:true, subtree:true}));
-		const sync = () => groups.forEach((inView, node) => update(node, inView));
+		const sync = () => motionGroups.forEach((inView, node) => updateMotion(node, inView));
 		document.addEventListener('visibilitychange', sync);
 		if (typeof reduceMotion.addEventListener === 'function') reduceMotion.addEventListener('change', sync);
 		else if (typeof reduceMotion.addListener === 'function') reduceMotion.addListener(sync);
@@ -3441,7 +3454,7 @@
         clear() { repeatProducts = []; repeatNonce = ''; repeatPurchases.clear(); },
         filters: () => [...state.prefs].filter(p => ['stimfree','vegan','value'].includes(p)).sort(),
         context: () => ({compare: state.compare.map(p => Number(p.id)).slice(0,3)}),
-        refresh: () => { setupRails(); observeReveals(); renderLiveInventory(); }
+        refresh: () => { setupRails(); observeReveals(); syncMotion(); renderLiveInventory(); }
     });
     // Sections that render with the shared card may load before or after this file.
     document.dispatchEvent(new CustomEvent('qil:cards-ready'));

@@ -286,6 +286,47 @@ try {
 		await context.close();
 	}
 
+	/* ---------------- Shared card in a .qil-shell outside #qimia-lab (Beauty shelf) ---------------- */
+	{
+		console.log('\nshared card outside #qimia-lab');
+		const { page, context, errors, requests } = await open('/');
+		await page.waitForSelector('.qil-flash-rail .qil-product-card', { timeout: 6000 });
+		// Like Beauty: after qil.js ran, render into a theme wrapper, mark it .qil-shell, then QILCards.refresh().
+		const shelf = () => page.evaluate(() => {
+			const product = (window.QIMIA_LAB?.products || []).find(p => p?.purchase?.action === 'select');
+			if (!product) return '';
+			let grid = document.querySelector('[data-qt-outside-shelf]');
+			if (!grid) { grid = document.createElement('div'); grid.dataset.qtOutsideShelf = ''; document.body.append(grid); }
+			grid.innerHTML = '<div class="product-grid-item"><div class="product-wrapper"></div></div>';
+			const wrapper = grid.querySelector('.product-wrapper'), template = document.createElement('template');
+			template.innerHTML = window.QILCards.render({ ...product, promotion: { isFlash: true, discountPct: 20 } }, 0, 'beauty');
+			wrapper.replaceChildren(template.content.firstElementChild);
+			wrapper.classList.add('qil-shell');
+			window.QILCards.refresh();
+			wrapper.scrollIntoView({ block: 'center' });
+			return String(product.id);
+		});
+		const rolling = async () => {
+			await page.waitForFunction(() => document.querySelector('[data-qt-outside-shelf] .qil-label-stack')?.dataset.qilMotion === 'running', null, { timeout: 3000 }).catch(() => {});
+			return page.evaluate(() => {
+				const stack = document.querySelector('[data-qt-outside-shelf] .qil-label-stack'), sale = stack?.querySelector('.qil-sale-badge');
+				return { outside: !!stack && !stack.closest('#qimia-lab'), multiple: !!stack?.classList.contains('has-multiple'), motion: stack?.dataset.qilMotion || '', play: sale ? getComputedStyle(sale).animationPlayState : '', animation: sale ? getComputedStyle(sale).animationName : '' };
+			});
+		};
+		const id = await shelf();
+		const first = await rolling();
+		check('a .qil-shell card outside #qimia-lab rolls its sale label after QILCards.refresh', !!id && first.outside && first.multiple && first.motion === 'running' && first.play === 'running' && first.animation !== 'none', JSON.stringify(first));
+		await shelf(); // A native AJAX update replaces the grid with new cards.
+		const again = await rolling();
+		check('after the shelf is replaced (AJAX refresh) the new card rolls its sale label too', again.multiple && again.motion === 'running' && again.play === 'running', JSON.stringify(again));
+		const prefetched = page.waitForRequest(request => request.url().includes(`/qimia-lab/v1/quick-view/${id}`), { timeout: 4000 }).catch(() => null);
+		const early = requests.some(url => url.includes(`/qimia-lab/v1/quick-view/${id}`));
+		await page.hover('[data-qt-outside-shelf] [data-qil-quick-view-id]');
+		check('hovering that card\'s Select options prefetches its Quick View', !early && !!(await prefetched), requests.filter(url => url.includes('quick-view')).join(' '));
+		check('no JavaScript errors (card outside #qimia-lab)', errors.length === 0, errors.join(' | '));
+		await context.close();
+	}
+
 	/* ---------------- Cart page ---------------- */
 	for (const [viewport, path] of [['desktop', '/cart/'], ['mobile', '/cart/'], ['desktop', '/ar/cart/']]) {
 		const label = `cart page ${path.startsWith('/ar') ? 'AR' : 'EN'} ${viewport}`;

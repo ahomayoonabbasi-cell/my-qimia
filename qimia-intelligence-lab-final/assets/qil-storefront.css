@@ -149,9 +149,9 @@ body.qil-product-experience :is(.woocommerce-tabs,.wd-single-tabs) .tabs li.acti
 .qil-shell[dir="rtl"] .qil-product-wayfinding svg,
 .qil-shell[dir="rtl"] .qil-product-question-grid svg { transform: scaleX(-1); }
 @media (max-width: 900px) {
- body.qil-product-experience { --qil-buybar-h:72px; padding-bottom:calc(var(--qil-buybar-h) + var(--qil-toolbar-h,0px) + env(safe-area-inset-bottom)); }
+ body.qil-product-buybar { --qil-buybar-h:72px; padding-bottom:calc(var(--qil-buybar-h) + var(--qil-toolbar-h,0px) + env(safe-area-inset-bottom)); }
  /* Qimia owns the phone purchase bar; keep the theme toolbar underneath it. */
- body.qil-product-experience .wd-sticky-btn { display:none !important; }
+ body.qil-product-buybar .wd-sticky-btn { display:none !important; }
  :is(#qimia-lab,.qil-shell) .qil-pdp-buybar { display:grid; grid-template-columns:minmax(0,1fr) minmax(132px,44%); align-items:center; gap:10px; height:var(--qil-buybar-h,72px); min-height:0; padding:10px 12px; box-sizing:border-box; background:#fff; box-shadow:0 -5px 20px rgba(7,31,44,.08); backdrop-filter:none; -webkit-backdrop-filter:none; }
  :is(#qimia-lab,.qil-shell) .qil-pdp-buybar-info > strong { line-height:17px; font-size:11.5px; }
  :is(#qimia-lab,.qil-shell) .qil-pdp-buybar .qil-buy { width:100%; min-width:0; height:46px; min-height:46px; gap:6px; padding:0 10px; font-size:12px; line-height:1.2; white-space:nowrap; }

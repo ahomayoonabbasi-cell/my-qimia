@@ -371,7 +371,8 @@ function qil_should_render() {
 	$request_path = untrailingslashit( (string) wp_parse_url( $request_uri, PHP_URL_PATH ) );
 	$arabic_path  = untrailingslashit( (string) wp_parse_url( home_url( '/ar/' ), PHP_URL_PATH ) );
 
-	return is_front_page() || ( '' !== $arabic_path && $request_path === $arabic_path );
+	// /ar/?s=… is the Arabic search results page, not the Arabic homepage.
+	return is_front_page() || ( '' !== $arabic_path && $request_path === $arabic_path && ! is_search() && empty( get_query_var( 's' ) ) );
 }
 
 /**
@@ -540,6 +541,8 @@ function qil_chrome_body_class( $classes ) {
 	if ( 'chrome' === $render_mode ) {
 		$classes[] = 'qil-storefront';
 		if ( function_exists( 'is_product' ) && is_product() ) { $classes[] = 'qil-product-experience'; }
+		// The phone buy bar (and the room kept for it) exists only where the product world renders.
+		if ( function_exists( 'is_product' ) && is_product() && apply_filters( 'qil_product_intelligence_enabled', true ) ) { $classes[] = 'qil-product-buybar'; }
 	}
 	if ( 'none' !== $render_mode && qil_language_context()['isArabic'] ) {
 		$classes[] = 'qil-arabic';
@@ -3037,6 +3040,18 @@ function qil_rest_search_products( WP_REST_Request $request ) {
 		$products    = $product_ids
 			? qil_get_catalogue( array( 'include' => $product_ids, 'limit' => count( $product_ids ), 'orderby' => 'include', '_qil_locale' => $requested_locale ) )
 			: array();
+		// The catalogue comes back in popularity order; keep the strict search ranking.
+		$by_id = array();
+		foreach ( $products as $record ) {
+			$by_id[ (int) $record['id'] ] = $record;
+		}
+		$products = array();
+		foreach ( $product_ids as $product_id ) {
+			if ( isset( $by_id[ (int) $product_id ] ) ) {
+				$products[] = $by_id[ (int) $product_id ];
+				unset( $by_id[ (int) $product_id ] );
+			}
+		}
 		$payload = array( 'products' => $products, 'query' => $search );
 		qil_perf_cache_set( $cache_key, $payload, (int) apply_filters( 'qil_search_cache_ttl', 2 * MINUTE_IN_SECONDS ), $public_cache );
 	}
