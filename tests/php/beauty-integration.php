@@ -5,7 +5,7 @@
 error_reporting(E_ALL);
 set_error_handler(static function ($severity, $message, $file, $line) { throw new ErrorException($message, 0, $severity, $file, $line); });
 define('ABSPATH', __DIR__ . '/');
-define('QBY_VERSION', '2.4.0');
+define('QBY_VERSION', '2.4.1');
 define('MINUTE_IN_SECONDS', 60);
 
 /* ---------- WordPress doubles ---------- */
@@ -66,7 +66,7 @@ function qby_details($id) { return array('size' => '50 ml', 'inci' => 'Aqua, Gly
 function qby_product_department($id) { return qby_resolved_class($id) === 'accessory' ? 'beauty-tools' : 'hair-care'; }
 function qby_beauty_field_schema($d = '') { return array('hair_type' => array('en' => 'Hair type', 'ar' => 'نوع الشعر'), 'material' => array('en' => 'Material', 'ar' => 'الخامة')); }
 function qby_terms() { return array('shampoo' => array('Shampoo', 'شامبو', 'hair-care')); }
-function qby_beauty_query($args) { return array('ids' => array(20, 21), 'products' => array()); }
+function qby_beauty_query($args) { $GLOBALS['beauty_query_calls'][] = $args; return array('ids' => array(20, 21), 'products' => array()); }
 function qby_knowledge_render($id) { return '<section id="qby-product-details" data-id="' . (int) $id . '"></section>'; }
 class Test_Product { function __construct(public $id, public $type = 'simple') {} function get_id() { return $this->id; } function is_type($t) { return $t === $this->type; } }
 function wc_get_product($id) { return new Test_Product((int) $id); }
@@ -83,25 +83,33 @@ require $dir . 'beauty-native-cards.php';
 /* ------------------------------------------------------------------ */
 echo "\nCards (qil_catalogue_product_record, qby_qil_records)\n";
 $record = array('id' => 10, 'name' => 'Repair Shampoo', 'facts' => array(array('label' => 'Serving', 'value' => '1 scoop')), 'dietary' => array('vegan'),
-    'price' => array('amount' => 5, 'perServing' => 0.2, 'perServingFormatted' => '0.200'), 'match' => array('purposeKey' => 'muscle', 'reasons' => array('x')));
+    'price' => array('amount' => 5, 'perServing' => 0.2, 'perServingFormatted' => '0.200'),
+    // QIL's goal engine reads the 'beauty' category ancestor as beauty_support evidence.
+    'match' => array('goals' => array('beauty'), 'purposeKey' => 'muscle', 'evidence' => array(array('beauty_support', 2, 'ancestor', 30)), 'reasons' => array('x'), 'sources' => array('taxonomy'), 'searchTokens' => array('shampoo')));
 $out = run_filter('qil_catalogue_product_record', $record, new Test_Product(10), array());
 check('beauty card is classed beauty with schema 1', ($out['productClass'] ?? '') === 'beauty' && ($out['beauty']['schema'] ?? 0) === 1, $out);
 check('beauty card drops oral facts, dietary claims and per-serving prices', $out['facts'] === array() && $out['dietary'] === array() && !isset($out['price']['perServing']) && !isset($out['price']['perServingFormatted']) && $out['price']['amount'] === 5, $out['price']);
 check('beauty card gets two facts per language', count($out['beauty']['facts']['en']) === 2 && count($out['beauty']['facts']['ar']) === 2, $out['beauty']['facts']);
 check('beauty card facts come from recorded details', $out['beauty']['facts']['en'][0]['value'] === '50 ml' && $out['beauty']['facts']['en'][1]['value'] === 'Dry hair' && $out['beauty']['facts']['ar'][1]['value'] === 'شعر جاف', $out['beauty']['facts']);
-check('beauty card match is beauty with no reasons', $out['match'] === array('purposeKey' => 'beauty', 'reasons' => array()), $out['match']);
+check('beauty card match is beauty with no reasons, QIL goals, evidence or sources', $out['match'] === array('goals' => array(), 'purposeKey' => 'beauty', 'evidence' => array(), 'reasons' => array(), 'sources' => array(), 'searchTokens' => array('shampoo')), $out['match']);
+$base_policy = array('protein' => array('protein', 'whey'), 'beauty_support' => array('beauty', 'beauty-support', 'collagen', 'collagens', 'collagen-oman', 'biotin', 'hair-nail-skin-health', 'hair-skin-nails'));
+$policy = run_filter('qil_goal_term_policy', $base_policy);
+check('QIL goal policy: the bare Beauty root is no longer beauty_support evidence; collagen, biotin and hair/skin/nails stay', $policy['beauty_support'] === array('beauty-support', 'collagen', 'collagens', 'collagen-oman', 'biotin', 'hair-nail-skin-health', 'hair-skin-nails') && $policy['protein'] === $base_policy['protein'], $policy);
+$policy_hooks = array_values(array_filter($hooks['qil_goal_term_policy'] ?? array(), static function ($h) { return $h['cb'] instanceof Closure; }));
+check('goal policy filter runs at priority 20', count($policy_hooks) === 1 && $policy_hooks[0]['priority'] === 20, $policy_hooks);
 $tool = run_filter('qil_catalogue_product_record', $record, new Test_Product(12), array());
 check('beauty tool is classed accessory without a size row', $tool['productClass'] === 'accessory' && $tool['beauty']['facts']['en'][0]['label'] !== 'Size', $tool['beauty']['facts']);
 $supp = $record; $supp['id'] = 11;
 check('supplement card is untouched', run_filter('qil_catalogue_product_record', $supp, new Test_Product(11), array()) === $supp);
 $identity = run_filter('qil_cache_market_identity', array('currency' => 'OMR'));
-check('cache identity splits by Beauty version', ($identity['beautyRecordSchema'] ?? '') === 'qby-2.4.0-1' && $identity['currency'] === 'OMR', $identity);
+check('cache identity splits by Beauty version and record schema', ($identity['beautyRecordSchema'] ?? '') === 'qby-2.4.1-2' && $identity['currency'] === 'OMR', $identity);
 check('no records without Intelligence Lab', qby_qil_records(array(10, 20)) === array());
 if (true) {
     define('QIL_VERSION', '1.19.0');
     $catalogue_calls = array();
     function qil_experience_enabled() { return true; }
-    function qil_get_catalogue($args) { global $catalogue_calls; $catalogue_calls[] = $args; return array_map(static function ($id) { return array('id' => $id, 'name' => "P$id</script><b>"); }, $args['include']); }
+    // Like QIL, the double re-ranks by its own _rank instead of the include order; 21 is out of stock.
+    function qil_get_catalogue($args) { global $catalogue_calls; $catalogue_calls[] = $args; return array_reverse(array_map(static function ($id) { return array('id' => $id, 'name' => "P$id</script><b>", 'stock' => array('inStock' => $id !== 21)); }, $args['include'])); }
 }
 $records = qby_qil_records(array(new Test_Product(21), 11, 10, 10, (object) array('ID' => 20)));
 check('records keep caller order, skip supplements and duplicates', array_column($records, 'id') === array(21, 10, 20), array_column($records, 'id'));
@@ -154,7 +162,9 @@ $parts = run_filter('qimia_ai_instruction_parts_v1', array('dynamic' => 'x'));
 check('AI instructions without a stable part still get the rule', str_contains($parts['stable'] ?? '', 'cosmetics are topical') && $parts['dynamic'] === 'x', $parts);
 $page = array('product' => true, 'queried' => 10, 'tax' => false);
 check('supplement facts are hidden on a beauty product', run_filter('pre_do_shortcode_tag', false, 'qimia_supplement_facts', '') === '');
+$docks_before = !empty($GLOBALS['qby_qil_docks_needed']);
 check('AI box becomes Beauty details on a beauty product', str_contains((string) run_filter('pre_do_shortcode_tag', false, 'qimia_ai_box', ''), 'data-id="10"'));
+check('Beauty product details ask for QIL\'s dock and toast', !$docks_before && !empty($GLOBALS['qby_qil_docks_needed']));
 check('other shortcodes are untouched', run_filter('pre_do_shortcode_tag', false, 'gallery', array()) === false);
 check('an explicit supplement product id keeps its facts', run_filter('pre_do_shortcode_tag', false, 'qimia_supplement_facts', array('product_id' => 11)) === false);
 $page = array('product' => true, 'queried' => 11, 'tax' => false);
@@ -163,19 +173,36 @@ check('QIL product intelligence stays on for supplements', run_filter('qil_produ
 $page = array('product' => true, 'queried' => 10, 'tax' => false);
 check('QIL product intelligence is off on beauty products', run_filter('qil_product_intelligence_enabled', true) === false);
 check('personal picks skip beauty products', run_filter('qil_personal_product_eligible', true, new Test_Product(10)) === false && run_filter('qil_personal_product_eligible', true, new Test_Product(11)) === true);
+check('Buy again keeps the shopper\'s own Beauty purchase (QIL passes $repeat as the fourth argument)', run_filter('qil_personal_product_eligible', true, new Test_Product(10), 'home', true) === true && run_filter('qil_personal_product_eligible', true, new Test_Product(10), 'home', false) === false);
 $k = run_filter('qil_product_knowledge', array('faq' => array('x'), 'serving' => '1 scoop', 'hasFacts' => true), 10, false);
 check('beauty knowledge has no oral fields', $k['faq'] === array() && $k['serving'] === '' && $k['hasFacts'] === false && $k['ingredients'] === 'Aqua, Glycerin' && $k['title'] === 'Topical care', $k);
 $k11 = array('faq' => array('x'), 'serving' => '1 scoop');
 check('supplement knowledge is untouched', run_filter('qil_product_knowledge', $k11, 11, false) === $k11);
+function qil_render_mode() { return 'chrome'; }
+function qil_section_docks() { return '<div class="qil-compare-dock" data-qil-compare-dock hidden></div><div class="qil-toast" data-qil-toast role="status" aria-live="polite" hidden></div>'; }
+$footer = static function () { ob_start(); qby_qil_print_docks(); return ob_get_clean(); };
+$page = array('product' => true, 'queried' => 11, 'tax' => false);
+check('a supplement product page leaves the docks to QIL\'s own product world', $footer() === '');
+$page = array('product' => true, 'queried' => 10, 'tax' => false);
+$docks = $footer();
+check('a Beauty product page gets QIL\'s dock and toast from Beauty, once', str_contains($docks, 'class="qby-qil-docks qil-shell') && substr_count($docks, 'data-qil-toast') === 1 && $footer() === '', $docks);
 
 /* ------------------------------------------------------------------ */
 echo "\nSearch (/qimia-lab/v1/search, main query)\n";
 function qil_search_product_ids($q, $n) { return array(11); }
 $search = array('products' => array(array('id' => 11, 'name' => 'Hair Vitamins'), array('id' => 30, 'name' => 'Biotin')));
+$catalogue_calls = array(); $GLOBALS['beauty_query_calls'] = array();
 $res = run_filter('rest_request_after_callbacks', new WP_REST_Response($search), array(), new Test_Request('/qimia-lab/v1/search', array('q' => 'shampoo', 'qil_locale' => 'en', 'limit' => 8)));
-check('an exclusive beauty term returns beauty results only', array_column($res->get_data()['products'], 'id') === array(20, 21), $res->get_data());
+check('an exclusive beauty term returns beauty results only, in Beauty\'s query order', array_column($res->get_data()['products'], 'id') === array(20, 21), $res->get_data());
+check('search asks QIL for a bounded selection, which keeps out-of-stock hits when there are several', count($catalogue_calls) === 1 && ($catalogue_calls[0]['_qil_catalogue_selection'] ?? null) === true && !isset($catalogue_calls[0]['_qil_include_unavailable']) && $catalogue_calls[0]['include'] === array(20, 21), $catalogue_calls);
+check('search ids skip products hidden from search', ($GLOBALS['beauty_query_calls'][0]['visibility'] ?? '') === 'search', $GLOBALS['beauty_query_calls']);
+$sold_out = array_values(array_filter($res->get_data()['products'], static function ($p) { return $p['id'] === 21; }));
+check('an out-of-stock hit keeps its name and stock.inStock false (no " · Out of stock" suffix)', count($sold_out) === 1 && $sold_out[0]['name'] === "P21</script><b>" && $sold_out[0]['stock']['inStock'] === false && !str_contains(json_encode($res->get_data(), JSON_UNESCAPED_UNICODE), 'Out of stock'), $sold_out);
 $res = run_filter('rest_request_after_callbacks', new WP_REST_Response($search), array(), new Test_Request('/qimia-lab/v1/search', array('q' => 'hair', 'qil_locale' => 'en', 'limit' => 4)));
 check('ambiguous "hair" mixes beauty and supplements', array_column($res->get_data()['products'], 'id') === array(20, 21, 11, 30), $res->get_data());
+$with_tool = array('products' => array(array('id' => 12, 'name' => 'Paddle Brush'), array('id' => 11, 'name' => 'Hair Vitamins'), array('id' => 30, 'name' => 'Biotin')));
+$res = run_filter('rest_request_after_callbacks', new WP_REST_Response($with_tool), array(), new Test_Request('/qimia-lab/v1/search', array('q' => 'hair', 'qil_locale' => 'en', 'limit' => 4)));
+check('ambiguous "hair" never counts a Beauty tool as an oral supplement', array_column($res->get_data()['products'], 'id') === array(20, 21, 11, 30), $res->get_data());
 $res = run_filter('rest_request_after_callbacks', new WP_REST_Response($search), array(), new Test_Request('/qimia-lab/v1/search', array('q' => 'protein', 'qil_locale' => 'en')));
 check('other searches pass through unchanged', $res->get_data() === $search);
 $res = run_filter('rest_request_after_callbacks', new WP_REST_Response($search), array(), new Test_Request('/qimia-lab/v1/search', array('q' => 'shampoo', 'qil_locale' => 'fr')));
@@ -198,6 +225,14 @@ $query = new Test_Query(); $query->vars['tax_query'] = array(array('taxonomy' =>
 $before = $query->vars;
 run_filter('pre_get_posts', $query);
 check('an existing tax query is not rewritten without a Beauty scope', $query->vars === $before, $query->vars);
+$query = new Test_Query(true); $query->vars['s'] = 'shampoo';
+run_filter('pre_get_posts', $query);
+$GLOBALS['wp_query'] = $query;
+check('an exclusive Beauty search scopes the query but the visible search term stays what the shopper typed', $query->vars['s'] === '' && $query->vars['qby_original_search'] === 'shampoo' && run_filter('get_search_query', $query->vars['s']) === 'shampoo', $query->vars);
+$query = new Test_Query(true); $query->vars['s'] = 'protein';
+run_filter('pre_get_posts', $query);
+$GLOBALS['wp_query'] = $query;
+check('other searches keep their own search term', $query->vars['s'] === 'protein' && run_filter('get_search_query', 'protein') === 'protein', $query->vars);
 
 echo "\n" . $checks['passed'] . ' passed, ' . $checks['failed'] . " failed\n";
 exit($checks['failed'] ? 1 : 0);

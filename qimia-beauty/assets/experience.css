@@ -416,6 +416,12 @@ to{opacity:1;transform:translateY(0)}
 
 .qbx-home-shortcuts .qbx-icon{width:15px;height:15px}
 
+/* QIL root scopes its icons and links; preserve the home arrows, button icons and shortcut accent. */
+body.qby-enabled :is(#qimia-lab,.qil-shell) .qbx-home .qby-arrow svg{width:14px!important;min-width:0!important;height:14px!important}
+body.qby-enabled :is(#qimia-lab,.qil-shell) .qbx .qbx-button svg{width:20px!important;min-width:0!important;height:20px!important}
+body.qby-enabled :is(#qimia-lab,.qil-shell) .qbx-home-shortcuts .qbx-icon{width:15px!important;min-width:0!important;height:15px!important}
+body.qby-enabled :is(#qimia-lab,.qil-shell) .qbx-home-shortcuts a{color:var(--qbx-deep)}
+
 .qbx-home[dir=rtl] .qby-home-copy h2{letter-spacing:0!important;line-height:1.3!important}
 
 .qbx-home[dir=rtl] .qby-home-edit-title,.qbx-home[dir=rtl] .qbx-home-shortcuts>span{letter-spacing:0}

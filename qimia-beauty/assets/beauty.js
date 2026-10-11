@@ -6,6 +6,16 @@
     brandSearch.addEventListener('input',filter);document.querySelectorAll('[data-qby-brand-filter]').forEach(button=>button.addEventListener('click',()=>{department=button.dataset.qbyBrandFilter;document.querySelectorAll('[data-qby-brand-filter]').forEach(b=>b.setAttribute('aria-pressed',String(b===button)));filter();}));filter();
   }
   document.addEventListener('qimia:search-rendered',event=>{
+    // Stock stays out of the shared record name: badge unavailable Beauty hits from QIL's own record.
+    const lab=window.QILCards,ar=String(document.querySelector('#qimia-lab, [data-qil-shell]')?.dataset.qilLocale||window.QIMIA_LAB?.locale||document.documentElement.lang||'').toLowerCase().startsWith('ar');
+    if(typeof lab?.product==='function')document.querySelectorAll('[data-qil-search-fallback] .wd-suggestion[data-product-id]').forEach(row=>{
+      const id=Number(row.dataset.productId),record=lab.product(id),badge=row.querySelector('.qby-search-stock'),link=row.querySelector('.wd-fill'),title=row.querySelector('.wd-entities-title');
+      const out=record?.beauty?.schema===1 && ['beauty','accessory'].includes(record.productClass) && record.stock?.inStock===false;
+      if(!out){if(badge){badge.remove();link?.removeAttribute('aria-describedby');}return;}
+      if(badge || !title || !Number.isSafeInteger(id))return;
+      const stock=document.createElement('span');stock.className='qby-home-stock qby-search-stock';stock.dataset.stock='outofstock';stock.id=`qby-search-stock-${id}`;stock.textContent=String(record.stock?.label||(ar?'غير متوفر':'Out of stock'));
+      title.after(stock);link?.setAttribute('aria-describedby',stock.id);
+    });
     const query=String(event.detail?.query||'');const config=window.QBYNavigation;
     if(!config || !/hair|shampoo|conditioner|شعر|شامبو|شامپو|بلسم/i.test(query))return;
     const content=document.querySelector('[data-qil-search-fallback]');if(!content || content.querySelector('.qby-search-categories'))return;

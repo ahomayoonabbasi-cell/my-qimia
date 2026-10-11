@@ -145,7 +145,7 @@ function qbx_home_product($product, $name_map = array()) {
     if ($stock === 'instock' && (!$product->is_in_stock() || !$product->has_enough_stock(1))) { $stock = 'outofstock'; }
     $url = function_exists('qil_localized_url') ? qil_localized_url(get_permalink($id), qby_ar()) : get_permalink($id);
     $name = $product->get_name();
-    $name = $name_map[$name] ?? $name;
+    $name = $name_map[trim($name)] ?? $name;
     $labels = array('instock'=>array('In stock','متوفر'), 'outofstock'=>array('Out of stock','غير متوفر'), 'onbackorder'=>array('On backorder','متاح بالطلب المسبق'), 'unknown'=>array('Check availability','تحققي من التوفر'));
     ?>
     <a class="qby-home-product" href="<?php echo esc_url($url); ?>">

@@ -1,4 +1,4 @@
-# Qimia Beauty 2.4.0 — integrated staging release
+# Qimia Beauty 2.4.1 — integrated staging release
 
 This updates the supplied Qimia Beauty 2.2.5 plugin in place. It replaces the separate Beauty Studio proposal. Deploy only `qimia-beauty/` to `qimialab.qimia.om`; the other plugins in this repository are older reference versions and must not be deployed.
 
@@ -9,6 +9,19 @@ The catalogue keeps native Woo products, prices, stock, variations, cart, Qimia 
 Beauty product pages have two separate components: Beauty Facts (department-specific specifications, full original INCI and provenance) and Your Qimia Guide (verified benefits, directions, care, PAO and product questions). Arabic uses Arabic content, explicit empty states and LTR INCI. Parent records never assert that one shade's formula applies to every variation. The existing six-department / 54-subcategory topology and enrichment field schema are retained. Makeup includes shade, undertone, finish and coverage; skin includes skin type, concern, texture and labelled SPF; hair, body, fragrance and tools have their own fields.
 
 The two supplied product spreadsheets inform navigation and component requirements only. No spreadsheet products, fabricated prices, stock or ingredients were imported. Oral products such as Priorin remain supplements.
+
+## Version 2.4.1
+
+Fixes for running alongside Qimia Intelligence Lab 1.18.23. No new features, settings or product data changes.
+
+- Beauty products no longer show up in the Intelligence Lab supplement goal "Hair, skin & beauty". The Beauty top category no longer counts as supplement evidence, and Beauty cards carry no supplement goal data. Collagen, biotin and hair/skin/nails supplements are unchanged.
+- Search keeps out-of-stock Beauty products when several match, keeps Beauty's own order and leaves out products hidden from search. Product names no longer get "· Out of stock" added to them; stock is shown separately.
+- An ambiguous "hair" search no longer counts Beauty tools, such as brushes, as hair supplements.
+- On a Beauty-only search such as "shampoo", the results heading and search box show what the shopper typed.
+- Beauty product pages now print the Intelligence Lab compare dock and message area, so "Ask Qimia AI" and compare messages are visible there.
+- The Arabic home page (/ar/) loads the Beauty home styles and script even when it is not the site's front page.
+- The production home section shows Arabic product names from the existing translation memory, prints names with automatic text direction, and leaves out the "THE BEAUTY EDIT" panel when there are no products to show.
+- Product card caches start fresh after the update.
 
 ## Version 2.4
 
@@ -38,6 +51,6 @@ Review mode ends at a draft with field-level source evidence. Apply mode require
 
 ## Build and rollback
 
-Run `npm run build:beauty`, `php tests/php/beauty.php`, `php tests/php/beauty-integration.php` (card, compare, AI and search contracts) and `node tests/n8n/beauty.mjs` in a development environment. Runtime does not require Node.
+Run `npm run build:beauty`, `php tests/php/beauty.php`, `php tests/php/beauty-integration.php` (card, compare, AI and search contracts), `php tests/php/beauty-qil-live.php` (Beauty and Intelligence Lab loaded together) and `node tests/n8n/beauty.mjs` in a development environment. Runtime does not require Node.
 
 Replace the existing plugin using the provided ZIP. To reverse the presentation release, upload the original supplied 2.2.5 plugin ZIP. No database migration was run, so rollback does not require changing product data. Do not deploy the retired `qimia-beauty-studio` plugin.

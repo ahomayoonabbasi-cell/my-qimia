@@ -235,7 +235,8 @@ function qby_beauty_facets() {
 /**
  * SQL scopes apply BEFORE pagination and total counting. No PHP post-filter of a first page.
  * Inputs: department/type (registered category slugs), brand, care/other existing Woo
- * attribute facet slugs, collection=all|new|bestsellers|offers, page, per_page, orderby.
+ * attribute facet slugs, collection=all|new|bestsellers|offers, page, per_page, orderby, and
+ * visibility=search, which also drops products Woo hides from search (exclude-from-search).
  * Returns bounded IDs + Woo product objects, exact matched total, pages, page, per_page.
  * Native Woo lookup prices are used only to decide shelf eligibility, never rendered as prices.
  */
@@ -248,7 +249,7 @@ function qby_beauty_query($input=array()) {
     $per_page=max(1,min(48,absint($input['per_page']??24)));$page=max(1,min(10000,absint($input['page']??1)));
     $collection=sanitize_key($input['collection']??'all');if(!in_array($collection,array('all','new','bestsellers','offers'),true)){$collection='all';}
     $tax=array('relation'=>'AND',array('taxonomy'=>'product_cat','field'=>'slug','terms'=>array($department),'include_children'=>true));
-    $visibility=wc_get_product_visibility_term_ids();$excluded=array_filter(array((int)($visibility['exclude-from-catalog']??0)));
+    $visibility=wc_get_product_visibility_term_ids();$excluded=array_filter(array((int)($visibility['exclude-from-catalog']??0),($input['visibility']??'')==='search'?(int)($visibility['exclude-from-search']??0):0));
     if(get_option('woocommerce_hide_out_of_stock_items')==='yes' && !empty($visibility['outofstock'])){$excluded[]=(int)$visibility['outofstock'];}
     if($excluded){$tax[]=array('taxonomy'=>'product_visibility','field'=>'term_taxonomy_id','terms'=>$excluded,'operator'=>'NOT IN');}
     $brand=sanitize_title($input['brand']??'');if($brand){$tax[]=array('taxonomy'=>'product_brand','field'=>'slug','terms'=>array($brand));}

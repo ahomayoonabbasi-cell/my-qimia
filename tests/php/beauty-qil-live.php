@@ -1,17 +1,20 @@
 <?php
 /**
- * Live cross-plugin test: the REAL Qimia Intelligence Lab 1.19 and the REAL Qimia Beauty 2.4,
+ * Live cross-plugin test: the REAL Qimia Intelligence Lab 1.18.23 and the REAL Qimia Beauty 2.4.1,
  * loaded together in one process on the shared WordPress/WooCommerce doubles.
  *   php tests/php/beauty-qil-live.php
  *
  * The process is one staging front-page request on qimialab.qimia.om, the only host where
  * Beauty's qby_stage_allowed() is true. WordPress lifecycle hooks are fired in core order.
- * A second, clean process (`php tests/php/beauty-qil-live.php chrome`) repeats the request on
- * /beauty/, where QIL renders only its chrome; the main run starts it and reports its checks.
+ * Clean child processes repeat the request elsewhere; the main run starts them and reports
+ * their checks: `chrome` (/beauty/, where QIL renders only its chrome), `ar` (staging /ar/
+ * that is not the front page, where QIL still renders its home) and `live` (the same /ar/
+ * request on production qimia.om with qby_live_enabled, where Beauty prints its fallback home).
  * Exit code 1 when any check fails.
  *
  * The shared doubles are not modified. WordPress functions they lack are defined below, each
- * guarded with function_exists()/class_exists(). Where a doubles gap cannot be closed from
+ * guarded with function_exists()/class_exists(); core methods and properties they lack are added
+ * on QBL_* subclasses (wpdb, WC_Product, term objects). Where a doubles gap cannot be closed from
  * this file the check prints SKIP with the reason; skips are not counted as passes. One gap
  * is completed in the error handler with WordPress core's own value: the WP_Query double has
  * no found_posts / max_num_pages properties (core declares both, default 0). Every use of that
@@ -92,6 +95,37 @@ if ( ! function_exists( 'wp_footer' ) ) { function wp_footer() { do_action( 'wp_
 if ( ! function_exists( 'body_class' ) ) {
 	function body_class( $class = '' ) { $classes = (array) apply_filters( 'body_class', array_filter( (array) $class ), (array) $class ); echo 'class="' . esc_attr( implode( ' ', $classes ) ) . '"'; }
 }
+/**
+ * Core wpdb names its term tables and has get_results(); the double has neither. QIL's SKU search
+ * reads rows with get_results() (no fixture SKU matches a search here) and Beauty's department
+ * presence SQL names the term tables (its get_col() answers no rows, as for any non-coupon SQL).
+ */
+class QBL_WPDB extends QT_WPDB {
+	public $terms = 'wp_terms'; public $term_taxonomy = 'wp_term_taxonomy'; public $term_relationships = 'wp_term_relationships';
+	public function get_results( $sql, $output = 'OBJECT' ) { return array(); }
+}
+$GLOBALS['wpdb'] = new QBL_WPDB();
+/**
+ * wp_get_post_terms() in the doubles ignores 'fields' => 'names' and returns term objects, which
+ * QIL's search scorer implodes. Fixture terms are therefore given their name as their string form.
+ */
+class QBL_Term extends stdClass {
+	public function __toString() { return (string) $this->name; }
+}
+/** Core WC_Product::get_image(); the product double lacks it. Beauty's home edit prints it. */
+class QBL_Product extends WC_Product {
+	public function get_image( $size = 'woocommerce_thumbnail', $attr = array(), $placeholder = true ) { return wp_get_attachment_image( $this->image_id, $size, false, $attr ); }
+}
+function qbl_term( $term ) {
+	$t = new QBL_Term();
+	foreach ( get_object_vars( $term ) as $k => $v ) { $t->$k = $v; }
+	return $t;
+}
+function qbl_product( $id, array $props, array $cats = array() ) {
+	$p = new QBL_Product( $id );
+	foreach ( get_object_vars( qt_product( $id, $props, $cats ) ) as $k => $v ) { $p->$k = $v; }
+	return $GLOBALS['qt']['products'][ $id ] = $p;
+}
 
 /**
  * The shared REST doubles: WP_REST_Request::get_route() always returns '' and WP_REST_Response
@@ -134,6 +168,30 @@ function qbl_rest_dispatch( $route_key, QBL_REST_Request $request ) {
 	$response = apply_filters( 'rest_post_dispatch', qbl_rest_response( rest_ensure_response( $response ) ), null, $request );
 	return array( $before, qbl_rest_response( $response ) );
 }
+/** The <section> of $html that carries id="$id", or '' when there is none. */
+function qbl_section_html( $html, $id ) {
+	$at = strpos( $html, 'id="' . $id . '"' );
+	if ( false === $at ) { return ''; }
+	$start = (int) strrpos( substr( $html, 0, $at ), '<section' );
+	$end   = strpos( $html, '</section>', $at );
+	return false === $end ? '' : substr( $html, $start, $end + 10 - $start );
+}
+/** Renders the template QIL's template_include picks for this request. */
+function qbl_render_home() {
+	$template = apply_filters( 'template_include', ABSPATH . 'theme-index.php' );
+	ob_start();
+	try { include $template; } finally { $home = ob_get_clean(); }
+	return array( $template, $home );
+}
+/** The translator-memory call that asked for exactly these titles (QIL batches its own catalogue separately), or null. */
+function qbl_translation_call( array $sources ) {
+	sort( $sources );
+	foreach ( class_exists( 'QAATM_Memory' ) ? QAATM_Memory::$calls : array() as $call ) {
+		$asked = array_column( $call['segments'], 'source' ); sort( $asked );
+		if ( $asked === $sources ) { return $call; }
+	}
+	return null;
+}
 function qbl_hook_rows( $tag ) {
 	$rows = array();
 	foreach ( $GLOBALS['qt']['hooks'][ $tag ] ?? array() as $priority => $list ) { foreach ( $list as $row ) { $rows[] = array( 'cb' => $row[0], 'priority' => $priority, 'args' => $row[1] ); } }
@@ -154,16 +212,33 @@ function qbl_without_beauty_hook( $tag, $file_fragment, callable $fn ) {
 
 /* ------------------------------------------------------------------ fixtures */
 // Default: the staging front page. `php beauty-qil-live.php chrome` is the same staging request
-// on /beauty/ (any non-front page); the main run starts it in a clean process, since
-// qil_render_mode() and qil_view_context() are memoised once per request.
-$qbl_mode = 'chrome' === ( $argv[1] ?? '' ) ? 'chrome' : 'full';
+// on /beauty/ (any non-front page); `ar` is staging /ar/ and `live` is production /ar/, both with
+// is_front_page() false. The main run starts each in a clean process, since qil_render_mode()
+// and qil_view_context() are memoised once per request.
+$qbl_mode = in_array( $argv[1] ?? '', array( 'chrome', 'ar', 'live' ), true ) ? $argv[1] : 'full';
+$qbl_expected_render = 'chrome' === $qbl_mode ? 'chrome' : 'full';
 qt_fixtures();
 if ( 'chrome' === $qbl_mode ) { $GLOBALS['qt']['render'] = 'chrome'; $_SERVER['REQUEST_URI'] = '/beauty/'; }
+if ( 'ar' === $qbl_mode || 'live' === $qbl_mode ) { $GLOBALS['qt']['render'] = 'chrome'; $_SERVER['REQUEST_URI'] = '/ar/'; }
 // The staging request: Beauty requires host, home and siteurl all on qimialab.qimia.om.
-$_SERVER['HTTP_HOST'] = 'qimialab.qimia.om';
-$GLOBALS['qt']['options']['home']        = 'https://qimialab.qimia.om';
-$GLOBALS['qt']['options']['siteurl']     = 'https://qimialab.qimia.om';
+// Production (live) is qimia.om, where Beauty's storefront also needs the explicit qby_live_enabled switch.
+$qbl_host = 'live' === $qbl_mode ? 'qimia.om' : 'qimialab.qimia.om';
+$_SERVER['HTTP_HOST'] = $qbl_host;
+$GLOBALS['qt']['options']['home']        = 'https://' . $qbl_host;
+$GLOBALS['qt']['options']['siteurl']     = 'https://' . $qbl_host;
 $GLOBALS['qt']['options']['qby_enabled'] = '1';
+if ( 'live' === $qbl_mode ) { $GLOBALS['qt']['options']['qby_live_enabled'] = '1'; }
+if ( ( 'ar' === $qbl_mode || 'live' === $qbl_mode ) && ! class_exists( 'QAATM_Memory' ) ) {
+	/** Translator memory double: QIL's qil_translate_batch() reads existing rows through bulk_resolve(). */
+	class QAATM_Memory {
+		public static $rows = array( 'product_title' => array( 'Biotin Thickening Shampoo 250ml' => 'شامبو البيوتين المكثف 250 مل', 'Argan Repair Shampoo 400ml' => 'شامبو الأرغان المرمم 400 مل' ) );
+		public static $calls = array();
+		public static function bulk_resolve( array $segments, $queue_missing = false ) {
+			self::$calls[] = array( 'segments' => $segments, 'queue' => $queue_missing );
+			return array_map( static function ( $s ) { $t = self::$rows[ $s['context'] ][ $s['source'] ] ?? ''; return '' === $t ? array( 'status' => 'missing' ) : array( 'status' => 'ready', 'target' => $t ); }, $segments );
+		}
+	}
+}
 
 // The Beauty root category. Department children are deliberately not created: their links
 // would call qby_beauty_presence(), whose SQL needs wpdb tables the QT_WPDB double lacks.
@@ -184,6 +259,39 @@ update_post_meta( 403, '_qby_product_class', 'beauty' );
 update_post_meta( 102, '_qimia_ai_box_structured', array( 'title_en' => 'Creatine guide', 'en' => array( 'serving_summary' => 'Mix one scoop (5 g) with water daily.', 'faq' => array( array( 'q' => 'Loading phase?', 'a' => 'Not required.' ) ) ) ) );
 update_post_meta( 102, '_qimia_supplement_facts_structured', array( 'serving_size_en' => '5 g', 'servings_en' => '60', 'ingredients_en' => 'Creatine monohydrate' ) );
 
+// Search and home-edit fixtures. The WP_Query double compares tax_query terms with intval(), so a
+// field=slug clause such as Beauty's product_cat 'shampoo' resolves to term 0 there. Giving the
+// shampoo term ID 0 lets Beauty's real qby_beauty_query() find 404-406 (also filed under the
+// Beauty root), in fixture order: the double keeps insertion order, standing in for
+// menu_order/title. Term 0 stays a root term: the double's get_term_children() would recurse
+// forever through parent 0 if a category walk such as Beauty's presence query reached it.
+qt_term( 'product_cat', 0, 'shampoo', 'Shampoo' );
+qt_term( 'product_cat', 31, 'hair-nail-skin-health', 'Hair, Skin & Nails' );
+qt_term( 'product_cat', 32, 'beauty-tools', 'Beauty tools', 30 );
+qt_term( 'product_tag', 40, 'biotin', 'Biotin' );
+// 404: first in Beauty's order, but a slow seller that QIL's own _rank places after 405. Its 'biotin'
+// tag IS beauty_support evidence for QIL; only Beauty's record adapter keeps it off the goal.
+qbl_product( 404, array( 'name' => 'Biotin Thickening Shampoo 250ml', 'regular_price' => '5.500', 'total_sales' => 2 ), array( 30, 0 ) );
+update_post_meta( 404, '_qby_product_class', 'beauty' );
+$GLOBALS['qt']['rel'][404]['product_tag'] = array( 40 );
+// 405: the best seller; its catalogue title ends in a space, as merchant titles sometimes do.
+qbl_product( 405, array( 'name' => 'Argan Repair Shampoo 400ml ', 'regular_price' => '8.900', 'total_sales' => 300 ), array( 30, 0 ) );
+update_post_meta( 405, '_qby_product_class', 'beauty' );
+// 406: variable, every size sold out, so Woo reports it out of stock. The WP_Query double applies
+// any product_visibility clause to the parent's own stock_status field (left at its default), so
+// the parent is kept, as core keeps it: Beauty only excludes exclude-from-catalog/-search terms.
+qbl_product( 406, array( 'name' => 'Silk Gloss Shampoo', 'type' => 'variable', 'total_sales' => 5 ), array( 30, 0 ) );
+update_post_meta( 406, '_qby_product_class', 'beauty' );
+qt_variation( 4061, 406, '6.000', array( 'pa_size' => '250ml' ), array( 'stock_status' => 'outofstock' ) );
+qt_variation( 4062, 406, '9.000', array( 'pa_size' => '500ml' ), array( 'stock_status' => 'outofstock' ) );
+// 407: a Beauty tool (an accessory under beauty-tools). 501: an oral hair supplement.
+qbl_product( 407, array( 'name' => 'Detangling Paddle Brush', 'regular_price' => '3.500', 'total_sales' => 9 ), array( 32 ) );
+update_post_meta( 407, '_qby_product_class', 'accessory' );
+qt_product( 501, array( 'name' => 'Biotin Hair Gummies', 'regular_price' => '6.900', 'total_sales' => 80 ), array( 31 ) );
+foreach ( $GLOBALS['qt']['terms'] as $qbl_tax => $qbl_rows ) {
+	foreach ( $qbl_rows as $qbl_id => $qbl_term ) { $GLOBALS['qt']['terms'][ $qbl_tax ][ $qbl_id ] = qbl_term( $qbl_term ); }
+}
+
 /* ------------------------------------------------------------------ 1. load */
 qbl_section( '1. Both real plugins load together' );
 $load_error = null;
@@ -201,11 +309,16 @@ $gaps_during_load = count( $GLOBALS['qbl_gaps'] );
 qbl_check( 'QIL + Beauty load and plugins_loaded, init, wp, template_redirect fire with no notice, warning or fatal', null === $load_error && 0 === $gaps_during_load, $load_error ? qbl_error( $load_error ) : $GLOBALS['qbl_gaps'] );
 if ( $load_error ) { qbl_summary(); exit( 1 ); }
 qbl_check( 'QIL_VERSION is 1.18.23 and QBY_VERSION is 2.4.1', defined( 'QIL_VERSION' ) && '1.18.23' === QIL_VERSION && defined( 'QBY_VERSION' ) && '2.4.1' === QBY_VERSION, array( defined( 'QIL_VERSION' ) ? QIL_VERSION : null, defined( 'QBY_VERSION' ) ? QBY_VERSION : null ) );
-qbl_check( 'Beauty storefront gate opened on the staging host (qby_stage_allowed, qby_frontend_enabled, QIL experience on)', qby_stage_allowed() && qby_frontend_enabled() && qil_experience_enabled() && qil_is_staging_sandbox() );
-qbl_check( 'Beauty integration files loaded at plugins_loaded:100 (qby_qil_beauty_record, qby_product_details, qby_search_scope, qbx_home)', function_exists( 'qby_qil_beauty_record' ) && function_exists( 'qby_product_details' ) && function_exists( 'qby_search_scope' ) && function_exists( 'qbx_home' ) );
+if ( 'live' === $qbl_mode ) {
+	qbl_check( 'Beauty storefront gate opened on production by qby_live_enabled (not staging, QIL experience on)', ! qby_stage_allowed() && qby_frontend_enabled() && qil_experience_enabled() && ! qil_is_staging_sandbox() );
+	qbl_check( 'Beauty integration files loaded at plugins_loaded:100 without the staging experience (no qbx_home)', function_exists( 'qby_qil_beauty_record' ) && function_exists( 'qby_product_details' ) && function_exists( 'qby_search_scope' ) && ! function_exists( 'qbx_home' ) );
+} else {
+	qbl_check( 'Beauty storefront gate opened on the staging host (qby_stage_allowed, qby_frontend_enabled, QIL experience on)', qby_stage_allowed() && qby_frontend_enabled() && qil_experience_enabled() && qil_is_staging_sandbox() );
+	qbl_check( 'Beauty integration files loaded at plugins_loaded:100 (qby_qil_beauty_record, qby_product_details, qby_search_scope, qbx_home)', function_exists( 'qby_qil_beauty_record' ) && function_exists( 'qby_product_details' ) && function_exists( 'qby_search_scope' ) && function_exists( 'qbx_home' ) );
+}
 $record_hooks = array_values( array_filter( qbl_hook_rows( 'qil_catalogue_product_record' ), static function ( $r ) { return 'qby_qil_beauty_record' === $r['cb']; } ) );
 qbl_check( 'Beauty card adapter is on qil_catalogue_product_record at priority 100 with the 3 arguments QIL passes', 1 === count( $record_hooks ) && 100 === $record_hooks[0]['priority'] && 3 === $record_hooks[0]['args'], $record_hooks );
-qbl_check( 'QIL render mode settled to ' . $qbl_mode . ' after template_redirect', $qbl_mode === qil_render_mode(), qil_render_mode() );
+qbl_check( 'QIL render mode settled to ' . $qbl_expected_render . ' after template_redirect', $qbl_expected_render === qil_render_mode(), qil_render_mode() );
 
 if ( 'chrome' === $qbl_mode ) {
 	qbl_section( 'Chrome request (/beauty/): Beauty shelf records and QIL docks on an inner page' );
@@ -219,6 +332,53 @@ if ( 'chrome' === $qbl_mode ) {
 		qbl_check( 'Beauty prints QIL\'s compare dock exactly once on wp_footer (qil_section_docks, render mode chrome)', 1 === substr_count( $open . $footer, 'data-qil-compare-dock' ) && false !== strpos( $footer, '<div class="qby-qil-docks qil-shell' ), substr_count( $open . $footer, 'data-qil-compare-dock' ) );
 	} catch ( Throwable $e ) {
 		qbl_check( 'chrome request checks ran', false, qbl_error( $e ) );
+	}
+	qbl_summary();
+	exit( $GLOBALS['qbl']['failed'] ? 1 : 0 );
+}
+
+$qbl_ar_names = array( 'شامبو البيوتين المكثف 250 مل', 'شامبو الأرغان المرمم 400 مل' );
+if ( 'ar' === $qbl_mode ) {
+	qbl_section( 'Staging /ar/ that is not the front page: QIL renders its home, Beauty its experience' );
+	try {
+		qbl_check( 'precondition: is_front_page() is false, QIL qil_should_render() is true on /ar/', ! is_front_page() && qil_should_render() );
+		do_action( 'wp_enqueue_scripts' );
+		$scripts = $GLOBALS['qt']['enqueued']['script'] ?? array();
+		$styles  = $GLOBALS['qt']['enqueued']['style'] ?? array();
+		qbl_check( 'Beauty enqueues experience.min.css/js on QIL\'s /ar/ home, where qil_home_before_flash prints qbx_home', isset( $scripts['qimia-beauty-experience'], $styles['qimia-beauty-experience'] ), array( array_keys( $scripts ), array_keys( $styles ) ) );
+		list( $template, $home ) = qbl_render_home();
+		$section = qbl_section_html( $home, 'qbx-home' );
+		preg_match_all( '#<strong[^>]*>(.*?)</strong>#s', $section, $printed );
+		qbl_check( 'QIL serves templates/home.php on /ar/ and it prints Beauty\'s qbx_home once, right-to-left', realpath( QIL_DIR . 'templates/home.php' ) === realpath( $template ) && 1 === substr_count( $home, 'id="qbx-home"' ) && false !== strpos( $section, 'dir="rtl"' ), $template );
+		qbl_check( 'qbx_home prints existing Arabic titles matched on the trimmed title (405 ends in a space); an untranslated title stays as written', 3 === substr_count( $section, 'class="qby-home-product"' ) && false !== strpos( $section, $qbl_ar_names[0] ) && false !== strpos( $section, $qbl_ar_names[1] ) && false === strpos( $section, 'Argan Repair' ) && false !== strpos( $section, 'Silk Gloss Shampoo' ), $printed[0] );
+		$call = qbl_translation_call( array( 'Biotin Thickening Shampoo 250ml', 'Argan Repair Shampoo 400ml', 'Silk Gloss Shampoo' ) );
+		qbl_check( 'Beauty reads its three titles in one product_title batch with queueing off', $call && false === $call['queue'] && 'product_title' === $call['segments'][0]['context'], count( QAATM_Memory::$calls ) );
+	} catch ( Throwable $e ) {
+		qbl_check( 'staging /ar/ checks ran', false, qbl_error( $e ) );
+	}
+	qbl_summary();
+	exit( $GLOBALS['qbl']['failed'] ? 1 : 0 );
+}
+if ( 'live' === $qbl_mode ) {
+	qbl_section( 'Production /ar/ (qby_live_enabled): Beauty\'s fallback home section inside QIL\'s home' );
+	try {
+		qbl_check( 'precondition: is_front_page() is false, QIL qil_should_render() is true on /ar/', ! is_front_page() && qil_should_render() );
+		do_action( 'wp_enqueue_scripts' );
+		list( $template, $home ) = qbl_render_home();
+		$section = qbl_section_html( $home, 'qby-home-beauty' );
+		preg_match_all( '#<strong[^>]*>(.*?)</strong>#s', $section, $printed );
+		qbl_check( 'QIL home on /ar/ prints Beauty\'s fallback section once, right-to-left (no staging qbx_home)', realpath( QIL_DIR . 'templates/home.php' ) === realpath( $template ) && 1 === substr_count( $home, 'id="qby-home-beauty"' ) && false === strpos( $home, 'id="qbx-home"' ) && false !== strpos( $section, 'dir="rtl"' ), $template );
+		qbl_check( 'fallback edit panel lists Beauty\'s three products under its title', 3 === substr_count( $section, 'class="qby-home-product"' ) && 1 === substr_count( $section, 'class="qby-home-edit-title"' ), array( substr_count( $section, 'class="qby-home-product"' ), substr_count( $section, 'class="qby-home-edit-title"' ) ) );
+		qbl_check( 'fallback prints existing Arabic titles inside QIL\'s no-translate shell, matched on the trimmed title; an untranslated title stays as written', false !== strpos( $section, $qbl_ar_names[0] ) && false !== strpos( $section, $qbl_ar_names[1] ) && false === strpos( $section, 'Argan Repair' ) && false === strpos( $section, 'Biotin Thickening' ) && false !== strpos( $section, 'Silk Gloss Shampoo' ), $printed[0] );
+		qbl_check( 'every fallback product name is printed with dir="auto"', 3 === substr_count( $section, '<strong dir="auto">' ), $printed[0] );
+		$call = qbl_translation_call( array( 'Biotin Thickening Shampoo 250ml', 'Argan Repair Shampoo 400ml', 'Silk Gloss Shampoo' ) );
+		qbl_check( 'fallback reads its three titles in one product_title batch with queueing off', $call && false === $call['queue'] && 'product_title' === $call['segments'][0]['context'], count( QAATM_Memory::$calls ) );
+		// No Beauty product to show: the edit panel is left out, the rest of the section stays.
+		foreach ( array( 404, 405, 406 ) as $id ) { $GLOBALS['qt']['products'][ $id ]->status = 'draft'; }
+		try { ob_start(); do_action( 'qil_home_before_flash' ); } finally { $empty = ob_get_clean(); foreach ( array( 404, 405, 406 ) as $id ) { $GLOBALS['qt']['products'][ $id ]->status = 'publish'; } }
+		qbl_check( 'with no Beauty products the fallback prints no empty "THE BEAUTY EDIT" panel, and keeps its copy and department cards', false !== strpos( $empty, 'id="qby-home-beauty"' ) && false === strpos( $empty, 'qby-home-art' ) && false === strpos( $empty, 'مختارات الجمال' ) && false === strpos( $empty, 'qby-home-product' ) && false !== strpos( $empty, 'qby-home-copy' ) && false !== strpos( $empty, 'qby-department-grid' ), array( 'art' => substr_count( $empty, 'qby-home-art' ), 'edit' => substr_count( $empty, 'مختارات الجمال' ), 'products' => substr_count( $empty, 'qby-home-product' ) ) );
+	} catch ( Throwable $e ) {
+		qbl_check( 'production /ar/ checks ran', false, qbl_error( $e ) );
 	}
 	qbl_summary();
 	exit( $GLOBALS['qbl']['failed'] ? 1 : 0 );
@@ -251,6 +411,21 @@ try {
 	qbl_check( 'Arabic catalogue (_qil_locale ar) keeps the Beauty record and the supplement servings, with no warning', 'beauty' === ( $ar[401]['productClass'] ?? null ) && array() === $ar[401]['facts'] && 'الحجم' === ( $ar[401]['beauty']['facts']['ar'][0]['label'] ?? null ) && ! isset( $ar[102]['beauty'] ) && '' !== (string) ( $ar[102]['facts']['servings'] ?? '' ), array_keys( $ar ) );
 } catch ( Throwable $e ) {
 	qbl_check( 'catalogue checks ran', false, qbl_error( $e ) );
+}
+
+qbl_section( '2b. QIL\'s supplement goal "Hair, skin & beauty" (beauty) leaves Beauty products out' );
+try {
+	$policy = qil_goal_term_policy()['beauty_support'] ?? array();
+	qbl_check( 'qil_goal_term_policy: the bare Beauty root slug is no longer beauty_support; collagen, biotin and hair/skin/nails terms stay', ! in_array( 'beauty', $policy, true ) && array() === array_diff( array( 'beauty-support', 'collagen', 'collagens', 'collagen-oman', 'biotin', 'hair-nail-skin-health', 'hair-skin-nails' ), $policy ), $policy );
+	$goals = static function ( $id ) { return qil_goal_taxonomy_profile( $id )['goals'] ?? array(); };
+	qbl_check( 'a cosmetic only under the Beauty root (401) gets no beauty goal; the hair/skin/nails supplement (501) keeps it', ! in_array( 'beauty', $goals( 401 ), true ) && in_array( 'beauty', $goals( 501 ), true ), array( 401 => $goals( 401 ), 501 => $goals( 501 ) ) );
+	$goal_rows = qil_get_catalogue( array( 'include' => array( 404, 401, 501 ), 'limit' => 3, 'orderby' => 'include' ) );
+	$m = array(); foreach ( $goal_rows as $row ) { $m[ (int) $row['id'] ] = $row['match']; }
+	qbl_check( 'Beauty records carry no QIL goals, evidence or sources (the JS goal filter reads these); the supplement keeps its own', isset( $m[401], $m[404], $m[501] ) && array() === $m[401]['goals'] && array() === $m[401]['evidence'] && array() === $m[401]['sources'] && array() === $m[404]['goals'] && array() === $m[404]['evidence'] && in_array( 'beauty', $m[501]['goals'], true ) && $m[501]['evidence'], $m );
+	$ranked = array_map( static function ( $r ) { return (int) $r['id']; }, qil_goal_rank_records( $goal_rows, 'beauty' ) );
+	qbl_check( 'qil_goal_rank_records(beauty) keeps only the supplement, although 404\'s biotin tag is QIL taxonomy evidence', in_array( 'beauty', $goals( 404 ), true ) && array( 501 ) === $ranked, array( 'ranked' => $ranked, 404 => $goals( 404 ) ) );
+} catch ( Throwable $e ) {
+	qbl_check( 'goal checks ran', false, qbl_error( $e ) );
 }
 
 /* ------------------------------------------------------------------ 3. cache identity */
@@ -287,9 +462,7 @@ try {
 	qbl_check( 'output contains the Beauty home section exactly once', false !== $beauty_at && 1 === substr_count( $home, 'id="qbx-home"' ) + substr_count( $home, 'id="qby-home-beauty"' ) );
 	qbl_check( 'Beauty home section sits after the goal engine and before the flash drop section', false !== $beauty_at && false !== $flash_at && false !== $goal_at && $goal_at < $beauty_at && $beauty_at < $flash_at, array( 'goal' => $goal_at, 'beauty' => $beauty_at, 'flash' => $flash_at ) );
 	qbl_check( 'Beauty home section is inside QIL main flow and links to the staging Beauty hub', false !== $beauty_at && $beauty_at > strpos( $home, 'id="qil-main"' ) && false !== strpos( $home, 'href="https://qimialab.qimia.om/beauty/"' ) );
-	if ( false === strpos( $home, 'class="qby-home-product"' ) ) {
-		qbl_skip( 'Beauty home edit lists real Beauty products', 'qby_home_beauty_edit() queries by product_cat field=slug; the WP_Query double matches terms by intval and returns nothing, so Beauty rendered its empty-edit editorial image' );
-	}
+	qbl_check( 'Beauty home edit lists the three products Beauty\'s own query returns', 3 === substr_count( $home, 'class="qby-home-product"' ) && false !== strpos( $home, 'Biotin Thickening Shampoo 250ml' ), substr_count( $home, 'class="qby-home-product"' ) );
 } catch ( Throwable $e ) {
 	qbl_check( 'home template rendered', false, qbl_error( $e ) );
 }
@@ -325,31 +498,39 @@ try {
 	$ids = array_map( static function ( $p ) { return (int) $p['id']; }, $after->get_data()['products'] ?? array() );
 	qbl_check( 'q=protein: Beauty\'s adapter matched the route and read the request (qil_locale, q)', array( 'qil_locale', 'q' ) === array_values( array_intersect( $req->reads, array( 'qil_locale', 'q' ) ) ), $req->reads );
 	qbl_check( 'q=protein: QIL returns products, Beauty leaves the payload byte-identical', $ids && $before === $after->get_data(), array( 'ids' => $ids, 'same' => $before === $after->get_data() ) );
-	qbl_check( 'q=protein: no Beauty product enters the results and QIL\'s no-store header survives', ! array_intersect( $ids, array( 401, 402, 403 ) ) && false !== strpos( (string) ( $after->headers['Cache-Control'] ?? '' ), 'no-store' ), $after->headers );
+	qbl_check( 'q=protein: no Beauty product enters the results and QIL\'s no-store header survives', ! array_intersect( $ids, array( 401, 402, 403, 404, 405, 406, 407 ) ) && false !== strpos( (string) ( $after->headers['Cache-Control'] ?? '' ), 'no-store' ), $after->headers );
 
-	// The QIL half of the shampoo contract, with Beauty's exact arguments (integration.php:84).
-	$single = qil_get_catalogue( array( 'include' => array( 403 ), 'limit' => 1, 'orderby' => 'include', '_qil_include_unavailable' => true, '_qil_locale' => 'en' ) );
-	qbl_check( 'qil_get_catalogue with Beauty\'s search args returns a single out-of-stock Beauty hit with stock.inStock false', 1 === count( $single ) && 403 === (int) $single[0]['id'] && false === $single[0]['stock']['inStock'] && 'beauty' === $single[0]['productClass'], $single );
-	$pair = qil_get_catalogue( array( 'include' => array( 401, 403 ), 'limit' => 2, 'orderby' => 'include', '_qil_include_unavailable' => true, '_qil_locale' => 'en' ) );
-	qbl_check( 'qil_get_catalogue with Beauty\'s search args keeps an out-of-stock Beauty hit when there are several hits', array( 401, 403 ) === array_values( array_intersect( array( 401, 403 ), array_map( static function ( $r ) { return (int) $r['id']; }, $pair ) ) ), array_map( static function ( $r ) { return array( (int) $r['id'], $r['stock']['inStock'] ); }, $pair ) );
-	// Beauty's adapter uses the records as returned (no re-sort, unlike qby_qil_records), then slices them.
-	$order = array_map( static function ( $r ) { return (int) $r['id']; }, qil_get_catalogue( array( 'include' => array( 402, 401 ), 'limit' => 2, 'orderby' => 'include', '_qil_include_unavailable' => true, '_qil_locale' => 'en' ) ) );
-	qbl_check( 'qil_get_catalogue with Beauty\'s search args returns hits in the requested orderby=include order', array( 402, 401 ) === $order, $order );
+	// Beauty's real adapter on a real dispatch: QIL's search runs first, then Beauty swaps in its own hits.
+	$search = static function ( $q, $locale = 'en', $limit = 8 ) {
+		$req = new QBL_REST_Request( 'GET', '/qimia-lab/v1/search' );
+		$req->set_param( 'q', $q ); $req->set_param( 'qil_locale', $locale ); $req->set_param( 'limit', $limit );
+		return qbl_rest_dispatch( 'qimia-lab/v1/search', $req )[1]->get_data()['products'] ?? array();
+	};
+	$GLOBALS['qt']['queries'] = array();
+	$rows = $search( 'shampoo' );
+	$by   = array(); foreach ( $rows as $row ) { $by[ (int) $row['id'] ] = $row; }
+	$ids  = array_keys( $by );
+	$beauty_query = array_values( array_filter( $GLOBALS['qt']['queries'], static function ( $q ) { return ! empty( $q['qby_collection_scope'] ); } ) );
+	$hidden = array();
+	foreach ( (array) ( $beauty_query[0]['tax_query'] ?? array() ) as $clause ) { if ( is_array( $clause ) && 'product_visibility' === ( $clause['taxonomy'] ?? '' ) && 'NOT IN' === ( $clause['operator'] ?? '' ) ) { $hidden = array_merge( $hidden, (array) $clause['terms'] ); } }
+	$visibility = wc_get_product_visibility_term_ids();
+	qbl_check( 'q=shampoo: Beauty queries its shampoo department without products hidden from the catalogue or from search', 1 === count( $beauty_query ) && array( 'shampoo' ) === ( $beauty_query[0]['tax_query'][0]['terms'] ?? null ) && in_array( $visibility['exclude-from-catalog'], $hidden, true ) && in_array( $visibility['exclude-from-search'], $hidden, true ), $beauty_query );
+	qbl_check( 'q=shampoo returns only Beauty products, in Beauty\'s query order (404, 405, 406)', array( 404, 405, 406 ) === $ids && array( 'beauty' ) === array_values( array_unique( array_column( $rows, 'productClass' ) ) ), array( 'ids' => $ids, 'classes' => array_column( $rows, 'productClass' ) ) );
+	$qil_order = array_map( static function ( $r ) { return (int) $r['id']; }, qil_get_catalogue( array( 'include' => array( 404, 405, 406 ), 'limit' => 3, 'orderby' => 'include', '_qil_catalogue_selection' => true, '_qil_locale' => 'en' ) ) );
+	qbl_check( 'control: QIL\'s catalogue ranks the same ids its own way, so the adapter is what keeps Beauty\'s order', array( 404, 405, 406 ) !== $qil_order && array( 404, 405, 406 ) === array_values( array_intersect( array( 404, 405, 406 ), $qil_order ) ) && 3 === count( $qil_order ), $qil_order );
+	qbl_check( 'q=shampoo keeps the sold-out 406 among several hits, with stock.inStock false', isset( $by[406] ) && false === $by[406]['stock']['inStock'] && true === $by[404]['stock']['inStock'], isset( $by[406] ) ? $by[406]['stock'] : $ids );
+	$names = array();
+	foreach ( array( 'en', 'ar' ) as $locale ) { foreach ( 'en' === $locale ? $rows : $search( 'shampoo', 'ar' ) as $row ) { $names[] = $row['name']; } }
+	qbl_check( 'no hit carries an " · Out of stock" / " · غير متوفر" name suffix (EN and AR); stock stays in stock.inStock', 6 === count( $names ) && ! preg_grep( '/ · (?:Out of stock|غير متوفر)/u', $names ) && in_array( 'Silk Gloss Shampoo', $names, true ), $names );
 
+	// Ambiguous 'hair': QIL's own hits come from title SQL the wpdb double does not model, so the
+	// adapter gets the real catalogue records QIL would return for a Beauty tool and an oral supplement.
+	$qil_hits = qil_get_catalogue( array( 'include' => array( 407, 501 ), 'limit' => 2, 'orderby' => 'include', '_qil_locale' => 'en' ) );
 	$req = new QBL_REST_Request( 'GET', '/qimia-lab/v1/search' );
-	$req->set_param( 'q', 'shampoo' ); $req->set_param( 'qil_locale', 'en' ); $req->set_param( 'limit', 8 );
-	try {
-		list( $before, $after ) = qbl_rest_dispatch( 'qimia-lab/v1/search', $req );
-		$rows = $after->get_data()['products'] ?? array();
-		$classes = array_map( static function ( $p ) { return qby_resolved_class( (int) $p['id'] ); }, $rows );
-		if ( ! $rows ) {
-			qbl_skip( 'q=shampoo returns only Beauty products', 'pipeline ran but Beauty\'s qby_beauty_query() found no ids: the WP_Query double cannot resolve its product_cat field=slug tax_query (terms are matched by intval), so a non-empty Beauty-only list cannot be produced here' );
-		} else {
-			qbl_check( 'q=shampoo returns only Beauty products', array() === array_diff( $classes, array( 'beauty' ) ), array( 'rows' => array_column( $rows, 'id' ), 'classes' => $classes ) );
-		}
-	} catch ( Throwable $e ) {
-		qbl_skip( 'q=shampoo returns only Beauty products', 'the shared doubles cannot run this request: ' . qbl_error( $e ) . ' (QIL\'s title/SKU search SQL); Beauty\'s qby_beauty_query() would then also need product_cat field=slug resolution, which the WP_Query double lacks. The QIL half of this contract is checked above with Beauty\'s exact qil_get_catalogue() arguments' );
-	}
+	$req->set_param( 'q', 'hair' ); $req->set_param( 'qil_locale', 'en' ); $req->set_param( 'limit', 4 );
+	$mixed = apply_filters( 'rest_request_after_callbacks', new QBL_REST_Response( array( 'products' => $qil_hits, 'query' => 'hair' ) ), $route, $req );
+	$mixed = array_map( static function ( $p ) { return (int) $p['id']; }, $mixed->get_data()['products'] ?? array() );
+	qbl_check( 'q=hair: two Beauty hits in Beauty\'s order, then the oral supplement; the Beauty tool 407 is not counted as oral', 2 === count( $qil_hits ) && array( 404, 405, 501 ) === $mixed, array( 'qil' => array_column( $qil_hits, 'id' ), 'out' => $mixed ) );
 } catch ( Throwable $e ) {
 	qbl_check( 'search checks ran', false, qbl_error( $e ) );
 }
@@ -393,18 +574,27 @@ try {
 qbl_section( 'Extra seams exercised by the same request' );
 try {
 	qbl_check( 'QIL_Personalization::eligible() lets Beauty veto 401 and keeps supplement 102 (qil_personal_product_eligible)', false === QIL_Personalization::eligible( wc_get_product( 401 ) ) && true === QIL_Personalization::eligible( wc_get_product( 102 ) ) );
+	qbl_check( 'QIL passes $repeat to Beauty\'s veto, so the shopper\'s own Beauty purchase 401 stays reorderable in Buy again', true === QIL_Personalization::eligible( wc_get_product( 401 ), 'home', true ) );
 } catch ( Throwable $e ) {
 	qbl_check( 'personal eligibility check ran', false, qbl_error( $e ) );
 }
-// The same two plugins on an inner page, in a clean process (see $qbl_mode).
-$child = (string) shell_exec( escapeshellarg( PHP_BINARY ) . ' ' . escapeshellarg( __FILE__ ) . ' chrome 2>&1' );
-if ( ! preg_match( '/^\d+ passed, \d+ failed/m', $child ) ) {
-	qbl_check( '[chrome /beauty/] request ran to completion', false, trim( $child ) );
-}
-foreach ( preg_split( '/\R/', $child ) as $line ) {
-	if ( preg_match( '/^  ([✓✗]) (.*?)(?:  → (.*))?$/u', $line, $m ) ) { qbl_check( '[chrome /beauty/] ' . $m[2], '✓' === $m[1], $m[3] ?? '' ); }
-	elseif ( preg_match( '/^  - SKIP (.*?)  → (.*)$/u', $line, $m ) ) { qbl_skip( '[chrome /beauty/] ' . $m[1], $m[2] ); }
-	elseif ( 0 === strpos( $line, '  NOTE ' ) ) { echo '  NOTE [chrome /beauty/] ' . substr( $line, 7 ) . "\n"; }
+// The same two plugins on other requests, each in a clean process (see $qbl_mode).
+foreach ( array( 'chrome' => '[chrome /beauty/]', 'ar' => '[staging /ar/]', 'live' => '[production /ar/]' ) as $mode => $label ) {
+	$child = (string) shell_exec( escapeshellarg( PHP_BINARY ) . ' ' . escapeshellarg( __FILE__ ) . ' ' . $mode . ' 2>&1' );
+	if ( ! preg_match( '/^(\d+) passed, (\d+) failed/m', $child, $totals ) ) {
+		qbl_check( $label . ' request ran to completion', false, trim( $child ) );
+	}
+	// Split on fixed markers, not a backtracking regex: a long failure detail must never hide its check.
+	$seen = 0;
+	foreach ( preg_split( '/\R/', $child ) as $line ) {
+		$mark = substr( $line, 0, 6 );
+		if ( '  ✓ ' === $mark || '  ✗ ' === $mark ) { $parts = explode( '  → ', substr( $line, 6 ), 2 ); qbl_check( $label . ' ' . $parts[0], '  ✓ ' === $mark, $parts[1] ?? '' ); ++$seen; }
+		elseif ( 0 === strpos( $line, '  - SKIP ' ) ) { $parts = explode( '  → ', substr( $line, 9 ), 2 ); qbl_skip( $label . ' ' . $parts[0], $parts[1] ?? '' ); }
+		elseif ( 0 === strpos( $line, '  NOTE ' ) ) { echo '  NOTE ' . $label . ' ' . substr( $line, 7 ) . "\n"; }
+	}
+	if ( $totals && (int) $totals[1] + (int) $totals[2] !== $seen ) {
+		qbl_check( $label . ' every check the child ran is reported here', false, array( 'child' => $totals[0], 'reported' => $seen ) );
+	}
 }
 
 qbl_summary();
