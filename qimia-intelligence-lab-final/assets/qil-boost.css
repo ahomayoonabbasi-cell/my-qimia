@@ -336,7 +336,7 @@ li.qil-boost-cart-items-label::before, li.qil-boost-cart-items-label::after { co
 	font-size: 11px !important; font-weight: 820 !important; line-height: 1.2 !important;
 	letter-spacing: 0 !important; text-transform: none !important; text-decoration: none !important; white-space: nowrap;
 	box-shadow: var(--qil-shadow-tiffany, 0 12px 30px rgba(9,124,132,.24)), inset 0 1px rgba(255,255,255,.28) !important;
-	transition: background-image .2s var(--qil-ease, cubic-bezier(.22,.61,.36,1)), box-shadow .2s var(--qil-ease, cubic-bezier(.22,.61,.36,1)) !important;
+	transition: background-image .2s var(--qil-ease, cubic-bezier(.22,.61,.36,1)), box-shadow .2s var(--qil-ease, cubic-bezier(.22,.61,.36,1)), scale var(--qil-t-press,110ms) var(--qil-ease,cubic-bezier(.22,.61,.36,1)) !important;
 }
 .qil-boost .qil-boost-add:hover, .qil-boost .qil-boost-add:focus-visible {
 	background: var(--qil-grad-primary-hover, linear-gradient(135deg,#06636c 0%,#0d8a90 48%,#2dbcb7 100%)) !important;
@@ -713,7 +713,7 @@ body.qil-body :is(.cart-widget-side,.widget_shopping_cart_content) .wd-free-prog
 	:is(#qimia-lab,.qil-shell) .qil-flash-kicker { flex-wrap: wrap; gap: 6px 8px; max-width: 100%; border-radius: 18px; font-size: 9.5px; letter-spacing: .08em; white-space: nowrap; }
 	:is(#qimia-lab,.qil-shell) .qil-flash-gone { margin-inline-start: 0; }
 	:is(#qimia-lab,.qil-shell) .qil-flash-stock { min-height: 22px; margin-bottom: 6px; }
-	:is(#qimia-lab,.qil-shell) .qil-flash-stock > b { font-size: 9.5px; }
+	:is(#qimia-lab,.qil-shell) .qil-flash-stock > b { font-size: 11px; }
 }
 
 /* Phones: product cards size to their content and stretch to the tallest card
@@ -871,3 +871,189 @@ body.qil-body :is(.cart-widget-side,.widget_shopping_cart_content) .wd-free-prog
 	:is(#qimia-lab,.qil-shell) :is(.qil-flash-drop,.qil-member,.qil-stacks) *::before,
 	:is(#qimia-lab,.qil-shell) :is(.qil-flash-drop,.qil-member,.qil-stacks) *::after { animation: none !important; transition: none !important; }
 }
+
+/* === QIL BOOST LAYER 1.18.24 ==========================================
+   Readability floor and quiet state motion for the boost surfaces: flash,
+   stacks, member hub, mini cart, cart band and ladder. Shared tokens come from
+   the qil.css design layer; every var() keeps today's value as its fallback,
+   because the drawer and the cart totals sit outside #qimia-lab. No colour
+   changes. Tested geometry (per view, corners, stock-line height, drawer
+   width) is untouched. Motion is opacity/transform only and stays off for
+   prefers-reduced-motion (see also the reduced-motion block above). */
+
+/* --- Kickers: one size, weight and tracking; colours unchanged ----------- */
+:is(#qimia-lab,.qil-shell) .qil-flash-kicker,
+:is(#qimia-lab,.qil-shell) .qil-collection-head .qil-stacks-kicker,
+:is(#qimia-lab,.qil-shell) :is(.qil-wallet,.qil-running) .qil-kicker,
+:is(#qimia-lab,.qil-shell) :is(.qil-wallet-picks,.qil-boost-band) .qil-collection-head small,
+.qil-boost .qil-boost-kicker {
+	font-size: var(--qil-kicker-size, 11px);
+	font-weight: 700;
+	letter-spacing: var(--qil-kicker-track, .14em);
+	line-height: 1.3;
+}
+:is(#qimia-lab,.qil-shell) .qil-flash-gone { font-weight: 700; }
+:is(#qimia-lab,.qil-shell)[dir="rtl"] .qil-flash-kicker,
+:is(#qimia-lab,.qil-shell)[dir="rtl"] .qil-collection-head .qil-stacks-kicker,
+:is(#qimia-lab,.qil-shell)[dir="rtl"] :is(.qil-wallet,.qil-running) .qil-kicker,
+:is(#qimia-lab,.qil-shell)[dir="rtl"] :is(.qil-wallet-picks,.qil-boost-band) .qil-collection-head small,
+:is(.qil-boost[dir="rtl"],[dir="rtl"] .qil-boost) .qil-boost-kicker {
+	font-size: var(--qil-kicker-size-ar, 12px);
+	letter-spacing: 0;
+	text-transform: none;
+}
+
+/* --- Section heads ------------------------------------------------------- */
+:is(#qimia-lab,.qil-shell) .qil-flash-head h2 { text-wrap: balance; }   /* display size kept */
+/* One unit for balance: on its own, balance split "تخفيضات / سريعة" in AR. */
+:is(#qimia-lab,.qil-shell) .qil-flash-head h2 .qil-flash-word { display: inline-block; }
+:is(#qimia-lab,.qil-shell) .qil-running h2,
+:is(#qimia-lab,.qil-shell) .qil-boost-band .qil-collection-head h3 {
+	font-size: var(--qil-text-h3, clamp(21px,2.4vw,27px));
+	font-weight: 700;
+	line-height: 1.15;
+	letter-spacing: -.02em;
+}
+:is(#qimia-lab,.qil-shell)[dir="rtl"] :is(.qil-running h2,.qil-boost-band .qil-collection-head h3) { line-height: 1.35; letter-spacing: 0; }
+
+/* --- Flash ---------------------------------------------------------------- */
+:is(#qimia-lab,.qil-shell) .qil-flash-clock > small,
+:is(#qimia-lab,.qil-shell) .qil-flash-unit small,
+:is(#qimia-lab,.qil-shell) .qil-flash-stock small { font-size: 11px; }
+/* Phones, EN: at the 11px floor "LIVE OFFERS · 10 PRODUCTS" plus the
+   "3 ALMOST GONE" chip need about 370px, more than a phone gives, so the chip
+   always takes a second line. Stack it on purpose, under the dot, and let the
+   frame hug the two lines instead of stretching to the full width. AR fits on
+   one line and keeps the row. */
+@media (max-width: 760px) {
+	:is(#qimia-lab,.qil-shell):not([dir="rtl"]) .qil-flash-kicker { display: inline-grid; grid-template-columns: auto auto; justify-content: start; justify-items: start; border-radius: var(--qil-r-tile, 16px); }
+	:is(#qimia-lab,.qil-shell):not([dir="rtl"]) .qil-flash-kicker > .qil-flash-gone { grid-column: 1 / -1; }
+}
+/* The stock bar grows from the inline start while its card makes its entrance.
+   A transition, not a keyframe: the reveal engine drops data-qil-reveal when
+   the card's own entrance ends, and a running transition survives that (the
+   bar's value does not change), where an animation would be cut short. The
+   inline width stays the value; cards that were never armed do not move. */
+:is(#qimia-lab,.qil-shell) .qil-flash-bar i { transform-origin: left center; }
+:is(#qimia-lab,.qil-shell)[dir="rtl"] .qil-flash-bar i { transform-origin: right center; }
+@media (prefers-reduced-motion: no-preference) {
+	:is(#qimia-lab,.qil-shell) .qil-product-card[data-qil-reveal="armed"]:not(.is-visible) .qil-flash-bar i { scale: 0 1; }
+	:is(#qimia-lab,.qil-shell) .qil-product-card.is-visible .qil-flash-bar i {
+		transition: scale 700ms var(--qil-ease-enter, cubic-bezier(.16,1,.3,1)) calc(var(--qil-i, 0) * var(--qil-stagger, 55ms) + 150ms);
+	}
+	/* "This drop has ended" replaces the digits with a short rise, not a cut. */
+	:is(#qimia-lab,.qil-shell) .qil-flash-drop.is-ended .qil-flash-clock > * { animation: qil-fade-up 300ms var(--qil-ease-enter, cubic-bezier(.16,1,.3,1)) both; }
+}
+@keyframes qil-fade-up { from { opacity: 0; translate: 0 6px; } }
+
+/* --- Stacks ---------------------------------------------------------------- */
+:is(#qimia-lab,.qil-shell) .qil-stacks.qil-section { border-radius: var(--qil-r-panel, 0); }
+:is(#qimia-lab,.qil-shell) .qil-stacks-rail .qil-bundle-reward small { font-size: 11px; letter-spacing: .04em; }   /* badge tracking; AR stays 0 (above) */
+@media (max-width: 760px) {
+	:is(#qimia-lab,.qil-shell) .qil-stacks-rail .qil-bundle-reward b { font-size: 14px; }
+	/* Keeps the reward in the image's end half at 390 (run.mjs:134): 11px
+	   "CASHBACK", untracked, with 4px sides is 71px on a 161px image. */
+	:is(#qimia-lab,.qil-shell) .qil-stacks-rail .qil-bundle-reward { padding-inline: 4px; }
+	:is(#qimia-lab,.qil-shell) .qil-stacks-rail .qil-bundle-reward small { letter-spacing: 0; }
+}
+/* Under 350px the 11px reward and the 11px discount cannot share a 126px
+   image edge: the reward keeps the end side and moves to the bottom corner. */
+@media (max-width: 350px) {
+	:is(#qimia-lab,.qil-shell) .qil-stacks-rail .qil-bundle-reward { inset-block: auto 7px; }
+}
+/* (1,7,x) !important: above the card floor's price locks in qil.css. */
+:is(#qimia-lab,.qil-shell) .qil-stacks-rail .qil-product-card.qil-product-card .qil-product-info .qil-card-price.qil-card-price .qil-stack-separately,
+:is(#qimia-lab,.qil-shell) .qil-stacks-rail .qil-product-card.qil-product-card .qil-product-info .qil-card-price.qil-card-price .qil-stack-separately del { font-size: 11px !important; }
+
+/* --- Member hub ------------------------------------------------------------ */
+:is(#qimia-lab,.qil-shell) .qil-wallet,
+:is(#qimia-lab,.qil-shell) .qil-running { border-radius: var(--qil-r-panel, 30px); }
+/* The reason wraps instead of clipping (run.mjs: "in full, no clipped label"). */
+:is(#qimia-lab,.qil-shell) .qil-wallet-reason { font-size: 11px; white-space: normal; overflow-wrap: anywhere; }
+:is(#qimia-lab,.qil-shell) [data-qil-repeat-rail-card] .qil-repeat-note,
+:is(#qimia-lab,.qil-shell) [data-qil-repeat-rail-card] .qil-repeat-note :is(span,strong) { font-size: 11px; }
+:is(#qimia-lab,.qil-shell) .qil-running .qil-buy.qil-running-add:active:not(:disabled) { scale: .96; }
+/* "Buy again" in sentence case like every card's "Add to cart" on the same
+   screen; it stays 11px at its weight. */
+:is(#qimia-lab,.qil-shell) .qil-running .qil-buy.qil-running-add { text-transform: none; letter-spacing: 0; }
+@media (max-width: 760px) {
+	/* Credits share one row of three (two by two when there are four): no orphan chip. */
+	:is(#qimia-lab,.qil-shell) .qil-wallet-credits { display: grid; grid-template-columns: repeat(3,minmax(0,1fr)); gap: 8px; }
+	:is(#qimia-lab,.qil-shell) .qil-wallet-credits:has(> li:nth-child(4)) { grid-template-columns: repeat(2,minmax(0,1fr)); }
+	/* "4 OMR" stays on one line at 320; a two-line note splits evenly
+	   ("Min. order / 10 OMR"), so the unit is never left alone, and the chips
+	   in a row keep amount and note at the top, in line. */
+	:is(#qimia-lab,.qil-shell) .qil-wallet-credits li { min-width: 0; padding-inline: 10px; text-wrap: balance; align-content: start; }
+}
+
+/* --- Mini cart rows ---------------------------------------------------------- */
+/* "Added" was printed on every row, including items added days ago. */
+.cart-widget-side .woocommerce-mini-cart .mini_cart_item .quantity::after,
+.widget_shopping_cart_content .woocommerce-mini-cart .mini_cart_item .quantity::after { content: none; display: none; }
+/* Rows line up with the picks panel below them (15px, qil-boost.css:118). */
+.cart-widget-side .woocommerce-mini-cart > li.woocommerce-mini-cart-item,
+.widget_shopping_cart_content .woocommerce-mini-cart > li.woocommerce-mini-cart-item { margin: 0 15px 10px !important; border-radius: var(--qil-r-tile, 16px) !important; }
+/* The row keeps an end gutter for the remove × (logical, so it flips in AR):
+   without the "Added" chip the price reaches the row's end and ran under the
+   ×. The gutter replaces the old end padding on the row's links. The
+   quantity keeps its own width ("1 × 19.900 OMR" on one line) and the name
+   takes the wrapping; where a theme stacks the quantity under the name it
+   can still wrap, but never inside the price. */
+.cart-widget-side .woocommerce-mini-cart > li.woocommerce-mini-cart-item,
+.widget_shopping_cart_content .woocommerce-mini-cart > li.woocommerce-mini-cart-item { padding-inline-end: 34px !important; }
+.cart-widget-side .woocommerce-mini-cart .mini_cart_item a:not(.remove),
+.widget_shopping_cart_content .woocommerce-mini-cart .mini_cart_item a:not(.remove) { padding-inline-end: 0; }
+.cart-widget-side .woocommerce-mini-cart .mini_cart_item .quantity,
+.widget_shopping_cart_content .woocommerce-mini-cart .mini_cart_item .quantity { flex-shrink: 0; }
+.cart-widget-side .woocommerce-mini-cart .mini_cart_item .quantity .amount,
+.widget_shopping_cart_content .woocommerce-mini-cart .mini_cart_item .quantity .amount { white-space: nowrap; }
+@media (max-width: 760px) {
+	/* Phones: a 44px remove target inside a 48px gutter, clear of the name and
+	   the price, its × about where it was. */
+	.cart-widget-side .woocommerce-mini-cart > li.woocommerce-mini-cart-item { padding-inline-end: 48px !important; }
+	.cart-widget-side .woocommerce-mini-cart > li.woocommerce-mini-cart-item a.remove { inset-block-start: 4px; inset-inline-end: 2px; width: 44px; height: 44px; display: grid; place-items: center; }
+}
+
+/* --- Ladder, picks and drawer type --------------------------------------------- */
+.qil-boost .qil-boost-current-terms,
+.qil-boost .qil-boost-pick-note,
+.qil-boost .qil-boost-unlock,
+.qil-boost-mini-picks .qil-boost-pick.is-mini .qil-boost-pick-note,
+.qil-boost-cart-items-label .qil-boost-mini-section-count,
+.qil-boost .qil-boost-price > small,
+.qil-boost-mini-picks .qil-boost-pick.is-mini .qil-boost-price :is(del,small),
+.qil-boost .qil-boost-ladder small { font-size: 11px; }
+:is(.qil-boost[dir="rtl"],[dir="rtl"] .qil-boost) .qil-boost-ladder small { line-height: 1.5; }
+.qil-boost .qil-boost-ladder li { text-wrap: balance; }
+/* A step whose label takes two lines makes its row taller: the others keep
+   their amount and label at the top, in line with it, instead of spreading. */
+.qil-boost .qil-boost-steps li { align-content: start; }
+/* At 11px the widest step label ("over 60 OMR", "أكثر من 60 ر.ع", about
+   71px) needs a step of about 81px, so six across fit on one line only from a
+   totals panel of about 545px. Narrower panels (the desktop cart sidebar is
+   about 400px) take the phone's three across. */
+@container (max-width: 560px) { .qil-boost .qil-boost-steps { grid-template-columns: repeat(3,minmax(0,1fr)); } }
+
+/* --- Drawer and cart-panel Add (.qil-boost-add) ---------------------------------- */
+.qil-boost .qil-boost-add:active:not([aria-disabled="true"]) { scale: .96; }
+/* The light sweep runs with the reading direction in AR, as on .qil-buy. */
+:is(.qil-boost[dir="rtl"],[dir="rtl"] .qil-boost) .qil-boost-add::after { inset: 0 -60% 0 auto; transform: skewX(18deg); }
+:is(.qil-boost[dir="rtl"],[dir="rtl"] .qil-boost) .qil-boost-add:hover::after { transform: translateX(-340%) skewX(18deg); }
+/* Ladder fill: qil-boost.js scales it from the previous value; it grows from the inline start. */
+.qil-boost .qil-boost-meter > span { transform-origin: left center; }
+[dir="rtl"] .qil-boost .qil-boost-meter > span, .qil-boost[dir="rtl"] .qil-boost-meter > span { transform-origin: right center; }
+@media (prefers-reduced-motion: no-preference) {
+	/* Busy: the sweep loops while WooCommerce's .loading is on (the spinner stays). */
+	.qil-boost .qil-boost-add.loading::after { animation: qil-boost-sweep 1.1s linear infinite; }
+	:is(.qil-boost[dir="rtl"],[dir="rtl"] .qil-boost) .qil-boost-add.loading::after { animation-name: qil-boost-sweep-rtl; }
+	.qil-boost .qil-boost-add.is-done > span { animation: qil-fade-up 220ms var(--qil-ease-enter, cubic-bezier(.16,1,.3,1)) both; }
+}
+/* The Add's own transition list (above, at 0,2,0 !important) outranks the
+   reduced-motion block's .qil-boost * (0,1,0), and the drawer sits outside
+   #qimia-lab, so no QIL rule reaches it: switch it off here, one step heavier. */
+@media (prefers-reduced-motion: reduce) {
+	.qil-boost .qil-boost-add.qil-boost-add { transition: none !important; }
+}
+@keyframes qil-boost-sweep { from { transform: translateX(0) skewX(-18deg); } to { transform: translateX(340%) skewX(-18deg); } }
+@keyframes qil-boost-sweep-rtl { from { transform: translateX(0) skewX(18deg); } to { transform: translateX(-340%) skewX(18deg); } }
+/* === end QIL BOOST LAYER 1.18.24 === */

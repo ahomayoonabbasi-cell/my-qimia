@@ -462,3 +462,24 @@
   text-decoration-color:rgba(14,143,151,.55);
  }
 }
+
+/* === QIL DESIGN LAYER 1.18.24 (readability floor): hero orb-grid and My Qimia ===
+   The orb-grid micro type lives here because this sheet loads after qil.css.
+   Type-floor lifts only: the scene, the orb and the tracks keep their placements
+   (measured at 320-980px, EN and AR: the title and the orb do not move; the
+   7px block padding keeps the eyebrow at its 1.18.23 height of 38px). */
+@media (max-width:980px) {
+ :is(#qimia-lab,.qil-shell) .qil-digital-portal .qil-hero-grid--with-orb .qil-eyebrow {
+  padding:7px 10px; font-size:11px; letter-spacing:.06em;
+ }
+ :is(#qimia-lab,.qil-shell)[dir=rtl] .qil-digital-portal .qil-hero-grid--with-orb .qil-eyebrow {letter-spacing:0}
+ :is(#qimia-lab,.qil-shell) .qil-digital-portal .qil-hero-grid--with-orb .qil-eyebrow > small {padding:1px 5px; font-size:11px}
+ :is(#qimia-lab,.qil-shell) .qil-digital-portal .qil-product-stage > .qil-hero-weekly > span {font-size:11px!important}
+ :is(#qimia-lab,.qil-shell) .qil-digital-portal .qil-product-stage .qil-hero-products > .qil-weekly-product .qil-weekly-meta strong {
+  font-size:11px!important; letter-spacing:.02em;
+ }
+ :is(#qimia-lab,.qil-shell) .qil-digital-portal .qil-product-stage .qil-hero-products > .qil-weekly-product > .qil-weekly-rank {font-size:11px!important}
+}
+/* My Qimia joins the chapter h2 scale. */
+:is(#qimia-lab,.qil-shell) .qil-myqimia-story .qil-myqimia-story-copy h2 {font-size:var(--qil-text-h2)!important; font-weight:700}
+/* === end QIL DESIGN LAYER 1.18.24 === */

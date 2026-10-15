@@ -167,6 +167,28 @@
 		}
 	}
 
+	// Ladder fill: fragments replace the meter with its new width, so the CSS
+	// width transition never runs. Remember each meter's last value and grow the
+	// new fill from it (scale on x, from the inline start). The first sight of a
+	// meter only records its value; reduced motion jumps straight to it.
+	const meterMemory = new Map();
+	function animateMeters() {
+		const counts = {};
+		$$('.qil-boost-meter').forEach(meter => {
+			const kind = meter.closest('.qil-boost-mini') ? 'mini' : meter.closest('.qil-boost-cart-panel') ? 'cart' : 'other';
+			const key = `${kind}:${counts[kind] = (counts[kind] || 0) + 1}`;
+			const value = Number(meter.getAttribute('aria-valuenow')) || 0, before = meterMemory.get(key);
+			meterMemory.set(key, value);
+			const fill = meter.firstElementChild;
+			if (before === undefined || before === value || value <= 0 || reduceMotion.matches || !fill?.animate) return;
+			fill.animate([{scale: `${Math.min(before / value, 1.5)} 1`}, {scale: '1 1'}], {duration: 600, easing: 'cubic-bezier(.22,.61,.36,1)'});
+		});
+	}
+	animateMeters();
+	if (window.jQuery) {
+		window.jQuery(document.body).on('wc_fragments_refreshed wc_fragments_loaded updated_cart_totals added_to_cart', () => window.requestAnimationFrame(animateMeters));
+	}
+
 	/* ---------------------------------------------------------------
 	   2. Flash drop
 	   --------------------------------------------------------------- */
@@ -247,6 +269,14 @@
 	function setupFlashClock(section, end) {
 		const units = {d: $('[data-qil-flash-unit="d"]', section), h: $('[data-qil-flash-unit="h"]', section), m: $('[data-qil-flash-unit="m"]', section), s: $('[data-qil-flash-unit="s"]', section)};
 		let timer = 0, visible = false, ended = false;
+		// A digit that changes settles in from just above (240ms). Only while the
+		// clock is on screen and motion is allowed; the first paint runs before the
+		// observer reports, so nothing moves on load.
+		const put = (node, value) => {
+			if (!node || node.textContent === value) return;
+			node.textContent = value;
+			if (visible && !reduceMotion.matches && node.animate) node.animate([{opacity: .35, translate: '0 -0.28em'}, {opacity: 1, translate: '0 0'}], {duration: 240, easing: 'cubic-bezier(.16,1,.3,1)'});
+		};
 		const paint = () => {
 			const left = end - now();
 			if (left <= 0 && !ended) {
@@ -258,10 +288,10 @@
 				return;
 			}
 			const p = clockParts(left);
-			if (units.d) units.d.textContent = num(p.d);
-			if (units.h) units.h.textContent = num(pad(p.h));
-			if (units.m) units.m.textContent = num(pad(p.m));
-			if (units.s) units.s.textContent = num(pad(p.s));
+			put(units.d, num(p.d));
+			put(units.h, num(pad(p.h)));
+			put(units.m, num(pad(p.m)));
+			put(units.s, num(pad(p.s)));
 			$$('[data-qil-flash-card-end]', section).forEach(node => {
 				const remaining = Number(node.dataset.qilFlashCardEnd) - now();
 				if (remaining <= 0) { node.closest('small')?.replaceChildren(document.createTextNode(t('Sale ended — the cart shows the current price', 'انتهى الخصم — تظهر السلة السعر الحالي'))); return; }
@@ -359,7 +389,11 @@
 			if (!slot || !value) return;
 			const name = $('.qil-fact-label', slot), text = $('.qil-fact-value', slot);
 			if (name) name.textContent = label;
-			if (text) { text.textContent = value; text.title = title; }
+			// A money value may wrap between amount and currency in a narrow phone cell; a plain
+			// space resolves the same bidi order as the no-break space it replaces.
+			if (text) { text.textContent = value.replace(/\u00a0/g, ' '); text.title = title; }
+			// The card padded this slot as "Not listed"; it now holds a real fact.
+			slot.removeAttribute('data-qil-missing');
 		};
 		$$('.qil-product-card', grid).forEach(card => {
 			const fact = data.facts?.[String(card.dataset.productId || '')] || {};

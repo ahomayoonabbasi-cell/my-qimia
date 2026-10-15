@@ -40,7 +40,7 @@
 			startOutcome: 'START WITH YOUR OUTCOME', whatGoal: 'What would you like to support?', chooseGoal: 'Choose one goal. You can refine the shortlist afterward.', privateSession: 'Browsing context stays in this tab; messages you send are processed by Qimia AI', muscle: 'Build muscle', muscleSub: 'Protein · strength · mass', fatLoss: 'Fat loss', fatLossSub: 'Cut support · value · availability', performance: 'Performance', performanceSub: 'Pre-workout · creatine · amino', energy: 'Energy & focus', energySub: 'Drive · clarity · performance', recovery: 'Recovery', recoverySub: 'Hydration · repair · mobility', sleep: 'Sleep & calm', sleepSub: 'Rest · routine · balance', wellness: 'Daily wellness', wellnessSub: 'Vitamins · gut · immunity', beauty: 'Hair, skin & beauty', beautySub: 'Collagen · biotin · glow', refine: 'Verified filters:', stimFree: 'Stimulant-free', vegan: 'Vegan-friendly', bestValue: 'Value per serving', liveMatches: 'LIVE CATALOGUE MATCHES', selectedFor: 'Selected for', rankingNote: 'Ranked by verified relevance, product detail and availability—not discount size.', noMatches: 'No verified close match yet', noMatchesSub: 'Try another goal, clear the search or remove a strict filter.', showMore: 'Show more products',
 			aiConnected: 'QIMIA AI · CONNECTED TO THE LIVE STORE', aiTitle: 'Your product guide, built into the store.', aiLead: 'Ask in English or Arabic. Qimia AI checks current products, prices, availability and delivery context before narrowing your options.', promptProtein: 'Find a protein for lean muscle', promptCompare: 'Compare two products', promptDelivery: 'Check delivery for my country', openQimiaAI: 'Open Qimia AI', liveInventory: 'LIVE INVENTORY', aiQuestion: '“I want a simple daily wellness routine.”', checkingStore: 'Checking products, facts and availability…', foundation: 'FOUNDATION', realMatch: 'Real product match', reasonPreview: 'Chosen from verified catalogue details—not a generic list.', englishArabic: 'English + العربية', privateSessionShort: 'Context stays in this tab', factsServing: 'Serving details', factsServingSub: 'Read from real product labels where available', factsActives: 'Key actives', factsActivesSub: 'Shown with the listed amount, never guessed', factsPrice: 'Live price + stock', factsPriceSub: 'Synced with WooCommerce and your market', factsSafety: 'Clear uncertainty', factsSafetySub: 'Missing facts stay marked as not listed',
 			compareLab: 'COMPARE LAB', compareTitle: 'Know the difference. Choose with confidence.', compareLead: 'Choose two products and compare verified live details side by side.', openCompare: 'Open comparison', methodKicker: 'CLEAR BY DESIGN', methodTitle: 'From goal to shortlist in three clear steps.', stepOne: 'Set your outcome', stepOneSub: 'Choose what you want to support with focused, non-medical filters.', stepTwo: 'See the real details', stepTwoSub: 'Every result shows the available label facts, live price and purchase state.', stepThree: 'Ask Qimia AI live', stepThreeSub: 'Continue in the live assistant without leaving the store or losing your context.', stackKicker: 'AI ROUTINE BUILDER', stackTitle: 'Turn products into a simple routine.', stackLead: 'Use Qimia AI to organise a clear morning, training and evening plan around one goal and one budget. No diagnosis. No unnecessary extras.', buildRoutine: 'Build with Qimia AI', trustKicker: 'QIMIA STANDARD', trustTitle: 'Digital intelligence. Local accountability.', trustLead: 'Technology should make supplement shopping more transparent—not more confusing. Every suggestion stays connected to a real product in the Qimia store.', authentic: 'Authentic products', authenticSub: 'Sourced through trusted distribution channels.', factsFirst: 'Facts before hype', factsFirstSub: 'Labels, servings and product details in plain language.', localSupport: 'Live store intelligence', localSupportSub: 'AI stays connected to current Qimia products, stock and prices.', gccDelivery: 'Oman & GCC delivery', gccDeliverySub: 'Availability and fulfilment from a regional store.', footerLine: 'Smarter supplement choices, grounded in real products and clear facts.', disclaimer: 'Qimia Intelligence Lab provides shopping guidance only and does not diagnose, treat or replace medical advice.', compareProducts: 'Compare products', compareNow: 'Compare now', sideBySide: 'Your shortlist, side by side.',
-			inStock: 'In stock', outOfStock: 'Out of stock', servings: 'Servings', servingSize: 'Serving size', perServing: 'per serving', caffeineFact: 'Caffeine', keyActive: 'Key active', purpose: 'Practical use', protein: 'Protein', creatine: 'Creatine', collagen: 'Collagen', details: 'View product', addToBag: 'Add to cart', addMobile: 'Add', selectOptions: 'Select options', optionsMobile: 'Options', askAbout: 'Discuss with Qimia AI', addCompare: 'Compare', removeCompare: 'Remove', remove: 'Remove', foundationPick: 'Foundation', targetedPick: 'Targeted support', optionalPick: 'Optional', notListed: 'Not listed', selected: 'Selected', comparisonEmpty: 'Choose two product cards to build a useful comparison.', product: 'Product', price: 'Price', dietaryFit: 'Dietary fit', maxCompare: 'Qimia AI compares two products at a time.', addedCompare: 'Product added. Choose a second product to compare.', removedCompare: 'Removed from comparison.', cartAdded: 'Added to your cart', viewCart: 'View cart', verified: 'Verified', askAICompare: 'Open this in Qimia AI', compareReady: 'Live comparison ready', aiConnecting: 'Connecting to Qimia AI…', aiUnavailable: 'Qimia AI could not open. Please try again.', aiProductReady: 'Product ready in Qimia AI—tap Send to discuss it.', quickViewTitle: 'Choose your options', quickViewLoading: 'Loading live options…', quickViewError: 'Options could not load. View the product for full details.', quickViewUnavailable: 'No purchasable in-stock options are available right now.', chooseOption: 'Choose', selectAllOptions: 'Choose an option for each field.', checkingVariation: 'Checking price and availability…', variationUnavailable: 'That combination is currently unavailable.', addSelectedToBag: 'Add selected to bag', viewFullProduct: 'View full product', close: 'Close', itemsInCart: 'items in cart', offer: 'Offer', discountFact: 'Discount', expiryFact: 'Expiry', daysLeftFact: 'Offer window', daysRemaining: 'days remaining', stockFact: 'Stock', orderLimitFact: 'Order limit', maximumUnits: 'maximum', bestDeal: 'Best deal', unitsAvailable: 'available',
+			inStock: 'In stock', outOfStock: 'Out of stock', servings: 'Servings', servingSize: 'Serving size', perServing: 'per serving', caffeineFact: 'Caffeine', keyActive: 'Key active', purpose: 'Practical use', protein: 'Protein', creatine: 'Creatine', collagen: 'Collagen', details: 'View product', addToBag: 'Add to cart', addMobile: 'Add', selectOptions: 'Select options', optionsMobile: 'Options', viewMobile: 'View', askAbout: 'Discuss with Qimia AI', askMobile: 'Qimia AI', addCompare: 'Compare', removeCompare: 'Remove', remove: 'Remove', foundationPick: 'Foundation', targetedPick: 'Targeted support', optionalPick: 'Optional', notListed: 'Not listed', selected: 'Selected', comparisonEmpty: 'Choose two product cards to build a useful comparison.', product: 'Product', price: 'Price', dietaryFit: 'Dietary fit', maxCompare: 'Qimia AI compares two products at a time.', addedCompare: 'Product added. Choose a second product to compare.', removedCompare: 'Removed from comparison.', cartAdded: 'Added to your cart', viewCart: 'View cart', verified: 'Verified', askAICompare: 'Open this in Qimia AI', compareReady: 'Live comparison ready', aiConnecting: 'Connecting to Qimia AI…', aiUnavailable: 'Qimia AI could not open. Please try again.', aiProductReady: 'Product ready in Qimia AI—tap Send to discuss it.', quickViewTitle: 'Choose your options', quickViewLoading: 'Loading live options…', quickViewError: 'Options could not load. View the product for full details.', quickViewUnavailable: 'No purchasable in-stock options are available right now.', chooseOption: 'Choose', selectAllOptions: 'Choose an option for each field.', checkingVariation: 'Checking price and availability…', variationUnavailable: 'That combination is currently unavailable.', addSelectedToBag: 'Add selected to bag', viewFullProduct: 'View full product', close: 'Close', itemsInCart: 'items in cart', offer: 'Offer', discountFact: 'Discount', expiryFact: 'Expiry', daysLeftFact: 'Offer window', daysRemaining: 'days remaining', stockFact: 'Stock', orderLimitFact: 'Order limit', maximumUnits: 'maximum', bestDeal: 'Best deal', unitsAvailable: 'available',
 			purposeProtein: 'Supports daily protein intake and post-training muscle recovery', purposeCreatine: 'Built for repeated high-intensity training and strength-focused routines', purposeMassGainer: 'Adds convenient calories and protein to a weight-gain routine', purposePreWorkout: 'Designed for pre-training energy, focus and performance support', purposeFatBurner: 'Targeted support for calorie-controlled training phases', purposeAminoRecovery: 'Provides amino-acid support around training and recovery', purposeHydration: 'Helps replenish fluids and electrolytes around activity', purposeJointSupport: 'Targeted support for joint comfort and everyday mobility', purposeSleepSupport: 'Designed to support a consistent evening and sleep routine', purposeBeautySupport: 'Targeted collagen or biotin support for daily beauty care', purposeOmegaSupport: 'Daily omega-fatty-acid support for general wellness', purposeDailyWellness: 'Convenient daily micronutrient support for dietary gaps', purposeGoalSupport: 'A goal-specific formula grounded in the listed product details',
 			flashSale: 'FLASH', regularPrice: 'Regular price', salePrice: 'Sale price', fromPrice: 'From', searchingStore: 'Searching the live store…', searchKeepTyping: 'Keep typing to search the whole store…', searchUnavailable: 'Live search is unavailable—showing indexed matches.', noSearchResults: 'No matching products found.', viewAllResults: 'View all search results', bestSeller: 'Best seller', proteinPick: 'Protein pick', creatinePick: 'Creatine pick', previousProducts: 'Previous products', nextProducts: 'Next products', intentNudge: 'You have explored this goal or several products. Let Qimia AI narrow the shortlist when you are ready.', intentNudgeAction: 'Refine with Qimia AI', dismiss: 'Dismiss', fatLoss: 'Fat loss', performance: 'Performance', closestMatches: 'Closest verified matches', popularStartingPoints: 'Popular starting points', fallbackReason: 'No exact verified match met every filter, so these are the nearest in-stock options.', fallbackPopularReason: 'Start with these live in-stock products, or let Qimia AI narrow the catalogue.', askRefine: 'Ask Qimia to refine', heroPromptEmpty: 'Tell Qimia what you want to achieve first.', heroPromptConnecting: 'Connecting your request to Qimia AI…', heroPromptSent: 'Your request is ready in Qimia AI.', aiVerdict: 'QIMIA AI VERDICT'
 		},
@@ -49,7 +49,7 @@
 			startOutcome: 'ابدأ بالنتيجة التي تريدها', whatGoal: 'ما الذي ترغب في دعمه؟', chooseGoal: 'اختر هدفاً واحداً، ثم خصّص القائمة المختصرة.', privateSession: 'يبقى سياق التصفح في هذه الصفحة؛ وتُعالج الرسائل التي ترسلها عبر ذكاء كيميا', muscle: 'بناء العضلات', muscleSub: 'بروتين · قوة · كتلة', fatLoss: 'إدارة الدهون', fatLossSub: 'دعم التنشيف · القيمة · التوفّر', performance: 'الأداء', performanceSub: 'قبل التمرين · كرياتين · أمينو', energy: 'الطاقة والتركيز', energySub: 'نشاط · وضوح · أداء', recovery: 'التعافي', recoverySub: 'ترطيب · استشفاء · حركة', sleep: 'النوم والهدوء', sleepSub: 'راحة · روتين · توازن', wellness: 'العافية اليومية', wellnessSub: 'فيتامينات · أمعاء · مناعة', beauty: 'الشعر والبشرة والجمال', beautySub: 'كولاجين · بيوتين · نضارة', refine: 'فلاتر موثّقة:', stimFree: 'بدون منشّطات', vegan: 'مناسب للنباتيين', bestValue: 'قيمة الحصة', liveMatches: 'نتائج مباشرة من الكتالوج', selectedFor: 'مختارة لهدف', rankingNote: 'الترتيب حسب الملاءمة والبيانات الموثّقة والتوفّر، لا حسب حجم الخصم.', noMatches: 'لا توجد نتيجة موثّقة قريبة حالياً', noMatchesSub: 'جرّب هدفاً آخر أو امسح البحث أو أزل الفلتر الصارم.', showMore: 'عرض منتجات أكثر',
 			aiConnected: 'ذكاء كيميا · متصل بالمتجر المباشر', aiTitle: 'دليلك للمنتجات، داخل المتجر.', aiLead: 'اسأل بالعربية أو الإنجليزية. يتحقق ذكاء كيميا من المنتجات والأسعار والتوفّر وسياق التوصيل قبل تضييق الخيارات.', promptProtein: 'ابحث عن بروتين للعضلات الخفيفة', promptCompare: 'قارن بين منتجين', promptDelivery: 'تحقق من التوصيل إلى بلدي', openQimiaAI: 'افتح ذكاء كيميا', liveInventory: 'مخزون مباشر', aiQuestion: '«أريد روتيناً بسيطاً للعافية اليومية»', checkingStore: 'جارٍ فحص المنتجات والحقائق والتوفّر…', foundation: 'الأساس', realMatch: 'منتج حقيقي مناسب', reasonPreview: 'مختار من بيانات الكتالوج الموثّقة، لا من قائمة عامة.', englishArabic: 'العربية + English', privateSessionShort: 'يبقى السياق في هذه الصفحة', factsServing: 'تفاصيل الحصص', factsServingSub: 'تُقرأ من ملصق المنتج الحقيقي عند توفرها', factsActives: 'المواد الفعالة', factsActivesSub: 'تظهر بالكمية المدرجة من دون تخمين', factsPrice: 'السعر والمخزون المباشران', factsPriceSub: 'متزامنان مع ووكومرس وسوقك', factsSafety: 'وضوح عند نقص البيانات', factsSafetySub: 'المعلومة الناقصة تبقى مميزة بأنها غير مدرجة',
 			compareLab: 'مختبر المقارنة', compareTitle: 'اعرف الفرق واختر بثقة.', compareLead: 'اختر منتجين وقارن التفاصيل المباشرة الموثّقة جنباً إلى جنب.', openCompare: 'افتح المقارنة', methodKicker: 'وضوح من البداية', methodTitle: 'من الهدف إلى قائمة مختصرة في ثلاث خطوات واضحة.', stepOne: 'حدّد هدفك', stepOneSub: 'اختر ما تريد دعمه بفلاتر مركّزة وغير طبية.', stepTwo: 'شاهد التفاصيل الحقيقية', stepTwoSub: 'كل نتيجة تعرض حقائق الملصق المتوفرة والسعر وحالة الشراء.', stepThree: 'اسأل ذكاء كيميا مباشرة', stepThreeSub: 'تابع في المساعد المباشر من دون مغادرة المتجر أو فقدان السياق.', stackKicker: 'منشئ الروتين بالذكاء', stackTitle: 'حوّل المنتجات إلى روتين بسيط.', stackLead: 'استخدم ذكاء كيميا لتنظيم روتين واضح للصباح والتمرين والمساء حول هدف وميزانية واحدة، بلا تشخيص أو إضافات غير ضرورية.', buildRoutine: 'ابنِ روتيني مع كيميا', trustKicker: 'معيار كيميا', trustTitle: 'ذكاء رقمي ومسؤولية محلية.', trustLead: 'يجب أن تجعل التقنية شراء المكمّلات أوضح، لا أكثر تعقيداً. كل اقتراح يبقى مرتبطاً بمنتج حقيقي في متجر كيميا.', authentic: 'منتجات أصلية', authenticSub: 'من قنوات توزيع موثوقة.', factsFirst: 'الحقائق قبل الضجيج', factsFirstSub: 'الملصق والحصص والتفاصيل بلغة واضحة.', localSupport: 'ذكاء المتجر المباشر', localSupportSub: 'يبقى الذكاء متصلاً بمنتجات كيميا ومخزونها وأسعارها الحالية.', gccDelivery: 'توصيل عُمان والخليج', gccDeliverySub: 'توفر وتنفيذ من متجر إقليمي.', footerLine: 'اختيارات أذكى للمكمّلات، مبنية على منتجات حقيقية وحقائق واضحة.', disclaimer: 'مختبر كيميا أداة للمساعدة في التسوق فقط، ولا يشخّص أو يعالج أو يستبدل الاستشارة الطبية.', compareProducts: 'قارن المنتجات', compareNow: 'قارن الآن', sideBySide: 'قائمتك المختصرة جنباً إلى جنب.',
-			inStock: 'متوفر', outOfStock: 'غير متوفر', servings: 'الحصص', servingSize: 'حجم الحصة', perServing: 'للحصة', caffeineFact: 'الكافيين', keyActive: 'المادة الفعالة', purpose: 'الاستخدام العملي', protein: 'البروتين', creatine: 'الكرياتين', collagen: 'الكولاجين', details: 'عرض المنتج', addToBag: 'أضف للسلة', addMobile: 'أضف', selectOptions: 'اختر الخيارات', optionsMobile: 'الخيارات', askAbout: 'ناقشه مع ذكاء كيميا', addCompare: 'قارن', removeCompare: 'إزالة', remove: 'إزالة', foundationPick: 'الأساس', targetedPick: 'دعم موجّه', optionalPick: 'اختياري', notListed: 'غير مدرج', selected: 'محدد', comparisonEmpty: 'اختر منتجين لبناء مقارنة مفيدة.', product: 'المنتج', price: 'السعر', dietaryFit: 'الملاءمة الغذائية', maxCompare: 'يقارن ذكاء كيميا منتجين في كل مرة.', addedCompare: 'تمت إضافة المنتج. اختر منتجاً ثانياً للمقارنة.', removedCompare: 'تمت الإزالة من المقارنة.', cartAdded: 'تمت الإضافة إلى سلتك', viewCart: 'عرض السلة', verified: 'موثّق', askAICompare: 'افتحها في ذكاء كيميا', compareReady: 'المقارنة المباشرة جاهزة', aiConnecting: 'جارٍ الاتصال بذكاء كيميا…', aiUnavailable: 'تعذر فتح ذكاء كيميا. حاول مرة أخرى.', aiProductReady: 'المنتج جاهز في ذكاء كيميا—اضغط إرسال لمناقشته.', quickViewTitle: 'اختر خياراتك', quickViewLoading: 'جارٍ تحميل الخيارات المباشرة…', quickViewError: 'تعذر تحميل الخيارات. افتح صفحة المنتج للتفاصيل الكاملة.', quickViewUnavailable: 'لا تتوفر حالياً خيارات قابلة للشراء وموجودة في المخزون.', chooseOption: 'اختر', selectAllOptions: 'اختر قيمة لكل خيار.', checkingVariation: 'جارٍ التحقق من السعر والتوفر…', variationUnavailable: 'هذه التوليفة غير متوفرة حالياً.', addSelectedToBag: 'أضف الاختيار للسلة', viewFullProduct: 'عرض المنتج كاملاً', close: 'إغلاق', itemsInCart: 'منتجات في السلة', offer: 'العرض', discountFact: 'الخصم', expiryFact: 'تاريخ الانتهاء', daysLeftFact: 'مدة العرض', daysRemaining: 'يوماً متبقياً', stockFact: 'المخزون', orderLimitFact: 'حد الطلب', maximumUnits: 'كحد أقصى', bestDeal: 'أفضل عرض', unitsAvailable: 'متوفر',
+			inStock: 'متوفر', outOfStock: 'غير متوفر', servings: 'الحصص', servingSize: 'حجم الحصة', perServing: 'للحصة', caffeineFact: 'الكافيين', keyActive: 'المادة الفعالة', purpose: 'الاستخدام العملي', protein: 'البروتين', creatine: 'الكرياتين', collagen: 'الكولاجين', details: 'عرض المنتج', addToBag: 'أضف للسلة', addMobile: 'أضف', selectOptions: 'اختر الخيارات', optionsMobile: 'الخيارات', viewMobile: 'عرض', askAbout: 'ناقشه مع ذكاء كيميا', askMobile: 'ذكاء كيميا', addCompare: 'قارن', removeCompare: 'إزالة', remove: 'إزالة', foundationPick: 'الأساس', targetedPick: 'دعم موجّه', optionalPick: 'اختياري', notListed: 'غير مدرج', selected: 'محدد', comparisonEmpty: 'اختر منتجين لبناء مقارنة مفيدة.', product: 'المنتج', price: 'السعر', dietaryFit: 'الملاءمة الغذائية', maxCompare: 'يقارن ذكاء كيميا منتجين في كل مرة.', addedCompare: 'تمت إضافة المنتج. اختر منتجاً ثانياً للمقارنة.', removedCompare: 'تمت الإزالة من المقارنة.', cartAdded: 'تمت الإضافة إلى سلتك', viewCart: 'عرض السلة', verified: 'موثّق', askAICompare: 'افتحها في ذكاء كيميا', compareReady: 'المقارنة المباشرة جاهزة', aiConnecting: 'جارٍ الاتصال بذكاء كيميا…', aiUnavailable: 'تعذر فتح ذكاء كيميا. حاول مرة أخرى.', aiProductReady: 'المنتج جاهز في ذكاء كيميا—اضغط إرسال لمناقشته.', quickViewTitle: 'اختر خياراتك', quickViewLoading: 'جارٍ تحميل الخيارات المباشرة…', quickViewError: 'تعذر تحميل الخيارات. افتح صفحة المنتج للتفاصيل الكاملة.', quickViewUnavailable: 'لا تتوفر حالياً خيارات قابلة للشراء وموجودة في المخزون.', chooseOption: 'اختر', selectAllOptions: 'اختر قيمة لكل خيار.', checkingVariation: 'جارٍ التحقق من السعر والتوفر…', variationUnavailable: 'هذه التوليفة غير متوفرة حالياً.', addSelectedToBag: 'أضف الاختيار للسلة', viewFullProduct: 'عرض المنتج كاملاً', close: 'إغلاق', itemsInCart: 'منتجات في السلة', offer: 'العرض', discountFact: 'الخصم', expiryFact: 'تاريخ الانتهاء', daysLeftFact: 'مدة العرض', daysRemaining: 'يوماً متبقياً', stockFact: 'المخزون', orderLimitFact: 'حد الطلب', maximumUnits: 'كحد أقصى', bestDeal: 'أفضل عرض', unitsAvailable: 'متوفر',
 			purposeProtein: 'يدعم استكمال احتياجك اليومي من البروتين والتعافي بعد التمرين', purposeCreatine: 'مصمم لدعم التمارين عالية الشدة المتكررة وروتين القوة', purposeMassGainer: 'يوفر سعرات وبروتيناً بصورة عملية ضمن روتين زيادة الوزن', purposePreWorkout: 'مصمم لدعم الطاقة والتركيز والأداء قبل التمرين', purposeFatBurner: 'دعم موجّه لمراحل التدريب مع التحكم بالسعرات', purposeAminoRecovery: 'يوفر أحماضاً أمينية لدعم ما حول التمرين والتعافي', purposeHydration: 'يدعم تعويض السوائل والإلكتروليتات مع النشاط', purposeJointSupport: 'دعم موجّه لراحة المفاصل والحركة اليومية', purposeSleepSupport: 'مصمم لدعم روتين مسائي ونوم منتظم', purposeBeautySupport: 'دعم موجّه بالكولاجين أو البيوتين للعناية اليومية', purposeOmegaSupport: 'دعم يومي بأحماض أوميغا الدهنية للعافية العامة', purposeDailyWellness: 'دعم يومي عملي للمغذيات الدقيقة وسد الفجوات الغذائية', purposeGoalSupport: 'تركيبة موجّهة لهدف واضح ومبنية على تفاصيل المنتج المدرجة',
 			flashSale: 'خاطف', regularPrice: 'السعر العادي', salePrice: 'سعر التخفيض', fromPrice: 'ابتداءً من', searchingStore: 'جارٍ البحث في المتجر المباشر…', searchKeepTyping: 'تابع الكتابة للبحث في المتجر بالكامل…', searchUnavailable: 'البحث المباشر غير متاح—نعرض نتائج الفهرس المحلي.', noSearchResults: 'لم نعثر على منتجات مطابقة.', viewAllResults: 'عرض جميع نتائج البحث', bestSeller: 'الأكثر مبيعاً', proteinPick: 'اختيار بروتين', creatinePick: 'اختيار كرياتين', previousProducts: 'المنتجات السابقة', nextProducts: 'المنتجات التالية', intentNudge: 'استكشفت هذا الهدف أو عدة منتجات. يمكن لذكاء كيميا تضييق القائمة عندما تكون جاهزاً.', intentNudgeAction: 'خصّصها مع ذكاء كيميا', dismiss: 'إغلاق', fatLoss: 'إدارة الدهون', performance: 'الأداء', closestMatches: 'أقرب النتائج الموثّقة', popularStartingPoints: 'نقاط بداية شائعة', fallbackReason: 'لم تطابق نتيجة موثّقة كل الفلاتر، لذا نعرض أقرب الخيارات المتوفرة.', fallbackPopularReason: 'ابدأ بهذه المنتجات المتوفرة، أو دع ذكاء كيميا يضيّق الكتالوج.', askRefine: 'اطلب من كيميا تحسين النتائج', heroPromptEmpty: 'أخبر كيميا أولاً بما تريد تحقيقه.', heroPromptConnecting: 'جارٍ ربط طلبك بذكاء كيميا…', heroPromptSent: 'طلبك جاهز في ذكاء كيميا.', aiVerdict: 'خلاصة ذكاء كيميا'
 		}
@@ -1037,8 +1037,11 @@
 	function cardFacts(product) {
 		if (isBeautyProduct(product)) {
 			const rows = Array.isArray(product.beauty.facts?.[state.lang]) ? product.beauty.facts[state.lang] : [];
-			const facts = rows.slice(0, 2).map(row => ({label:plain(row?.label).slice(0,64), value:plain(row?.value).slice(0,180)})).filter(row=>row.label && row.value);
-			while (facts.length < 2) facts.push({label:state.lang === 'ar' ? 'تفاصيل المنتج' : 'Product detail',value:t('notListed')});
+			// Beauty's adapter pads a missing size or detail with the same "Not listed"
+			// copy; mark those rows like QIL's own padding so both cards read alike.
+			const missing = new Set([copy.en.notListed, copy.ar.notListed]);
+			const facts = rows.slice(0, 2).map(row => { const value = plain(row?.value).slice(0,180); return {label:plain(row?.label).slice(0,64), value, missing:missing.has(value)}; }).filter(row=>row.label && row.value);
+			while (facts.length < 2) facts.push({label:state.lang === 'ar' ? 'تفاصيل المنتج' : 'Product detail',value:t('notListed'),missing:true});
 			return facts;
 		}
 		const purpose = productPurposeKey(product), facts = [];
@@ -1058,7 +1061,7 @@
 		add(t('servings'), servings);
 		if (facts.length < 2) add(t('servingSize'), servingSize);
 		if (facts.length < 2 && caffeine) add(t('caffeineFact'), /mg/i.test(caffeine) ? caffeine : `${caffeine} mg`);
-		while (facts.length < 2) facts.push({label:facts.length ? t('servingSize') : t('keyActive'), value:t('notListed')});
+		while (facts.length < 2) facts.push({label:facts.length ? t('servingSize') : t('keyActive'), value:t('notListed'), missing:true});
 		return facts.slice(0,2);
 	}
 
@@ -1138,7 +1141,7 @@
 	function repeatRow(key) { return repeatPurchases.get(String(key || '')) || null; }
 	function repeatText(key) {
 		const labels = {
-			buy: ['Buy again', 'اشترِ مجدداً'], chosen: ['Your previous selection', 'خيارك السابق'],
+			buy: ['Buy again', 'اشترِ مجدداً'], buyShort: ['Buy', 'اشترِ'], chosen: ['Your previous selection', 'خيارك السابق'],
 			change: ['Change options', 'تغيير الخيارات'], unavailable: ['Your previous option is unavailable', 'خيارك السابق غير متوفر'],
 			loading: ['Adding…', 'جارٍ الإضافة…'], failed: ['Could not confirm the addition. Check your cart before trying again.', 'تعذّر تأكيد الإضافة. راجع السلة قبل المحاولة مرة أخرى.'],
 			new: ['New Arrival', 'وصل حديثاً'], restocked: ['Back in Stock', 'متوفر من جديد']
@@ -1152,13 +1155,19 @@
 		if (data.backInStock === true && Number(data.restockUntil) > now) pieces.push(`<span class="qil-inventory-badge is-restocked" data-qil-inventory-until="${Number(data.restockUntil)}">${escapeHtml(repeatText('restocked'))}</span>`);
 		return pieces.join('');
 	}
+	// Every label the button shows (full, short and busy) is part of its accessible
+	// name, so a voice-control user can say what they see (WCAG 2.5.3).
+	function repeatName(name, busy) {
+		const loading = `${repeatText('loading')} `, base = name.startsWith(loading) ? name.slice(loading.length) : name;
+		return busy ? loading + base : base;
+	}
 	function repeatButton(product, key) {
 		const row = repeatRow(key);
 		if (!row?.canAdd || !repeatNonce) return '';
 		const id = Number(product.id), busy = repeatBusy.has(key);
 		// Same qil-buy class/skin as the original cards; only this new rail owns
 		// the exact-item action. Do not attach native Woo AJAX classes to it.
-		return `<button type="button" class="qil-buy qil-repeat-buy${busy ? ' loading' : ''}" data-qil-repeat-buy="${escapeHtml(key)}" data-qil-parent-id="${id}" data-product_id="${Number(row.variationId || id)}" data-quantity="1" aria-label="${escapeHtml(`${repeatText('buy')}: ${plain(product.name || '')}${row.selection ? ' — ' + row.selection : ''}`)}" ${busy ? 'disabled aria-busy="true"' : ''}><span>${escapeHtml(repeatText(busy ? 'loading' : 'buy'))}</span><svg aria-hidden="true"><use href="#qil-i-cart-plus"/></svg></button>`;
+		return `<button type="button" class="qil-buy qil-repeat-buy${busy ? ' loading' : ''}" data-qil-repeat-buy="${escapeHtml(key)}" data-qil-parent-id="${id}" data-product_id="${Number(row.variationId || id)}" data-quantity="1" data-mobile-label="${escapeHtml(repeatText('buyShort'))}" aria-label="${escapeHtml(repeatName(`${repeatText('buy')}: ${plain(product.name || '')}${row.selection ? ' — ' + row.selection : ''}`, busy))}" ${busy ? 'disabled aria-busy="true"' : ''}><span>${escapeHtml(repeatText(busy ? 'loading' : 'buy'))}</span><svg aria-hidden="true"><use href="#qil-i-cart-plus"/></svg></button>`;
 	}
 	function repeatNote(product, key) {
 		const row = repeatRow(key);
@@ -1361,6 +1370,7 @@
 			if (button.dataset.qilRepeatBuy !== id) return;
 			button.disabled = busy; button.setAttribute('aria-busy', String(busy)); button.classList.toggle('loading', busy);
 			const label = button.querySelector('span'); if (label) label.textContent = repeatText(busy ? 'loading' : 'buy');
+			button.setAttribute('aria-label', repeatName(button.getAttribute('aria-label') || '', busy));
 		});
 	}
 	const personalizationOwnsRepeatContext = () => config.personalizationEnabled === true && !!document.querySelector('[data-qil-personal-anchor]');
@@ -1412,6 +1422,18 @@
 		// request here only duplicates work and was the main browsing CPU spike.
 		if (!document.querySelector('[data-qil-repeat-section]')) return;
 
+		// One click owner for Buy again, whether the legacy rail or unified
+		// personalization (QILCards.hydrate) supplied the rows and the nonce.
+		document.addEventListener('click', event => {
+			const target = event.target instanceof Element ? event.target : null;
+			if (target?.closest('a[href*="customer-logout"],a[href*="action=logout"]')) { clearRepeatPrivate(); return; }
+			const button = target?.closest('[data-qil-repeat-section] [data-qil-repeat-buy]'); if (!button) return;
+			event.preventDefault();
+			// Personalization records the reorder click on window after this handler.
+			if (!button.closest('[data-qil-personal-anchor]')) event.stopImmediatePropagation();
+			void addRepeatItem(button);
+		}, true);
+
 		// Unified personalization owns this surface and already returns Buy Again +
 		// inventory in one response. Never stack qil_repeat_context beside it.
 		if (personalizationOwnsRepeatContext()) return;
@@ -1422,12 +1444,6 @@
 		const signedInPage = typeof config.restNonce === 'string' && config.restNonce.length > 0;
 		if (!signedInPage) return;
 
-		document.addEventListener('click', event => {
-			const target = event.target instanceof Element ? event.target : null;
-			if (target?.closest('a[href*="customer-logout"],a[href*="action=logout"]')) { clearRepeatPrivate(); return; }
-			const button = target?.closest('[data-qil-repeat-section] [data-qil-repeat-buy]'); if (!button) return;
-			event.preventDefault(); event.stopImmediatePropagation(); void addRepeatItem(button);
-		}, true);
 		repeatObserver = new MutationObserver(records => {
 			if (records.some(record => Array.from(record.addedNodes).some(node => node instanceof Element && (node.matches('.qil-product-card,.wd-product,li.product') || node.querySelector('.qil-product-card,.wd-product,li.product'))))) scheduleRepeatInventory();
 		});
@@ -1464,12 +1480,12 @@
 			if (purchase.ajax === true) {
 				return `<a class="qil-buy button product_type_simple add_to_cart_button ajax_add_to_cart add-to-cart-loop" href="${escapeHtml(url)}" data-product_id="${id}" data-product_sku="${sku}" data-quantity="1" data-mobile-label="${escapeHtml(t('addMobile'))}" role="button" rel="nofollow" aria-label="${escapeHtml(description)}" title="${escapeHtml(description)}"><span>${escapeHtml(label)}</span><svg aria-hidden="true"><use href="#qil-i-cart-plus"/></svg></a>`;
 			}
-			return `<a class="qil-buy" href="${escapeHtml(url)}" data-mobile-label="${escapeHtml(t('addMobile'))}" rel="nofollow"><span>${escapeHtml(label)}</span><svg aria-hidden="true"><use href="#qil-i-cart-plus"/></svg></a>`;
+			return `<a class="qil-buy" href="${escapeHtml(url)}" data-mobile-label="${escapeHtml(t('addMobile'))}" rel="nofollow" aria-label="${escapeHtml(description)}"><span>${escapeHtml(label)}</span><svg aria-hidden="true"><use href="#qil-i-cart-plus"/></svg></a>`;
 		}
 		if (action === 'select') {
-			return `<a class="qil-buy qil-buy-secondary qil-select-options" href="${escapeHtml(url)}" data-qil-quick-view-id="${id}" data-mobile-label="${escapeHtml(t('optionsMobile'))}" aria-haspopup="dialog" aria-controls="qil-quick-view-modal"><span>${escapeHtml(t('selectOptions'))}</span><svg aria-hidden="true"><use href="#qil-i-cart-plus"/></svg></a>`;
+			return `<a class="qil-buy qil-buy-secondary qil-select-options" href="${escapeHtml(url)}" data-qil-quick-view-id="${id}" data-mobile-label="${escapeHtml(t('optionsMobile'))}" aria-label="${escapeHtml(`${t('selectOptions')}: ${plain(product?.name || '')}`)}" aria-haspopup="dialog" aria-controls="qil-quick-view-modal"><span>${escapeHtml(t('selectOptions'))}</span><svg aria-hidden="true"><use href="#qil-i-cart-plus"/></svg></a>`;
 		}
-		return `<a class="qil-buy qil-buy-secondary" href="${escapeHtml(url)}"><span>${escapeHtml(t('details'))}</span><svg aria-hidden="true"><use href="#qil-i-arrow"/></svg></a>`;
+		return `<a class="qil-buy qil-buy-secondary" href="${escapeHtml(url)}" data-mobile-label="${escapeHtml(t('viewMobile'))}" aria-label="${escapeHtml(`${t('details')}: ${plain(product?.name || '')}`)}"><span>${escapeHtml(t('details'))}</span><svg aria-hidden="true"><use href="#qil-i-arrow"/></svg></a>`;
 	}
 
 	function productCard(product, index, collectionKey = '', repeatKey = '') {
@@ -1490,14 +1506,14 @@
 		const promotionKind = promotion.isFlash === true ? 'flash' : (hasVisibleSale(product) ? 'sale' : 'none');
 		const percentMark = state.lang === 'ar' ? '٪' : '%';
 		const saleBadge = promotion.isFlash === true
-			? `<span class="qil-sale-badge qil-flash-sale-badge" data-qil-sale-badge="flash">${escapeHtml(t('flashSale'))}${Number(promotion.discountPct || 0) > 0 ? ` · −${Math.round(Number(promotion.discountPct))}${percentMark}` : ''}</span>`
-			: (hasVisibleSale(product) && salePercent > 0 ? `<span class="qil-sale-badge" data-qil-sale-badge="sale">−${Math.round(salePercent)}${percentMark}</span>` : '');
+			? `<span class="qil-sale-badge qil-flash-sale-badge" data-qil-sale-badge="flash">${escapeHtml(t('flashSale'))}${Number(promotion.discountPct || 0) > 0 ? ` · <bdi dir="ltr">−${Math.round(Number(promotion.discountPct))}${percentMark}</bdi>` : ''}</span>`
+			: (hasVisibleSale(product) && salePercent > 0 ? `<span class="qil-sale-badge" data-qil-sale-badge="sale"><bdi dir="ltr">−${Math.round(salePercent)}${percentMark}</bdi></span>` : '');
 		const labelStack = `<span class="qil-label-stack${saleBadge ? ' has-multiple' : ''}"><span class="qil-product-badge">${escapeHtml(role)}</span>${saleBadge}</span>`;
 		if (!isBeautyProduct(product) && product?.dietary?.vegan === true) verifiedBadges.push(state.lang === 'ar' ? 'نباتي' : 'Vegan');
 		if (!isBeautyProduct(product) && product?.dietary?.halal === true) verifiedBadges.push(state.lang === 'ar' ? 'حلال' : 'Halal');
 		return `<article class="qil-product-card qil-reveal" data-product-id="${escapeHtml(product.id)}" data-qil-promotion="${promotionKind}"${isBeautyProduct(product) ? ` data-qil-product-class="${escapeHtml(product.productClass)}" data-qil-beauty-stock="${beautyStock}"` : ''}${repeat ? ` data-qil-repeat-rail-card data-qil-repeat-key="${escapeHtml(repeatKey)}"` : ''}>
 			<a class="qil-product-image" href="${escapeHtml(safeUrl(product.url))}" aria-label="${escapeHtml(product.name)}">${imageMarkup(product)}${labelStack}${beautyStock ? beautyStockBadge(beautyStock) : ''}<span class="qil-inventory-labels" data-qil-inventory-labels>${inventoryMarkup(repeat ? product.inventory : newestInventory(product.id, product.inventory))}</span>${verifiedBadges.length ? `<span class="qil-verified-badge"><svg><use href="#qil-i-check"/></svg>${escapeHtml(verifiedBadges[0])}</span>` : ''}</a>
-			<div class="qil-product-info"><div class="qil-product-brand"><span>${escapeHtml(brandName(product))}</span>${beautyStock ? beautyStockLine(beautyStock) : `<span><i></i>${escapeHtml(stockLabel(product))}</span>`}</div><h3><a href="${escapeHtml(safeUrl(product.url))}">${escapeHtml(product.name || '')}</a></h3><div class="qil-card-price">${priceMarkup(product)}${perServingMarkup(product)}</div><div class="qil-facts">${facts.map(item => `<div class="qil-fact"><small class="qil-fact-label">${escapeHtml(item.label)}</small><strong class="qil-fact-value" dir="auto" title="${escapeHtml(item.value)}">${escapeHtml(item.value)}</strong></div>`).join('')}</div>${repeat ? repeatNote(product, repeatKey) : ''}<div class="qil-card-actions">${repeat ? repeatButton(product, repeatKey) : purchaseButton(product)}<button class="qil-compare-add${selected ? ' is-active' : ''}" type="button" data-compare-id="${escapeHtml(product.id)}" aria-pressed="${selected ? 'true' : 'false'}" aria-label="${escapeHtml(selected ? t('removeCompare') : t('addCompare'))}" title="${escapeHtml(selected ? t('removeCompare') : t('addCompare'))}"><svg class="qil-compare-icon" aria-hidden="true"><use href="#qil-i-compare"/></svg><span>${escapeHtml(selected ? t('selected') : t('addCompare'))}</span></button></div><button class="qil-ask-product" type="button" data-qimia-ai-open data-qil-ai-intent="product" data-qimia-product-id="${escapeHtml(product.id)}" data-qimia-product-name="${escapeHtml(product.name)}"><svg><use href="#qil-i-spark"/></svg><span>${escapeHtml(t('askAbout'))}</span><svg><use href="#qil-i-arrow"/></svg></button></div>
+			<div class="qil-product-info"><div class="qil-product-brand"><span>${escapeHtml(brandName(product))}</span>${beautyStock ? beautyStockLine(beautyStock) : `<span><i></i>${escapeHtml(stockLabel(product))}</span>`}</div><h3><a href="${escapeHtml(safeUrl(product.url))}">${escapeHtml(product.name || '')}</a></h3><div class="qil-card-price">${priceMarkup(product)}${perServingMarkup(product)}</div><div class="qil-facts">${facts.map(item => `<div class="qil-fact"${item.missing ? ' data-qil-missing' : ''}><small class="qil-fact-label">${escapeHtml(item.label)}</small><strong class="qil-fact-value" dir="auto" title="${escapeHtml(item.value)}">${escapeHtml(item.value)}</strong></div>`).join('')}</div>${repeat ? repeatNote(product, repeatKey) : ''}<div class="qil-card-actions">${repeat ? repeatButton(product, repeatKey) : purchaseButton(product)}<button class="qil-compare-add${selected ? ' is-active' : ''}" type="button" data-compare-id="${escapeHtml(product.id)}" aria-pressed="${selected ? 'true' : 'false'}" aria-label="${escapeHtml(selected ? t('removeCompare') : t('addCompare'))}" title="${escapeHtml(selected ? t('removeCompare') : t('addCompare'))}"><svg class="qil-compare-icon" aria-hidden="true"><use href="#qil-i-compare"/></svg><span>${escapeHtml(selected ? t('selected') : t('addCompare'))}</span></button></div><button class="qil-ask-product" type="button" data-qimia-ai-open data-qil-ai-intent="product" data-qimia-product-id="${escapeHtml(product.id)}" data-qimia-product-name="${escapeHtml(product.name)}" data-mobile-label="${escapeHtml(t('askMobile'))}" aria-label="${escapeHtml(`${t('askAbout')}: ${plain(product.name || '')}`)}"><svg><use href="#qil-i-spark"/></svg><span>${escapeHtml(t('askAbout'))}</span><svg><use href="#qil-i-arrow"/></svg></button></div>
 		</article>`;
 	}
 
@@ -1563,7 +1579,7 @@
 		const amount = Number(value);
 		if (!Number.isFinite(amount) || amount < 0) return '—';
 		const decimals = Math.max(0, Math.min(4, Number(config.priceDecimals ?? 2) || 0));
-		const number = new Intl.NumberFormat(state.lang === 'ar' ? 'ar-OM' : 'en-OM', {
+		const number = new Intl.NumberFormat(state.lang === 'ar' ? 'ar-OM-u-nu-latn' : 'en-OM', {
 			minimumFractionDigits: decimals,
 			maximumFractionDigits: decimals
 		}).format(amount);
@@ -1739,17 +1755,17 @@
 		const expiry = formatExpiryDate(promotion.expiry) || formatExpiryDate(variation?.qimia_flash_sale_expiry) || formatExpiryDate(variation?.expiry_date);
 		const daysLeftValue = Number.parseInt(promotion.daysLeft ?? variation?.qimia_flash_sale_days_left, 10);
 		const daysLeft = eligible && Number.isFinite(daysLeftValue) && daysLeftValue >= 0 && daysLeftValue <= 3650
-			? `${new Intl.NumberFormat(state.lang === 'ar' ? 'ar-OM' : 'en-OM').format(daysLeftValue)} ${t('daysRemaining')}`
+			? `${new Intl.NumberFormat(state.lang === 'ar' ? 'ar-OM-u-nu-latn' : 'en-OM').format(daysLeftValue)} ${t('daysRemaining')}`
 			: '';
 		const stockValue = Number(inventory.stockQuantity ?? variation?.stock_qty);
 		const limitValue = Number(inventory.maxQuantity ?? variation?.max_qty);
 		const stockQuantity = Number.isFinite(stockValue) && stockValue > 0 ? Math.floor(stockValue) : 0;
 		const orderLimit = Number.isFinite(limitValue) && limitValue > 0 ? Math.floor(limitValue) : 0;
 		const stockText = stockQuantity > 0
-			? `${new Intl.NumberFormat(state.lang === 'ar' ? 'ar-OM' : 'en-OM').format(stockQuantity)} ${t('unitsAvailable')}`
+			? `${new Intl.NumberFormat(state.lang === 'ar' ? 'ar-OM-u-nu-latn' : 'en-OM').format(stockQuantity)} ${t('unitsAvailable')}`
 			: t('inStock');
 		const limitText = orderLimit > 0
-			? `${new Intl.NumberFormat(state.lang === 'ar' ? 'ar-OM' : 'en-OM').format(orderLimit)} ${t('maximumUnits')}`
+			? `${new Intl.NumberFormat(state.lang === 'ar' ? 'ar-OM-u-nu-latn' : 'en-OM').format(orderLimit)} ${t('maximumUnits')}`
 			: '';
 
 		const shown = [
@@ -2012,7 +2028,12 @@
 		const existing = state.compare.findIndex(item => String(item.id) === String(id));
 		if (existing >= 0) { state.compare.splice(existing, 1); showToast(t('removedCompare')); }
 		else {
-            if (state.compare.length >= 2) return showToast(t('maxCompare'));
+            if (state.compare.length >= 2) {
+                // Refused third product: the icon shakes once next to the toast.
+                if (prefersMotion() && window.CSS?.escape) $$(`[data-compare-id="${CSS.escape(String(id))}"] svg`).forEach(icon =>
+                    icon.animate?.([{rotate:'0deg'}, {rotate:'-10deg'}, {rotate:'8deg'}, {rotate:'-4deg'}, {rotate:'0deg'}], {duration:320, easing:'ease-out'}));
+                return showToast(t('maxCompare'));
+            }
             const product = actionProduct(String(id));
             if (!product) return;
             state.compare.push(product);
@@ -2625,10 +2646,21 @@
 		searchTimer = window.setTimeout(() => { searchTimer = 0; void fetchStoreSearch(normalized); }, SEARCH_DEBOUNCE_MS);
 	}
 
-	let toastTimer;
-	function hideToast() { const toast = $('[data-qil-toast]'); if (toast) { toast.hidden = true; toast.classList.remove('is-cart-confirmation'); toast.replaceChildren(); } }
-	function showToast(message) { const toast = $('[data-qil-toast]'); if (!toast) return; toast.classList.remove('is-cart-confirmation'); toast.textContent = message; toast.hidden = false; clearTimeout(toastTimer); toastTimer = setTimeout(hideToast, 2400); }
+	let toastTimer, toastExit = null;
+	// The toast leaves with a short fade (WAAPI, nothing to clean up); a new
+	// message cancels a running exit, and a cancelled exit never clears it.
+	function hideToast() {
+		const toast = $('[data-qil-toast]'); if (!toast) return;
+		const finish = () => { toastExit = null; toast.hidden = true; toast.classList.remove('is-cart-confirmation'); toast.replaceChildren(); };
+		if (toast.hidden || !prefersMotion() || typeof toast.animate !== 'function') return finish();
+		if (toastExit) return; // already leaving
+		const exit = toast.animate([{opacity:1}, {opacity:0, translate:'0 10px'}], {duration:160, easing:'cubic-bezier(.4,0,1,1)', fill:'forwards'});
+		toastExit = exit;
+		exit.onfinish = () => { finish(); exit.cancel(); };
+	}
+	function showToast(message) { toastExit?.cancel(); toastExit = null; const toast = $('[data-qil-toast]'); if (!toast) return; toast.classList.remove('is-cart-confirmation'); toast.textContent = message; toast.hidden = false; clearTimeout(toastTimer); toastTimer = setTimeout(hideToast, 2400); }
 	function showCartConfirmation(product) {
+		toastExit?.cancel(); toastExit = null;
 		const toast = $('[data-qil-toast]');
 		if (!toast) return;
 		const image = primaryImages(product)[0];
@@ -2720,6 +2752,7 @@
 	function setCartCount(value) {
 		const parsed = parsedCartCount(value);
 		if (parsed === null) return false;
+		const grew = state.cartHydrated && parsed > state.cartCount;
 		state.cartCount = parsed;
 		state.cartHydrated = true;
 		document.querySelectorAll('[data-qil-cart-count]').forEach(node => {
@@ -2746,6 +2779,9 @@
 			node.classList.toggle('is-empty', state.cartCount === 0);
 			node.setAttribute('aria-hidden', state.cartCount === 0 ? 'true' : 'false');
 		});
+		// The bag count bumps once when it grows after hydration (never on load or a removal).
+		if (grew && prefersMotion()) $$('[data-qil-cart-count]:not([hidden]),.qil-bag .wd-cart-number:not([hidden])')
+			.forEach(node => node.animate?.([{scale:1}, {scale:1.28}, {scale:1}], {duration:420, easing:'cubic-bezier(.34,1.56,.64,1)'}));
 		return true;
 	}
 	// The theme prints the free-delivery bar's width inline, but the message and
@@ -3010,7 +3046,25 @@
 			if (!button) return;
 			button.classList.remove('loading', 'added');
 			button.classList.add('qil-added');
+			celebrateAdd(button);
 		}, 0);
+	}
+	// Added: for 1400ms the button shows the check (#qil-i-check) in place of its
+	// content (qil-just-added; the pop and ring are CSS). A state change, so it
+	// also runs under reduced motion; the button keeps its width.
+	const addedTimers = new WeakMap();
+	function celebrateAdd(button) {
+		const use = button.matches('.qil-buy') ? button.querySelector('svg use') : null;
+		if (!use) return;
+		if (!use.dataset.qilHref) use.dataset.qilHref = use.getAttribute('href') || '#qil-i-cart-plus';
+		use.setAttribute('href', '#qil-i-check');
+		button.classList.add('qil-just-added');
+		clearTimeout(addedTimers.get(button));
+		addedTimers.set(button, setTimeout(() => {
+			use.setAttribute('href', use.dataset.qilHref);
+			button.classList.remove('qil-just-added');
+			addedTimers.delete(button);
+		}, 1400));
 	}
 	function registerCartSuccess(event, fragments, cartHash, buttonReference) {
 		const candidate = buttonReference?.jquery ? buttonReference.get(0) : buttonReference;
@@ -3037,11 +3091,60 @@
 		window.setTimeout(syncCartCount, 0);
 	}
 
+	/* Card reveal. Every .qil-reveal still ends .is-visible. A card is armed
+	   (data-qil-reveal="armed": hidden, then the CSS entrance) only when JS,
+	   IntersectionObserver and motion are all available, it is below the fold
+	   and its product was not shown in that grid before (a re-render never
+	   replays it); everything else is visible at once (fail open). Rails are
+	   observed as one unit, because a rail clips its own cards out of view.
+	   Rects are read first, then written. */
 	let revealObserver;
+	const revealSeen = new WeakMap(); // grid or rail -> product ids already shown there
+	function prefersMotion() { return !(window.matchMedia && window.matchMedia('(prefers-reduced-motion: reduce)').matches); } // hoisted: safe at boot
+	function revealHost(card) { return card.closest('[data-qil-rail],[data-qil-collection-grid],[data-qil-results]') || document.body; }
+	function markSeen(card) {
+		const host = revealHost(card);
+		if (!revealSeen.has(host)) revealSeen.set(host, new Set());
+		revealSeen.get(host).add(card.dataset.productId || '');
+	}
+	function revealCards(cards) {
+		cards.slice(0, 64).forEach((card, index) => { card.style.setProperty('--qil-i', String(Math.min(index, 5))); });
+		cards.forEach(card => { markSeen(card); card.classList.add('is-visible'); });
+	}
+	function clearReveal(event) {
+		if (event.animationName !== 'qil-card-in') return;
+		event.target.removeAttribute('data-qil-reveal');
+		event.target.style.removeProperty('--qil-i');
+	}
 	function observeReveals() {
-		if (!('IntersectionObserver' in window) || window.matchMedia('(prefers-reduced-motion: reduce)').matches) { $$('.qil-reveal:not(.is-visible)').forEach(el => el.classList.add('is-visible')); return; }
-		if (!revealObserver) revealObserver = new IntersectionObserver(entries => entries.forEach(entry => { if (entry.isIntersecting) { entry.target.classList.add('is-visible'); revealObserver.unobserve(entry.target); } }), {rootMargin:'0px 0px -7%', threshold:.08});
-		$$('.qil-reveal:not(.is-visible)').forEach(el => revealObserver.observe(el));
+		const pending = $$('.qil-reveal:not(.is-visible)');
+		if (!pending.length) return;
+		if (!('IntersectionObserver' in window) || !prefersMotion()) { pending.forEach(el => el.classList.add('is-visible')); return; }
+		if (!revealObserver) {
+			revealObserver = new IntersectionObserver(entries => {
+				const loose = [];
+				entries.filter(entry => entry.isIntersecting)
+					.sort((a, b) => a.boundingClientRect.top - b.boundingClientRect.top)
+					.forEach(({target}) => {
+						revealObserver.unobserve(target);
+						if (target.matches('[data-qil-rail]')) revealCards($$('.qil-reveal[data-qil-reveal="armed"]:not(.is-visible)', target));
+						else loose.push(target);
+					});
+				revealCards(loose);
+			}, {rootMargin:'0px 0px -7%', threshold:.08});
+			document.addEventListener('animationend', clearReveal);
+			document.addEventListener('animationcancel', clearReveal);
+		}
+		const fold = window.innerHeight;
+		const plan = pending.map(card => {
+			const rail = card.closest('[data-qil-rail]'), seen = revealSeen.get(revealHost(card))?.has(card.dataset.productId || '');
+			return {card, rail, arm: !seen && (rail || card).getBoundingClientRect().top > fold};
+		});
+		plan.forEach(({card, rail, arm}) => {
+			if (!arm) { markSeen(card); card.classList.add('is-visible'); return; }
+			card.dataset.qilReveal = 'armed';
+			revealObserver.observe(rail || card);
+		});
 	}
 
 	// Viewport-gated motion lives at module scope, so cards that sections or

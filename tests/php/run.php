@@ -39,7 +39,7 @@ function qt_isolated( $scenario ) {
 
 /* ------------------------------------------------------------------ */
 section( 'Plugin load' );
-check( 'plugin version is 1.18.23', defined( 'QIL_VERSION' ) && '1.18.23' === QIL_VERSION, defined( 'QIL_VERSION' ) ? QIL_VERSION : 'undefined' );
+check( 'plugin version is 1.18.24', defined( 'QIL_VERSION' ) && '1.18.24' === QIL_VERSION, defined( 'QIL_VERSION' ) ? QIL_VERSION : 'undefined' );
 // Qimia Refill (includes/refill.php) ships from 1.19.0; a 1.18 build skips its checks.
 $qt_has_refill = file_exists( dirname( $plugin ) . '/includes/refill.php' );
 foreach ( array_merge( array( 'QIL_Boost', 'QIL_Flash_Drop', 'QIL_Member', 'QIL_Stacks', 'QIL_Cashback', 'QIL_Personalization' ), $qt_has_refill ? array( 'QIL_Refill' ) : array() ) as $class ) {
