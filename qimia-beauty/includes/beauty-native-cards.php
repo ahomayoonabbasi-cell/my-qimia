@@ -35,12 +35,15 @@ function qby_qil_beauty_record($record,$product,$language=array()) {
     // Cosmetic and tool cards never inherit oral-only derived facts or dietary claims.
     $record['facts']=array();$record['dietary']=array();
     foreach(array_keys((array)($record['price']??array())) as $key){if(str_starts_with($key,'perServing')){unset($record['price'][$key]);}}
-    $record['match']['purposeKey']='beauty';$record['match']['reasons']=array();
+    // Nor QIL's supplement goals: no goal evidence, so PHP and JS goal ranking both skip the card.
+    $record['match']['purposeKey']='beauty';$record['match']['reasons']=array();$record['match']['goals']=array();$record['match']['evidence']=array();$record['match']['sources']=array();
     return $record;
 }
 add_filter('qil_catalogue_product_record','qby_qil_beauty_record',100,3);
+// The Beauty root category is not supplement evidence; collagen, biotin and hair/skin/nails terms stay.
+add_filter('qil_goal_term_policy',static function($policy){if(isset($policy['beauty_support']) && is_array($policy['beauty_support'])){$policy['beauty_support']=array_values(array_diff($policy['beauty_support'],array('beauty')));}return $policy;},20);
 // Baseline/disabled and Beauty-enabled projections never share a native payload cache.
-add_filter('qil_cache_market_identity',static function($identity){$identity['beautyRecordSchema']='qby-'.QBY_VERSION.'-1';return $identity;});
+add_filter('qil_cache_market_identity',static function($identity){$identity['beautyRecordSchema']='qby-'.QBY_VERSION.'-2';return $identity;});
 
 /** One bounded native query; return in the caller's already-authorized listing order. */
 function qby_qil_records($items) {
@@ -67,7 +70,8 @@ function qby_qil_shelf($products,$fallback_html) {
 function qby_qil_print_docks() {
     static $printed=false;
     if($printed || empty($GLOBALS['qby_qil_docks_needed']) || !empty($GLOBALS['qby_qil_existing_docks']) || !function_exists('qil_section_docks') || !function_exists('qil_render_mode') || qil_render_mode()!=='chrome'){return;}
-    if(is_product() || (function_exists('qil_has_shortcode') && qil_has_shortcode())){return;}
+    // Beauty product pages switch QIL's product world (and its docks/toast) off, so Beauty prints them.
+    if((is_product() && !qby_uses_beauty_ui()) || (function_exists('qil_has_shortcode') && qil_has_shortcode())){return;}
     $printed=true;$locale=qby_ar()?'ar':'en';
     echo '<div class="qby-qil-docks qil-shell qaatm-no-translate notranslate" data-qil-locale="'.$locale.'" lang="'.$locale.'" dir="'.($locale==='ar'?'rtl':'ltr').'" translate="no" data-qaatm-no-rewrite data-no-translation>'.qil_section_docks().'</div>';
 }

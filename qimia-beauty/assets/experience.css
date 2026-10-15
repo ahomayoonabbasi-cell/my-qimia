@@ -32,7 +32,7 @@ body.qby-beauty-page .site-content{margin-bottom:0}
 .qbx-hero-copy>p{font-size:15px;max-width:435px;margin-bottom:30px}
 .qbx-actions{display:flex;gap:20px;align-items:center;flex-wrap:wrap}
 .qbx .qbx-button{display:inline-flex;justify-content:center;align-items:center;gap:20px;min-height:50px;padding:14px 23px;color:#fff!important;background:var(--qil-grad-primary,linear-gradient(135deg,#0b7f89,#12a3a6 48%,#39c9c3))!important;border:1px solid transparent;border-radius:99px;box-shadow:0 8px 22px -15px rgba(8,121,131,.5);font-family:inherit;font-size:12px;font-weight:650;text-transform:none;line-height:1.5;transition:transform .25s,box-shadow .25s}
-.qbx .qbx-button:hover{transform:translateY(-2px);box-shadow:0 12px 28px -15px rgba(8,121,131,.6)}
+@media(hover:hover) and (pointer:fine){.qbx .qbx-button:hover{translate:0 -2px;box-shadow:0 12px 28px -15px rgba(8,121,131,.6)}}
 .qbx .qbx-button svg{width:20px;height:20px}
 .qbx .qbx-text-link{display:inline-flex;gap:12px;align-items:center;min-height:44px;padding:8px 0;border:0;border-radius:0;background:transparent!important;color:var(--qbx-deep)!important;font:600 12px/1.5 Inter,Tajawal,Arial,sans-serif;text-transform:none;box-shadow:none}
 .qbx-text-link:hover{text-decoration:underline;text-underline-offset:5px}
@@ -55,7 +55,7 @@ body.qby-beauty-page .site-content{margin-bottom:0}
 .qbx-section-head>p{font-size:12px;max-width:220px;margin:0}
 .qbx-world-grid{display:grid;grid-template-columns:repeat(4,minmax(0,1fr));grid-template-rows:310px 205px;gap:16px}
 .qbx-world{position:relative;display:block;border-radius:23px;overflow:hidden;background:#e8f5f2;isolation:isolate;border:1px solid rgba(8,121,131,.10);transition:transform .3s,box-shadow .3s}
-.qbx-world:hover{transform:translateY(-4px);box-shadow:0 20px 35px -25px rgba(8,121,131,.35)}
+@media(hover:hover) and (pointer:fine){.qbx-world:hover{translate:0 -4px;box-shadow:0 20px 35px -25px rgba(8,121,131,.35)}}
 .qbx-world--skin-care,.qbx-world--makeup{grid-column:span 2;color:#fff!important}
 .qbx-world--sun-care{background:#e9f3ef}
 .qbx-world--hair-care{background:#e4f5f3}
@@ -65,8 +65,8 @@ body.qby-beauty-page .site-content{margin-bottom:0}
 .qbx-world-art>img{width:100%;height:100%;object-fit:cover;transition:transform .7s cubic-bezier(.2,.7,.2,1)}
 .qbx-world--skin-care .qbx-world-art:after,.qbx-world--makeup .qbx-world-art:after{content:"";position:absolute;inset:0;background:linear-gradient(0deg,rgba(7,31,44,.68),transparent 65%)}
 .qbx-world-art>svg{position:absolute;width:122px;height:122px;inset-inline-end:4px;top:7px;opacity:.27;color:var(--qbx-deep);transition:transform .5s}
-.qbx-world:hover img{transform:scale(1.04)}
-.qbx-world:hover .qbx-world-art>svg{transform:rotate(-6deg)}
+@media(hover:hover) and (pointer:fine){.qbx-world:hover img{transform:scale(1.04)}
+.qbx-world:hover .qbx-world-art>svg{transform:rotate(-6deg)}}
 .qbx-world-number{position:absolute;top:18px;inset-inline-start:23px;font-size:10px;letter-spacing:.1em}
 .qbx-world-copy{position:absolute;inset-inline-start:23px;inset-inline-end:48px;bottom:25px;display:flex;flex-direction:column;gap:8px}
 .qbx-world-copy small{font-size:10px}
@@ -392,7 +392,7 @@ to{opacity:1;transform:translateY(0)}
 
 .qbx-home .qby-department-card{transition:transform .3s,border-color .3s,box-shadow .3s}
 
-.qbx-home .qby-department-card:hover{transform:translateY(-5px);border-color:#89c9c5;box-shadow:0 14px 25px -22px #087983}
+@media(hover:hover) and (pointer:fine){.qbx-home .qby-department-card:hover{transform:none;translate:0 -5px;border-color:#89c9c5;box-shadow:0 14px 25px -22px #087983}}
 
 .qbx-home .qby-department-main{min-height:167px;padding:17px 9px 22px;gap:12px}
 
@@ -415,6 +415,12 @@ to{opacity:1;transform:translateY(0)}
 .qbx-home-shortcuts a:hover{text-decoration:underline;text-underline-offset:5px}
 
 .qbx-home-shortcuts .qbx-icon{width:15px;height:15px}
+
+/* QIL root scopes its icons and links; preserve the home arrows, button icons and shortcut accent. */
+body.qby-enabled :is(#qimia-lab,.qil-shell) .qbx-home .qby-arrow svg{width:14px!important;min-width:0!important;height:14px!important}
+body.qby-enabled :is(#qimia-lab,.qil-shell) .qbx .qbx-button svg{width:20px!important;min-width:0!important;height:20px!important}
+body.qby-enabled :is(#qimia-lab,.qil-shell) .qbx-home-shortcuts .qbx-icon{width:15px!important;min-width:0!important;height:15px!important}
+body.qby-enabled :is(#qimia-lab,.qil-shell) .qbx-home-shortcuts a{color:var(--qbx-deep)}
 
 .qbx-home[dir=rtl] .qby-home-copy h2{letter-spacing:0!important;line-height:1.3!important}
 
@@ -529,8 +535,159 @@ to{opacity:1;transform:translateY(0)}
 
 .qbx-wordmark>.qbx-icon{transition:transform .7s cubic-bezier(.2,.7,.2,1)}
 
-.qbx-button:hover>svg,.qbx-home-shortcuts a:hover>svg{translate:2px -1px}
+.qbx-button:hover>svg,.qbx-home-shortcuts a:hover>svg{translate:calc(2px * var(--qbx-dir,1)) -1px}
 
 .qbx-button>svg,.qbx-home-shortcuts a>svg{transition:translate .25s}
 
 }
+
+/* === QBY DESIGN LAYER 2.4.2 === */
+/* Calm clinical commerce: QIL tokens with fallbacks, an 11px text floor, 44px touch targets, hovers for real pointers only
+   and compositor-only motion. Reduced motion stays covered by :164-165 (.qbx-paused) and :289. */
+
+/* Aliases: Beauty reads QIL's motion tokens, with fallbacks for pages without QIL. */
+.qbx{--qbx-ease-enter:var(--qil-ease-enter,cubic-bezier(.16,1,.3,1));--qbx-stagger:var(--qil-stagger,55ms);--qbx-press:var(--qil-t-press,110ms) var(--qil-ease,cubic-bezier(.22,.61,.36,1));--qbx-dir:1}
+.qbx[dir=rtl],[dir=rtl] .qbx{--qbx-dir:-1}
+@media(max-width:700px){.qbx{--qbx-stagger:45ms}
+}
+
+/* Floor, every width: no text under 11px (12px for controls). Kickers share QIL's kicker style; Arabic kickers are 12px, untracked. */
+.qbx .qbx-kicker{font-size:var(--qil-kicker-size,11px);letter-spacing:var(--qil-kicker-track,.14em)}
+.qbx[dir=rtl] .qbx-kicker{font-size:var(--qil-kicker-size-ar,12px);letter-spacing:0;text-transform:none}
+.qbx-wordmark span,.qbx-hero-foot,.qbx-photo-caption,.qbx-story-caption,.qbx-world-copy small,.qbx-results-head>span,.qbx-finder>p,.qbx-note-symbol>span,.qbx-knowledge-label,.qbx-guide .qbx-use-copy li:before{font-size:11px}
+.qbx-hero-stamp>span{font-size:11px;letter-spacing:.12em}
+.qbx-world-number{font-size:11px;font-weight:700}
+.qbx-collections .qbx-reset{font-size:12px}
+
+/* Beauty home: one kicker style, the chapter h2 on QIL's scale. */
+.qbx-home .qby-home-edit-title,.qbx-home-shortcuts>span{font-size:var(--qil-kicker-size,11px);font-weight:700;letter-spacing:var(--qil-kicker-track,.14em)}
+.qbx-home[dir=rtl] .qby-home-edit-title,.qbx-home[dir=rtl] .qbx-home-shortcuts>span{font-size:var(--qil-kicker-size-ar,12px);letter-spacing:0;text-transform:none}
+.qbx-home .qby-home-product-info small,.qbx-home .qby-home-stock{font-size:11px}
+.qbx-home .qby-home-copy h2{font-size:var(--qil-text-h2,clamp(30px,22.67px + 2.037vw,52px))!important;font-weight:700!important}
+
+/* The search field keeps Beauty's own underline style (:90-92); the storefront input box (qil-storefront.css:45-51) no longer frames it. */
+body.qby-enabled .qbx .qbx-search input{border:0!important;border-radius:0!important;background:transparent!important;box-shadow:none!important;padding-inline:0 12px}
+
+/* Cards: QIL's flat card, one radius. Typography and labels come from QIL. */
+.qbx .qil-product-card{border-radius:var(--qil-r-card,22px)!important;box-shadow:none!important}
+
+/* Photo world tiles: the existing light scrim keeps the white tile number legible on bright photos. */
+.qbx-world--skin-care .qbx-world-art:before,.qbx-world--makeup .qbx-world-art:before{content:"";position:absolute;inset:0;background:linear-gradient(to bottom,rgba(7,31,44,.18),transparent 40%);pointer-events:none}
+
+/* Hero stamp: no blur over the parallax photo; a more opaque white of the same palette (qil.css:355). */
+.qbx-hero-stamp{backdrop-filter:none;background:rgba(255,255,255,.86)}
+
+/* RTL: arrows point the reading way; Arabic headings are untracked. */
+.qbx[dir=rtl] .qbx-round-arrow svg,[dir=rtl] .qbx .qbx-round-arrow svg{transform:scaleX(-1) rotate(-35deg)}
+.qbx[dir=rtl] :is(h1,h2,h3){letter-spacing:0}
+.qbx-home[dir=rtl] .qby-arrow svg,.qbx-home[dir=rtl] .qbx-home-shortcuts .qbx-icon{transform:scaleX(-1)}
+
+@media(max-width:700px){
+/* Beauty home: copy first, departments in a compact 3-column grid. */
+.qbx-home .qby-home-art{order:0}
+.qbx-home .qby-department-grid{grid-template-columns:repeat(3,minmax(0,1fr));gap:8px}
+.qbx-home .qby-department-main{min-height:112px;padding:12px 6px;gap:8px}
+.qbx-home .qby-category-art{width:48px;height:48px}
+.qbx-home .qby-department-card .qby-arrow{display:none}
+.qbx-home-top>.qbx-kicker{max-width:none}
+.qbx-home-top>.qbx-text-link{display:inline-flex;min-height:44px;font-size:12px}
+.qbx-home .qby-home-product-info strong{font-size:12px;line-height:1.45;min-height:2.9em}
+.qbx-home[dir=rtl] .qby-home-product-info strong{font-size:13px}
+
+/* /beauty/ floor. Each half of the editorial line wraps into even lines, never a one-word orphan. */
+.qbx-editorial-line{font-size:13px;line-height:1.5}
+.qbx-editorial-line>span{text-wrap:balance}
+.qbx-world-copy small{white-space:nowrap;overflow:hidden;text-overflow:ellipsis}
+
+/* Worlds: one snap rail instead of a four-row grid. */
+.qbx-world-grid{grid-template-columns:none;grid-template-rows:260px;grid-auto-flow:column;grid-auto-columns:72%;overflow-x:auto;scroll-snap-type:x mandatory;scrollbar-width:none;overscroll-behavior-x:contain}
+.qbx-world-grid>.qbx-world{grid-column:auto!important;grid-row:auto!important;scroll-snap-align:start}
+.qbx .qbx-world-grid>:is(.qbx-world--skin-care,.qbx-world--makeup) .qbx-world-copy strong{font-size:28px}
+
+/* Search and filters: 16px fields (no iOS zoom); the live form needs no visible submit, which stays the default button. */
+body.qby-enabled .qbx .qbx-search input{font-size:16px!important}
+.qbx-filter-row select,.qbx-facets select{font-size:16px}
+.qbx-filter-row>label,.qbx-filter-row>.qbx-stock{font-size:12px}
+/* Category and Brand share a row only while each select shows "All beauty"/"All brands" at 16px beside its arrow
+   (140px, a 384px phone; Chromium's own arrow included); narrower, the filters stack. The track minimum decides, not a breakpoint. */
+.qbx-filter-row{grid-template-columns:repeat(auto-fit,minmax(max(min(100%,140px),calc(50% - 6.5px)),1fr))}
+.qbx-filter-row>label:nth-child(3):not(.qbx-stock),.qbx .qbx-filter-submit{grid-column:1/-1}
+.qbx .qbx-filters.is-live .qbx-filter-submit:not(:focus-visible){position:absolute;width:1px;height:1px;min-height:0;padding:0;overflow:hidden;clip-path:inset(50%);white-space:nowrap}
+
+/* Collections: one row, nothing clipped. */
+.qbx-collections{flex-wrap:nowrap;gap:8px;overflow-x:auto;scrollbar-width:none;scroll-padding-inline:16px;padding-inline-end:16px}
+.qbx-collections>a,.qbx-collections .qbx-reset{flex:none;min-height:44px;font-size:12px}
+
+/* Touch targets. */
+.qbx-subnav>div a{display:inline-flex;align-items:center;min-height:44px;font-size:12px}
+.qbx .qbx-finder-tabs button{min-height:44px;font-size:12px}
+}
+/* The department artwork follows its 48px tile (beats beauty.css:30 inside QIL's shell). */
+@media(max-width:700px){body.qby-enabled :is(#qimia-lab,.qil-shell) .qbx-home.qby-home .qby-category-art svg{height:48px!important}
+}
+
+/* Busy: a thin bar under the filters while results reload (results still dim, :107). Compositor only. */
+#qby-shop:has([data-qbx-results][aria-busy=true]) .qbx-filters{position:relative}
+#qby-shop:has([data-qbx-results][aria-busy=true]) .qbx-filters:after{content:"";position:absolute;inset:auto 18px 0;height:3px;border-radius:var(--qil-pill,999px);background:var(--qbx-accent);opacity:.5;transform-origin:left center;pointer-events:none}
+.qbx[dir=rtl] #qby-shop:has([data-qbx-results][aria-busy=true]) .qbx-filters:after{transform-origin:right center}
+
+/* Rendering: the closing section is the only Beauty section below every hash target. */
+@supports(content-visibility:auto){.qbx-closing{content-visibility:auto;contain-intrinsic-block-size:auto 380px}
+@media(max-width:700px){.qbx-closing{contain-intrinsic-block-size:auto 330px}
+}
+}
+
+/* Motion. Hover lifts use translate, so the reveal keeps sole use of transform; each transition list is restated with it. */
+.qbx .qbx-button{transition:translate .25s,box-shadow .25s,scale var(--qbx-press)}
+.qbx-world{transition:translate .3s cubic-bezier(.22,.61,.36,1),box-shadow .3s,scale var(--qbx-press)}
+.qbx-home .qby-department-card{transition:translate .3s cubic-bezier(.22,.61,.36,1),border-color .3s,box-shadow .3s,scale var(--qbx-press)}
+.qbx .qbx-finder-tabs button{transition:scale var(--qbx-press)}
+.qbx :is(.qbx-button,.qby-department-card,.qbx-finder-tabs button):active{scale:.98}
+.qbx .qbx-world:active{scale:.99}
+@media(hover:hover) and (pointer:fine){.qbx-home .qby-department-main:hover .qby-arrow{transform:translate(calc(2px * var(--qbx-dir,1)),-2px)}
+}
+/* Reduced motion: hovers stay still, as the transform lifts did under :290 and beauty.css:72. */
+@media(prefers-reduced-motion:reduce){.qbx :is(.qbx-world,.qbx-button,.qby-department-card){translate:none!important}
+.qbx .qbx-world-art>:is(img,svg){transform:none!important}
+}
+
+/* Reveal: blocks fade up once; world tiles follow each other, capped at four steps. */
+.qbx-motion-ready [data-qbx-reveal]{transition:opacity .6s ease var(--qbx-delay,0s),transform .75s cubic-bezier(.2,.7,.2,1) var(--qbx-delay,0s),translate .3s cubic-bezier(.22,.61,.36,1),box-shadow .3s,scale var(--qbx-press)}
+.qbx-world-grid>[data-qbx-reveal]:nth-child(2){--qbx-delay:calc(var(--qbx-stagger) * 1)}
+.qbx-world-grid>[data-qbx-reveal]:nth-child(3){--qbx-delay:calc(var(--qbx-stagger) * 2)}
+.qbx-world-grid>[data-qbx-reveal]:nth-child(4){--qbx-delay:calc(var(--qbx-stagger) * 3)}
+.qbx-world-grid>[data-qbx-reveal]:nth-child(n+5){--qbx-delay:calc(var(--qbx-stagger) * 4)}
+
+/* Departments: the nav stays put and its cards follow each other in. */
+.qbx-motion-ready .qbx-home-departments.qbx-waiting{opacity:1;transform:none}
+.qbx-motion-ready .qbx-home-departments .qby-department-card{transition:opacity .5s ease calc(var(--qbx-n,0) * var(--qbx-stagger)),transform .6s cubic-bezier(.2,.7,.2,1) calc(var(--qbx-n,0) * var(--qbx-stagger)),translate .3s cubic-bezier(.22,.61,.36,1),border-color .3s,box-shadow .3s,scale var(--qbx-press)}
+.qbx-motion-ready .qbx-home-departments.qbx-waiting .qby-department-card{opacity:0;transform:translateY(16px);transition:none}
+.qbx-home-departments .qby-department-card:nth-child(2){--qbx-n:1}
+.qbx-home-departments .qby-department-card:nth-child(3){--qbx-n:2}
+.qbx-home-departments .qby-department-card:nth-child(4){--qbx-n:3}
+.qbx-home-departments .qby-department-card:nth-child(n+5){--qbx-n:4}
+
+/* Arming is instant; only the reveal animates (after the lists above, same weight). */
+.qbx-motion-ready .qbx-waiting{transition:none}
+
+/* Phones: world tiles scroll sideways, so they never wait hidden; the section header still reveals. */
+@media(max-width:700px){.qbx-motion-ready .qbx-world-grid>.qbx-waiting{opacity:1;transform:none}
+}
+
+@media(prefers-reduced-motion:no-preference){
+/* Hero h1 rises without fading: painted from the first frame (LCP). */
+.qbx-motion-ready:not(.qbx-paused) .qbx-hero-copy>h1{animation-name:qbx-entry-rise;animation-delay:0s}
+/* Finder: the path a tab shows fades up. */
+.qbx-motion-ready:not(.qbx-paused) .qbx-finder-path:not([hidden]){animation:qbx-entry .36s cubic-bezier(.2,.7,.2,1) both}
+#qby-shop:has([data-qbx-results][aria-busy=true]) .qbx-filters:after{animation:qbx-busy 1.1s var(--qbx-ease-enter) infinite}
+}
+
+@keyframes qbx-entry-rise{from{transform:translateY(14px)}
+to{transform:translateY(0)}
+}
+
+@keyframes qbx-busy{0%{scale:0 1;opacity:1}
+80%{scale:1 1;opacity:1}
+100%{scale:1 1;opacity:0}
+}
+/* === end QBY DESIGN LAYER 2.4.2 === */

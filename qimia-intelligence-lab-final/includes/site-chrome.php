@@ -8,7 +8,7 @@ add_filter('qil_header_links',static function($links,$context){
     return $links;
 },50,2);
 add_action('wp_enqueue_scripts',static function(){
-    if(is_admin()||qil_is_elementor_context()||(function_exists('qil_perf_noninteractive_bot')&&qil_perf_noninteractive_bot())||(function_exists('qil_perf_crawler_family')&&''!==qil_perf_crawler_family()))return;
+    if(is_admin()||!qil_experience_enabled()||'none'===qil_render_mode()||qil_is_elementor_context()||(function_exists('qil_perf_noninteractive_bot')&&qil_perf_noninteractive_bot())||(function_exists('qil_perf_crawler_family')&&''!==qil_perf_crawler_family()))return;
     wp_enqueue_style('qh-site-chrome',QIL_URL.'assets/qh-chrome.css',array(),QIL_VERSION);
     wp_enqueue_script('qh-site-chrome',QIL_URL.'assets/qh-chrome.js',array(),QIL_VERSION,true);
 },45);

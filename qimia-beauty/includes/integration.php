@@ -2,7 +2,7 @@
 defined('ABSPATH') || exit;
 add_filter('wp_robots',static function($robots){if(!qby_stage_allowed()){return $robots;}unset($robots['index'],$robots['follow']);$robots['noindex']=true;$robots['nofollow']=true;$robots['noarchive']=true;return $robots;},PHP_INT_MAX);
 add_filter('qil_product_intelligence_enabled',static function($enabled){return is_product() && qby_uses_beauty_ui() ? false : $enabled;});
-add_filter('qil_personal_product_eligible',static function($eligible,$p){return $p && qby_uses_beauty_ui($p->get_id()) ? false : $eligible;},50,2);
+add_filter('qil_personal_product_eligible',static function($eligible,$p,$surface='home',$repeat=false){return $p && !$repeat && qby_uses_beauty_ui($p->get_id()) ? false : $eligible;},50,4);
 add_filter('qil_product_knowledge',static function($k,$id,$ar){
     if(!qby_uses_beauty_ui($id)){return $k;}
     foreach(array('bodyEffects','timeline','whoFor','notes','faq','rows') as $key){$k[$key]=array();}
@@ -24,6 +24,8 @@ add_action('wp',static function(){
 });
 function qby_product_details($id=0) {
     static $done=array();$id=$id?:get_queried_object_id();if(isset($done[$id]) || !qby_uses_beauty_ui($id)){return '';}$done[$id]=true;
+    // 'Ask Qimia AI' and compare report through QIL's toast; qby_qil_print_docks prints it on this page.
+    $GLOBALS['qby_qil_docks_needed']=true;
     if(qby_stage_allowed() && function_exists('qby_knowledge_render')){return qby_knowledge_render($id);}
     $d=qby_details($id);$ar=qby_ar();$department=qby_product_department($id);$schema=qby_beauty_field_schema($department);$inci=$d['inci']??'';$use=$d[$ar?'directions_ar':'directions_en']??$d['directions_en']??'';$warnings=$d[$ar?'warnings_ar':'warnings_en']??$d['warnings_en']??'';
     $facts=array(qby_t('Product type','نوع المنتج')=>qby_product_type_label($id));if(!empty($d['size'])){$facts[qby_t('Size','الحجم')]=$d['size'];}
@@ -65,8 +67,14 @@ function qby_search_scope($q) {
 }
 function qby_search_ids($scope) {
     $rest=trim(preg_replace('/\b(?:hair|care|for|and|the)\b|للشعر/u','',$scope['remainder']));
-    $result=qby_beauty_query(array('department'=>$scope['category'],'search'=>$rest,'per_page'=>8));
+    $result=qby_beauty_query(array('department'=>$scope['category'],'search'=>$rest,'per_page'=>8,'visibility'=>'search'));
     return $result['ids'];
+}
+/** QIL ranks catalogue records its own way; return them in the caller's id order. */
+function qby_records_in_order($records,$ids) {
+    $indexed=array();foreach((array)$records as $r){if(is_array($r) && isset($r['id'])){$indexed[(int)$r['id']]=$r;}}
+    $out=array();foreach((array)$ids as $id){if(isset($indexed[(int)$id])){$out[]=$indexed[(int)$id];unset($indexed[(int)$id]);}}
+    return $out;
 }
 /** Two contiguous groups fit the caller's limit, so neither department crowds out the other. */
 function qby_group_search_results($beauty,$oral,$limit) {
@@ -81,19 +89,20 @@ add_filter('rest_request_after_callbacks',static function($response,$handler,$re
     $query=$request->get_param('q');if(!is_scalar($query)){return $response;}$scope=qby_search_scope((string)$query);if(!$scope){return $response;}
     $response=rest_ensure_response($response);if($response->get_status()!==200){return $response;}$data=$response->get_data();if(!is_array($data) || !isset($data['products'])){return $response;}
     $extra=array();$ids=qby_search_ids($scope);
-    $records=$ids?qil_get_catalogue(array('include'=>$ids,'limit'=>count($ids),'orderby'=>'include','_qil_include_unavailable'=>true,'_qil_locale'=>$locale)):array();
-    foreach($records as $r){$r['productClass']=qby_resolved_class((int)$r['id']);if(empty($r['stock']['inStock'])){$r['name'].=$locale==='ar'?' · غير متوفر':' · Out of stock';}$extra[]=$r;}
+    // A bounded selection keeps out-of-stock hits (shown from stock.inStock, never in the name).
+    $records=$ids?qil_get_catalogue(array('include'=>$ids,'limit'=>count($ids),'orderby'=>'include','_qil_catalogue_selection'=>true,'_qil_locale'=>$locale)):array();
+    foreach(qby_records_in_order($records,$ids) as $r){$r['productClass']=qby_resolved_class((int)$r['id']);$extra[]=$r;}
     if($scope['exclusive']){$data['products']=$extra;}
     elseif(!empty($scope['ambiguous'])){
-        $oral=array_values(array_filter($data['products'],static function($p){return !qby_is_cosmetic((int)($p['id']??0));}));
-        if(!$oral && function_exists('qil_search_product_ids')){$ids=qil_search_product_ids('hair supplement',4);$oral=$ids?qil_get_catalogue(array('include'=>$ids,'limit'=>4,'orderby'=>'include','_qil_locale'=>$locale)):array();}
+        $oral=array_values(array_filter($data['products'],static function($p){return !qby_uses_beauty_ui((int)($p['id']??0));}));
+        if(!$oral && function_exists('qil_search_product_ids')){$ids=qil_search_product_ids('hair supplement',4);$oral=$ids?qby_records_in_order(qil_get_catalogue(array('include'=>$ids,'limit'=>4,'orderby'=>'include','_qil_locale'=>$locale)),$ids):array();}
         $data['products']=qby_group_search_results($extra,$oral,max(4,min(8,(int)$request->get_param('limit'))));
     }else{$combined=array_merge(array_slice($extra,0,4),$data['products']);$seen=array();$data['products']=array_values(array_filter($combined,static function($p)use(&$seen){if(isset($seen[$p['id']])){return false;}$seen[$p['id']]=true;return true;}));}
     $data['products']=array_slice($data['products'],0,max(4,min(8,(int)$request->get_param('limit'))));$response->set_data($data);return $response;
 },100,3);
 add_action('pre_get_posts',static function($query){
     if(is_admin() || wp_doing_ajax() || (defined('REST_REQUEST') && REST_REQUEST) || !$query->is_main_query()){return;}
-    $existing_tax=(array)$query->get('tax_query');$tax=array('relation'=>'AND');if($existing_tax){$tax[]=$existing_tax;}
+    $existing_tax=$query->get('tax_query');$tax=array('relation'=>'AND');if(is_array($existing_tax) && $existing_tax){$tax[]=$existing_tax;}$scoped=count($tax);
     if($query->is_search() && $query->get('s')){
         $scope=qby_search_scope((string)$query->get('s'));
         if($scope && $scope['exclusive']){$query->set('qby_original_search',(string)$query->get('s'));$tax[]=array('taxonomy'=>'product_cat','field'=>'slug','terms'=>array($scope['category']));$query->set('post_type','product');$query->set('s',trim(preg_replace('/\b(?:hair|care|for|and|the)\b|للشعر/u','',$scope['remainder'])));}
@@ -106,8 +115,10 @@ add_action('pre_get_posts',static function($query){
         $terms=$kind==='supplements'?array_merge(qby_groups()['sports'][2],qby_groups()['wellness'][2],qby_groups()['inside'][2]):array($kind);$tax[]=array('taxonomy'=>'product_cat','field'=>'slug','terms'=>$terms);
         if($kind==='supplements'){$tax[]=array('taxonomy'=>'product_cat','field'=>'slug','terms'=>array('beauty'),'operator'=>'NOT IN');}
     }
-    if(count($tax)>1){$query->set('tax_query',$tax);}
+    if(count($tax)>$scoped){$query->set('tax_query',$tax);}
 },1000);
+// The scoped query matches the remainder; headings and the search field still show what the shopper typed.
+add_filter('get_search_query',static function($search){$query=$GLOBALS['wp_query']??null;$original=is_object($query) && method_exists($query,'get')?(string)$query->get('qby_original_search'):'';return $original!==''?$original:$search;});
 function qby_brand_nav() {
     static $done=false;if($done || !is_tax('product_brand')){return '';}$term=get_queried_object();$base=get_term_link($term);if(is_wp_error($base)){return '';}$base=function_exists('qil_localized_url')?qil_localized_url($base,qby_ar()):$base;
     $options=array(''=>qby_t('All products','كل المنتجات'));
@@ -120,4 +131,4 @@ add_action('woocommerce_before_shop_loop',static function(){echo qby_brand_nav()
 add_filter('elementor/widget/render_content',static function($html){return is_tax('product_brand') && strpos($html,'wd-products')!==false && strpos($html,'product-grid-item')!==false ? qby_brand_nav().$html : $html;},100);
 add_filter('woocommerce_product_loop_start',static function($html){return is_tax('product_brand')?qby_brand_nav().$html:$html;},20);
 add_filter('woocommerce_rest_prepare_product_object',static function($response,$product){$data=$response->get_data();$class=qby_resolved_class($product->get_id());if($class){$data['qimia_product_class']=$class;$response->set_data($data);}return $response;},20,2);
-add_filter('qimia_ai_instruction_parts_v1',static function($parts){$parts['stable'].="\nQimia Beauty includes makeup, skin care, hair care, fragrance, bath/body and beauty tools. Respect the explicit product class and exact product type: cosmetics are topical; tools are accessories. Never ingest either. Do not infer oral dosing from legacy supplement categories. Do not give oral dosing, servings, Supplement Facts, nutrient totals or supplement-plan actions for these items. Collagen and hair/skin/nails vitamins remain supplements. Use only the exact product label for ingredients and directions; do not infer certifications, PAO, availability or treatment claims.";return $parts;},30);
+add_filter('qimia_ai_instruction_parts_v1',static function($parts){if(!is_array($parts)){return $parts;}$parts['stable']=(is_string($parts['stable']??null)?$parts['stable']:'')."\nQimia Beauty includes makeup, skin care, hair care, fragrance, bath/body and beauty tools. Respect the explicit product class and exact product type: cosmetics are topical; tools are accessories. Never ingest either. Do not infer oral dosing from legacy supplement categories. Do not give oral dosing, servings, Supplement Facts, nutrient totals or supplement-plan actions for these items. Collagen and hair/skin/nails vitamins remain supplements. Use only the exact product label for ingredients and directions; do not infer certifications, PAO, availability or treatment claims.";return $parts;},30);

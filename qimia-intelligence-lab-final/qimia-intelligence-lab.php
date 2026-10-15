@@ -2,7 +2,7 @@
 /**
  * Plugin Name: Qimia Intelligence Lab
  * Description: The bilingual intelligent Qimia storefront, with isolated staging protections.
- * Version: 1.18.4
+ * Version: 1.18.24
  * Author: Qimia
  * Text Domain: qimia-intelligence-lab
  * Requires at least: 6.2
@@ -11,7 +11,7 @@
 
 defined( 'ABSPATH' ) || exit;
 
-define( 'QIL_VERSION', '1.18.4' );
+define( 'QIL_VERSION', '1.18.24' );
 define( 'QIL_SCHEMA_VERSION', 15 );
 define( 'QIL_FILE', __FILE__ );
 define( 'QIL_DIR', plugin_dir_path( __FILE__ ) );
@@ -371,7 +371,8 @@ function qil_should_render() {
 	$request_path = untrailingslashit( (string) wp_parse_url( $request_uri, PHP_URL_PATH ) );
 	$arabic_path  = untrailingslashit( (string) wp_parse_url( home_url( '/ar/' ), PHP_URL_PATH ) );
 
-	return is_front_page() || ( '' !== $arabic_path && $request_path === $arabic_path );
+	// /ar/?s=… is the Arabic search results page, not the Arabic homepage.
+	return is_front_page() || ( '' !== $arabic_path && $request_path === $arabic_path && ! is_search() && empty( get_query_var( 's' ) ) );
 }
 
 /**
@@ -540,6 +541,8 @@ function qil_chrome_body_class( $classes ) {
 	if ( 'chrome' === $render_mode ) {
 		$classes[] = 'qil-storefront';
 		if ( function_exists( 'is_product' ) && is_product() ) { $classes[] = 'qil-product-experience'; }
+		// The phone buy bar (and the room kept for it) exists only where the product world renders.
+		if ( function_exists( 'is_product' ) && is_product() && apply_filters( 'qil_product_intelligence_enabled', true ) ) { $classes[] = 'qil-product-buybar'; }
 	}
 	if ( 'none' !== $render_mode && qil_language_context()['isArabic'] ) {
 		$classes[] = 'qil-arabic';
@@ -1919,7 +1922,10 @@ function qil_get_catalogue( array $query_args = array() ) {
 	}
 	unset( $query_args['_qil_locale'] );
 	$detail_view = ! empty( $query_args['_qil_include_unavailable'] ) && ! empty( $query_args['include'] ) && 1 === count( (array) $query_args['include'] );
-	unset( $query_args['_qil_include_unavailable'] );
+	// A bounded merchant-selected shelf may include unavailable catalogue items.
+	// Woo still owns publication, visibility, prices and purchase actions.
+	$selected_view = ! empty( $query_args['_qil_catalogue_selection'] ) && ! empty( $query_args['include'] ) && count( (array) $query_args['include'] ) <= 48;
+	unset( $query_args['_qil_include_unavailable'], $query_args['_qil_catalogue_selection'] );
 
 	static $request_cache = array();
 	$market_identity = qil_perf_market_identity();
@@ -1928,7 +1934,7 @@ function qil_get_catalogue( array $query_args = array() ) {
 		function_exists( 'wp_cache_get_last_changed' ) ? (string) wp_cache_get_last_changed( 'terms' ) : '',
 		$locale_override ? $locale_override : ( qil_language_context()['locale'] ?? 'en' ),
 		qil_language_context( $locale_override )['siteLocale'] ?? '',
-		$market_identity, $detail_view, qil_runtime_cache_value( $query_args ),
+		$market_identity, $detail_view, $selected_view, qil_runtime_cache_value( $query_args ),
 	) ) );
 	if ( array_key_exists( $cache_key, $request_cache ) ) {
 		return $request_cache[ $cache_key ];
@@ -1969,7 +1975,7 @@ function qil_get_catalogue( array $query_args = array() ) {
 		}
 	}
 	try {
-		$catalogue = qil_build_catalogue( $query_args, $locale_override, $detail_view );
+		$catalogue = qil_build_catalogue( $query_args, $locale_override, $detail_view, $selected_view );
 	} finally {
 		qil_perf_unlock( $catalogue_lock );
 	}
@@ -1979,7 +1985,7 @@ function qil_get_catalogue( array $query_args = array() ) {
 }
 
 /** Uncached catalogue builder behind qil_get_catalogue(). */
-function qil_build_catalogue( array $query_args, $locale_override, $detail_view ) {
+function qil_build_catalogue( array $query_args, $locale_override, $detail_view, $selected_view = false ) {
 
 	$product_query = wp_parse_args(
 		$query_args,
@@ -1998,7 +2004,8 @@ function qil_build_catalogue( array $query_args, $locale_override, $detail_view 
 	$product_query['stock_status'] = 'instock';
 	$product_query['visibility']   = 'visible';
 	$product_query['return']       = 'objects';
-	if ( $detail_view ) { unset( $product_query['stock_status'] ); }
+	if ( $detail_view || $selected_view ) { unset( $product_query['stock_status'] ); }
+	if ( $selected_view ) { $product_query['visibility'] = 'catalog'; }
 	$products = wc_get_products( $product_query );
 
 	$currency_code = strtoupper( (string) get_woocommerce_currency() );
@@ -2007,7 +2014,7 @@ function qil_build_catalogue( array $query_args, $locale_override, $detail_view 
 	$language      = qil_language_context( $locale_override );
 
 	foreach ( $products as $product ) {
-		if ( ! is_a( $product, 'WC_Product' ) || ( ! $detail_view && ! $product->is_visible() ) || post_password_required( $product->get_id() ) ) {
+		if ( ! is_a( $product, 'WC_Product' ) || ( ! $detail_view && ! $selected_view && ! $product->is_visible() ) || post_password_required( $product->get_id() ) ) {
 			continue;
 		}
 
@@ -2194,6 +2201,7 @@ function qil_build_catalogue( array $query_args, $locale_override, $detail_view 
 		);
 		$last_index = count( $catalogue ) - 1;
 		$catalogue[ $last_index ] = qil_goal_value_record( $catalogue[ $last_index ], $product );
+		$catalogue[ $last_index ] = apply_filters( 'qil_catalogue_product_record', $catalogue[ $last_index ], $product, $language );
 		++$source_index;
 	}
 
@@ -2415,6 +2423,8 @@ function qil_curated_source_ids() {
  * product, then expose collection membership as ID arrays instead of duplicates.
  */
 function qil_initial_catalogue_payload() {
+	$identity        = qil_perf_market_identity();
+	$public_cache    = qil_perf_identity_public( $identity );
 	$language        = qil_language_context();
 	$market          = qil_market_context( $language['isArabic'] );
 	$product_version = class_exists( 'WC_Cache_Helper' ) ? WC_Cache_Helper::get_transient_version( 'product' ) : '0';
@@ -2425,6 +2435,7 @@ function qil_initial_catalogue_payload() {
 		? (bool) WC()->customer->get_is_vat_exempt()
 		: false;
 	$cache_context = array(
+		'market_identity' => $identity,
 		'schema'        => QIL_SCHEMA_VERSION,
         'inventory_version' => QIL_VERSION,
 		'products'      => (string) $product_version,
@@ -2439,7 +2450,7 @@ function qil_initial_catalogue_payload() {
 		'pricing_context' => qil_pricing_cache_context(),
 	);
 	$cache_key = 'qil_initial_v2_' . md5( wp_json_encode( $cache_context ) );
-	$cached    = get_transient( $cache_key );
+	$cached    = qil_perf_cache_get( $cache_key, false, $public_cache );
 	if ( is_array( $cached ) && isset( $cached['products'], $cached['collections'] ) && is_array( $cached['products'] ) && is_array( $cached['collections'] ) ) {
 		return $cached;
 	}
@@ -2501,7 +2512,7 @@ function qil_initial_catalogue_payload() {
 	}
 
 	$payload = array( 'products' => $catalogue, 'collections' => $collections );
-	set_transient( $cache_key, $payload, 12 * MINUTE_IN_SECONDS );
+	qil_perf_cache_set( $cache_key, $payload, 12 * MINUTE_IN_SECONDS, $public_cache );
 
 	return $payload;
 }
@@ -3029,6 +3040,18 @@ function qil_rest_search_products( WP_REST_Request $request ) {
 		$products    = $product_ids
 			? qil_get_catalogue( array( 'include' => $product_ids, 'limit' => count( $product_ids ), 'orderby' => 'include', '_qil_locale' => $requested_locale ) )
 			: array();
+		// The catalogue comes back in popularity order; keep the strict search ranking.
+		$by_id = array();
+		foreach ( $products as $record ) {
+			$by_id[ (int) $record['id'] ] = $record;
+		}
+		$products = array();
+		foreach ( $product_ids as $product_id ) {
+			if ( isset( $by_id[ (int) $product_id ] ) ) {
+				$products[] = $by_id[ (int) $product_id ];
+				unset( $by_id[ (int) $product_id ] );
+			}
+		}
 		$payload = array( 'products' => $products, 'query' => $search );
 		qil_perf_cache_set( $cache_key, $payload, (int) apply_filters( 'qil_search_cache_ttl', 2 * MINUTE_IN_SECONDS ), $public_cache );
 	}
@@ -3532,8 +3555,14 @@ function qil_enqueue_assets( $force = false ) {
 	// theme's own WoodMart mini-cart. The dedicated homepage bypasses WoodMart's
 	// header builder, so ask the installed theme to enqueue the same modules it
 	// uses on a normal storefront page before resolving QIL's dependencies.
+	$is_cart_page = function_exists( 'is_cart' ) && is_cart();
 	if ( function_exists( 'woodmart_enqueue_js_script' ) ) {
 		foreach ( array( 'cart-widget', 'action-after-add-to-cart', 'on-remove-from-cart' ) as $woodmart_cart_module ) {
+			// The full cart updates inline. Do not force the theme's drawer/popup
+			// success action onto a page where its sidebar may not be rendered.
+			if ( $is_cart_page && 'action-after-add-to-cart' === $woodmart_cart_module ) {
+				continue;
+			}
 			woodmart_enqueue_js_script( $woodmart_cart_module );
 		}
 	}
@@ -3565,6 +3594,9 @@ function qil_enqueue_assets( $force = false ) {
 	$search_scripts_ready = false;
 	$cart_scripts_ready   = false;
 	foreach ( array( 'wd-cart-widget', 'wd-action-after-add-to-cart', 'wd-on-remove-from-cart' ) as $script_handle ) {
+		if ( $is_cart_page && 'wd-action-after-add-to-cart' === $script_handle ) {
+			continue;
+		}
 		if ( ! wp_script_is( $script_handle, 'registered' ) ) {
 			continue;
 		}
@@ -3615,6 +3647,8 @@ function qil_enqueue_assets( $force = false ) {
 		$initial_payload = qil_initial_catalogue_payload();
 	}
 	$catalogue       = $initial_payload['products'];
+	// Reuse the home page index for the additional public inventory shelf.
+	if ( 'full' === $render_mode && function_exists( 'qil_home_index' ) ) qil_home_index( $catalogue );
 	$collections     = $initial_payload['collections'];
 	$catalogue_count = count( $catalogue );
 	$brand_count = 0;
@@ -3664,6 +3698,7 @@ function qil_enqueue_assets( $force = false ) {
 		'priceDecimals'  => function_exists( 'wc_get_price_decimals' ) ? (int) wc_get_price_decimals() : 2,
 		'woodmartSearch' => $search_scripts_ready,
 		'woodmartCart'   => $cart_scripts_ready,
+		'isCart'         => $is_cart_page,
 		'cartCount'      => $cart_count,
 		'cartEnabled'    => true,
 		'checkoutEnabled' => false,

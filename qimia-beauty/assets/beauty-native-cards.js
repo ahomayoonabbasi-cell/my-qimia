@@ -36,6 +36,8 @@
       button.dataset.qimiaAiOpen = ''; button.dataset.qilAiIntent = 'product'; button.dataset.qimiaProductId = String(id);
     });
     if (!scope.matches('[data-qby-qil-shelf]')) return;
+    // QIL writes card text in its page locale (root, then config, then document); match the card shell's direction.
+    const locale = String(document.querySelector('#qimia-lab, [data-qil-shell]')?.dataset.qilLocale || window.QIMIA_LAB?.locale || document.documentElement.lang || 'en').toLowerCase().startsWith('ar') ? 'ar' : 'en';
     let changed = false;
     cards.forEach((card,index) => {
       const id = Number(card.dataset.id || card.dataset.productId), row = byId.get(id);
@@ -45,7 +47,7 @@
       const article = template.content.firstElementChild;
       if (!article?.matches('.qil-product-card') || Number(article.dataset.productId) !== id) return;
       // Only after a valid native card exists do we replace the functional Woo fallback.
-      wrapper.replaceChildren(article); wrapper.classList.add('qil-shell'); card.dataset.qbyQilReady = '1'; card.classList.add('qby-qil-cell');
+      wrapper.replaceChildren(article); wrapper.classList.add('qil-shell'); wrapper.dir = locale === 'ar' ? 'rtl' : 'ltr'; wrapper.lang = locale; wrapper.dataset.qilLocale = locale; card.dataset.qbyQilReady = '1'; card.classList.add('qby-qil-cell');
       const grid = card.parentElement;
       if (grid?.matches('.products,.wd-products')) grid.setAttribute('data-qil-collection-grid','');
       changed = true;

@@ -100,13 +100,15 @@ final class QIL_Personalization {
         $p = self::get_product($id);
         return $p && $p->is_type('variation') ? self::get_product($p->get_parent_id()) : $p;
     }
-    public static function eligible( $p, $surface = 'home' ) {
+    public static function eligible( $p, $surface = 'home', $repeat = false ) {
         if ( !is_a($p,'WC_Product') || 'publish'!==$p->get_status() || !$p->is_visible() || post_password_required($p->get_id()) ) return false;
         if ( !$p->is_type(array('simple','variable')) || 'instock'!==$p->get_stock_status() || !$p->is_in_stock() || !$p->is_purchasable()
             || !$p->has_enough_stock(1) || ''===(string)$p->get_price() || (float)$p->get_price()<=0 || !$p->get_image_id() ) return false;
         // Installed destination/restriction plugins can veto recommendations here.
+        // $repeat marks a reorder of the shopper's own purchase (Buy again), so a plugin
+        // can keep vetoing recommendations while still allowing reorders.
         // Commerce/cart validation still owns the definitive purchase decision.
-        return (bool) apply_filters('qil_personal_product_eligible',true,$p,$surface);
+        return (bool) apply_filters('qil_personal_product_eligible',true,$p,$surface,(bool)$repeat);
     }
     public static function allowed() {
         if(!is_user_logged_in() || !class_exists('QH_Account'))return false;
@@ -248,7 +250,7 @@ final class QIL_Personalization {
         $total=(float)$item->get_total();
         if($total>0&&abs((float)$order->get_total_refunded_for_item($item->get_id()))>=$total)return null;
         $selection=qil_repeat_selection($order,$item);
-        if(!$selection||!$selection['canAdd']||!self::eligible($selection['parent']))return null;
+        if(!$selection||!$selection['canAdd']||!self::eligible($selection['parent'],'home',true))return null;
         $product=$selection['product'];$label=$selection['label'];
         if('ar'===$locale&&$label){$map=qil_translate_batch(array($label),'general',false);$label=qil_translated($label,$map);}
         return array('productId'=>(int)$selection['parent']->get_id(),'variationId'=>(int)$selection['variationId'],
@@ -430,12 +432,15 @@ final class QIL_Personalization {
         // N+1 queries or a per-customer product cache.
         if($surface!=='cart'&&self::within_budget())$pool=self::category_candidates(array_keys($categories));
         $candidates=self::ids(array_merge($purchase_ids,$recent_ids,$context['compare'],$context['results'],$cross,$pool),self::MAX_CANDIDATES);
-        $ranking=array();$cart_categories=array();
+        $ranking=array();$cart_categories=array();$reorder_only=array();
         foreach($cart as $id){$p=self::parent($id);if($p)$cart_categories=array_merge($cart_categories,self::profile($p)['categories']);}
         foreach($candidates as $id){
             if(!self::within_budget()&&count($ranking)>0)break;
             $p=self::parent($id);if(!$p)continue;$id=(int)$p->get_id();
-            if(isset($ranking[$id])||isset($excluded[$id])||!self::eligible($p,$surface))continue;
+            $is_repeat=in_array($id,$purchase_ids,true);
+            if(isset($ranking[$id])||isset($excluded[$id])||!self::eligible($p,$surface,$is_repeat))continue;
+            // A vetoed purchase may still be reordered, but is never suggested.
+            if($is_repeat&&!self::eligible($p,$surface))$reorder_only[$id]=true;
             $profile=self::profile($p);$score=0;$category_score=0;
             foreach($seed_profiles as $seed){
                 $shared=count(array_intersect($profile['categories'],$seed['profile']['categories']));if(!$shared)continue;
@@ -448,7 +453,7 @@ final class QIL_Personalization {
                 $shared=count(array_intersect($profile['categories'],$seed['profile']['categories']));if(!$shared)continue;
                 $category_score=max($category_score,$seed['weight']*min(1.35,$shared));
             }
-            $is_repeat=in_array($id,$purchase_ids,true);$is_recent=in_array($id,$recent_ids,true);$is_cross=in_array($id,$cross,true);
+            $is_recent=in_array($id,$recent_ids,true);$is_cross=in_array($id,$cross,true);
             if($surface==='cart'&&!$is_cross){if(!$is_repeat||array_intersect($profile['categories'],$cart_categories))continue;}
             if(!$is_repeat&&!$is_recent&&!$is_cross&&$score<=0&&$category_score<=0)continue;
             $ranking[$id]=array('id'=>$id,'score'=>$score-($interest['fatigue'][$id]??0),'categoryScore'=>$category_score,'repeat'=>$is_repeat,'recent'=>$is_recent,'cross'=>$is_cross);
@@ -524,7 +529,7 @@ final class QIL_Personalization {
             if(!$by_value&&count($groups['again'])>=self::MAX_ROWS)break;
         }
         foreach($recent_ids as $id){
-            if(isset($taken[$id])||!isset($by_id[$id]))continue;
+            if(isset($taken[$id])||!isset($by_id[$id])||isset($reorder_only[$id]))continue;
             // After a purchase it belongs to Buy again, not unfinished browsing.
             $last_view=$recent_at[$id]??0;if(isset($purchased_at[$id])&&$purchased_at[$id]>=$last_view)continue;
             $groups['recent'][]=array('id'=>$id,'reason'=>'viewed');$taken[$id]=true;if(!$by_value&&count($groups['recent'])>=self::MAX_ROWS)break;

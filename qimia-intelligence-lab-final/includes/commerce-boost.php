@@ -27,9 +27,10 @@ final class QIL_Boost {
 
 	public static function boot() {
 		add_action( 'admin_init', array( __CLASS__, 'register_setting' ) );
-		add_action( 'woocommerce_before_mini_cart', array( __CLASS__, 'mini_ladder' ), 20 );
+		add_action( 'woocommerce_before_mini_cart', array( __CLASS__, 'mini_ladder' ), 5 );
+		add_action( 'woocommerce_before_mini_cart_contents', array( __CLASS__, 'mini_items_intro' ), 5 );
 		add_action( 'woocommerce_mini_cart_contents', array( __CLASS__, 'mini_picks' ), 40 );
-		add_action( 'woocommerce_before_cart_totals', array( __CLASS__, 'cart_panel' ), 5 );
+		add_action( 'woocommerce_after_cart_totals', array( __CLASS__, 'cart_panel' ), 5 );
 		add_action( 'woocommerce_after_cart_table', array( __CLASS__, 'stack_band' ), 20 );
 		add_filter( 'render_block_woocommerce/cart', array( __CLASS__, 'cart_block' ), 15, 2 );
 		add_filter( 'woocommerce_add_to_cart_fragments', array( __CLASS__, 'fragments' ), 30 );
@@ -904,7 +905,7 @@ final class QIL_Boost {
 	}
 
 	/** One pick row (mini cart / cart totals). */
-	private static function pick_row( array $pick, $state ) {
+	private static function pick_row( array $pick, $state, $variant = 'default' ) {
 		$row  = $pick['row'];
 		$note = '';
 		if ( $pick['complement'] && '' !== $pick['reason'] ) {
@@ -913,8 +914,13 @@ final class QIL_Boost {
 			$note = sprintf( self::t( 'Unlocks %s cashback', 'يفتح كاش باك %s' ), self::reward_text( $state['next']['reward'] ) );
 		}
 		$img = $row['i'];
+		// Only the narrow drawer gets the two-row composition. Reuse the exact
+		// price, note and native purchase link; the full-cart markup stays intact.
+		$template = 'mini' === $variant
+			? '<div class="qil-boost-pick is-mini" data-qil-boost-product="%1$d"><div class="qil-boost-pick-main"><a class="qil-boost-pick-media" href="%2$s" tabindex="-1" aria-hidden="true"><img src="%3$s"%4$s width="%5$d" height="%6$d" alt="" loading="lazy" decoding="async"></a><div class="qil-boost-pick-body"><a class="qil-boost-pick-name" href="%2$s">%7$s</a>%9$s</div></div><div class="qil-boost-pick-footer">%8$s%10$s</div></div>'
+			: '<div class="qil-boost-pick" data-qil-boost-product="%1$d"><a class="qil-boost-pick-media" href="%2$s" tabindex="-1" aria-hidden="true"><img src="%3$s"%4$s width="%5$d" height="%6$d" alt="" loading="lazy" decoding="async"></a><div class="qil-boost-pick-body"><a class="qil-boost-pick-name" href="%2$s">%7$s</a>%8$s%9$s</div>%10$s</div>';
 		return sprintf(
-			'<div class="qil-boost-pick" data-qil-boost-product="%1$d"><a class="qil-boost-pick-media" href="%2$s" tabindex="-1" aria-hidden="true"><img src="%3$s"%4$s width="%5$d" height="%6$d" alt="" loading="lazy" decoding="async"></a><div class="qil-boost-pick-body"><a class="qil-boost-pick-name" href="%2$s">%7$s</a>%8$s%9$s</div>%10$s</div>',
+			$template,
 			(int) $row['id'],
 			esc_url( $row['u'] ),
 			esc_url( $img['src'] ),
@@ -932,6 +938,11 @@ final class QIL_Boost {
 	public static function ladder_markup( $state, $variant = 'compact' ) {
 		if ( ! $state ) {
 			return '';
+		}
+		// The mini cart leads with THIS cart's reward, not the next band's reward.
+		// The full cart panel and its markup stay unchanged.
+		if ( 'full' !== $variant ) {
+			return self::compact_ladder_markup( $state );
 		}
 		$full   = 'full' === $variant;
 		$reward = self::reward_text( $state['reward'] );
@@ -976,6 +987,40 @@ final class QIL_Boost {
 		return $out;
 	}
 
+	/**
+	 * Mini-cart header: the current cart reward is the main number. It is not an
+	 * issued wallet balance: qualifying payment is still required. Read the same
+	 * ladder state/issuer formatter as before, and ride on the existing fragment.
+	 */
+	private static function compact_ladder_markup( array $state ) {
+		$reward  = self::reward_text( $state['reward'] );
+		$percent = max( 0, min( 100, (int) round( $state['progress'] * 100 ) ) );
+		$has_next = ! $state['top'] && ! empty( $state['next'] );
+		$label = $has_next
+			? sprintf( self::t( '%d%% of the way to the next cashback band', 'قطعت %d%% نحو فئة الكاش باك التالية' ), $percent )
+			: self::t( 'Highest cashback band reached', 'تم الوصول إلى أعلى فئة كاش باك' );
+
+		$out = '<div class="qil-boost-ladder is-compact' . ( $state['top'] ? ' is-top' : '' ) . '" data-qil-boost-cashback-header>';
+		$out .= '<div class="qil-boost-current-row" role="group" aria-label="' . esc_attr( self::t( 'Cashback on this order after payment', 'كاش باك هذا الطلب بعد الدفع' ) ) . '">';
+		$out .= '<span class="qil-boost-badge qil-boost-current-badge" aria-hidden="true">' . self::icon( $state['top'] ? 'check' : 'coin' ) . '</span>';
+		$out .= '<div class="qil-boost-current-copy"><span class="qil-boost-current-label">' . esc_html( self::t( 'Cashback on this order', 'كاش باك هذا الطلب' ) ) . '</span></div>';
+		$out .= '<strong class="qil-boost-current-amount" data-qil-boost-current-reward><bdi>' . esc_html( $reward ) . '</bdi></strong>';
+		$out .= '<span class="qil-boost-current-terms">' . esc_html( self::t( 'After eligible payment · next-order credit', 'بعد دفع الطلب المؤهل · رصيد لطلبك القادم' ) ) . '</span></div>';
+
+		if ( $has_next ) {
+			$out .= '<p class="qil-boost-next-message">' . sprintf(
+				esc_html( self::t( 'Add %1$s more %2$s %3$s cashback', 'أضف %1$s فقط %2$s كاش باك %3$s' ) ),
+				'<bdi class="qil-boost-next-gap">' . self::gap_html( $state ) . '</bdi>',
+				'<span class="qil-boost-arrow" aria-hidden="true">' . ( self::is_ar() ? '←' : '→' ) . '</span>',
+				'<bdi class="qil-boost-next-reward">' . esc_html( self::reward_text( $state['next']['reward'] ) ) . '</bdi>'
+			) . '</p>';
+		} else {
+			$out .= '<p class="qil-boost-next-message is-complete">' . self::icon( 'check' ) . esc_html( self::t( 'Highest cashback tier reached', 'وصلت إلى أعلى فئة كاش باك' ) ) . '</p>';
+		}
+		$out .= '<div class="qil-boost-meter" role="progressbar" aria-valuemin="0" aria-valuemax="100" aria-valuenow="' . esc_attr( $percent ) . '" aria-label="' . esc_attr( $label ) . '"><span style="width:' . esc_attr( $percent ) . '%"></span></div></div>';
+		return $out;
+	}
+
 	/** Band edge (OMR) in the shopper's currency, like the public cashback section. */
 	private static function band_edge( $omr ) {
 		$market = self::market();
@@ -984,13 +1029,13 @@ final class QIL_Boost {
 			: number_format( (float) $omr ) . ' OMR';
 	}
 
-	private static function picks_markup( array $picks, $state, $heading ) {
+	private static function picks_markup( array $picks, $state, $heading, $variant = 'default' ) {
 		if ( ! $picks ) {
 			return '';
 		}
 		$out = '<div class="qil-boost-picks"><p class="qil-boost-picks-title">' . esc_html( $heading ) . '</p>';
 		foreach ( $picks as $pick ) {
-			$out .= self::pick_row( $pick, $state );
+			$out .= self::pick_row( $pick, $state, $variant );
 		}
 		return $out . '</div>';
 	}
@@ -1052,6 +1097,21 @@ final class QIL_Boost {
 		}
 	}
 
+	/** Small divider label for the shopper's real mini-cart items. */
+	public static function mini_items_intro() {
+		// Same switch as the picks it separates the items from: off (or QIL_BOOST_DISABLE) leaves WooCommerce's list untouched.
+		if ( ! self::cart_ready() || ( ! self::on( 'ladder' ) && ! self::on( 'stack' ) ) ) {
+			return;
+		}
+		$count = function_exists( 'WC' ) && WC()->cart ? (int) WC()->cart->get_cart_contents_count() : 0;
+		if ( self::is_ar() ) {
+			$badge = 1 === $count ? 'منتج واحد' : self::latin_digits( (string) $count ) . ' منتجات';
+		} else {
+			$badge = sprintf( '%d %s', $count, 1 === $count ? 'item' : 'items' );
+		}
+		echo '<li class="qil-boost-cart-items-label" role="presentation"><span class="qil-boost-mini-section-title">' . esc_html( self::t( 'In your cart', 'في سلتك' ) ) . '</span><span class="qil-boost-mini-section-count">' . esc_html( $badge ) . '</span></li>'; // phpcs:ignore WordPress.Security.EscapeOutput.OutputNotEscaped -- Escaped above.
+	}
+
 	/** End of the mini-cart list: the picks (and the ladder when a theme skipped the top hook). */
 	public static function mini_picks() {
 		if ( ! self::cart_ready() || ( ! self::on( 'ladder' ) && ! self::on( 'stack' ) ) ) {
@@ -1063,7 +1123,7 @@ final class QIL_Boost {
 		$ladder = self::$mini_ladder_render === did_action( 'woocommerce_before_mini_cart' ) && did_action( 'woocommerce_before_mini_cart' ) > 0
 			? ''
 			: self::ladder_markup( $state, 'compact' );
-		$markup = self::picks_markup( $picks, $state, $heading );
+		$markup = self::picks_markup( $picks, $state, $heading, 'mini' );
 		if ( '' === $ladder . $markup ) {
 			return;
 		}

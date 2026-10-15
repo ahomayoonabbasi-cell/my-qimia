@@ -120,6 +120,7 @@ function wc_format_price_range( $a, $b ) { return wc_price( $a ) . ' – ' . wc_
 function wc_get_cart_url() { return 'https://qimia.om/cart/'; }
 function wc_get_checkout_url() { return 'https://qimia.om/checkout/'; }
 function wc_get_page_permalink( $p ) { return 'https://qimia.om/' . $p . '/'; }
+function wc_get_account_endpoint_url( $endpoint ) { return 'https://qimia.om/my-account/' . $endpoint . '/'; }
 function wc_get_page_id( $p ) { return 5; }
 function wc_variation_attribute_name( $n ) { return 'attribute_' . sanitize_title( $n ); }
 function wc_attribute_label( $n, $p = null ) { return ucfirst( str_replace( array( 'pa_', 'attribute_' ), '', $n ) ); }
@@ -208,9 +209,15 @@ class QT_Customer {
 	public function get_is_vat_exempt() { return false; }
 	public function get_taxable_address() { return array( 'OM', '', '', '' ); }
 }
+/** WooCommerce's mailer: records what would be sent. */
+class QT_Mailer {
+	public function wrap_message( $heading, $message ) { return '<h1>' . $heading . '</h1>' . $message; }
+	public function send( $to, $subject, $message, $headers = '', $attachments = '' ) { $GLOBALS['qt']['mail'][] = array( 'to' => $to, 'subject' => $subject, 'message' => $message, 'via' => 'wc' ); return empty( $GLOBALS['qt']['mail_fails'] ); }
+}
+class QT_WC { public $customer; public $cart; public $session; public function mailer() { return new QT_Mailer(); } }
 function WC() {
 	static $wc = null;
-	if ( null === $wc ) { $wc = new stdClass(); $wc->customer = new QT_Customer(); }
+	if ( null === $wc ) { $wc = new QT_WC(); $wc->customer = new QT_Customer(); }
 	$wc->cart    = $GLOBALS['qt_cart'];
 	$wc->session = $GLOBALS['qt_session'];
 	return $wc;
@@ -273,6 +280,11 @@ class WC_Order {
 	public function get_date_paid() { return qt_date( $this->paid ); }
 	public function get_date_created() { return qt_date( $this->paid ); }
 	public function get_meta( $k, $s = true ) { return $this->meta[ $k ] ?? ''; }
+	public $billing_email = ''; public $currency = 'OMR'; public $saved = 0;
+	public function update_meta_data( $k, $v ) { $this->meta[ $k ] = $v; }
+	public function save() { $this->saved++; return $this->id; }
+	public function get_billing_email() { return $this->billing_email; }
+	public function get_currency() { return $this->currency; }
 }
 function wc_get_order( $id ) { return $GLOBALS['qt']['orders'][ (int) $id ] ?? false; }
 function wc_get_orders( $args ) {

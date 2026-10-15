@@ -4,14 +4,15 @@
   "description": "Build and verification tooling for Qimia Intelligence Lab (not shipped with the plugin).",
   "type": "module",
   "devDependencies": {
+    "esbuild": "0.25.10",
     "jquery": "3.7.1",
-    "esbuild": "0.25.10"
+    "terser": "5.51.2"
   },
   "scripts": {
     "build": "node tools/build-assets.mjs",
     "test:php": "php tests/php/run.php",
     "test:browser": "node tests/browser/run.mjs",
     "build:beauty": "node tools/build-beauty.mjs",
-    "test:beauty": "php tests/php/beauty.php"
+    "test:beauty": "php tests/php/beauty.php && php tests/php/beauty-integration.php && php tests/php/beauty-qil-live.php"
   }
 }

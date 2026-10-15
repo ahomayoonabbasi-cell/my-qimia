@@ -6,6 +6,16 @@
     brandSearch.addEventListener('input',filter);document.querySelectorAll('[data-qby-brand-filter]').forEach(button=>button.addEventListener('click',()=>{department=button.dataset.qbyBrandFilter;document.querySelectorAll('[data-qby-brand-filter]').forEach(b=>b.setAttribute('aria-pressed',String(b===button)));filter();}));filter();
   }
   document.addEventListener('qimia:search-rendered',event=>{
+    // Stock stays out of the shared record name: badge unavailable Beauty hits from QIL's own record.
+    const lab=window.QILCards,ar=String(document.querySelector('#qimia-lab, [data-qil-shell]')?.dataset.qilLocale||window.QIMIA_LAB?.locale||document.documentElement.lang||'').toLowerCase().startsWith('ar');
+    if(typeof lab?.product==='function')document.querySelectorAll('[data-qil-search-fallback] .wd-suggestion[data-product-id]').forEach(row=>{
+      const id=Number(row.dataset.productId),record=lab.product(id),badge=row.querySelector('.qby-search-stock'),link=row.querySelector('.wd-fill'),title=row.querySelector('.wd-entities-title');
+      const out=record?.beauty?.schema===1 && ['beauty','accessory'].includes(record.productClass) && record.stock?.inStock===false;
+      if(!out){if(badge){badge.remove();link?.removeAttribute('aria-describedby');}return;}
+      if(badge || !title || !Number.isSafeInteger(id))return;
+      const stock=document.createElement('span');stock.className='qby-home-stock qby-search-stock';stock.dataset.stock='outofstock';stock.id=`qby-search-stock-${id}`;stock.textContent=String(record.stock?.label||(ar?'غير متوفر':'Out of stock'));
+      title.after(stock);link?.setAttribute('aria-describedby',stock.id);
+    });
     const query=String(event.detail?.query||'');const config=window.QBYNavigation;
     if(!config || !/hair|shampoo|conditioner|شعر|شامبو|شامپو|بلسم/i.test(query))return;
     const content=document.querySelector('[data-qil-search-fallback]');if(!content || content.querySelector('.qby-search-categories'))return;
@@ -103,12 +113,17 @@
   const scene=document.querySelector('[data-qby-scroll-scene]');
   if(!scene || !('IntersectionObserver' in window))return;
   const motion=window.matchMedia('(prefers-reduced-motion: reduce)');
+  // Desktop only: on phones the cutouts keep their still tilt and never re-blend per scroll frame.
+  const wide=window.matchMedia('(min-width: 701px)');
   let visible=false, listening=false, frame=0;
-  const paint=()=>{frame=0;if(!visible || motion.matches || document.hidden)return;const rect=scene.getBoundingClientRect();const progress=Math.max(-1,Math.min(1,((innerHeight-rect.top)/(innerHeight+rect.height)-.5)*2));scene.style.setProperty('--qby-scroll',progress.toFixed(3));};
+  const paint=()=>{frame=0;if(!visible || motion.matches || !wide.matches || document.hidden)return;const rect=scene.getBoundingClientRect();const progress=Math.max(-1,Math.min(1,((innerHeight-rect.top)/(innerHeight+rect.height)-.5)*2));scene.style.setProperty('--qby-scroll',progress.toFixed(3));};
   const schedule=()=>{if(!frame && !document.hidden)frame=requestAnimationFrame(paint);};
-  const sync=()=>{const active=visible&&!motion.matches;if(active&&!listening){window.addEventListener('scroll',schedule,{passive:true});window.addEventListener('resize',schedule,{passive:true});listening=true;}else if(!active&&listening){window.removeEventListener('scroll',schedule);window.removeEventListener('resize',schedule);listening=false;}if(active)schedule();else{cancelAnimationFrame(frame);frame=0;scene.style.removeProperty('--qby-scroll');}};
+  // Every gate change runs sync. Leaving the active state (offscreen, reduced motion, or narrower than 701px)
+  // cancels the pending frame and drops --qby-scroll, so the still tilt returns; re-entering it repaints at once.
+  const sync=()=>{const active=visible&&!motion.matches&&wide.matches;if(active&&!listening){window.addEventListener('scroll',schedule,{passive:true});window.addEventListener('resize',schedule,{passive:true});listening=true;}else if(!active&&listening){window.removeEventListener('scroll',schedule);window.removeEventListener('resize',schedule);listening=false;}if(active)schedule();else{cancelAnimationFrame(frame);frame=0;scene.style.removeProperty('--qby-scroll');}};
   new IntersectionObserver(entries=>{visible=entries[0].isIntersecting;sync();},{rootMargin:'80px'}).observe(scene);
   motion.addEventListener('change',sync);
+  wide.addEventListener('change',sync);
   document.addEventListener('visibilitychange',()=>{if(!document.hidden&&listening)schedule();});
 })();
 
