@@ -1,6 +1,6 @@
 <?php
 /**
- * Live cross-plugin test: the REAL Qimia Intelligence Lab 1.18.23 and the REAL Qimia Beauty 2.4.1,
+ * Live cross-plugin test: the REAL Qimia Intelligence Lab 1.18.24 and the REAL Qimia Beauty 2.4.2,
  * loaded together in one process on the shared WordPress/WooCommerce doubles.
  *   php tests/php/beauty-qil-live.php
  *
@@ -308,7 +308,7 @@ try {
 $gaps_during_load = count( $GLOBALS['qbl_gaps'] );
 qbl_check( 'QIL + Beauty load and plugins_loaded, init, wp, template_redirect fire with no notice, warning or fatal', null === $load_error && 0 === $gaps_during_load, $load_error ? qbl_error( $load_error ) : $GLOBALS['qbl_gaps'] );
 if ( $load_error ) { qbl_summary(); exit( 1 ); }
-qbl_check( 'QIL_VERSION is 1.18.23 and QBY_VERSION is 2.4.1', defined( 'QIL_VERSION' ) && '1.18.23' === QIL_VERSION && defined( 'QBY_VERSION' ) && '2.4.1' === QBY_VERSION, array( defined( 'QIL_VERSION' ) ? QIL_VERSION : null, defined( 'QBY_VERSION' ) ? QBY_VERSION : null ) );
+qbl_check( 'QIL_VERSION is 1.18.24 and QBY_VERSION is 2.4.2', defined( 'QIL_VERSION' ) && '1.18.24' === QIL_VERSION && defined( 'QBY_VERSION' ) && '2.4.2' === QBY_VERSION, array( defined( 'QIL_VERSION' ) ? QIL_VERSION : null, defined( 'QBY_VERSION' ) ? QBY_VERSION : null ) );
 if ( 'live' === $qbl_mode ) {
 	qbl_check( 'Beauty storefront gate opened on production by qby_live_enabled (not staging, QIL experience on)', ! qby_stage_allowed() && qby_frontend_enabled() && qil_experience_enabled() && ! qil_is_staging_sandbox() );
 	qbl_check( 'Beauty integration files loaded at plugins_loaded:100 without the staging experience (no qbx_home)', function_exists( 'qby_qil_beauty_record' ) && function_exists( 'qby_product_details' ) && function_exists( 'qby_search_scope' ) && ! function_exists( 'qbx_home' ) );

@@ -10,7 +10,7 @@
 .qby-home-product:nth-child(2) .qby-home-product-visual{transform:translate3d(0,calc(var(--qby-scroll,0)*-28px),0) rotate(4deg)}
 .qby-home-product:nth-child(3) .qby-home-product-visual{transform:translate3d(0,calc(var(--qby-scroll,0)*18px),0) rotate(-3deg)}
 .qby-home-product-visual img{display:block;width:100%;height:100%;max-height:220px;object-fit:contain;mix-blend-mode:multiply;transition:scale .2s ease}
-.qby-home-product:hover .qby-home-product-visual img{scale:1.035}
+@media(hover:hover) and (pointer:fine){.qby-home-product:hover .qby-home-product-visual img{scale:1.035}}
 .qby-home-product-info{display:flex;flex-direction:column;align-items:center;gap:8px;padding-top:14px;position:relative}
 .qby-home-product-info small{font-size:10px;color:var(--qby-muted)}
 .qby-home-product-info strong{font-size:12px;line-height:1.55;min-height:4.65em;font-weight:600;display:-webkit-box;-webkit-box-orient:vertical;-webkit-line-clamp:3;overflow:hidden}
@@ -70,3 +70,14 @@ body.qby-beauty-page main.wd-content-layout.container{width:min(1280px,calc(100%
 @media(hover:hover) and (pointer:fine){.qby-hero:hover .qby-hero-art>img{transform:scale(1.025)}.qby-department-card:hover{transform:translateY(-4px);box-shadow:0 20px 40px -30px #184c4d}.qby-department-main:hover .qby-arrow{transform:translate(2px,-2px)}.qby-guide-grid>article:hover{border-color:#9ac9c1;box-shadow:0 18px 40px -30px #184c4d}}
 @media(max-width:700px){.qby-art-caption{inset-inline:18px;bottom:18px;padding:12px 14px}.qby-art-caption strong{font-size:17px}.qby-collection-filters select,.qby-archive-filters select,.qby input.qby-brand-search{font-size:16px}.qby .qby-shelves a,.qby .qby-text-link{min-height:44px}.qby-guide-grid>article{padding-block:28px}}
 @media(prefers-reduced-motion:reduce){.qby *, .qby *:before,.qby *:after{animation:none!important;transition:none!important}.qby .qby-hero-art>img,.qby .qby-department-card,.qby .qby-arrow{transform:none!important}}
+
+/* === QBY DESIGN LAYER 2.4.2 === */
+/* Readability floor for the production (.qby) surfaces: no text under 11px; Arabic kickers 12px with no tracking. Type only. */
+.qby-eyebrow,.qby-art-caption span,.qby-department-text small,.qby-home-edit-title,.qby-home-product-info small,.qby-home-stock,.qby-hero-note,.qby-product-caption,.qby-detail-category{font-size:11px}
+.qby[dir=rtl] :is(.qby-eyebrow,.qby-home-edit-title){font-size:12px;letter-spacing:0;text-transform:none}
+@media(max-width:700px){.qby-benefit-strip{font-size:11px}
+}
+/* Header search: Beauty department chips are full touch targets; the sold-out pill sits on the floor. */
+.qby-search-categories a{min-height:44px;align-items:center;padding-inline:14px;font-size:13px;border-radius:var(--qil-pill,999px)}
+.qby-home-stock.qby-search-stock{font-size:11px}
+/* === end QBY DESIGN LAYER 2.4.2 === */

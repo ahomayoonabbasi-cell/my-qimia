@@ -3,6 +3,8 @@
   const roots = [...document.querySelectorAll('[data-qbx-experience]')];
   if (!roots.length) return;
   const reduce = matchMedia('(prefers-reduced-motion: reduce)');
+  // Photo parallax is a desktop effect; phones keep the still image.
+  const wide = matchMedia('(min-width: 701px)');
   let paused = reduce.matches;
   const scenes = [...document.querySelectorAll('[data-qbx-parallax]')];
   const visibleScenes = new Set();
@@ -24,12 +26,13 @@
     const reveal = new IntersectionObserver(entries => entries.forEach(entry => {
       if (entry.isIntersecting) { entry.target.classList.remove('qbx-waiting'); reveal.unobserve(entry.target); }
     }), { threshold: .08, rootMargin: '0px 0px 35px 0px' });
-    roots.forEach(root => {
+    // Read every position first, then write: arming never forces a layout per element.
+    const items = roots.map(root => [...root.querySelectorAll('[data-qbx-reveal]')]);
+    const below = items.map(list => paused ? [] : list.filter(el => el.getBoundingClientRect().top > innerHeight));
+    roots.forEach((root, i) => {
       root.classList.add('qbx-motion-ready');
-      root.querySelectorAll('[data-qbx-reveal]').forEach(el => {
-        if (!paused && el.getBoundingClientRect().top > innerHeight) el.classList.add('qbx-waiting');
-        reveal.observe(el);
-      });
+      below[i].forEach(el => el.classList.add('qbx-waiting'));
+      items[i].forEach(el => reveal.observe(el));
     });
     const sceneObserver = new IntersectionObserver(entries => entries.forEach(entry => {
       if (entry.isIntersecting) visibleScenes.add(entry.target); else visibleScenes.delete(entry.target);
@@ -37,14 +40,15 @@
     scenes.forEach(scene => sceneObserver.observe(scene));
     const paint = () => {
       frame = 0;
-      if (paused || document.hidden) return;
+      if (paused || document.hidden || !wide.matches) return;
       visibleScenes.forEach(scene => {
         const box = scene.getBoundingClientRect();
         const amount = Math.max(-18, Math.min(18, (innerHeight / 2 - box.top - box.height / 2) * .055));
         scene.style.setProperty('--qbx-shift', `${amount.toFixed(1)}px`);
       });
     };
-    addEventListener('scroll', () => { if (!paused && visibleScenes.size && !frame) frame = requestAnimationFrame(paint); }, { passive: true });
+    addEventListener('scroll', () => { if (!paused && wide.matches && visibleScenes.size && !frame) frame = requestAnimationFrame(paint); }, { passive: true });
+    wide.addEventListener('change', () => { if (!wide.matches) { cancelAnimationFrame(frame); frame = 0; scenes.forEach(scene => scene.style.removeProperty('--qbx-shift')); } });
     document.addEventListener('visibilitychange', () => { if(document.hidden) { cancelAnimationFrame(frame); frame=0; } });
   }
   roots.forEach(root => {
@@ -58,6 +62,7 @@
   const form = root?.querySelector('[data-qbx-filters]');
   const results = root?.querySelector('[data-qbx-results]');
   if (!form || !results || !window.fetch || !window.DOMParser) return;
+  form.classList.add('is-live');
   const ar = root.dataset.qbxLanguage === 'ar';
   const status = root.querySelector('[data-qbx-status]');
   const shop = root.querySelector('#qby-shop');
