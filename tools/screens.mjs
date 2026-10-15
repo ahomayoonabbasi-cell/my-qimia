@@ -115,6 +115,11 @@ function encodePng({ width, height, type, bpp, pixels }) {
 }
 /** A full-page capture; a page taller than one capture can hold is taken in clipped bands and stitched. */
 async function fullPage(page, shot, scale) {
+	// Chromium skips content-visibility:auto sections beyond the viewport in a full-page capture; paint them all.
+	const visible = await page.addStyleTag({ content: '*{content-visibility:visible!important}' });
+	try { return await fullPageBands(page, shot, scale); } finally { await visible.evaluate(node => node.remove()); }
+}
+async function fullPageBands(page, shot, scale) {
 	const { width, height } = await page.evaluate(() => ({ width: innerWidth, height: Math.ceil(document.documentElement.scrollHeight) }));
 	if (height * scale <= 16000) { await page.screenshot({ ...shot, fullPage: true }); return 1; }
 	const band = Math.floor(8000 / scale), parts = [];
